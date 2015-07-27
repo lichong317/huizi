@@ -103,6 +103,11 @@ public class TdUserCollectService {
         return repository.findByUsername(username);
     }
     
+    public Long countByGoodsId(Long goodsId)
+    {
+        return repository.countByGoodsId(goodsId);
+    }
+    
     public Page<TdUserCollect> findAllOrderBySortIdAsc(int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));

@@ -18,15 +18,16 @@ import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
-import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdDiySiteService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdProductService;
 import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
 import com.ynyes.huizi.service.TdUserConsultService;
 import com.ynyes.huizi.service.TdUserPointService;
@@ -50,6 +51,9 @@ public class TdGoodsController {
 
     @Autowired
     private TdUserCommentService tdUserCommentService;
+    
+    @Autowired
+    private TdUserCollectService tdUserCollectService;
 
     @Autowired
     private TdProductCategoryService tdProductCategoryService;
@@ -74,6 +78,9 @@ public class TdGoodsController {
     
     @Autowired
     private TdUserPointService tdUserPointService;
+    
+    @Autowired
+    private TdDiySiteService tdDiySiteService;
 
     @RequestMapping("/goods/{goodsId}")
     public String product(@PathVariable Long goodsId, Long shareId,
@@ -83,33 +90,81 @@ public class TdGoodsController {
 
         String username = (String) req.getSession().getAttribute("username");
 
+        // 添加浏览记录
         if (null != username) {
             tdUserRecentVisitService.addNew(username, goodsId);
             map.addAttribute("user",
                     tdUserService.findByUsernameAndIsEnabled(username));
         }
-
-        // 添加浏览记录
+        else
+        {
+            tdUserRecentVisitService.addNew(req.getSession().getId(), goodsId);
+        }
+        
+        // 读取浏览记录
+        if (null == username)
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(req.getSession().getId(), 0, ClientConstant.pageSize));
+        }
+        else
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(username, 0, ClientConstant.pageSize));
+        }
+        
         if (null == goodsId) {
             return "error_404";
         }
 
         TdGoods goods = tdGoodsService.findOne(goodsId);
-
-        Page<TdUserComment> commentPage = tdUserCommentService
-                .findByGoodsIdAndIsShowable(goodsId, 0, ClientConstant.pageSize);
+        
+        if (null == goods)
+        {
+            return "error_404";
+        }
 
         Page<TdUserConsult> consultPage = tdUserConsultService
                 .findByGoodsIdAndIsShowable(goodsId, 0, ClientConstant.pageSize);
 
+        // 商品
         map.addAttribute("goods", goods);
+        
+        // 商品组合
         map.addAttribute("comb_list",
                 tdGoodsCombinationService.findByGoodsId(goodsId));
-        map.addAttribute("comment_page", commentPage);
+        
+        // 全部评论
+        map.addAttribute("comment_page", tdUserCommentService
+                .findByGoodsIdAndIsShowable(goodsId, 0, ClientConstant.pageSize));
+        
+        // 全部评论数
+        map.addAttribute("comment_count", tdUserCommentService
+                .countByGoodsIdAndIsShowable(goodsId));
+        
+        // 好评数
+        map.addAttribute("three_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 3L));
+        
+        // 中评数
+        map.addAttribute("two_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 2L));
+        
+        // 差评数
+        map.addAttribute("one_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 1L));
+        
+        // 咨询
         map.addAttribute("consult_page", consultPage);
 
+        // 热卖
         map.addAttribute("hot_list",
                 tdGoodsService.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc());
+        
+        // 同盟店
+        map.addAttribute("diy_site_list",
+                        tdDiySiteService.findByIsEnableTrue());
+        
+        // 收藏总数
+        map.addAttribute("total_collects", tdUserCollectService.countByGoodsId(goods.getId()));
 
         // 查找类型
         TdProductCategory tdProductCategory = tdProductCategoryService
@@ -310,4 +365,86 @@ public class TdGoodsController {
         return "/client/goods";
     }
 
+    @RequestMapping("/goods/comment/{goodsId}")
+    public String comments(@PathVariable Long goodsId, 
+                    Integer page, 
+                    Long stars,
+                    ModelMap map, HttpServletRequest req) {
+        
+        if (null == goodsId)
+        {
+            return "error_404";
+        }
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        if (null == stars)
+        {
+            stars = 0L;
+        }
+        
+        // 全部评论数
+        map.addAttribute("comment_count", tdUserCommentService
+                .countByGoodsIdAndIsShowable(goodsId));
+        
+        // 好评数
+        map.addAttribute("three_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 3L));
+        
+        // 中评数
+        map.addAttribute("two_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 2L));
+        
+        // 差评数
+        map.addAttribute("one_star_comment_count", tdUserCommentService
+                .countByGoodsIdAndStarsAndIsShowable(goodsId, 1L));
+        
+        if (stars.equals(0L))
+        {
+            map.addAttribute("comment_page", tdUserCommentService
+                    .findByGoodsIdAndIsShowable(goodsId, page, ClientConstant.pageSize));
+        }
+        else
+        {
+             map.addAttribute("comment_page", tdUserCommentService
+                    .findByGoodsIdAndStarsAndIsShowable(goodsId, stars, page, ClientConstant.pageSize));
+        }
+        
+        // 评论
+        map.addAttribute("page", page);
+        map.addAttribute("stars", stars);
+        map.addAttribute("goodsId", goodsId);
+        
+        return "/client/goods_comment";
+    }
+    
+    @RequestMapping("/goods/consult/{goodsId}")
+    public String consults(@PathVariable Long goodsId, 
+                            Integer page, 
+                            ModelMap map, 
+                            HttpServletRequest req) {
+        
+        if (null == goodsId)
+        {
+            return "error_404";
+        }
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        Page<TdUserConsult> consultPage = tdUserConsultService
+                .findByGoodsIdAndIsShowable(goodsId, page, ClientConstant.pageSize);
+        
+        // 咨询
+        map.addAttribute("consult_page", consultPage);
+        map.addAttribute("page", page);
+        map.addAttribute("goodsId", goodsId);
+        
+        return "/client/goods_consult";
+    }
 }

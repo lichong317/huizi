@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdDeliveryType;
+import com.ynyes.huizi.entity.TdDiySite;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayType;
 import com.ynyes.huizi.service.TdArticleService;
 import com.ynyes.huizi.service.TdDeliveryTypeService;
+import com.ynyes.huizi.service.TdDiySiteService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdOrderService;
@@ -54,6 +56,9 @@ public class TdManagerOrderController {
     
     @Autowired
     TdDeliveryTypeService tdDeliveryTypeService;
+    
+    @Autowired
+    TdDiySiteService tdDiySiteService;
     
     @Autowired
     TdOrderService tdOrderService;
@@ -97,6 +102,10 @@ public class TdManagerOrderController {
                 {
                     tdManagerLogService.addLog("delete", "删除配送方式", req);
                 }
+                else if (type.equalsIgnoreCase("diysite"))
+                {
+                    tdManagerLogService.addLog("delete", "删除自提点", req);
+                }
             }
             else if (__EVENTTARGET.equalsIgnoreCase("btnSave"))
             {
@@ -109,6 +118,10 @@ public class TdManagerOrderController {
                 else if (type.equalsIgnoreCase("delivery"))
                 {
                     tdManagerLogService.addLog("edit", "修改配送方式", req);
+                }
+                else if (type.equalsIgnoreCase("diysite"))
+                {
+                    tdManagerLogService.addLog("edit", "修改自提点", req);
                 }
             }
             else if (__EVENTTARGET.equalsIgnoreCase("btnPage"))
@@ -169,6 +182,21 @@ public class TdManagerOrderController {
                 
                 return "/site_mag/delivery_type_list";
             }
+            else if (type.equalsIgnoreCase("diysite")) // 配送方式
+            {
+                if (null == keywords)
+                {
+                    map.addAttribute("diy_site_page", 
+                            tdDiySiteService.findAllOrderBySortIdAsc(page, size));
+                }
+                else
+                {
+                    map.addAttribute("diy_site_page", 
+                            tdDiySiteService.searchAllOrderBySortIdAsc(keywords, page, size));
+                }
+                
+                return "/site_mag/diy_site_list";
+            }
         }
         
         return "/site_mag/pay_type_list";
@@ -208,6 +236,15 @@ public class TdManagerOrderController {
                 }
                 
                 return "/site_mag/delivery_type_edit";
+            }
+            else if (type.equalsIgnoreCase("diysite")) // 自提点
+            {
+                if (null != id)
+                {
+                    map.addAttribute("diy_site", tdDiySiteService.findOne(id));
+                }
+                
+                return "/site_mag/diy_site_edit";
             }
         }
         
@@ -380,6 +417,30 @@ public class TdManagerOrderController {
         tdDeliveryTypeService.save(tdDeliveryType);
         
         return "redirect:/Verwalter/order/setting/delivery/list";
+    }
+    
+    @RequestMapping(value="/setting/diysite/save", method = RequestMethod.POST)
+    public String save(TdDiySite tdDiySite,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        if (null == tdDiySite.getId())
+        {
+            tdManagerLogService.addLog("add", "新增自提点", req);
+        }
+        else
+        {
+            tdManagerLogService.addLog("edit", "修改自提点", req);
+        }
+        
+        tdDiySiteService.save(tdDiySite);
+        
+        return "redirect:/Verwalter/order/setting/diysite/list";
     }
     
     @RequestMapping(value="/dialog/contact")
@@ -583,6 +644,7 @@ public class TdManagerOrderController {
     @ModelAttribute
     public void getModel(@RequestParam(value = "payTypeId", required = false) Long payTypeId,
                     @RequestParam(value = "deliveryTypeId", required = false) Long deliveryTypeId,
+                    @RequestParam(value = "diySiteId", required = false) Long diySiteId,
                         Model model) {
         if (null != payTypeId) {
             model.addAttribute("tdPayType", tdPayTypeService.findOne(payTypeId));
@@ -590,6 +652,10 @@ public class TdManagerOrderController {
         
         if (null != deliveryTypeId) {
             model.addAttribute("tdDeliveryType", tdDeliveryTypeService.findOne(deliveryTypeId));
+        }
+        
+        if (null != diySiteId) {
+            model.addAttribute("tdDiySite", tdDiySiteService.findOne(diySiteId));
         }
     }
     
@@ -636,6 +702,19 @@ public class TdManagerOrderController {
                     }
                 }
             }
+            else if (type.equalsIgnoreCase("diysite"))
+            {
+                TdDiySite e = tdDiySiteService.findOne(id);
+                
+                if (null != e)
+                {
+                    if (sortIds.length > i)
+                    {
+                        e.setSortId(sortIds[i]);
+                        tdDiySiteService.save(e);
+                    }
+                }
+            }
         }
     }
     
@@ -665,6 +744,10 @@ public class TdManagerOrderController {
                 else if (type.equalsIgnoreCase("delivery"))
                 {
                     tdDeliveryTypeService.delete(id);
+                }
+                else if (type.equalsIgnoreCase("diysite"))
+                {
+                    tdDiySiteService.delete(id);
                 }
             }
         }

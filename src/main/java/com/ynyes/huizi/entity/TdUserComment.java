@@ -41,6 +41,18 @@ public class TdUserComment {
     @Column
     private Long stars;
     
+    // 商品星级
+    @Column
+    private Long goodsStar;
+    
+    // 专业技能星级
+    @Column
+    private Long skillStar;
+    
+    // 服务星级
+    @Column
+    private Long serviceStar;
+    
     // 评论被点击“有用”的数量
     @Column
     private Long positiveNumber;
@@ -250,6 +262,28 @@ public class TdUserComment {
     public void setUserHeadUri(String userHeadUri) {
         this.userHeadUri = userHeadUri;
     }
-    
-    
+
+    public Long getGoodsStar() {
+        return goodsStar;
+    }
+
+    public void setGoodsStar(Long goodsStar) {
+        this.goodsStar = goodsStar;
+    }
+
+    public Long getSkillStar() {
+        return skillStar;
+    }
+
+    public void setSkillStar(Long skillStar) {
+        this.skillStar = skillStar;
+    }
+
+    public Long getServiceStar() {
+        return serviceStar;
+    }
+
+    public void setServiceStar(Long serviceStar) {
+        this.serviceStar = serviceStar;
+    }
 }

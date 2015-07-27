@@ -55,50 +55,50 @@
     </p>
 </div>
         
-<div id="shopping_down" class="shopping_box">
-    <span class="sp1"><#if cart_goods_list??>${cart_goods_list?size}<#else>0</#if></span>
-    <a class="a1" href="/cart">去购物车结算<i></i></a>
-    <menu>
-      <#if cart_goods_list?? && cart_goods_list?size gt 0>
-          <h2>最新加入的商品</h2>
-          <h3 class="tit">
-            <span>满减</span>
-            购满1999元，即可享受满减优惠 小计：￥2888.00
-          </h3>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div><!--shopping_list END-->
-          <h3 class="tit">
-            <span>满减</span>
-            购满1999元，即可享受满减优惠 小计：￥2888.00
-          </h3>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div><!--shopping_list END-->
-          <h4 class="shopping_price">
-            共1件商品 &nbsp;&nbsp;共计<span class="fw-b">￥2288.00</span>
-            <a href="#">去结算</a>
-          </h4>
-      <#else>
-        <h3 class="ta-c pa15 fs14 fw400">购物车中还没有商品，赶紧选购吧！</h3>
-      </#if>
-    </menu>
-  </div>
+    <div id="shopping_down" class="shopping_box">
+        <span class="sp1"><#if cart_goods_list??>${cart_goods_list?size}<#else>0</#if></span>
+        <a class="a1" href="/cart">去购物车结算<i></i></a>
+        <menu>
+          <#if cart_goods_list?? && cart_goods_list?size gt 0>
+              <h2>最新加入的商品</h2>
+              <h3 class="tit">
+                <span>满减</span>
+                购满1999元，即可享受满减优惠 小计：￥2888.00
+              </h3>
+              <div class="shopping_list">
+                <div class="clear"></div>
+                <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
+                <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
+                <p>￥2888.00 x1<a href="#">删除</a></p>
+                <div class="clear"></div>
+              </div>
+              <div class="shopping_list">
+                <div class="clear"></div>
+                <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
+                <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
+                <p>￥2888.00 x1<a href="#">删除</a></p>
+                <div class="clear"></div>
+              </div><!--shopping_list END-->
+              <h3 class="tit">
+                <span>满减</span>
+                购满1999元，即可享受满减优惠 小计：￥2888.00
+              </h3>
+              <div class="shopping_list">
+                <div class="clear"></div>
+                <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
+                <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
+                <p>￥2888.00 x1<a href="#">删除</a></p>
+                <div class="clear"></div>
+              </div><!--shopping_list END-->
+              <h4 class="shopping_price">
+                共1件商品 &nbsp;&nbsp;共计<span class="fw-b">￥2288.00</span>
+                <a href="#">去结算</a>
+              </h4>
+          <#else>
+            <h3 class="ta-c pa15 fs14 fw400">购物车中还没有商品，赶紧选购吧！</h3>
+          </#if>
+        </menu>
+    </div>
 </div>
 </div>
 <div class="daohang">
@@ -114,24 +114,6 @@
                     <div class="nav_showbox">
                     <i class="bg"></i>
                     <div class="clear"></div>
-                    <#--
-                      <table class="nav_right">
-                        <tr>
-                          <td><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                          <td><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                        </tr>
-                        <tr>
-                          <td><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                          <td><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                        </tr>
-                        <tr>
-                          <td colspan="2" class="pt10"><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                        </tr>
-                        <tr>
-                          <td colspan="2"><a href="#"><img src="/client/images/hzd_19.png" /></a></td>
-                        </tr>
-                    </table>
-                    -->
                     <#if ("second_level_"+item_index+"_cat_list")?eval?? >
                         <table class="nav_more">
                             <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>

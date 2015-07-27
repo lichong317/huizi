@@ -112,6 +112,38 @@ public class TdUserCommentService {
         return repository.findByGoodsIdAndStatusIdOrderByIdDesc(goodsId, 1L, pageRequest);
     }
     
+    public Long countByGoodsIdAndIsShowable(Long goodsId)
+    {
+        if (null == goodsId)
+        {
+            return null;
+        }
+        
+        return repository.countByGoodsIdAndStatusId(goodsId, 1L);
+    }
+    
+    public Page<TdUserComment> findByGoodsIdAndStarsAndIsShowable(Long goodsId, Long stars, int page, int size)
+    {
+        if (null == goodsId || null == stars)
+        {
+            return null;
+        }
+        
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByGoodsIdAndStatusIdAndStarsOrderByIdDesc(goodsId, 1L, stars, pageRequest);
+    }
+    
+    public Long countByGoodsIdAndStarsAndIsShowable(Long goodsId, Long stars)
+    {
+        if (null == goodsId || null == stars)
+        {
+            return null;
+        }
+        
+        return repository.countByGoodsIdAndStatusIdAndStars(goodsId, 1L, stars);
+    }
+    
     public Page<TdUserComment> findByUsernameAndSearch(String username, String keywords, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);

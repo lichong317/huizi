@@ -48,7 +48,7 @@
   <div id="floatHead" class="content-tab">
     <div class="content-tab-ul-wrap">
       <ul>
-        <li><a href="javascript:;" onclick="tabs(this);" class="selected">编辑分类信息</a></li>
+        <li><a href="javascript:;" onclick="tabs(this);" class="selected">编辑信息</a></li>
       </ul>
     </div>
   </div>

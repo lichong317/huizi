@@ -72,6 +72,8 @@
                 待收货订单
             <#elseif status_id==6>
                 已完成订单
+            <#elseif status_id==7>
+                已取消订单
             </#if>
         </a>
       </div>

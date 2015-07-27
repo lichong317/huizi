@@ -75,55 +75,55 @@ public class TdIndexController {
                         .findByIsGroupSaleTrueAndGroupSaleStartTimeAfterAndGroupSaleStopTimeAfterAndIsOnSaleTrue(
                                 0, ClientConstant.pageSize));
 
-        // 生鲜
-        TdProductCategory cat = tdProductCategoryService.findByTitle("生鲜");
-
-        // 生鲜首页推荐
-        map.addAttribute(
-                "fresh_goods_page",
-                tdGoodsService
-                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
-                                cat.getId(), 0, ClientConstant.pageSize));
-
-        // 生鲜一级分类列表
-        map.addAttribute("fresh_subcategory_list",
-                tdProductCategoryService.findByParentIdOrderBySortIdAsc(cat.getId()));
-
-        // 品牌
-        map.addAttribute("brand_page", tdBrandService
-                .findByStatusIdOrderBySortIdAsc(1L, 0, ClientConstant.pageSize));
-
-        // 食品生鲜品牌
-        map.addAttribute(
-                "fresh_brand_page",
-                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
-
-        // 家装厨具
-        cat = tdProductCategoryService.findByTitle("厨具");
-        map.addAttribute(
-                "kitchen_page",
-                tdGoodsService
-                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
-                                cat.getId(), 0, ClientConstant.pageSize));
-
-        // 手机
-        cat = tdProductCategoryService.findByTitle("手机");
-
-        // 手机首页推荐
-        map.addAttribute(
-                "mobile_goods_page",
-                tdGoodsService
-                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
-                                cat.getId(), 0, ClientConstant.pageSize));
-
-        // 手机一级分类列表
-        map.addAttribute("mobile_subcategory_list",
-                tdProductCategoryService.findByParentIdOrderBySortIdAsc(cat.getId()));
-
-        // 手机品牌
-        map.addAttribute(
-                "mobile_brand_page",
-                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
+//        // 生鲜
+//        TdProductCategory cat = tdProductCategoryService.findByTitle("生鲜");
+//
+//        // 生鲜首页推荐
+//        map.addAttribute(
+//                "fresh_goods_page",
+//                tdGoodsService
+//                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
+//                                cat.getId(), 0, ClientConstant.pageSize));
+//
+//        // 生鲜一级分类列表
+//        map.addAttribute("fresh_subcategory_list",
+//                tdProductCategoryService.findByParentIdOrderBySortIdAsc(cat.getId()));
+//
+//        // 品牌
+//        map.addAttribute("brand_page", tdBrandService
+//                .findByStatusIdOrderBySortIdAsc(1L, 0, ClientConstant.pageSize));
+//
+//        // 食品生鲜品牌
+//        map.addAttribute(
+//                "fresh_brand_page",
+//                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
+//
+//        // 家装厨具
+//        cat = tdProductCategoryService.findByTitle("厨具");
+//        map.addAttribute(
+//                "kitchen_page",
+//                tdGoodsService
+//                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
+//                                cat.getId(), 0, ClientConstant.pageSize));
+//
+//        // 手机
+//        cat = tdProductCategoryService.findByTitle("手机");
+//
+//        // 手机首页推荐
+//        map.addAttribute(
+//                "mobile_goods_page",
+//                tdGoodsService
+//                        .findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
+//                                cat.getId(), 0, ClientConstant.pageSize));
+//
+//        // 手机一级分类列表
+//        map.addAttribute("mobile_subcategory_list",
+//                tdProductCategoryService.findByParentIdOrderBySortIdAsc(cat.getId()));
+//
+//        // 手机品牌
+//        map.addAttribute(
+//                "mobile_brand_page",
+//                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
 
         // 资讯一级分类
         Long newsId = 10L;

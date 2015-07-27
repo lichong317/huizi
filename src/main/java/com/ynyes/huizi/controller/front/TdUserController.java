@@ -151,6 +151,11 @@ public class TdUserController {
             timeId = 0;
         }
         
+        if (null == statusId)
+        {
+            statusId = 0;
+        }
+        
         TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", tdUser);
@@ -682,9 +687,8 @@ public class TdUserController {
     @RequestMapping(value = "/user/comment/add", method=RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> commentAdd(HttpServletRequest req, 
-                        String comment,
+                        TdUserComment tdComment,
                         String code,
-                        Long goodsId,
                         ModelMap map){
         Map<String, Object> res = new HashMap<String, Object>();
         res.put("code", 1);
@@ -697,13 +701,13 @@ public class TdUserController {
             return res;
         }
         
-        if (null == goodsId)
+        if (null == tdComment.getGoodsId())
         {
             res.put("message", "商品ID不能为空！");
             return res;
         }
         
-        TdGoods goods = tdGoodsService.findOne(goodsId);
+        TdGoods goods = tdGoodsService.findOne(tdComment.getGoodsId());
         
         if (null == goods)
         {
@@ -711,34 +715,32 @@ public class TdUserController {
             return res;
         }
         
-        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
-        
-        if (!codeBack.equalsIgnoreCase(code))
-        {
-            res.put("message", "验证码不匹配！");
-            return res;
-        }
-        
-        TdUserComment userComment = new TdUserComment();
-        userComment.setCommentTime(new Date());
-        userComment.setContent(comment);
-        userComment.setGoodsId(goodsId);
-        userComment.setGoodsCoverImageUri(goods.getCoverImageUri());
-        userComment.setGoodsTitle(goods.getTitle());
-        userComment.setIsReplied(false);
-        userComment.setNegativeNumber(0L);
-        userComment.setPositiveNumber(0L);
-        userComment.setUsername(username);
+//        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+//        
+//        if (!codeBack.equalsIgnoreCase(code))
+//        {
+//            res.put("message", "验证码不匹配！");
+//            return res;
+//        }
+//        
+        tdComment.setCommentTime(new Date());
+        tdComment.setGoodsCoverImageUri(goods.getCoverImageUri());
+        tdComment.setGoodsTitle(goods.getTitle());
+        tdComment.setIsReplied(false);
+        tdComment.setNegativeNumber(0L);
+        tdComment.setPositiveNumber(0L);
+        tdComment.setUsername(username);
         
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+        
         if (null != user)
         {
-            userComment.setUserHeadUri(user.getHeadImageUri());
+            tdComment.setUserHeadUri(user.getHeadImageUri());
         }
         
-        userComment.setStatusId(0L);
+        tdComment.setStatusId(0L);
         
-        tdUserCommentService.save(userComment);
+        tdUserCommentService.save(tdComment);
         
 
         if (null == goods.getTotalComments())
@@ -798,9 +800,8 @@ public class TdUserController {
     @RequestMapping(value = "/user/consult/add", method=RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> consultAdd(HttpServletRequest req, 
-                        String consult,
+                        TdUserConsult tdConsult,
                         String code,
-                        Long goodsId,
                         ModelMap map){
         Map<String, Object> res = new HashMap<String, Object>();
         res.put("code", 1);
@@ -813,13 +814,13 @@ public class TdUserController {
             return res;
         }
         
-        if (null == goodsId)
+        if (null == tdConsult.getGoodsId())
         {
             res.put("message", "商品ID不能为空！");
             return res;
         }
         
-        TdGoods goods = tdGoodsService.findOne(goodsId);
+        TdGoods goods = tdGoodsService.findOne(tdConsult.getGoodsId());
         
         if (null == goods)
         {
@@ -827,31 +828,28 @@ public class TdUserController {
             return res;
         }
         
-        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+//        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+//        
+//        if (!codeBack.equalsIgnoreCase(code))
+//        {
+//            res.put("message", "验证码不匹配！");
+//            return res;
+//        }
         
-        if (!codeBack.equalsIgnoreCase(code))
-        {
-            res.put("message", "验证码不匹配！");
-            return res;
-        }
-        
-        TdUserConsult userConsult = new TdUserConsult();
-        userConsult.setConsultTime(new Date());
-        userConsult.setContent(consult);
-        userConsult.setGoodsCoverImageUri(goods.getCoverImageUri());
-        userConsult.setGoodsId(goods.getId());
-        userConsult.setGoodsTitle(goods.getTitle());
-        userConsult.setIsReplied(false);
-        userConsult.setStatusId(0L);
-        userConsult.setUsername(username);
+        tdConsult.setConsultTime(new Date());
+        tdConsult.setGoodsCoverImageUri(goods.getCoverImageUri());
+        tdConsult.setGoodsTitle(goods.getTitle());
+        tdConsult.setIsReplied(false);
+        tdConsult.setStatusId(0L);
+        tdConsult.setUsername(username);
         
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         if (null != user)
         {
-            userConsult.setUserHeadImageUri(user.getHeadImageUri());
+            tdConsult.setUserHeadImageUri(user.getHeadImageUri());
         }
         
-        tdUserConsultService.save(userConsult);
+        tdUserConsultService.save(tdConsult);
         
         res.put("code", 0);
         
