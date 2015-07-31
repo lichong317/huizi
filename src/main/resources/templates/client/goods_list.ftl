@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>惠资生活</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="copyright" content="" />
+<title><#if productCategory??>${productCategory.seoTitle!''}-</#if>惠资生活</title>
+<meta name="keywords" content="<#if productCategory??>${productCategory.seoKeywords!''}</#if>">
+<meta name="description" content="<#if productCategory??>${productCategory.seoDescription!''}</#if>">
+<meta name="copyright" content="<#if site??>${site.copyright!''}</#if>" />
 <!--[if IE]>
    <script type="text/javascript" src="/client/js/html5.js"></script>
 <![endif]-->
@@ -17,6 +17,7 @@
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -62,7 +63,7 @@ function btnPageSubmit()
             <#list most_sold_list as item>
                 <#if item_index < 5>
                     <a class="scan" href="/goods/${item.id}">
-                        <img src="${item.coverImageUri!''}" title="${item.title!''} ${item.subTitle!''}"/>
+                        <img src="${item.coverImageUri!''}" height="80" width="80" title="${item.title!''} ${item.subTitle!''}"/>
                         <div class="num1">${item_index+1}</div>
                         <p>${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</p>
                         <p class="red">￥${item.salePrice?string("0.00")}</p>
@@ -76,7 +77,7 @@ function btnPageSubmit()
         <#if newest_list??>
             <#list newest_list as item>
                 <li>
-                    <a href="/goods/${item.id}"><img src="${item.coverImageUri!''}" title="${item.title!''} ${item.subTitle!''}"/></a>
+                    <a href="/goods/${item.id}"><img src="${item.coverImageUri!''}" height="177" width="177" title="${item.title!''} ${item.subTitle!''}"/></a>
                     <a href="/goods/${item.id}">${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</a>
                     <p class="fs18 red ta-c">￥${item.salePrice?string("0.00")}</p>
                 </li>
@@ -96,7 +97,7 @@ function btnPageSubmit()
         <tr>
             <td><a href="${categoryId!'0'}-0<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}-${soldId!'0'}-${priceId!'0'}-${timeId!'0'}-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>" <#if brandIndex==0>class="sel"</#if>>全部品牌</a></td>
             <#list brand_list as brand>
-                <td><a href="${categoryId!'0'}-${brand_index+1}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}-${soldId!'0'}-${priceId!'0'}-${timeId!'0'}-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>" <#if brandIndex==brand_index+1>class="flhover"</#if>><img src="${brand.logoUri!''}" title="${brand.title?trim!''}" alt="${brand.title?trim!''}"/></a></td>
+                <td><a href="${categoryId!'0'}-${brand_index+1}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}-${soldId!'0'}-${priceId!'0'}-${timeId!'0'}-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>" <#if brandIndex==brand_index+1>class="flhover"</#if>><img src="${brand.logoUri!''}"  height="34" width="96" title="${brand.title?trim!''}" alt="${brand.title?trim!''}"/></a></td>
             </#list>
         </tr>
     </#if>
@@ -131,8 +132,10 @@ function btnPageSubmit()
       <menu>
         <a <#if orderId==0><#if soldId==0>class="sel01"<#else>class="sel02"</#if></#if> href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-0-<#if orderId!=0 || soldId==1>0<#else>1</#if>-${priceId!'0'}-${timeId!'0'}-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>销量</span></a>
         <a <#if orderId==1><#if priceId==0>class="sel01"<#else>class="sel02"</#if></#if> href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-1-${soldId!'0'}-<#if orderId!=1 || priceId==1>0<#else>1</#if>-${timeId!'0'}-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>价格</span></a>
-        <a <#if orderId==2><#if timeId==0>class="sel01"<#else>class="sel02"</#if></#if> href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-2-${soldId!'0'}-${priceId!'0'}-<#if orderId!=2 || timeId==1>0<#else>1</#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>上架时间</span></a>
+        <a <#if orderId==2><#if timeId==0>class="sel01"<#else>class="sel02"</#if></#if> href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-2-${soldId!'0'}-${priceId!'0'}-<#if orderId!=2 || timeId==1>0<#else>1</#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>上架时间</span></a>      
       </menu>
+      <a href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}-${soldId!'0'}-${priceId!'0'}-${timeId!'0'}-${pageId!'0'}-<#if !leftId?? || leftId==0>1<#else>0</#if><#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><b <#if leftId?? && leftId==1>class="zyon"<#else>class="zy"</#if> ></b></a>
+      <div class="dd">仅显示有货</div>
       <div class="fr">
         
         <#if goods_page.number+1 == goods_page.totalPages || goods_page.totalPages==0>
@@ -152,10 +155,10 @@ function btnPageSubmit()
     </section>
     
     <ul class="column_sum">
-        <#if goods_page??>
+        <#if goods_page?? && goods_page.content?size gt 0>
             <#list goods_page.content as goods>
                 <li>
-                    <a class="a1" href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" title="${goods.title!''} ${goods.subTitle!''}"/></a>
+                    <a class="a1" href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" height="210" width="210" title="${goods.title!''} ${goods.subTitle!''}"/></a>
                     <a class="block h40" href="/goods/${goods.id}">${goods.title!""} ${goods.version!""} ${goods.color!""} ${goods.capacity!""}</a>
                     <p class="fs26 lh35 red">￥${goods.salePrice?string("0.00")}</p>
                     <span class="pl"><img src="/client/images/images/pl_07.png" /></span>
@@ -167,6 +170,8 @@ function btnPageSubmit()
                     </div>
                 </li>
             </#list>
+        <#else>
+                <div style="text-align: center; padding: 15px;">此类商品正在扩充中，敬请期待！</div>
         </#if>   
     </ul>
     <div class="clear h20"></div>

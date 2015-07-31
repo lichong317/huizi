@@ -78,8 +78,8 @@ public class TdProductCategory {
     // SEO描述
     @Column
     private String seoDescription;
-
-    public Long getId() {
+    
+	public Long getId() {
         return id;
     }
 

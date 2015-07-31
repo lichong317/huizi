@@ -75,7 +75,7 @@ $(function () {
     <dl>
         <dt>价格</dt>
         <dd>
-            <input name="price" type="text" value="<#if ad_type??>${ad_type.price?string("#.##")}</#if>" class="input txt100" datatype="n0-100|." sucmsg=" ">
+            <input name="price" type="text" value="<#if ad_type??>${ad_type.price!''}</#if>" class="input txt100" datatype="n0-100|." sucmsg=" ">
             <span class="Validform_checktip">元/月</span>
         </dd>
     </dl>

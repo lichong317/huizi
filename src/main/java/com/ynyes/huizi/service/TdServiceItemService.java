@@ -113,6 +113,10 @@ public class TdServiceItemService {
         return repository.findByTitleContainingOrderBySortIdAsc(keywords, pageRequest);
     }
     
+    public List<TdServiceItem> findByIsEnableTrueOrderBySortIdAsc()
+    {
+        return repository.findByIsEnableTrueOrderBySortIdAsc();
+    }
     /**
      * 保存
      * 

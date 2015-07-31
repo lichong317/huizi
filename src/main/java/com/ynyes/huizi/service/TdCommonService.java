@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import com.ynyes.huizi.entity.TdAdType;
+//import com.sun.mail.handlers.image_gif;
 import com.ynyes.huizi.entity.TdArticleCategory;
 import com.ynyes.huizi.entity.TdProductCategory;
 
@@ -40,7 +42,16 @@ public class TdCommonService {
 
     @Autowired
     private TdUserService tdUserService;
-
+    
+    @Autowired
+    private TdServiceItemService tdServiceItemService;
+    
+    @Autowired
+    private TdAdTypeService tdAdTypeService;
+    
+    @Autowired
+    private TdAdService tdAdService;
+    
     public void setHeader(ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -91,7 +102,19 @@ public class TdCommonService {
         // 导航菜单
         map.addAttribute("navi_item_list",
                 tdNaviBarItemService.findByIsEnableTrueOrderBySortIdAsc());
-
+        
+        // 商城服务
+        map.addAttribute("service_item_list", tdServiceItemService.findByIsEnableTrueOrderBySortIdAsc());
+        
+        // 关于我们
+        Long aboutId = 12L;
+        
+        map.addAttribute("about_id", aboutId);
+        
+        List<TdArticleCategory> aboutList = tdArticleCategoryService
+                .findByMenuIdAndParentId(aboutId, 0L);
+        map.addAttribute("about_us_list", aboutList);
+        
         // 帮助中心
         Long helpId = 12L;
 
@@ -111,7 +134,33 @@ public class TdCommonService {
                                 helpId, articleCat.getId()));
             }
         }
-
+        
+        /**
+		 * @author lc
+		 * @注释：获取不同类型的帮助内容
+		 */
+        if(null != level0HelpList){
+        	for (int i = 0; i < level0HelpList.size() && i < 7; i++) {
+                TdArticleCategory articleCat = level0HelpList.get(i);
+                map.addAttribute("help_" + i + "_article_list",
+                        tdArticleService.findByCategoryId(articleCat.getId()));
+            }
+        }
+        
+        /**
+      	 * @author lc
+      	 * @注释：导航菜单广告
+      	 */
+        List<TdAdType> tdAdTypes = tdAdTypeService.findAllOrderBySortIdAsc();
+          
+        if (null != tdAdTypes) {
+        	for(int i = 0; i < 9 && i < tdAdTypes.size(); i++){
+        		map.addAttribute("nav_"+i+"_ad_list",
+                        tdAdService.findByTypeId((tdAdTypes.get(i)).getId()));
+            }
+         }
+        
+               
         // 友情链接
         map.addAttribute("site_link_list",
                 tdSiteLinkService.findByIsEnableTrue());

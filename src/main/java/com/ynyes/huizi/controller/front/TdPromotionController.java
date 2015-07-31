@@ -38,9 +38,11 @@ public class TdPromotionController {
             page = 0;
         }
         
+        
         if (type.equalsIgnoreCase("tuan")) // 团购
         {
             Page<TdGoods> goodsPage = tdGoodsService.findByIsGroupSaleTrueAndIsOnSaleTrue(page, ClientConstant.pageSize);
+           
             map.addAttribute("goods_page", goodsPage);
         }
         else

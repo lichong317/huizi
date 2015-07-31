@@ -124,7 +124,7 @@ public class TdIndexController {
 //        map.addAttribute(
 //                "mobile_brand_page",
 //                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
-
+        
         // 资讯一级分类
         Long newsId = 10L;
         map.addAttribute("news_id", newsId);
@@ -139,7 +139,18 @@ public class TdIndexController {
             map.addAttribute("banner_ad_list",
                     tdAdService.findByTypeId(tdAdType.getId()));
         }
-
+        
+        /**
+		 * @author lc
+		 * @注释：首页楼层顶楼广告
+		 */
+        tdAdType = tdAdTypeService.findByTitle("首页楼层顶楼广告");
+        
+        if (null != tdAdType) {
+            map.addAttribute("top_ad_list",
+                    tdAdService.findByTypeId(tdAdType.getId()));
+        }
+        
         tdAdType = tdAdTypeService.findByTitle("下期预告底部广告");
 
         if (null != tdAdType) {

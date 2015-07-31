@@ -23,4 +23,5 @@ public interface TdServiceItemRepo extends
     Page<TdServiceItem> findByTitleContainingOrderBySortIdAsc(String keywords, Pageable page);
     
     List<TdServiceItem> findByIsEnableTrue();
+    List<TdServiceItem> findByIsEnableTrueOrderBySortIdAsc();
 }

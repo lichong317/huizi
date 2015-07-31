@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if site.seoTitle??>${site.seoTitle!''}-</#if>惠之店</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="惠资生活" />
@@ -92,44 +92,48 @@
     </p>
 </div>
         <div id="shopping_down" class="shopping_box">
-    <span class="sp1"><#if cart_goods_list??>${cart_goods_list?size}<#else>0</#if></span>
-    <a class="a1" href="/cart">去购物车结算<i></i></a>
+         <span class="sp1"><#if cart_goods_list??>${cart_goods_list?size}<#else>0</#if></span>
+         <a class="a1" href="/cart">去购物车结算<i></i></a>
 <menu>
       <#if cart_goods_list?? && cart_goods_list?size gt 0>
+<script>
+function delItem(id)
+{
+    if (null == id)
+    {
+        return;
+    }
+    
+    $.ajax({
+        type:"post",
+        url:"/cart/del",
+        data:{"id": id},
+        success:function(data){
+            location.reload();
+        }
+    });
+}
+</script>
+          <#assign totalGoods=0>
+          <#assign totalPrice=0>
           <h2>最新加入的商品</h2>
-          <h3 class="tit">
-            <span>满减</span>
-            购满1999元，即可享受满减优惠 小计：￥2888.00
-          </h3>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div><!--shopping_list END-->
-          <h3 class="tit">
-            <span>满减</span>
-            购满1999元，即可享受满减优惠 小计：￥2888.00
-          </h3>
-          <div class="shopping_list">
-            <div class="clear"></div>
-            <a class="a2" href="#"><img src="/client/images/hzd_28.png" /></a>
-            <a class="a3" href="#">索尼KDL-50W700B50英寸 全高清 网络智能WIFI液晶电视</a>
-            <p>￥2888.00 x1<a href="#">删除</a></p>
-            <div class="clear"></div>
-          </div><!--shopping_list END-->
-          <h4 class="shopping_price">
-            共1件商品 &nbsp;&nbsp;共计<span class="fw-b">￥2288.00</span>
-            <a href="#">去结算</a>
-          </h4>
+          <!-- lc-->
+          <#list cart_goods_list as item>
+                    <div class="shopping_list">
+                        <div class="clear"></div>
+                        <a class="a2" href="/goods/${item.goodsId}"><img src="${item.goodsCoverImageUri!''}" /></a>
+                        <a class="a3" href="/goods/${item.goodsId}">${item.goodsTitle!''}</a>
+                        <p>￥<#if item.price??>${item.price?string("0.00")} x ${item.quantity!''}</#if><a href="javascript:delItem(${item.id});">删除</a></p>
+                        <div class="clear"></div>
+                    </div>                  
+                        <#if item.price??>
+                            <#assign totalPrice=totalPrice+item.price*item.quantity>
+                        </#if>                 
+          </#list>
+                  <h4 class="shopping_price">
+                                                                             共<#if cart_goods_list??>${cart_goods_list?size}<#else>0</#if>件商品 &nbsp;&nbsp;共计<span class="fw-b">￥${totalPrice?string("0.00")}</span>
+                    <a href="/cart">去结算</a>
+                  </h4>
       <#else>
         <h3 class="ta-c pa15 fs14 fw400">购物车中还没有商品，赶紧选购吧！</h3>
       </#if>
@@ -148,695 +152,128 @@
 
 	<!--导航-->
 	<div class="daohang">
-<nav class="navbox">
-  <section class="navlist" id="mainnavdown">
-    <a href="#" class="a2">全部商品分类</a>
-    <ul class="navlistout" id="navdown">
-      <li>
-        <h3 class="shouji"><img src="/client/images/images/fltp_03.png" /><a href="#">手机大全</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="jiadian"><img src="images/images/fltp_14.png" /><a href="#">家用电器</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="sy"><img src="images/images/fltp_11.png" /><a href="#">摄影摄像</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="jiushui"><img src="images/images/fltp_17.png" /><a href="#">食品酒水</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="diannao"><img src="images/images/fltp_07.png" /><a href="#">电脑办公</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="hzp"><img src="images/images/fltp_24.png" /><a href="#">化妆品</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="yybj"><img src="images/images/fltp_29.png" /><a href="#">医药保健</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="myyp"><img src="images/images/fltp_32.png" /><a href="#">母婴用品</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-      <li>
-        <h3 class="yfxb"><img src="images/images/fltp_21.png" /><a href="#">衣服箱包</a></h3>
-        <div class="nav_showbox">
-          <i class="bg"></i>
-          <div class="clear"></div>
-          <table class="nav_right">
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-              <td><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2" class="pt10"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-            <tr>
-              <td colspan="2"><a href="#"><img src="images/hzd_19.png" /></a></td>
-            </tr>
-          </table>
-          <table class="nav_more">
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-            <tr>
-              <th width="90"><span>品牌</span></th>
-              <td>
-                <a href="#">苹果</a>
-                <a href="#">苹果</a>
-              </td>
-            </tr>
-          </table>
-          <div class="clear"></div>
-        </div>
-      </li>
-    </ul><!--navlistout END-->
-  </section>
-  <a class="a1" href="#">手机</a>
-  <a class="a1" href="#">笔记本</a>
-  <a class="a1" href="#">配件</a>
-  <a class="a1" href="#">摄影</a>
-  <a class="a1" href="#">闪购</a>
-  <a class="a1" href="#">团购</a>
-  <a class="a1" href="#">母婴</a>
-  <a class="a1" href="#">时装</a>
-  <a class="a1" href="#">资讯</a>
-  <a class="a1" href="#">会员专区</a>
-  <a class="a1" href="#">门店</a>
-</nav>
+    <nav class="navbox">
+       <section class="navlist" id="mainnavdown">
+            <a href="javascript:;" class="a2">全部商品分类</a>
+            <ul class="navlistout" id="navdown">
+                <#if top_cat_list??>
+                    <#list top_cat_list as item>
+                       <#if item_index < 9>
+                        <li>
+                            <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id}">${item.title!''}</a></h3>
+                
+                            <div class="nav_showbox">
+                                <i class="bg"></i>
+                                <div class="clear"></div>
+                                 <table class="nav_right">
+                                     <tr>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                     </tr>
+                                     <tr>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                    </tr>
+                                    <tr>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                    </tr>
+                                    <tr>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                    </tr>
+                                    <tr>
+                                            <td colspan="2" class="pt10"><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                    </tr>
+                                    <tr>
+                                            <td colspan="2"><a href="#"><img src="client/images/hzd_19.png" /></a></td>
+                                    </tr>
+                                 </table>
+                                <#if ("second_level_"+item_index+"_cat_list")?eval?? >
+                                    <table class="nav_more">
+                                        <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
+                                            <tr>
+                                                <th width="90"><span><a href="/list/${secondLevelItem.id}">${secondLevelItem.title!''}</a></span></th>
+                                                <td>
+                                                    <#if ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval?? >
+                                                        <#list ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval as thirdLevelItem>
+                                                            <a href="/list/${thirdLevelItem.id}">${thirdLevelItem.title!''}</a>
+                                                        </#list>
+                                                    </#if>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                </#if>
+                                
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                        </#if>
+                    </#list>
+                </#if>
+            </ul><!--navlistout END-->
+        </section>
+        <#if navi_item_list??>
+            <#list navi_item_list as item>
+                <a class="a1" href="${item.linkUri!''}">${item.title!''}</a>
+            </#list>
+        </#if>  
+   </nav>
 </div>
 <div class="clear"></div>
 	<!--banner-->
 	<div class="banner">
-		<a href="#" style="display:block;background:url(images/content/banner1.jpg) no-repeat center;width:1920px;height:450px;"></a>
-	</div>
-
+		<#if banner_ad_list??>
+               <#list banner_ad_list as item>
+                    <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1920px;height:450px;"></a>
+               </#list>
+        </#if>
+</div>
+    
 
 	<div class="main">
 		<menu class="index_zx">
-			<h3>惠咨询<a href="#">更多</a></h3>
+			<h3>惠资讯<a href="#">更多</a></h3>
 			<ul>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
-				<li><a href="#">[公告]惠之店启动空净节 渠道优势明显</a></li>
+			   <#if latest_news_page??>
+                 <#list latest_news_page.content as item>
+                    <#if item_index < 7>
+                      <li>
+                <!--         <a href="#">${item.title!''}</a>  -->
+                         <#if item.title?length lt 21>
+                            <a href="#">${item.title?default("")}</a>
+                             <#else>
+                            <a href="#" title="${item.title}">${item.title[0..17]?default("")}...</a>
+                         </#if>
+                      </li>
+                    </#if>
+                 </#list>
+               </#if>
 			</ul>
 			<h3>惠生活</h3>
 			<table>
 				<tbody>
 					<tr>
 						<td>
-							<a href="#"><img src="images/hzd_66.png"><p>话费充值</p></a>
+							<a href="#"><img src="client/images/hzd_66.png"><p>话费充值</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="images/hzd_67.png"><p>电影票</p></a>
+							<a href="#"><img src="client/images/hzd_67.png"><p>电影票</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="images/hzd_68.png"><p>彩票</p></a>
+							<a href="#"><img src="client/images/hzd_68.png"><p>彩票</p></a>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<a href="#"><img src="images/hzd_69.png"><p>水电缴费</p></a>
+							<a href="#"><img src="client/images/hzd_69.png"><p>水电缴费</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="images/hzd_70.png"><p>宽带</p></a>
+							<a href="#"><img src="client/images/hzd_70.png"><p>宽带</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="images/hzd_71.png"><p>门票</p></a>
+							<a href="#"><img src="client/images/hzd_71.png"><p>门票</p></a>
 						</td>
 					</tr>
 				</tbody>
@@ -844,6 +281,7 @@
 		</menu>
 		<div class="clear"></div>
 	</div>
+	
 	<!--楼层浮动-->
 
 
@@ -852,46 +290,36 @@
 	<section class="main">
 		<table class="index_tj">
 			<tbody>
-				<tr>
-					<td class="td1"><a href="#">
-						<img src="images/content/tj01.jpg" style="position:absolute;right:10px; top:45px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
-					<td class="td2"><a href="#">
-						<img src="images/content/tj02.jpg" style="position:absolute;right:13px; top:58px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
-					<td class="td3"><a href="#">
-						<img src="images/content/tj03.jpg" style="position:absolute;right:56px; top:12px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
+			<#if top_ad_list??>	
+	     	    <tr>	    
+                <#list top_ad_list as item>      
+			     <#if item_index < 3> 
+			       
+			        <td class="td${item_index+1}"><a href="${item.linkUri!''}">
+                         <img src="${item.fileUri!''}" style="position:absolute;right:10px; top:45px;">
+                         <p class="p1">${item.title}</p>
+                 <!--    <p class="p2">70吋超大屏幕</p> -->
+                         <p class="p2">${item.mark}</p>
+                         </a>
+                     </td>                          
+                 </#if>                
+				</#list>
 				</tr>
-				<tr>
-					<td class="td4"><a href="#">
-						<img src="images/content/tj01.jpg" style="position:absolute;right:10px; top:45px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
-					<td class="td5"><a href="#">
-						<img src="images/content/tj02.jpg" style="position:absolute;right:13px; top:58px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
-					<td class="td6"><a href="#">
-						<img src="images/content/tj03.jpg" style="position:absolute;right:56px; top:12px;">
-						<p class="p1">乐视超级电视  Max 70</p>
-						<p class="p2">70吋超大屏幕</p>
-						<p class="p3">24期分期免息</p>
-					</a></td>
-				</tr>
+				  <tr>      
+                <#list top_ad_list as item>            
+                 <#if item_index gt 2 && item_index<6> 
+                   
+                    <td class="td${item_index+1}"><a href="${item.linkUri!''}">
+                         <img src="${item.fileUri!''}" style="position:absolute;right:10px; top:45px;">
+                         <p class="p1">${item.title}</p>
+                 <!--    <p class="p2">70吋超大屏幕</p> -->
+                         <p class="p2">${item.mark}</p>
+                         </a>
+                     </td>                          
+                 </#if>                
+                </#list>
+                </tr>
+            </#if>
 			</tbody>
 		</table>
 		<div class="clear"></div>

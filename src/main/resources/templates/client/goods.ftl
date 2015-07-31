@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>惠资生活</title>
-<title><#if goods??>${goods.seoTitle!''}-</#if>云南车有同盟商贸有限公司</title>
+<title><#if goods??>${goods.seoTitle!''}-</#if>惠资生活</title>
+
 <meta name="keywords" content="${goods.seoKeywords!''}">
 <meta name="description" content="${goods.seoDescription!''}">
 <meta name="copyright" content="惠资生活" />
@@ -73,40 +73,43 @@ $(document).ready(function(){
 <#include "/client/common_header.ftl" />
 
 <div class="clear h20"></div>
-<div class="main">
-<div class="weizhi">
-<span><a href="/">首页</a></span>
-    <#if category_tree_list??>
-        <#list category_tree_list as category>
-            > <span><a href="/list/${category.id}">${category.title!""}</a></span>
-        </#list>
-    </#if>
-    > <span>${goods.name!''}</span>
-</div>
-<div class="pro_box">
-    <section class="proinfo_left">
-      <menu id="proshowimg">
-        <li><img src="/client/images/images/spxq_03.png" /></li>
-        <li><img src="/client/images/images/spxq_03.png" /></li>
-        <li><img src="/client/images/images/spxq_03.png" /></li>
-        <li><img src="/client/images/images/spxq_03.png" /></li>
-      </menu>
-      <div class="clear h20"></div>
-      <menu id="proshowmenu"></menu>
-      <div class="clear h20"></div>
-      
-      <div class="pro_share">
-        <span>分享：</span>
-        <a href="#"><img src="/client/images/content/share01.png" /></a>
-        <a href="#"><img src="/client/images/content/share02.png" /></a>
-        <a href="#"><img src="/client/images/content/share03.png" /></a>
-        <a href="#"><img src="/client/images/content/share04.png" /></a>
-        <a href="#"><img src="/client/images/content/share05.png" /></a>
-        <span class="ml20">商品编号：06001</span>
-        <a class="a1" href="javascript:addCollect(${goods.id});">关注该商品</a>
-        <div class="clear"></div>
-      </div>
-    </section><!--proinfo_left END-->
+     <div class="main">
+        <div class="weizhi">
+        <span><a href="/">首页</a></span>
+            <#if category_tree_list??>
+                <#list category_tree_list as category>
+                    > <span><a href="/list/${category.id}">${category.title!""}</a></span>
+                </#list>
+            </#if>
+            > <span>${goods.name!''}</span>
+        </div>
+    <div class="pro_box">
+        <section class="proinfo_left">
+              <menu id="proshowimg">
+                <#if goods.showPictures??>
+                <#list goods.showPictures?split(",") as uri>
+                    <#if ""!=uri && uri_index < 4>
+                        <li><img src="${uri!''}" /></li>
+                    </#if>
+                </#list>
+                </#if>
+              </menu>
+              <div class="clear h20"></div>
+                 <menu id="proshowmenu"></menu>
+              <div class="clear h20"></div>
+          
+              <div class="pro_share">
+                    <span>分享：</span>
+                    <a href="#"><img src="/client/images/content/share01.png" /></a>
+                    <a href="#"><img src="/client/images/content/share02.png" /></a>
+                    <a href="#"><img src="/client/images/content/share03.png" /></a>
+                    <a href="#"><img src="/client/images/content/share04.png" /></a>
+                    <a href="#"><img src="/client/images/content/share05.png" /></a>
+                    <span class="ml20">商品编码：${goods.code!''}</span>
+                    <a class="a1" href="javascript:addCollect(${goods.id});">关注该商品</a>
+                    <div class="clear"></div>
+              </div>
+        </section><!--proinfo_left END-->
     
     <section class="proinfo_right">
       <h3>${goods.title!''}</h3>
@@ -117,8 +120,10 @@ $(document).ready(function(){
           <span class="red fs24 lh30 mr20">￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span>
         </p>
         <p class="p1">
-          <span>服务：</span>
-          <span class="red">${goods.service!''}</span>
+          <span>促销信息：</span>
+          <span class="red">
+               ${goods.promotion}
+          </span>
         </p>
         
       </div><!--pro_price END-->
@@ -212,8 +217,8 @@ $(document).ready(function(){
         <tr>
           <th></th>
           <td>
-            <input type="submit" class="sub" value="加入购物车" />
-            <a id="addCart" href="/cart/init?id=${goods.id}<#if goods.isGroupSale && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>&qiang=1</#if>">加入购物车</a>
+     <!--       <input type="submit" class="sub" value="加入购物车" />  -->
+            <a  class="sub" id="addCart" href="/cart/init?id=${goods.id}<#if goods.isGroupSale && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>&qiang=1</#if>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加入购物车</a>
             <div class="clear"></div>
           </td>
         </tr>

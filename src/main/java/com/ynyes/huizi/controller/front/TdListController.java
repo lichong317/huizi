@@ -369,7 +369,7 @@ public class TdListController {
                 }
                 else
                 {
-                    // 品牌、有货、价格区间、按销量排序
+                    // 选定品牌、有货、价格区间、按销量排序
                     if (0 == orderId.intValue())
                     {
                         if (0 == soldId.intValue())
