@@ -117,6 +117,20 @@ public class TdServiceItemService {
     {
         return repository.findByIsEnableTrueOrderBySortIdAsc();
     }
+    
+    /**
+	 * @author lc
+	 * @注释：
+	 */
+    public List<TdServiceItem> findByIsEnableTrueAndIsGoodsServiceTrueOrderBySortIdAsc()
+    {
+        return repository.findByIsEnableTrueAndIsGoodsServiceTrueOrderBySortIdAsc();
+    }
+    public List<TdServiceItem> findByIsEnableTrueAndIsGoodsServiceFalseOrderBySortIdAsc()
+    {
+        return repository.findByIsEnableTrueAndIsGoodsServiceFalseOrderBySortIdAsc();
+    }
+    
     /**
      * 保存
      * 

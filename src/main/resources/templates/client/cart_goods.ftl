@@ -109,7 +109,13 @@
                     <td class="gwc1_lm2_a">
                         <input type="checkbox" class="fll duoxuank" cgid="${cg.id}" <#if cg.isSelected>checked="checked"<#else><#assign allChecked=false></#if>>
                         <span>
+                         <#if cg.qiang??&&cg.qiang==1>
+                            <a href="/goods/${cg.goodsId}?qiang=1"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                         <#elseif cg.qiang??&&cg.qiang!=1>
+                            <a href="/goods/${cg.goodsId}?qiang=3"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                         <#else>
                             <a href="/goods/${cg.goodsId}"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                         </#if>
                         </span>
                         <p><a href="goods/${cg.goodsId}"><p>${cg.goodsTitle!''}</p></a></td>
                     <td class="gwc1_lm2_b"><span>￥${cg.price?string("0.00")}</span></td>
@@ -121,9 +127,13 @@
                                 <a href="javascript:void(0);" class="fl num_minus" cgid="${cg.id}"><img src="/client/images/slj.png" width="20" height="20"></a>
                             </#if>
                             <input type="text" class="content_zj" value="${cg.quantity!''}">
-                            <a href="javascript:void(0);" class="fr num_add" cgid="${cg.id}">
-                                <img src="/client/images/sljj.png" width="20" height="20">
-                            </a>
+                            <#if cg.qiang==1>
+                                <span class="fr num_add"><img src="/client/images/sljj.png" width="20" height="20"></span>
+                            <#else>
+                                <a href="javascript:void(0);" class="fr num_add" cgid="${cg.id}">
+                                    <img src="/client/images/sljj.png" width="20" height="20">
+                                </a>
+                            </#if>
                         </div></td>
                     <td class="gwc1_lm2_b"><span>￥${(cg.price*cg.quantity)?string("0.00")}</span></td>
                     <td class="gwc1_lm2_d"><input type="button" class="gwc_delete" cgid="${cg.id}" value="删除订单"></td>
@@ -160,11 +170,10 @@
     </div>
 <#else>
     <div class="buy_ok">
-        <div class="fl mt40 mr20"> <img src="/client/images/gwd.png" width="64" height="64"></div>
-        <div class="fl">
-            <div class="pt10 font17">您的购物车暂时还没有商品哦~</div>
+        <div class="car_kong">
+            <p class="fc fs18 pb10">购物车空空的哦，去看看心意的商品吧！</p>
             <div class="pt10 font13">看看 <a href="/user/order/list/0" style=" color:#da090b">已买到商品</a> </div>
             <div class="pt10 font13">看看 <a href="/user/collect/list" style=" color:#da090b">我的收藏夹</a> </div>
-        </div>
+          </div>
     </div>
 </#if>

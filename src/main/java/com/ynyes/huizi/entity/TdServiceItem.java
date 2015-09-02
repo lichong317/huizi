@@ -31,7 +31,15 @@ public class TdServiceItem {
     @Column
     private Boolean isEnable;
     
-    // 排序数字
+    /**
+	 * @author lc
+	 * @注释：添加服务类型判断 如果为true则是商品服务否则为整个商城服务
+	 */
+    @Column
+    private Boolean isGoodsService;
+    
+
+	// 排序数字
     @Column
     private Long sortId;
     
@@ -70,6 +78,14 @@ public class TdServiceItem {
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
     }
+    
+    public Boolean getIsGoodsService() {
+		return isGoodsService;
+	}
+
+	public void setIsGoodsService(Boolean isGoodsService) {
+		this.isGoodsService = isGoodsService;
+	}
 
     public Long getSortId() {
         return sortId;

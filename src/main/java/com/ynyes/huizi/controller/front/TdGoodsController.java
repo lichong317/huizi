@@ -83,7 +83,7 @@ public class TdGoodsController {
     private TdDiySiteService tdDiySiteService;
 
     @RequestMapping("/goods/{goodsId}")
-    public String product(@PathVariable Long goodsId, Long shareId,
+    public String product(@PathVariable Long goodsId, Long shareId, Integer qiang,
             ModelMap map, HttpServletRequest req) {
 
         tdCommonService.setHeader(map, req);
@@ -100,6 +100,12 @@ public class TdGoodsController {
         {
             tdUserRecentVisitService.addNew(req.getSession().getId(), goodsId);
         }
+        /**
+		 * @author lc
+		 * @注释：促销
+		 */
+        // 促销标志位
+        map.addAttribute("qiang", qiang);
         
         // 读取浏览记录
         if (null == username)

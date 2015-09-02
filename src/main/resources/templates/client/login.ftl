@@ -72,26 +72,29 @@
 <div class="denglulogo"><img src="<#if site??>${site.logoUri!''}</#if>"></div>
 <section class="denglu_center">
   <table>
-    <tr>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_03.png" />正品保障</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_05.png" />极速物流</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_07.png" />售后无忧</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_09.png" />特色服务</a>
-      </td>
-    </tr>
+     <tbody>
+            <#if service_item_list??>
+                  <tr>
+                       <#list service_item_list as item>
+                            <#if item_index <4>
+                            <td>
+                                <a href="javascript:;"><img src="${item.logo!''}" width="38" height="38"/>${item.title!''}</a>
+                            </td>
+                            </#if>
+                       </#list>
+                  </tr>
+            </#if>
+     </tbody>   
   </table>
 </section>
     </div>
     
     <div class="  dl">
-    <div class="dllt"><img src="/client/images/denlu_03.png" width="546" height="328" /></div>
+    <#if login_ad_list??>
+        <#list login_ad_list as item>
+                <div class="dllt"><img src="${item.fileUri!''}" width="546" height="328" /></div>
+        </#list> 
+    </#if>
     <div class="dlrt">
     <div class="loginbox">
       <div class="login_r"> 

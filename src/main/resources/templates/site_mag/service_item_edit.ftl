@@ -98,6 +98,20 @@ $(function () {
       <span class="Validform_checktip">*不启用则不显示</span>
     </dd>
   </dl>
+  <!-- lc -->
+  <dl>
+    <dt>是否为商品服务</dt>
+    <dd>
+      <div class="rule-multi-radio multi-radio">
+        <span id="rblStatus" style="display: none;">
+            <input type="radio" name="isGoodsService" value="1" <#if !service_item?? || service_item.isGoodsService?? && service_item.isGoodsService>checked="checked"</#if>>
+            <label>是</label>
+            <input type="radio" name="isGoodsService" value="0" <#if service_item?? && (!service_item.isGoodsService?? || !service_item.isGoodsService)>checked="checked"</#if>>
+            <label>否</label>
+      </div>
+      <span class="Validform_checktip">*如果是商品服务则在商品详细页面显示</span>
+    </dd>
+  </dl>
   <dl>
     <dt>排序数字</dt>
     <dd>

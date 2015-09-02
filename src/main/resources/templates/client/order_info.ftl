@@ -138,7 +138,7 @@ $(document).ready(function(){
                   <tr>
                     <th>收货人*：</th>
                     <td>
-                        <input class="mytext" id="receiverName" value="" type="text">
+                        <input class="mytext" id="receiverName" value="" type="text" >
                         <span>收货人姓名</span>
                     </td>
                   </tr>
@@ -155,7 +155,7 @@ $(document).ready(function(){
                   <tr>
                     <th>详细地址*：</th>
                     <td>
-                        <input class="mytext" id="detailAdd" value="" type="text">
+                        <input class="mytext" id="detailAdd" value="" type="text" >
                     </td>
                   </tr>
                   <tr>

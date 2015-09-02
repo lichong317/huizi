@@ -59,10 +59,10 @@
 
 </div>
 <!--mymember END-->
-
+</div>
 <#include "/client/common_footer.ftl" />
 
-</div>
+
 </body>
 </html>
 

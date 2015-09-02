@@ -104,7 +104,13 @@ public class TdCommonService {
                 tdNaviBarItemService.findByIsEnableTrueOrderBySortIdAsc());
         
         // 商城服务
-        map.addAttribute("service_item_list", tdServiceItemService.findByIsEnableTrueOrderBySortIdAsc());
+        map.addAttribute("service_item_list", tdServiceItemService.findByIsEnableTrueAndIsGoodsServiceFalseOrderBySortIdAsc());
+        
+        /**
+		 * @author lc
+		 * @注释：商品服务
+		 */
+        map.addAttribute("GoodsService_item_list", tdServiceItemService.findByIsEnableTrueAndIsGoodsServiceTrueOrderBySortIdAsc());
         
         // 关于我们
         Long aboutId = 12L;

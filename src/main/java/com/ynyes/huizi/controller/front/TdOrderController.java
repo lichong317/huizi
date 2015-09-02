@@ -34,6 +34,7 @@ import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdPayTypeService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
+import com.ynyes.huizi.util.ClientConstant;
 
 /**
  * 订单
@@ -92,7 +93,7 @@ public class TdOrderController {
             }
             tdCartGoodsService.save(cartGoodsList);
         }
-
+       
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
 
         if (null != user) {
@@ -143,6 +144,13 @@ public class TdOrderController {
         if (null != cgList && null != type && null != gid) {
             for (TdCartGoods cg : cgList) {
                 if (gid.equals(cg.getGoodsId())) {
+                	/**
+					 * @author lc
+					 * @注释：如果是抢购数量不变
+					 */
+                	if (1==cg.getQiang()) {
+						break;
+					}else{
                     TdGoods goods = tdGoodsService.findOne(cg.getGoodsId());
 
                     if (null != goods) {
@@ -173,6 +181,7 @@ public class TdOrderController {
                         tdCartGoodsService.save(cg);
                         break;
                     }
+				  }
                 }
             }
         }
@@ -378,7 +387,16 @@ public class TdOrderController {
         }
 
         map.addAttribute("order", tdOrderService.findOne(orderId));
-
+        
+        /**
+		 * @author lc
+		 * @注释：添加同种商品推荐 取订单第一个商品
+		 */
+        List<TdOrderGoods> orderGoodsList = (tdOrderService.findOne(orderId)).getOrderGoodsList();
+        TdOrderGoods tdOrderGoods = orderGoodsList.get(0);
+        TdGoods tdGoods = tdGoodsService.findOne(tdOrderGoods.getGoodsId());
+        map.addAttribute("recommend_goods_page", tdGoodsService.findByCategoryIdTreeContainingOrderBySortIdAsc(tdGoods.getCategoryId(), 0, ClientConstant.pageSize));
+        
         return "/client/order_success";
     }
 

@@ -570,7 +570,7 @@ function del_goods_comb(obj) {
     </div>
     
     <div class="tab-content" style="display: none;">
-        <#--
+        
         <dl>
             <dt>支持限时抢购</dt>
             <dd>
@@ -629,7 +629,7 @@ function del_goods_comb(obj) {
                 <span class="Validform_checktip">已抢购商品数量</span>
             </dd>
         </dl>
-        -->
+        
         
         <dl>
             <dt>支持团购</dt>

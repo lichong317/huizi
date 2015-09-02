@@ -7,7 +7,7 @@ package com.ynyes.huizi.util;
 public class SiteMagConstant {
 
     public static final int pageSize = 20;
-    
+       
     public static final String templatePath = "src/main/resources/templates/client/";
     
     public static final String backupPath = "src/main/resources/backup/";

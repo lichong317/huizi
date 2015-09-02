@@ -296,7 +296,7 @@ function delItem(id)
 			     <#if item_index < 3> 
 			       
 			        <td class="td${item_index+1}"><a href="${item.linkUri!''}">
-                         <img src="${item.fileUri!''}" style="position:absolute;right:10px; top:45px;">
+                         <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
                          <p class="p1">${item.title}</p>
                  <!--    <p class="p2">70吋超大屏幕</p> -->
                          <p class="p2">${item.mark}</p>
@@ -310,7 +310,7 @@ function delItem(id)
                  <#if item_index gt 2 && item_index<6> 
                    
                     <td class="td${item_index+1}"><a href="${item.linkUri!''}">
-                         <img src="${item.fileUri!''}" style="position:absolute;right:10px; top:45px;">
+                         <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
                          <p class="p1">${item.title}</p>
                  <!--    <p class="p2">70吋超大屏幕</p> -->
                          <p class="p2">${item.mark}</p>

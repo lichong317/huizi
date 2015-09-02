@@ -1360,7 +1360,17 @@ public class TdGoodsService {
 
         return repository.findByProductIdAndIsOnSaleTrue(productId);
     }
+    /**
+	 * @author lc
+	 * @注释：所有秒杀商品
+	 */
+    public Page<TdGoods> findByFlashSaleAllOrderByFlashSaleStartTimeAsc(
+            int page, int size) {
+        PageRequest pageRequest = new PageRequest(page, size);
 
+        return repository
+                .findByIsFlashSaleTrueAndIsOnSaleTrueOrderByFlashSaleStartTimeAsc(pageRequest);
+    }
     /**
      * 删除
      * 

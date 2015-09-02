@@ -272,7 +272,7 @@
                             <span>${item.currentPrice?string("0.00")}</span>
                         </p>
                     </div>
-                    <#if item_index+1 < comb_list?size>
+                    <#if item_index+1 < comb_list?size>                 
                         <p class="part"><img src="/client/images/content/pro_plus.png" /></p>
                     </#if>
                 </#list>

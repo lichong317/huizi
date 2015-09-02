@@ -44,7 +44,23 @@ public class TdCartGoods {
     @Column
     private Double price;
     
-    // 是否选中，选中的商品将进行结算
+    /**
+	 * @author lc
+	 * @注释：
+	 */
+    // 销售类型
+    @Column
+    private Integer qiang;
+    
+    public Integer getQiang() {
+		return qiang;
+	}
+
+	public void setQiang(Integer qiang) {
+		this.qiang = qiang;
+	}
+
+	// 是否选中，选中的商品将进行结算
     @Column
     private Boolean isSelected;
     

@@ -93,19 +93,46 @@
                     </td>
                     <td>
                         <p>
-                            <#if order.statusId==2>
+                            <#if order.statusId==1>
+                                待确认
+                            <#elseif order.statusId==2>
                                 待付款
                             <#elseif order.statusId==3>
                                 待发货
                             <#elseif order.statusId==4>
-                                待收货
+                                <h4>正在出库</h4>
+                                    <a class="mymember_infotab_show" href="#" onMouseOver="hoverShowInfo('showinfo01')">进度</a>
+                                    <div class="mymember_info_show" id="showinfo01">
+                                      <i><img src="/client/images/mymember/arrow04.gif" /></i>
+                                      <a href="javascript:closeShowInfo();"><img src="/client/images/mymember/close.png" /></a>
+                                      <h5>
+                                        <span>处理时间</span>
+                                        处理信息              </h5>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                    </div>        
+                            <#elseif order.statusId==5>
+                                待评价
                             <#elseif order.statusId==6>
                                 已完成
                             </#if>
                         </p>          
                     </td>
                     <td class="td003">
-                        <a href="/user/order?id=${order.id}">查看</a>          
+                        <p><a href="/user/order?id=${order.id}">查看</a></p>
+                        <#if order.statusId==5>
+                            <p><a href="/user/comment?orderId=${order.id}">评价晒单</a></p>
+                            <p><a href="/user/return/${order.id}">申请返修/退换货</a></p>
+                        <#elseif order.statusId==2>
+                            <p><a href="javascript:;">去付款</a></p>
+                        </#if>          
                     </td>
                 </tr>
                 </#if>
@@ -118,15 +145,17 @@
 	 <h3>我关注的商品</h3>
       <div id="mymember_gzbox">
         <ul>
+            <li>
             <#if collect_page??>
-                <#list collect_page.content as cgoods>
-                <a class="mymember_gzlist" href="/goods/${cgoods.goodsId!''}">
-                    <img src="${cgoods.goodsCoverImageUri!''}" alt="${cgoods.goodsTitle!''}" />
-                    <p>${cgoods.goodsTitle!''}</p>
-                    <h6>￥${cgoods.goodsSalePrice?string("#.##")}</h6>
-                </a>
+                <#list collect_page.content as cgoods>                                  
+                    <a class="mymember_gzlist" href="/goods/${cgoods.goodsId!''}">
+                        <img src="${cgoods.goodsCoverImageUri!''}" alt="${cgoods.goodsTitle!''}" />
+                        <p>${cgoods.goodsTitle!''}</p>
+                        <h6>￥${cgoods.goodsSalePrice?string("#.##")}</h6>
+                    </a>                                  
                 </#list>
             </#if>
+            </li>
         </ul>
         <div class="myclear"></div>
         <a id="mymember_gznext" href="javascript:;"><img src="/client/images/mymember/arrow02.jpg" /></a>
@@ -140,17 +169,17 @@
       <h4 id="mymember_right_menu">
       </h4>
       <ul id="mymember_right_check">
+        <li>
         <#if recommend_goods_page??>
-            <#list recommend_goods_page.content as item>
-                <li>
+            <#list recommend_goods_page.content as item>                
                   <a class="mymember_hot_list" href="/goods/${item.id}">
                     <img src="${item.coverImageUri!''}" />
                     <p>${item.title!''}</p>
                     <b>￥${item.salePrice?string("0.00")}</b>
-                  </a>
-                </li>
+                  </a>                
             </#list>
         </#if>
+        </li>
       </ul>
     </div><!--mymember_hot_part END-->
     

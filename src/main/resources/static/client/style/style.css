@@ -307,7 +307,8 @@
 .pro_price p.p3 { position:absolute; right:3%; bottom:45px;}
 .pro_choose { width:78%; margin:15px 0 0 3%;}
 .pro_choose th,.pro_choose td { vertical-align:top; padding:7px 0 2px;font-weight:400; line-height:30px;}
-.pro_choose th { white-space: nowrap; text-align:right;}
+/*lichong 文字靠左显示*/
+.pro_choose th { white-space: nowrap; /*text-align:right;*/}
 .pro_choose td a { display:inline-block; padding:0 10px; line-height:28px; border:1px solid #ddd; margin:0 5px 2px 0;}
 .pro_choose td a.sel,.pro_choose td a:hover { background:url(../images/content/pro_ico04.png) no-repeat right bottom; border:1px solid #ff5a1e;}
 .pro_choose td a.a1 { padding:5px 5px 5px 40px; background:#7fc5e5 url(../images/content/pro_ico05.png) no-repeat 5px center; border:none; line-height:16px; color:#fff; float:left; margin:0 3px 2px 0;}
@@ -327,11 +328,11 @@
 .pro_choose .plus { float:left; width:17px;}
 .pro_choose .plus a { display:block; line-height:17px; border:1px solid #ddd; background:#f1f1f1; text-align:center; padding:0; margin:0;}
 .pro_choose .plus a:hover { background:#eee;}
-.pro_choose .sub {height:40px; line-height:40px;float:left; background:#e83928 url(../images/content/pro_buy.png) no-repeat 20px center; color:#fff; border:1px solid #ff8800; border-radius:3px; width:175px; margin-top:20px; font-size:16px;}
-.pro_choose .sub:hover { background:#ff8800 url(../images/content/pro_buy.png) no-repeat 20px center;}
-.pro_choose .sub01 { background:#f5f5f5 url(../images/content/pro_fq.png) no-repeat 20px center; border:1px solid #aaa;color:#333; width:150px; margin-left:20px;}
-.pro_choose .sub01:hover { background:#ff8800 url(../images/content/pro_fq.png) no-repeat 20px center; color:#fff;}
-.proinfo_right .sys {position:absolute;right:0;bottom:0; background:#fbedca; width:90px; padding:15px; line-height:16px;}
+.pro_choose .sub {height:40px; line-height:40px;float:left; background:#FFF; color:#222222; border:1px solid #fd3e3e; border-radius:20px; width:150px; margin-top:20px; font-size:16px;}
+.pro_choose .sub:hover { background:#222222; color:#fff; border: solid 1px #222222;}
+.pro_choose .sub01 { background:#fd3e3e; border:1px solid #aaa;color:#FFF; width:150px; margin-left:20px;}
+.pro_choose .sub01:hover { background:#222222; color:#fff;}
+.proinfo_right .sys {position:absolute;right:0;bottom:0;s width:124px; padding:75px; text-align:center; line-height:16px;}
 .proinfo_right .sys i { position:absolute;left:-12px;top:50px;}
 #proshowimg { width:396px;height:396px;}
 #proshowimg li { width:100%; position:absolute;left:0;top:0; height:396px; overflow:hidden;}
@@ -358,7 +359,8 @@
 .pro_assort div.part p.p1 { width:85%; padding-left:15%; color:#e83928;}
 .pro_assort .part01 { float:left; margin-left:17px; padding-top:25px;}
 .pro_assort .part01 p { margin-bottom:15px;}
-.pro_assort .part01 input { width:80%; margin:0 auto; height:30px; background:#ff8800; color:#fff; border-radius:3px; display:block;}
+.pro_assort .part01 input { width:80%; margin:0 auto; height:30px; background:#13b5b1; color:#FFF; border-radius:20px; display:block;}
+.pro_assort .part01 input:hover { width:80%; margin:0 auto; height:30px; background:#222222; color:#FFF; border-radius:20px; display:block;}
 .detail_tit { width:100%; background:#eae8e7; height:40px; z-index:10;}
 .detail_tit .out { position:absolute; left:0; top:0;width:1px;height:40px;}
 .detail_tit menu { width:980px; height:40px; position:absolute;left:0;top:0;}
@@ -629,7 +631,9 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .buybtn .real:hover,.buybtn .speed:hover{color: #fd3e3e;}
 .buybtn .buy{display:inline-block;width: 222px;height: 54px;background-color:#fd3e3e; color:white;font-size: 24px;line-height: 54px;text-align: center;margin-left: 106px;margin-top: 10px;}
 .buybtn .buy:hover{background-color:#e03636;}
-
+/*lichong*/
+.buybtn .soon{display:inline-block;width: 222px;height: 54px;background-color:#888888; color:white;font-size: 24px;line-height: 54px;text-align: center;margin-left: 106px;margin-top: 10px;}
+.buybtn .finish{display:inline-block;width: 222px;height: 54px;background-color:#666666; color:white;font-size: 24px;line-height: 54px;text-align: center;margin-left: 106px;margin-top: 10px;}
 
 /*底部版权信息*/
 .downwenzi li{width:71px; float:left;}

@@ -8,7 +8,7 @@
                         <#list service_item_list as item>
                             <#if item_index <4>
                             <td>
-                                <a href="javascript:;"><img src="${item.logo!''}" />${item.title!''}<br>${item.description!''}</a>
+                                <a href="javascript:;"><img src="${item.logo!''}" width="55" height="55"/>${item.title!''}<br>${item.description!''}</a>
                             </td>
                             </#if>
                         </#list>
@@ -44,21 +44,21 @@
     <div class=" erweima main">
 
         <div class="saoyisao">
-            <img src="<#if site??>${site.androidQrCode!''}</#if>" />
+            <img src="<#if site??>${site.androidQrCode!''}</#if>" width="81" height="81"/>
             <h3><a href="#">安卓客户端</a></h3> 
         </div>
       
         <div class="saoyisao">
-            <img src="<#if site??>${site.iOsQrCode!''}</#if>" />
+            <img src="<#if site??>${site.iOsQrCode!''}</#if>" width="81" height="81" />
             <h3><a href="#">IOS客户端</a></h3> 
         </div>
     
         <div class="saoyisao">
-            <img src="<#if site??>${site.wxQrCode!''}</#if>" />
+            <img src="<#if site??>${site.wxQrCode!''}</#if>" width="81" height="81" />
             <h3><a href="#">微信公众号</a></h3> 
         </div>     
         <div class="mendian">
-            <img src="/client/images/hzd_52.png" />
+            <img src="/client/images/hzd_52.png" width="87" height="71"/>
             <h3><a href="#">点击查询</a></h3>
         </div>
         <div class="dizhi">

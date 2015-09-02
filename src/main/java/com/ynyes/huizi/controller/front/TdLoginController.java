@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.service.TdAdService;
+import com.ynyes.huizi.service.TdAdTypeService;
+import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.VerifServlet;
@@ -30,7 +34,16 @@ public class TdLoginController {
     
     @Autowired
     private TdSettingService tdSettingService;
-
+    
+    @Autowired
+    private TdCommonService tdCommonService;
+    
+    @Autowired
+    private TdAdTypeService tdAdTypeService;
+    
+    @Autowired
+    private TdAdService tdAdService;
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
@@ -39,6 +52,18 @@ public class TdLoginController {
         
         // 网站基本信息
         map.addAttribute("site", tdSettingService.findTopBy());
+        tdCommonService.setHeader(map, req);
+        
+        /**
+		 * @author lc
+		 * @注释：
+		 */
+        TdAdType tdAdType = tdAdTypeService.findByTitle("登陆广告位");
+        
+        if (null != tdAdType) {
+            map.addAttribute("login_ad_list",
+                    tdAdService.findByTypeId(tdAdType.getId()));
+        }
         
         if (null == username) 
         {

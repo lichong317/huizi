@@ -43,13 +43,26 @@ public class TdPromotionController {
         {
             Page<TdGoods> goodsPage = tdGoodsService.findByIsGroupSaleTrueAndIsOnSaleTrue(page, ClientConstant.pageSize);
            
-            map.addAttribute("goods_page", goodsPage);
+            map.addAttribute("tuan_goods_page", goodsPage);
+            
+            return "/client/tuan_list";
+        }
+        else if (type.equalsIgnoreCase("miao")) // 秒杀
+        {
+        	 if (null == type)
+             {
+                 type = "";
+             }
+        	 map.addAttribute("miao_goods_page", tdGoodsService
+                     .findByFlashSaleAllOrderByFlashSaleStartTimeAsc(page,
+                             ClientConstant.pageSize));
+        	 return "/client/miao_list";
         }
         else
         {
             return "/client/error_404";
         }
         
-        return "/client/tuan_list";//错误
+       
     }
 }

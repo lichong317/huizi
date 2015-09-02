@@ -122,7 +122,26 @@
                             <#elseif order.statusId==3>
                                 待发货
                             <#elseif order.statusId==4>
-                                待收货
+                                <h4>正在出库</h4>
+                                    <a class="mymember_infotab_show" href="#" onMouseOver="hoverShowInfo('showinfo01')">进度</a>
+                                    <div class="mymember_info_show" id="showinfo01">
+                                      <i><img src="/client/images/mymember/arrow04.gif" /></i>
+                                      <a href="javascript:closeShowInfo();"><img src="/client/images/mymember/close.png" /></a>
+                                      <h5>
+                                        <span>处理时间</span>
+                                        处理信息              </h5>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                      <p>
+                                        <span>2015-02-23 13:11:28</span>
+                                        您提交了订单，请等待系统进行确认。              </p>
+                                    </div>  
+                            <#elseif order.statusId==5>
+                                待评价
                             <#elseif order.statusId==6>
                                 已完成
                             </#if>
@@ -130,9 +149,11 @@
                       </td>
                       <td class="td003"> 
                         <p><a href="/user/order?id=${order.id}">查看</a></p>
-                        <#if order.statusId==6>
+                        <#if order.statusId==5>
                             <p><a href="/user/comment?orderId=${order.id}">评价晒单</a></p>
                             <p><a href="/user/return/${order.id}">申请返修/退换货</a></p>
+                        <#elseif order.statusId==2>
+                            <p><a href="javascript:;">去付款</a></p>
                         </#if>
                       </td>
                     </tr>

@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.front;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.ynyes.huizi.service.TdCartGoodsService;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
+import com.ynyes.huizi.util.ClientConstant;
 
 /**
  * 购物车
@@ -39,7 +41,7 @@ public class TdCartController {
     private TdCommonService tdCommonService;
 
     @RequestMapping(value = "/cart/init")
-    public String addCart(Long id, Long quantity, String zpid, Boolean qiang,
+    public String addCart(Long id, Long quantity, String zpid, Integer qiang,
             HttpServletRequest req) {
         // 是否已登录
         boolean isLoggedIn = true;
@@ -57,7 +59,7 @@ public class TdCartController {
         }
 
         if (null == qiang) {
-            qiang = false;
+            qiang = 0;
         }
 
         if (null != id) {
@@ -65,19 +67,47 @@ public class TdCartController {
 
             if (null != goods) {
                 
+            	Date curr = new Date();
+            	if (qiang.equals(1))
+                {
+                    if (null != goods.getIsFlashSale() 
+                            && null != goods.getFlashSaleStartTime()
+                            && null != goods.getFlashSaleStopTime()
+                            && null != goods.getFlashSalePrice()
+                            && goods.getIsFlashSale()
+                            && goods.getFlashSaleStopTime().after(curr)
+                            && goods.getFlashSaleStartTime().before(curr))
+                    {
+                     
+                    }
+                    else
+                    {
+                        qiang = 0;
+                    }
+                }
                 List<TdCartGoods> oldCartGoodsList = null;
                 
                 // 抢购
-                if (qiang)
+                if (qiang.equals(1))
                 {
                     if (goods.getIsGroupSale()
+                            && goods.getFlashSaleStopTime().after(new Date())
+                            && goods.getFlashSaleStartTime().before(new Date())) 
+                    {
+                        oldCartGoodsList = tdCartGoodsService
+                                .findByGoodsIdAndPriceAndUsername(id, goods.getFlashSalePrice(), username);
+                    }
+                }
+                else if (qiang.equals(3) || qiang.equals(7) || qiang.equals(10)) 
+                {
+                	if (goods.getIsGroupSale()
                             && goods.getGroupSaleStopTime().after(new Date())
                             && goods.getGroupSaleStartTime().before(new Date())) 
                     {
                         oldCartGoodsList = tdCartGoodsService
                                 .findByGoodsIdAndPriceAndUsername(id, goods.getGroupSalePrice(), username);
                     }
-                }
+				}
                 else
                 {
                     oldCartGoodsList = tdCartGoodsService
@@ -91,9 +121,15 @@ public class TdCartController {
                 // 仅有一项，数量相加
                 else if (null != oldCartGoodsList && oldCartGoodsList.size() == 1)
                 {
-                    long oldQuantity = oldCartGoodsList.get(0).getQuantity();
-                    oldCartGoodsList.get(0).setQuantity(oldQuantity + quantity);
-                    tdCartGoodsService.save(oldCartGoodsList.get(0));
+                	/**
+					 * @author lc
+					 * @注释：抢购数量不变
+					 */
+                	if (!qiang.equals(1)) {			
+	                    long oldQuantity = oldCartGoodsList.get(0).getQuantity();
+	                    oldCartGoodsList.get(0).setQuantity(oldQuantity + quantity);
+	                    tdCartGoodsService.save(oldCartGoodsList.get(0));
+                	}
                 }
                 else
                 {
@@ -108,7 +144,16 @@ public class TdCartController {
                     cartGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
                     cartGoods.setGoodsTitle(goods.getTitle());
     
-                    if (qiang) // 抢购价
+                    if (qiang.equals(1)) // 抢购价
+                    {
+                        if (goods.getIsFlashSale()
+                                && goods.getFlashSaleStopTime().after(new Date())
+                                && goods.getFlashSaleStartTime().before(new Date())) 
+                        {
+                            cartGoods.setPrice(goods.getFlashSalePrice());
+                        }
+                    }
+                    else if (qiang.equals(3) || qiang.equals(7) || qiang.equals(10))
                     {
                         if (goods.getIsGroupSale()
                                 && goods.getGroupSaleStopTime().after(new Date())
@@ -116,13 +161,21 @@ public class TdCartController {
                         {
                             cartGoods.setPrice(goods.getGroupSalePrice());
                         }
-                    } else // 正常价
+                    }
+                    else // 正常价
                     {
                         cartGoods.setPrice(goods.getSalePrice());
                     }
-    
-                    cartGoods.setQuantity(quantity);
-                    
+                    /**
+					 * @author lc
+					 * @注释：抢购限量
+					 */
+                    if (qiang.equals(1)) {
+                    	cartGoods.setQuantity(ClientConstant.qiangSize);
+					}else{
+						cartGoods.setQuantity(quantity);
+					}
+                    cartGoods.setQiang(qiang);
     
                     tdCartGoodsService.save(cartGoods);
                 }
@@ -188,7 +241,7 @@ public class TdCartController {
         tdCommonService.setHeader(map, req);
         return "/client/cart_add_res";
     }
-
+    
     @RequestMapping(value = "/cart")
     public String cart(HttpServletRequest req, ModelMap map) {
 
@@ -305,10 +358,30 @@ public class TdCartController {
 
         if (null != id) {
             TdCartGoods cartGoods = tdCartGoodsService.findOne(id);
-
+            
             if (cartGoods.getUsername().equalsIgnoreCase(username)) {
                 long quantity = cartGoods.getQuantity();
-                cartGoods.setQuantity(quantity + 1);
+                /**
+				 * @author lc
+				 * @注释：数量限制
+				 */
+                TdGoods goods = tdGoodsService.findOne(cartGoods.getGoodsId());
+                if (goods.getIsGroupSale()
+                        && goods.getGroupSaleStartTime().before(new Date())
+                        && goods.getGroupSaleStopTime().after(new Date())
+                        && cartGoods.getPrice().equals(goods.getGroupSalePrice())) 
+                {
+                    if (cartGoods.getQuantity().compareTo(goods.getGroupSaleLeftNumber()) < 0) {
+                    	cartGoods.setQuantity(cartGoods.getQuantity() + 1L);
+                    }
+                }
+                else
+                {
+                    if (cartGoods.getQuantity().compareTo(goods.getLeftNumber()) < 0) {
+                    	cartGoods.setQuantity(cartGoods.getQuantity() + 1L);
+                    }
+                }
+                
                 tdCartGoodsService.save(cartGoods);
             }
         }

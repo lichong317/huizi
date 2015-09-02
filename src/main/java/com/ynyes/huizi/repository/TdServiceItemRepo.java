@@ -24,4 +24,10 @@ public interface TdServiceItemRepo extends
     
     List<TdServiceItem> findByIsEnableTrue();
     List<TdServiceItem> findByIsEnableTrueOrderBySortIdAsc();
+    /**
+	 * @author lc
+	 * @注释：商品服务
+	 */
+    List<TdServiceItem> findByIsEnableTrueAndIsGoodsServiceTrueOrderBySortIdAsc();
+    List<TdServiceItem> findByIsEnableTrueAndIsGoodsServiceFalseOrderBySortIdAsc();
 }

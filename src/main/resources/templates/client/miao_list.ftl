@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>惠之店——团购首页</title>
+<title>惠之店——闪购首页</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="copyright" content="" />
@@ -50,15 +50,15 @@ function checkTime(i)
 <!-- header结束 -->
 
 <div class="clear h20"></div>
-   <!--团购列表内容-->
+   <!--闪购列表内容-->
    <div class="main">
         <div class="weizhi">
-            <span><a href="/">首页</a></span>><span>团购</span>
+            <span><a href="/">首页</a></span>><span>闪购</span>
         </div>
         <div class="bulk_list">                            
-              <#if tuan_goods_page?? && tuan_goods_page.content?size gt 0>
+              <#if miao_goods_page?? && miao_goods_page.content?size gt 0>
                   <ul>
-                      <#list tuan_goods_page.content as goods>
+                      <#list miao_goods_page.content as goods>
                          <script>
                                    $(document).ready(function(){
                                             setInterval("timer${goods_index}()",1000);
@@ -66,13 +66,13 @@ function checkTime(i)
                                                         
                                           function timer${goods_index}()
                                             {
-                                              <#if goods.isGroupSale && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>
-                                                var ts = (new Date(${goods.groupSaleStopTime?string("yyyy")}, 
-                                                parseInt(${goods.groupSaleStopTime?string("MM")}, 10)-1, 
-                                                ${goods.groupSaleStopTime?string("dd")}, 
-                                                ${goods.groupSaleStopTime?string("HH")}, 
-                                                ${goods.groupSaleStopTime?string("mm")}, 
-                                                ${goods.groupSaleStopTime?string("ss")})) - (new Date());//计算剩余的毫秒数
+                                              <#if goods.isFlashSale && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>
+                                                var ts = (new Date(${goods.flashSaleStopTime?string("yyyy")}, 
+                                                parseInt(${goods.flashSaleStopTime?string("MM")}, 10)-1, 
+                                                ${goods.flashSaleStopTime?string("dd")}, 
+                                                ${goods.flashSaleStopTime?string("HH")}, 
+                                                ${goods.flashSaleStopTime?string("mm")}, 
+                                                ${goods.flashSaleStopTime?string("ss")})) - (new Date());//计算剩余的毫秒数
                                                 if (0 > ts)
                                                 {
                                                          window.location.reload();
@@ -88,8 +88,8 @@ function checkTime(i)
                                                 mm = checkTime(mm);
                                                 ss = checkTime(ss);
                                                 $("#timeLeft${goods_index}").html("剩余时间：<b>"
-                                                                            +"<#if goods.groupSaleStartTime?? && goods.groupSaleStopTime??>"
-                                                                            +"<#if goods.groupSaleStopTime gt .now>"
+                                                                            +"<#if goods.flashSaleStartTime?? && goods.flashSaleStopTime??>"
+                                                                            +"<#if goods.flashSaleStopTime gt .now>"
                                                                             + dd + "</b>天<b>"
                                                                             + hh + "</b>时<b>"
                                                                             + mm + "</b>分<b>"
@@ -99,7 +99,7 @@ function checkTime(i)
                                                                             +"</#if>"
                                                                             +"</#if>"
                                                                             +"<span>"
-                                                                            +<#if goods.soldNumber??&&goods.soldNumber != 0>${goods.soldNumber!''}<#else>35</#if> + "人已购买"  
+                                                                            +<#if goods.flashSaleSoldNumber??&&goods.flashSaleSoldNumber != 0>${goods.flashSaleSoldNumber!''}<#else>10</#if> + "人已购买"  
                                                                             +"</span>" );
                                                 </#if>       
                                              }
@@ -109,7 +109,7 @@ function checkTime(i)
                            <li>
                                <div class="clear"></div>
                                <div class="left_pic">
-                                    <a href="/goods/${goods.id}"><img src="${goods.groupSaleImage!''}" width="396" height="307" ></a>
+                                    <a href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" width="396" height="307" ></a>
                                </div>
                                <div class="right_infor"> 
                                     <div class="infor_top">
@@ -118,8 +118,8 @@ function checkTime(i)
                                           <div class="price">
                                                 <div class="clear"></div>
                                                 <div class="sk fl">
-                                                      <p>团购价：</p>
-                                                      <p class="redp">¥：${goods.groupSalePrice?string("0.00")}</p>
+                                                      <p>秒杀价：</p>
+                                                      <p class="redp">¥：${goods.flashSalePrice?string("0.00")}</p>
                                                 </div>
                                                 <div class="op fr">
                                                       <p>原价：</p>
@@ -141,13 +141,13 @@ function checkTime(i)
                                                                  </#if>
                                                             </#list>                                                            
                                                       </#if>                                                  
-                                                      <#if goods.groupSaleStartTime?? && goods.groupSaleStopTime??>
-                                                          <#if goods.groupSaleStartTime gt .now>
-                                                               <a href="javascript:;" class="soon">即将开始</a>
-                                                          <#elseif goods.groupSaleStopTime < .now>
+                                                      <#if goods.flashSaleStartTime?? && goods.flashSaleStopTime??>
+                                                          <#if goods.flashSaleStartTime gt .now>
+                                                               <a href="javascript:;" class="soon">即将开始<</a>
+                                                          <#elseif goods.flashSaleStopTime < .now>
                                                                <a href="javascript:;" class="finish">已结束</a>
                                                           <#else>
-                                                               <a href="/cart/init?id=${goods.id}&quantity=1&qiang=3" class="buy">马上购买</a>
+                                                               <a href="/goods/${goods.id}?qiang=1" class="buy">马上购买</a>
                                                           </#if>
                                                       </#if>
                                                 </div>
@@ -164,18 +164,18 @@ function checkTime(i)
          </div>
           <div class="pagebox">
               <div class="num">
-                <#if tuan_goods_page??>
+                <#if miao_goods_page??>
                     <#assign continueEnter=false>
-                    <#if tuan_goods_page.number+1 == 1>
+                    <#if miao_goods_page.number+1 == 1>
                         <a class="a1 a0" href="javascript:;"><span>上一页</span></a>
                     <#else>
-                        <a class="a1 a0" href="/promotion/tuan?page=${tuan_goods_page.number-1}"><span>上一页</span></a>
+                        <a class="a1 a0" href="/promotion/tuan?page=${miao_goods_page.number-1}"><span>上一页</span></a>
                     </#if>
                     
-                    <#if tuan_goods_page.totalPages gt 0>
-                        <#list 1..tuan_goods_page.totalPages as page>
-                            <#if page <= 3 || (tuan_goods_page.totalPages-page) < 3 || (tuan_goods_page.number+1-page)?abs<3 >
-                                <#if page == tuan_goods_page.number+1>
+                    <#if miao_goods_page.totalPages gt 0>
+                        <#list 1..miao_goods_page.totalPages as page>
+                            <#if page <= 3 || (miao_goods_page.totalPages-page) < 3 || (miao_goods_page.number+1-page)?abs<3 >
+                                <#if page == miao_goods_page.number+1>
                                     <a class="sel" href="javascript:;">${page}</a>
                                 <#else>
                                     <a href="/promotion/tuan?page=${page}">${page}</a> <#-- ${page} -->
@@ -190,13 +190,13 @@ function checkTime(i)
                         </#list>
                     </#if>
                     
-                    <#if tuan_goods_page.number+1 == tuan_goods_page.totalPages || tuan_goods_page.totalPages==0>
+                    <#if miao_goods_page.number+1 == miao_goods_page.totalPages || miao_goods_page.totalPages==0>
                         <a class="a2" href="javascript:;"><span>下一页</span></a>
                     <#else>
-                        <a class="a2" href="/promotion/tuan?page=${tuan_goods_page.number+1}"><span>下一页</span></a>
+                        <a class="a2" href="/promotion/tuan?page=${miao_goods_page.number+1}"><span>下一页</span></a>
                     </#if>
                 </#if>
-                <span> 共<#if tuan_goods_page.totalPages gt 0>${tuan_goods_page.number+1}<#else>0</#if>/${tuan_goods_page.totalPages}页 </span>
+                <span> 共<#if miao_goods_page.totalPages gt 0>${miao_goods_page.number+1}<#else>0</#if>/${miao_goods_page.totalPages}页 </span>
               </div>
               <div class="page">
                 <input class="sub" type="submit" onclick="javascript:window.location='/promotion/tuan?page='+(parseInt($('#iPageNum').val())-1);" value="确定" />
