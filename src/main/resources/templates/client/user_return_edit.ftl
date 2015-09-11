@@ -97,7 +97,6 @@ $(function () {
                     <span class="Validform_checktip">*联系电话</span>
                 </div>
                 
-                
                 <#if !has_returned??>
                 <div class="mymember_eva_div">
                   <input class="mysub" type="submit" value="提交">

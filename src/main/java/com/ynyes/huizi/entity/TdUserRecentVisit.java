@@ -53,7 +53,23 @@ public class TdUserRecentVisit {
     // 排序号
     @Column
     private Long sortId;
-
+    
+    //访问次数 zhangji
+    @Column
+    private Long visitCount;
+    
+   //销量 zhangji
+    @Column
+    private Long soldNumber;
+    
+    //分类ID zhangji
+    @Column
+    private Long categoryId;
+    
+    //日期 zhangji
+    @Column
+    private String visitDate;
+    
     public Long getId() {
         return id;
     }
@@ -117,4 +133,38 @@ public class TdUserRecentVisit {
     public void setGoodsSalePrice(Double goodsSalePrice) {
         this.goodsSalePrice = goodsSalePrice;
     }
+
+	public Long getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(Long visitCount) {
+		this.visitCount = visitCount;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public Long getSoldNumber() {
+		return soldNumber;
+	}
+
+	public void setSoldNumber(Long soldNumber) {
+		this.soldNumber = soldNumber;
+	}
+
+	public String getVisitDate() {
+		return visitDate;
+	}
+
+	public void setVisitDate(String visitDate) {
+		this.visitDate = visitDate;
+	}
+
+    
 }

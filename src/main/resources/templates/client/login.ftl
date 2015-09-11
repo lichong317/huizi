@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <head>
 <meta charset="utf-8">
 <title>惠资生活</title>
@@ -33,8 +33,19 @@
     $("#form1").Validform({
         tiptype: 3
     });
-    
-    $("#btn_login").click(function(){
+    $(function(){
+    	$("#btn_login").click(function(){
+    		login();
+    	});	
+    });
+
+    document.onkeydown = function(event){
+        if((event.keyCode || event.which) == 13){
+            login();
+        }
+       }
+   
+    function login(){
         var username = $("#txt_loginId").val();
         var password = $("#txt_loginPwd").val();
         
@@ -62,8 +73,8 @@
                     }
                 }
             });
-    });
-});
+    }
+ });    
 </script>
 </head>
 <body>

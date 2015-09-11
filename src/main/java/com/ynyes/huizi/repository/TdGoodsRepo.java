@@ -90,6 +90,7 @@ public interface TdGoodsRepo extends
             String key3,
             String key4,
             Pageable page);
+    Page<TdGoods> findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(Long categoryId,Pageable page);//zhangji
     
     List<TdGoods> findByProductIdAndIsOnSaleTrue(Long productId);
     

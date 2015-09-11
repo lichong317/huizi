@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.front;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
+import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdDiySiteService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
@@ -92,13 +94,39 @@ public class TdGoodsController {
 
         // 添加浏览记录
         if (null != username) {
-            tdUserRecentVisitService.addNew(username, goodsId);
-            map.addAttribute("user",
-                    tdUserService.findByUsernameAndIsEnabled(username));
+        	 TdUserRecentVisit recentVisit = tdUserRecentVisitService.findByUsernameAndGoodsId(username,goodsId);
+             if (null == recentVisit)
+             {
+        		tdUserRecentVisitService.addNew(username, goodsId);
+        		map.addAttribute("user",
+        				tdUserService.findByUsernameAndIsEnabled(username));
+             }
+             else
+             {
+            	 Date date = new Date();
+                 SimpleDateFormat sdf =  new 	SimpleDateFormat("yyyy-MM-dd");
+                 String visitDate = sdf.format(date);
+                 recentVisit.setVisitDate(visitDate);
+            	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+            	 recentVisit.setVisitTime(new Date());
+            	 
+
+            	 tdUserRecentVisitService.save(recentVisit);
+             }
         }
         else
         {
-            tdUserRecentVisitService.addNew(req.getSession().getId(), goodsId);
+	       	 TdUserRecentVisit recentVisit = tdUserRecentVisitService.findByUsernameAndGoodsId(req.getSession().getId(),goodsId);
+	         if (null == recentVisit)
+	         {
+	        	 tdUserRecentVisitService.addNew(req.getSession().getId(), goodsId);
+	         }
+	         else
+	             {
+	            	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+	            	 recentVisit.setVisitTime(new Date());
+	            	 tdUserRecentVisitService.save(recentVisit);
+	             }
         }
         /**
 		 * @author lc

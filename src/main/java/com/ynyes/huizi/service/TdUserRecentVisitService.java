@@ -1,5 +1,6 @@
 package com.ynyes.huizi.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -97,12 +98,22 @@ public class TdUserRecentVisitService {
     {
         return repository.findByUsername(username);
     }
+    //zhangji
+    public List<TdUserRecentVisit> findByUsernameOrderByVisitCountDesc(String username)
+    {
+    	return repository.findByUsernameOrderByVisitCountDesc(username);
+    }
     
     public Page<TdUserRecentVisit> findAllOrderBySortIdAsc(int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));
         
         return repository.findAll(pageRequest);
+    }
+    //zhangji
+    public List<TdUserRecentVisit> findByUsernameAndVisitDate(String username,String visitDate)
+    {
+        return repository.findByUsernameAndVisitDate(username,visitDate);
     }
     
     public Page<TdUserRecentVisit> findByUsernameOrderByVisitTimeDesc(String username, int page, int size)
@@ -118,7 +129,21 @@ public class TdUserRecentVisitService {
         
         return repository.findByUsernameAndGoodsTitleContainingOrderByVisitTimeDesc(username, keywords, pageRequest);
     }
-    
+    //zhangji
+    public TdUserRecentVisit findByUsernameAndGoodsId(String username,Long goodsId)
+    {
+        if (null == username || null == goodsId)
+        {
+            return null;
+        }
+    	return repository.findByUsernameAndGoodsId(username,goodsId);
+    }
+    public Page<TdUserRecentVisit> findByUsernameAndCategoryIdOrderByVisitTimeDesc(String username, Long categoryId, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndCategoryIdOrderByVisitTimeDesc(username, categoryId, pageRequest);
+    }
     /**
      * 保存
      * 
@@ -139,29 +164,36 @@ public class TdUserRecentVisitService {
         }
         
         TdUserRecentVisit recent = repository.findByUsernameAndGoodsId(username, goodsId);
-        
-        if (null == recent)
-        {
+//        
+//        if (null == recent)
+//        {
             TdGoods goods = tdGoodsService.findOne(goodsId);
             
             if (null == goods)
             {
                 return null;
             }
-            
+            Date date = new Date();
             recent = new TdUserRecentVisit();
             recent.setUsername(username);
             recent.setGoodsId(goodsId);
             recent.setGoodsCoverImageUri(goods.getCoverImageUri());
             recent.setGoodsSalePrice(goods.getSalePrice());
             recent.setGoodsTitle(goods.getTitle());
-            recent.setVisitTime(new Date());
-        }
-        else
-        {
-            recent.setVisitTime(new Date());
-        }
-        
+            recent.setVisitTime(date);
+            recent.setVisitCount(1L);
+            recent.setSoldNumber(goods.getSoldNumber());
+            recent.setCategoryId(goods.getCategoryId());
+            //Date转换为String格式 zhangji
+            SimpleDateFormat sdf =  new 	SimpleDateFormat("yyyy-MM-dd");
+            String visitDate = sdf.format(date);
+            recent.setVisitDate(visitDate);
+//        }
+//        else
+//        {
+//            recent.setVisitTime(new Date());
+//        }
+//        
         return repository.save(recent);
     }
     

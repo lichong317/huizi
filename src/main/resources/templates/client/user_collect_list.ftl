@@ -67,22 +67,25 @@ function __doPostBack(eventTarget, eventArgument) {
             </div>
             <table>
                 <tr class="mymember_infotab_tit01">
-                    <th colspan="2">商品</th>
-                    <th width="80">金额</th>
-                    <th width="70">操作</th>
+            <th colspan="3">商品</th>
+            <th width="80">金额</th>
+            <th width="80">库存</th>
+            <th width="70">操作</th>
                 </tr>
                 <#if collect_page??>
                     <#list collect_page.content as cg>
                         <tr id="tr_1424195166">
+                       	    <td width=10><input id="yu_1424195166" name="r" type="checkbox" value="1424195166" class="check" onClick="cancelCheck(1424195166)"/></td>
                             <td>
                                 <a href="/goods/${cg.goodsId}" target="_blank">
                                     <strong><img width="100" height="100" src="${cg.goodsCoverImageUri!''}"></strong>
                                 </a>
                             </td>
                             <td class="tb01">
-                                <a href="/goods/${cg.goodsId}" target="_blank">${cg.goodsTitle!''}</a>
+                                <a href="/goods/${cg.goodsId}" target="_blank"  clstag="homepage|keycount|guanzhu|shangpin01">${cg.goodsTitle!''}</a>
                             </td>
                             <td class="tb02">￥${cg.goodsSalePrice?string("#.##")}</td>
+                            <td>${cg.leftNumber!''}</td>
                             <td>
                                 <p><a href="/cart/init?id=${cg.goodsId!''}" target="_blank">加入购物车</a></p>
                                 <p><a href="/user/collect/del?id=${cg.goodsId!''}">取消关注</a></p>
@@ -115,12 +118,80 @@ function __doPostBack(eventTarget, eventArgument) {
                 </#if>
             </div>
         </div>
+        
+        <div class="mymember_info">
+      <h3 id="mymember_likecheck">
+        <#if reco_page0??>
+        	<a class="mysel" href="/list/${categoryId0!'' }" title="进入“${categoryTitle0!''}”商品分类">&nbsp;</a>
+        </#if>
+        <#if reco_page1??>
+        	<a href="/list/${categoryId1!'' }" title="进入“${categoryTitle1!''}”商品分类">&nbsp;</a>
+        </#if>        
+        <#if reco_page2??>
+        	<a href="/list/${categoryId2!'' }" title="进入“${categoryTitle2!''}”商品分类">&nbsp;</a>
+        </#if>
+        <span>猜你喜欢</span>  
+      </h3>
+      <ul id="mymember_likelist">
+          <li>
+          	  <#if reco_page0??>
+	              <#list reco_page0.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!''}" title="${item.subTitle!'' }">
+			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			          </#if>
+	          	  </#list>
+              </#if>
+        </li>
+        <li>
+          	  <#if reco_page1??>
+	              <#list reco_page1.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!'' }">
+			          <img src="${item.coverImageUri!'' }"width="208" height="208" />
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			       </#if>   
+	          	  </#list>
+              </#if>
+        </li>
+        <li>
+          	  <#if reco_page2??>
+	              <#list reco_page2.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!'' }">
+			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			        </#if>  
+	          	  </#list>
+              </#if>
+        </li>
+      </ul>
+      <div class="myclear"></div>
+    </div><!--mymember_info END-->
+<script type="text/javascript">
+$(document).ready(function(){
+    mymemberMenuCheck("mymember_likecheck","a","mymember_likelist","li","mysel");
+});
+</script>
+
+
     </div>
     </form>
     <div class="myclear"></div>
 </div>
 <!--mymember_main END-->
 <div class="myclear"></div>
+
 </div>
 <!--mymember END-->
 

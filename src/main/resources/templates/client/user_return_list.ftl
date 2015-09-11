@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <head>
 <meta charset="utf-8">
 <title>惠资生活</title>
@@ -52,35 +52,31 @@
     <div class="mymember_mainbox">
       <div class="mymember_info mymember_info02">
         <div class="mymember_order_search"> 
-            <a class="a001" href="/user/return/list">退换货列表</a>
+            <a class="a001" href="/user/return/list">取消订单记录 </a>
             <div class="clear"></div>
         </div>
         
         <table align="left">
             <tr class="mymember_infotab_tit01">
-                <th colspan="2">商品信息</th>
-                <th width="60">退换数量</th>
-                <th width="120">订单号</th>
-                <th width="120">用户名</th>
-                <th width="120">联系电话</th>
-                <th width="120">申请时间</th>
-                <th width="50">状态</th>
+			  <th width="70">订单编号</th>
+	          <th>订单商品</th>
+	          <th width="70">提交时间</th>
+	          <th width="80">支付明细</th>
+			  <th width="80">退款状态</th>         
+	          <th width="60">操作</th>
             </tr>
             <#if return_page??>
                 <#list return_page.content as return>
                     <tr>
-                      <td class="td001" width="70">
-                        <a href="/goods/${return.goodsId!''}"><img src="${return.goodsCoverImageUri!''}" width="60" height="60"></a>
-                      </td>
-                      <td class="td002">
-                        <a href="/goods/${return.goodsId!''}">${return.goodsTitle!''}</a>
-                      </td>
-                      <td>${return.returnNumber!''}</td>
-                      <td>${return.orderNumber!''}</td>
-                      <td class="td003">${return.username!''}</td>
-                      <td class="td003">${return.telephone!''}</td>
-                      <td class="td003">${return.returnTime!''}</td>
-                      <td class="td003"><#if return.statusId==0>待审核<#else>已审核</#if></td>
+                    	<td>${return.orderNumber!'' }</td>
+                      <td class="td001"><a href="/goods/${return.goodsId!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
+			          <td class="td003">
+			            <p>${return.returnTime?string("yyyy-MM-dd")!'' }</p>
+			            <p>${return.returnTime?string("HH:mm:ss")!'' }</p>
+			          </td>
+			          <td>订单支付金额：￥${return.goodsPrice?string(0.00)!'' }</td>
+					  <td><#if return.statusId==0>未完成<#else>已完成</#if></td>         
+			          <td><a href="/user/return/detail">查看</a></td>	
                     </tr>
                 </#list>
             </#if>
@@ -109,7 +105,65 @@
             </#if>
         </div>
       </div>
-      
+      <div class="mymember_info">
+      <h3 id="mymember_likecheck">
+        <#if reco_page0??>
+        	<a class="mysel" href="/list/${categoryId0!'' }" title="进入“${categoryTitle0!''}”商品分类">&nbsp;</a>
+        </#if>
+        <#if reco_page1??>
+        	<a href="/list/${categoryId1!'' }" title="进入“${categoryTitle1!''}”商品分类">&nbsp;</a>
+        </#if>        
+        <#if reco_page2??>
+        	<a href="/list/${categoryId2!'' }" title="进入“${categoryTitle2!''}”商品分类">&nbsp;</a>
+        </#if>
+        <span>猜你喜欢</span>  
+      </h3>
+      <ul id="mymember_likelist">
+          <li>
+          	  <#if reco_page0??>
+	              <#list reco_page0.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!''}" title="${item.subTitle!'' }">
+			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			          </#if>
+	          	  </#list>
+              </#if>
+        </li>
+        <li>
+          	  <#if reco_page1??>
+	              <#list reco_page1.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!'' }">
+			          <img src="${item.coverImageUri!'' }"width="208" height="208" />
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			       </#if>   
+	          	  </#list>
+              </#if>
+        </li>
+        <li>
+          	  <#if reco_page2??>
+	              <#list reco_page2.content as item>
+	              	<#if item_index lt 4>
+			          <a href="/goods/${item.id!'' }">
+			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
+			           <p>${item.title!'' }</p>
+			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
+			           <i>已售${item.soldNumber!'' }件</i>
+			          </a>
+			        </#if>  
+	          	  </#list>
+              </#if>
+        </li>
+      </ul>
+      <div class="myclear"></div>
+    </div><!--mymember_info END-->
 <script type="text/javascript">
 $(document).ready(function(){
     mymemberMenuCheck("mymember_likecheck","a","mymember_likelist","li","mysel");

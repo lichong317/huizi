@@ -51,37 +51,46 @@
 
     <div class="mymember_info">
       <div class="mymember_order_search">
-        <a class="a001" href="/user/comment/list">全部评论</a>
-        
+        <a class="a001" href="/user/comment/list">商品评价/晒单</a>
+        <select>
+            <option>待评价</option>
+            <option>已评价</option>
+        </select>
         <div class="clear"></div>
       </div>
       
         <table class="mymember_evaluate">
-            <tr>
-                <th colspan="2">商品信息</th>
-                <th width="200">评价状态</th>
-            </tr>
-            <#if comment_page??>
-                <#list comment_page.content as comment>
-                <tr>
-                    <td>
-                       <a href="/goods/${comment.goodsId}">
-                            <img src="${comment.goodsCoverImageUri!''}" width="50" height="50" title="${comment.goodsTitle!''}">                                             </a>                                        </td>
-                    <td>
-                       <a target="_blank" href="/goods/${comment.goodsId}">${comment.goodsTitle!''}</a>
-                    </td>
-                    <td>
-                        我的评论：${comment.content!''}
-                        <br>
-                        ${comment.commentTime!''}
-                        <br>
-                        <#if comment.isReplied>
-                        ${comment.reply!''}
-                        <#else>
-                        （暂无回复）
-                        </#if>    
-                    </td>
-                </tr>   
+	        <tr>
+	          <th colspan="2">商品信息</th>
+	          <th width="200">购买时间</th>
+	          <th width="200">评价状态</th>
+	        </tr>
+            <#if order_page??>
+                <#list order_page.content as order>
+                    <#if order.orderGoodsList??>
+                        <#list order.orderGoodsList as item>
+                            <tr>
+                                <td class="td001" width="70">
+                                   <a href="/goods/${item.goodsId?c}">
+                                        <img src="${item.goodsCoverImageUri!''}" width="60" height="60" title="${item.goodsTitle!''}">
+                                   </a>                                    
+                                </td class="td002">
+                                <td>
+                                   <a target="_blank" href="/goods/${item.goodsId?c}">${item.goodsTitle!''}</a>
+                                </td>
+                                <td>
+                                    ${order.orderTime?string("yyyy-MM-dd")}  
+                                </td>
+                                <td class="td003">
+                                    <#if item.isCommented?? && item.isCommented>
+                                        <a href="javascript:showCommentTr(${order_index}, ${item_index});">已评价</a>
+                                    <#else>
+                                        <a href="javascript:showCommentTr(${order_index}, ${item_index});">发表评价</a>
+                                    </#if>
+                                </td>
+                            </tr>  
+                        </#list>
+                    </#if>        
                 </#list>
             </#if>  
         </table>

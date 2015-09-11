@@ -28,6 +28,12 @@
 	chooseMoreShow();
 	
 });
+
+    function delcfm() {
+        if (!confirm("确认要删除记录？")) {
+            window.event.returnValue = false;
+        }
+    }
 </script>
 </head>
 <body>
@@ -41,7 +47,12 @@
 <div class="mymember_main">
   
   <div class="mymember_scan_check">
-        <a class="mysel" href="javascript:;">全部分类</a>
+        <a <#if !categoryId??>class="mysel"</#if> href="/user/recent/list">全部分类</a>
+        <#if top_cat_list??>
+        	<#list top_cat_list as item>
+        		<a <#if categoryId ?? &&categoryId == item.id>class="mysel"</#if> href="/user/recent/list?categoryId=${item.id!''}">${item.title!''}</a>
+        	</#list>
+        </#if>		
   </div>
   
 <script type="text/javascript">
@@ -57,7 +68,17 @@ $(document).ready(function(){
                 <#if !lastTime?? || rg.visitTime?string("yyyy-MM-dd") != lastTime?string("yyyy-MM-dd")>
                     <div class="myclear"></div>
                     <#assign lastTime=rg.visitTime>
-                    <h3>${rg.visitTime?string("MM月dd日")}<span>${rg.visitTime?string("yyyy-MM-dd")}</span><i></i></h3>
+                    <#if today?string("yyyy-MM-dd") == lastTime?string("yyyy-MM-dd") >
+                    	<h3>今天<span>${rg.visitTime?string("yyyy-MM-dd")}</span><a href="/user/recent/delete/0?date=${rg.visitTime?string("yyyy-MM-dd")}" onClick="delcfm()">删除</a><i></i>
+                    		<a class="clearall" href="/user/recent/delete/-1?date=${rg.visitTime?string("yyyy-MM-dd")}" onClick="delcfm()">清空历史记录</a>
+                    	</h3>
+                    <#elseif yesterday?string("yyyy-MM-dd") == lastTime?string("yyyy-MM-dd")>	
+                    	<h3>昨天<span>${rg.visitTime?string("yyyy-MM-dd")}</span><a href="/user/recent/delete/0?date=${rg.visitTime?string("yyyy-MM-dd")}" onClick="delcfm()">删除</a><i></i></h3>
+           	        <#elseif tdby?string("yyyy-MM-dd") == lastTime?string("yyyy-MM-dd")>	
+                    	<h3>前天<span>${rg.visitTime?string("yyyy-MM-dd")}</span><a href="/user/recent/delete/0?date=${rg.visitTime?string("yyyy-MM-dd")}" onClick="delcfm()">删除</a><i></i></h3>
+                    <#else>
+                    <h3>${rg.visitTime?string("MM月dd日")}<span>${rg.visitTime?string("yyyy-MM-dd")}</span><a href="/user/recent/delete/0?date=${rg.visitTime?string("yyyy-MM-dd")}" onClick="delcfm()">删除</a><i></i></h3>
+                    </#if>
                     <div class="myclear"></div>
                 </#if>
                 <div class="mymember_scanpart">
@@ -66,6 +87,7 @@ $(document).ready(function(){
                     <img src="/client/images/mymember/delete.png">
                   </a>
                   -->
+                  <a class="a001" href="/user/recent/delete/${rg.id}" onClick="delcfm()"><img src="/client/images/mymember/delete.png" /></a>
                   <a href="/goods/${rg.goodsId!''}">
                     <img src="${rg.goodsCoverImageUri!''}" width="220" height="220">
                   </a>

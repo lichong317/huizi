@@ -25,9 +25,13 @@ public class TdCoupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-	// 优惠券类型
+	// 优惠券分类ID
 	@Column
 	private Long typeId;
+	
+	// 优惠券限用分类类型ID
+    @Column
+    private Long typeCategoryId;
 	
 	// 优惠券名称
 	@Column
@@ -41,9 +45,25 @@ public class TdCoupon {
     @Column
     private String typePicUri;
     
+    // 金额
+    @Column(scale=2)
+    private Double price;
+    
+    // 所属同盟店
+    @Column
+    private Long diySiteId;
+    
+    // 所属同盟店
+    @Column
+    private String diySiteTitle;
+    
     // 是否已领用
     @Column
     private Boolean isDistributted;
+    
+    // 是否已使用
+    @Column
+    private Boolean isUsed;
     
     // 剩余数量
     @Column
@@ -67,6 +87,18 @@ public class TdCoupon {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date expireTime;
     
+    // 手机号
+    @Column
+    private String mobile;
+    
+    // 车牌号
+    @Column
+    private String carCode;
+    
+    //消费密码
+    @Column
+    private String consumerPassword;
+    
     // 排序号
     @Column
     private Long sortId;
@@ -87,7 +119,23 @@ public class TdCoupon {
         this.typeId = typeId;
     }
 
-    public String getTypeTitle() {
+	public String getConsumerPassword() {
+		return consumerPassword;
+	}
+
+	public void setConsumerPassword(String consumerPassword) {
+		this.consumerPassword = consumerPassword;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getTypeTitle() {
         return typeTitle;
     }
 
@@ -165,5 +213,53 @@ public class TdCoupon {
 
     public void setGetNumber(Long getNumber) {
         this.getNumber = getNumber;
+    }
+
+    public Boolean getIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(Boolean isUsed) {
+        this.isUsed = isUsed;
+    }
+
+    public Long getDiySiteId() {
+        return diySiteId;
+    }
+
+    public void setDiySiteId(Long diySiteId) {
+        this.diySiteId = diySiteId;
+    }
+
+    public String getDiySiteTitle() {
+        return diySiteTitle;
+    }
+
+    public void setDiySiteTitle(String diySiteTitle) {
+        this.diySiteTitle = diySiteTitle;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getCarCode() {
+        return carCode;
+    }
+
+    public void setCarCode(String carCode) {
+        this.carCode = carCode;
+    }
+
+    public Long getTypeCategoryId() {
+        return typeCategoryId;
+    }
+
+    public void setTypeCategoryId(Long typeCategoryId) {
+        this.typeCategoryId = typeCategoryId;
     }
 }

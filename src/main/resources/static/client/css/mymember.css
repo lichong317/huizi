@@ -569,12 +569,13 @@ textarea { resize:none;}
 	}
 .mymember_scan_check a {
 	display:inline-block;
-	margin-right:10px;
+	/*margin-right:10px;*/
 	line-height:40px;
 	padding:0 30px;
 	border-radius:20px;
 	color:#777;
 	}
+	.mymember_scan_check a:hover{  background: #e83928; color:#fff;} /*zhangji*/
 .mymember_scan_check a.mysel {background:#e83928;color:#fff;}
 .mymember_scan {
 	position:relative;
@@ -602,6 +603,17 @@ textarea { resize:none;}
 	font-size:12px;
 	color:#999;
 	margin-left:10px;}
+	/*zhangji*/
+.mymember_scan h3 .clearall{  display: inline-block;
+  /* margin-right: 10px; */
+  line-height: 40px;
+  padding: 0 30px;
+  border-radius: 10px;
+  color: #777;  
+  float:right;
+   background: #888; 
+   color: #fff; }
+   .mymember_scan h3 .clearall:hover{  background: #e83928;}
 .mymember_scan h3 i {
 	position:absolute;
 	left:-10px;

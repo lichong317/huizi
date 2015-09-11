@@ -3,11 +3,14 @@
         <a class="mymember_menu_tit" href="/user/order/list/0"><img src="/client/images/mymember/menu01.png" />订单中心</a>
         <div>
             <a href="/user/order/list/0">我的订单</a>
-   <!--         <a href="/user/order/list/1">待确认订单</a> -->
+   <!--         <a href="/user/order/list/1">待确认订单</a>
             <a href="/user/order/list/2">待付款订单</a> 
             <a href="/user/order/list/4">待收货订单</a> 
             <a href="/user/order/list/7">待评价订单</a>
             <a href="/user/order/list/7">取消订单记录</a>
+         -->
+            <a href="/user/comment/list">评价结单</a>
+            <a href="/user/return/list">取消订单记录</a>
         </div>
     </div>
     
@@ -22,7 +25,7 @@
     <div class="mymember_menu_part">
         <a class="mymember_menu_tit" href="/user/point/list"><img src="/client/images/mymember/menu03.png" />资产中心</a>
         <div>
-            <a href="#">优惠券</a>
+            <a href="/user/coupon/list">优惠券</a>
             <a href="/user/point/list">积分</a>
         </div>
     </div>

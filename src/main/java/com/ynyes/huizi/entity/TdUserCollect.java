@@ -53,6 +53,10 @@ public class TdUserCollect {
 	// 排序号
     @Column
     private Long sortId;
+    
+    //库存 zhangji
+    @Column
+    private Long leftNumber;
 
     public Long getId() {
         return id;
@@ -117,5 +121,13 @@ public class TdUserCollect {
     public void setGoodsSalePrice(Double goodsSalePrice) {
         this.goodsSalePrice = goodsSalePrice;
     }
+
+	public Long getLeftNumber() {
+		return leftNumber;
+	}
+
+	public void setLeftNumber(Long leftNumber) {
+		this.leftNumber = leftNumber;
+	}
     
 }

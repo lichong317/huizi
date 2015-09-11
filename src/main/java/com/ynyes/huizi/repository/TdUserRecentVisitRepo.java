@@ -26,5 +26,9 @@ public interface TdUserRecentVisitRepo extends
     
     List<TdUserRecentVisit> findByUsername(String username);
     
+    List<TdUserRecentVisit> findByUsernameOrderByVisitCountDesc(String username); //zhangji
+    
     TdUserRecentVisit findByUsernameAndGoodsId(String username, Long goodsId);
+    Page<TdUserRecentVisit> findByUsernameAndCategoryIdOrderByVisitTimeDesc(String username,Long categoryId, Pageable page);
+    List<TdUserRecentVisit> findByUsernameAndVisitDate(String username,String visitDate);
 }
