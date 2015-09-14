@@ -853,3 +853,10 @@ textarea { resize:none;}
 
 .upload { background-color:#eee; padding:3px 9px; border-radius:5px; position:absolute; top:102px; margin-left:28px; cursor:pointer; color:#333}
 .upload:hover { background-color:#fff}
+/*zhangji*/
+.submit-button{width:45px;background-color:#da090b;color:#fff;font-size:12px;padding:5px;margin:5px 0;  cursor: pointer;border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;}
+.submit-button:hover{background:#f60;}
+.usermain04 .zhanghao_dlxx .xxlr{display:block;line-height:30px;}
+.usermain04 .zhanghao_dlxx .title{width:100px; display:block;float:left;line-height:30px;}
+.usermain04 .zhanghao_dlxx .xxlr2{display:block;line-height:30px;}
+.usermain04 .zhanghao_dlxx .title2{width:100px; display:block;float:left;line-height:30px;}

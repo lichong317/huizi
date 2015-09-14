@@ -25,7 +25,7 @@
     <div class="mymember_menu_part">
         <a class="mymember_menu_tit" href="/user/point/list"><img src="/client/images/mymember/menu03.png" />资产中心</a>
         <div>
-            <a href="/user/coupon/list">优惠券</a>
+            <a href="/user/coupon/list/0">优惠券</a>
             <a href="/user/point/list">积分</a>
         </div>
     </div>
@@ -34,16 +34,15 @@
         <a class="mymember_menu_tit" href="/user/return/list"><img src="/client/images/mymember/menu04.png" />客户服务</a>
         <div>
             <a href="/user/return/list">返修退换货</a>
+            <a href="#">我的投诉</a>
             <a href="/user/consult/list">购买咨询</a>
-            <a href="/user/comment/list">我的评论</a>
         </div>
     </div>
     
     <div class="mymember_menu_part">
         <a class="mymember_menu_tit" href="/user/info"><img src="/client/images/mymember/menu05.png" />设置</a>
         <div>
-            <a href="/user">个人中心</a>
-            <a href="/user/info">编辑信息</a>
+            <a href="/user/info">个人信息</a>
             <a href="/user/password">修改密码</a>
             <a href="/user/address/list">收货地址</a>
         </div>

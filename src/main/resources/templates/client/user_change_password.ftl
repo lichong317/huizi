@@ -31,7 +31,20 @@
     
     //初始化表单验证
     $("#form1").Validform({
-        tiptype: 3
+        tiptype: 4,
+        ajaxPost:true,
+        callback: function(data) {
+            if (data.code==0)
+            {
+                alert("修改成功");
+                window.location.reload();
+            }
+            else
+            {
+                alert(data.msg);
+                window.location.href="/login"
+            }
+        }
     });
 });
 </script>
@@ -74,7 +87,7 @@
                             <span class="Validform_checktip"></span>
                           </li>
                           <li class="xxlr3 main2"><span class="tijiaobox">
-                            <input type="submit" value="确认"  class="btn_07 pulse-shrink"/>
+                            <input type="submit" value="确认"  class="submit-button btn_07 pulse-shrink"/>
                           </span></li>
                         </ul>
                         <div style="clear:both;"></div>

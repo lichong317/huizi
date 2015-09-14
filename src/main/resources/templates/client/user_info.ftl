@@ -87,7 +87,7 @@
                       <li class="xxlr2 gray">${user.lastLoginTime!''}</li>
                       <li class="title main2">&nbsp;</li>
                       <li class="xxlr3 main2"><span class="tijiaobox">
-                        <input type="submit" value="确认"  class="btn_07 pulse-shrink"/>
+                        <input type="submit" value="确认" style="margin:0;"  class="submit-button btn_07 pulse-shrink"/>
                       </span></li>
                     </ul>
                     <div style="clear:both;"></div>

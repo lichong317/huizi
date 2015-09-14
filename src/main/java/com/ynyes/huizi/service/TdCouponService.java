@@ -116,6 +116,26 @@ public class TdCouponService {
         return repository.findByUsernameAndExpireTimeAfterAndIsDistributtedTrueAndIsUsedFalse(username, new Date());
     }
     
+    //已使用 zhangji
+    public List<TdCoupon> findByMobileAndIsUsedTrue(String mobile)
+    {
+        if (null == mobile)
+        {
+            return null;
+        }
+        return repository.findByMobileAndIsDistributtedTrueAndIsUsedTrue(mobile);
+    }
+    
+    //已过期 zhangji
+    public List<TdCoupon> findByMobileAndExpireTimeBeforeAndIsDistributtedTrueAndIsUsedFalse(String mobile)
+    {
+        if (null == mobile)
+        {
+            return null;
+        }
+        return repository.findByMobileAndExpireTimeBeforeAndIsDistributtedTrueAndIsUsedFalse(mobile, new Date());
+    }
+    
     public List<TdCoupon> findByMobileAndIsUseable(String mobile){
     	if (null == mobile)
         {

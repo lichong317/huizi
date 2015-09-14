@@ -131,5 +131,22 @@ function myLeftMunu(){
 		});
 	//alert(_menu.length)
 }
+function coupondelcfm()
+{
+    if (!confirm("优惠券尚未使用，确认要删除？")) {
+        window.event.returnValue = false;
+    }	
+}
 
+function coupondel(id,listId)
+{
+    $.ajax({
+        type:"post",
+        url:"/user/coupon/del",
+        data:{"id": id,"listId":listId},
+        success:function(data){
+            $(".mymember_info02").html(data);
+        }
+    });    
+}
 

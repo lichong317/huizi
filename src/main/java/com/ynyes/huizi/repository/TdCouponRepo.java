@@ -26,6 +26,10 @@ public interface TdCouponRepo extends
     
     List<TdCoupon> findByMobileAndExpireTimeAfterAndIsDistributtedTrueAndIsUsedFalse(String mobile, Date current);
     
+    List<TdCoupon> findByMobileAndExpireTimeBeforeAndIsDistributtedTrueAndIsUsedFalse(String mobile, Date current); //已过期 zhangji
+    
+    List<TdCoupon> findByMobileAndIsDistributtedTrueAndIsUsedTrue(String mobile);  //zhangji
+    
     List<TdCoupon> findByUsernameAndIsDistributtedTrue(String username);
     
     List<TdCoupon> findByMobileAndIsDistributtedTrue(String mobile);

@@ -92,7 +92,8 @@ $(function () {
           </#if>
         </tbody></table>
         
-    <div class="h20"></div>
+    <div class="h40"></div>
+    <h4>增加/修改</h4>
     <form method="post" action="/user/address/save" id="form1">
     <table class="mymember_address">
       <input class="mytext" name="addressId" type="hidden" value="<#if address??>${address.id}</#if>">

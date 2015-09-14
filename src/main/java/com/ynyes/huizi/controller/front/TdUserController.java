@@ -621,8 +621,9 @@ public class TdUserController {
     	 return "redirect:/user/recent/list";
     }
     
-    @RequestMapping(value = "/user/coupon/list")
-    public String couponList(HttpServletRequest req, Integer page,
+    //listId 0-全部，1-未使用，2-已使用，3-已过期 
+    @RequestMapping(value = "/user/coupon/list/{listId}")
+    public String couponList(HttpServletRequest req, Integer page,@PathVariable Integer listId,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -638,18 +639,170 @@ public class TdUserController {
             page = 0;
         }
         
-        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+         TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", tdUser);
         
         List<TdCoupon> coupanList = null;
         
-        coupanList =tdCouponService.findByMoblie(tdUser.getMobile());
+        switch(listId)
+        {
+        case 0:
+        	coupanList =tdCouponService.findByMoblie(tdUser.getMobile()); //全部优惠券
+        	break;
+        case 1:	
+        	coupanList =tdCouponService.findByMobileAndIsUseable(tdUser.getMobile());  //未使用的优惠券
+        	break;
+        case 2:
+        	coupanList =tdCouponService.findByMobileAndIsUsedTrue(tdUser.getMobile()); //已使用的优惠券
+        	break;
+        case 3:
+        	coupanList =tdCouponService.findByMobileAndExpireTimeBeforeAndIsDistributtedTrueAndIsUsedFalse(tdUser.getMobile()); //已过期的优惠券
+        	break;
+        default:
+        		coupanList =tdCouponService.findByMoblie(tdUser.getMobile()); //全部优惠券
+        }
         
+        //取得剩余天数 zhangji
+        Date today = new Date();
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(today);
+        
+        for (TdCoupon cl:coupanList)
+        {
+        	Date deadline = cl.getExpireTime();
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(deadline);
+            Long num = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+            Double hourLeft = new Double(num/(1000*60*60)).doubleValue();
+            Long dateLeft = new Long(num/(1000*24*60*60)).longValue();
+            cl.setHourLeft(hourLeft);
+        	cl.setDateLeft(dateLeft);       
+        }
+        
+      //猜你喜欢 zhangji
+        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
+        if (0 == lastVisitList.size())
+        {
+            List<TdProductCategory> topCategoryList = tdProductCategoryService
+                    .findByParentIdIsNullOrderBySortIdAsc();
+        	//没有浏览记录时，第一页
+            if (topCategoryList.size() > 0)
+            {
+		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), page, 4));
+		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
+		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
+            }
+	        //第二页
+            if (topCategoryList.size() > 1)
+            {
+		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), page, 4));
+		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
+		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
+            }
+	        //第三页
+            if (topCategoryList.size() > 2)
+            {
+		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), page, 4));
+		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
+		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
+            }
+        }
+        if (lastVisitList.size() > 0)
+	        	{
+		        	//猜你喜欢，第一页
+			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
+			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId0",good_0.getCategoryId());
+			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
+	        	}
+         if (lastVisitList.size() > 1)
+	        	{
+			        //猜你喜欢，第二页
+			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
+			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId1",good_1.getCategoryId());
+			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
+	        	}
+		  if (lastVisitList.size() > 2)
+	        	{
+				    //猜你喜欢，第三页
+			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
+			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId2",good_2.getCategoryId());
+			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
+	        	}
+        
+		map.addAttribute("listId", listId);  
         map.addAttribute("coupan_list", coupanList);
         
         return "/client/user_coupon_list";
     }
+    
+    /*
+     * 删除优惠券记录
+     * @zhangji
+     */
+    @RequestMapping(value = "/user/coupon/del")
+    public String couponDel(HttpServletRequest req, Integer listId,Long id,
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+         TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        tdCouponService.delete(id);
+        
+        List<TdCoupon> coupanList = null;
+        
+        switch(listId)
+        {
+        case 0:
+        	coupanList =tdCouponService.findByMoblie(tdUser.getMobile()); //全部优惠券
+        	break;
+        case 1:	
+        	coupanList =tdCouponService.findByMobileAndIsUseable(tdUser.getMobile());  //未使用的优惠券
+        	break;
+        case 2:
+        	coupanList =tdCouponService.findByMobileAndIsUsedTrue(tdUser.getMobile()); //已使用的优惠券
+        	break;
+        case 3:
+        	coupanList =tdCouponService.findByMobileAndExpireTimeBeforeAndIsDistributtedTrueAndIsUsedFalse(tdUser.getMobile()); //已过期的优惠券
+        	break;
+        default:
+        		coupanList =tdCouponService.findByMoblie(tdUser.getMobile()); //全部优惠券
+        }
+        
+        //取得剩余天数 zhangji
+        Date today = new Date();
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(today);
+        
+        for (TdCoupon cl:coupanList)
+        {
+        	Date deadline = cl.getExpireTime();
+            Calendar calendar2 = Calendar.getInstance();
+            calendar2.setTime(deadline);
+            Long num = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+            Double hourLeft = new Double(num/(1000*60*60)).doubleValue();
+            Long dateLeft = new Long(num/(1000*24*60*60)).longValue();
+            cl.setHourLeft(hourLeft);
+        	cl.setDateLeft(dateLeft);       
+        }
+        
+        map.addAttribute("coupan_list", coupanList);
+        
+        return "/client/user_coupon_list_detail";
+    }
+        
     @RequestMapping(value = "/user/point/list")
     public String pointList(HttpServletRequest req, Integer page,
                         ModelMap map){
@@ -674,6 +827,59 @@ public class TdUserController {
         Page<TdUserPoint> pointPage = null;
         
         pointPage = tdUserPointService.findByUsername(username, page, ClientConstant.pageSize);
+        
+        //猜你喜欢 zhangji
+        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
+        if (0 == lastVisitList.size())
+        {
+            List<TdProductCategory> topCategoryList = tdProductCategoryService
+                    .findByParentIdIsNullOrderBySortIdAsc();
+        	//没有浏览记录时，第一页
+            if (topCategoryList.size() > 0)
+            {
+		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), page, 4));
+		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
+		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
+            }
+	        //第二页
+            if (topCategoryList.size() > 1)
+            {
+		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), page, 4));
+		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
+		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
+            }
+	        //第三页
+            if (topCategoryList.size() > 2)
+            {
+		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), page, 4));
+		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
+		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
+            }
+        }
+        if (lastVisitList.size() > 0)
+	        	{
+		        	//猜你喜欢，第一页
+			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
+			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId0",good_0.getCategoryId());
+			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
+	        	}
+         if (lastVisitList.size() > 1)
+	        	{
+			        //猜你喜欢，第二页
+			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
+			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId1",good_1.getCategoryId());
+			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
+	        	}
+		  if (lastVisitList.size() > 2)
+	        	{
+				    //猜你喜欢，第三页
+			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
+			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId2",good_2.getCategoryId());
+			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
+	        	}
         
         map.addAttribute("point_page", pointPage);
         
@@ -1408,29 +1614,32 @@ public class TdUserController {
         return "/client/user_change_password";
     }
     
-    @RequestMapping(value = "/user/password", method=RequestMethod.POST)
-    public String userPassword(HttpServletRequest req,
-                        String oldPassword,
-                        String newPassword,
-                        ModelMap map){
+    @RequestMapping(value = "/user/password", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> userPassword(HttpServletRequest req, String oldPassword,
+            String newPassword, ModelMap map) {
+    	Map<String, Object> res = new HashMap<String, Object>();
+        res.put("code", 1);
+        
         String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/login";
+
+        if (null == username) {
+        	res.put("msg", "请先登录！");
+            return res;
         }
-        
+
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
-        
-        if (user.getPassword().equals(oldPassword))
-        {
+
+        if (user.getPassword().equals(oldPassword)) {
             user.setPassword(newPassword);
         }
-        
+
         map.addAttribute("user", tdUserService.save(user));
-        
-        return "redirect:/user/password";
+
+        res.put("code", 0);
+        return res;
     }
+    
     
     @ModelAttribute
     public void getModel(@RequestParam(value = "addressId", required = false) Long addressId,

@@ -102,8 +102,32 @@ public class TdCoupon {
     // 排序号
     @Column
     private Long sortId;
+    
+    //剩余天数 zhangji
+    @Column
+    private Long dateLeft;   
+    
+    //剩余小时 zhangji
+    @Column
+    private Double hourLeft;   
+    
+    public Double getHourLeft() {
+		return hourLeft;
+	}
 
-    public Long getId() {
+	public void setHourLeft(Double hourLeft) {
+		this.hourLeft = hourLeft;
+	}
+
+	public Long getDateLeft() {
+		return dateLeft;
+	}
+
+	public void setDateLeft(Long dateLeft) {
+		this.dateLeft = dateLeft;
+	}
+
+	public Long getId() {
         return id;
     }
 

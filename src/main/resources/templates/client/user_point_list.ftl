@@ -96,7 +96,7 @@
         </div>
       </div>
       <!--mymember_info END-->
-      
+      			<#include "/client/user_maylike.ftl" />
 <script type="text/javascript">
 $(document).ready(function(){
      mymemberMenuCheck("mymember_likecheck","a","mymember_likelist","li","mysel");
