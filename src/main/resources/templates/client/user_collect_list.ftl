@@ -188,11 +188,14 @@ $(document).ready(function(){
     </div>
     </form>
     <div class="myclear"></div>
+          <#include "/client/user_maylike.ftl" />
 </div>
+
 <!--mymember_main END-->
 <div class="myclear"></div>
-
+  
 </div>
+         
 <!--mymember END-->
 
 <#include "/client/common_footer.ftl" />

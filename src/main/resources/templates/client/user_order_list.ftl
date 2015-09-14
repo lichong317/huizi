@@ -59,7 +59,7 @@
   <div class="mymember_mainbox">
     <div class="mymember_info mymember_info02">
       <div class="mymember_order_search">
-        <a class="a001" href="/user/order/list/${status_id}">
+        <a class="a001" href="/user/order/list/${status_id?c}">
             <#if status_id==0>
                 全部订单
             <#elseif status_id==1>
@@ -76,6 +76,15 @@
                 已取消订单
             </#if>
         </a>
+         <select name="statusId" onchange="javascript:location.href=this.value;">
+            <option value="/user/order/list/0" <#if !status_id?? || status_id==0>selected="selected"</#if>>所有订单</option>
+            <option value="/user/order/list/1" <#if status_id==1>selected="selected"</#if>>待确认订单</option>
+            <option value="/user/order/list/2" <#if status_id==2>selected="selected"</#if>>待付款订单</option>
+            <option value="/user/order/list/3" <#if status_id==3>selected="selected"</#if>>待发货订单</option>
+            <option value="/user/order/list/4" <#if status_id==4>selected="selected"</#if>>待收货订单</option>             
+            <option value="/user/order/list/6" <#if status_id==6>selected="selected"</#if>>已完成订单</option>     
+            <option value="/user/order/list/7" <#if status_id==7>selected="selected"</#if>>已取消订单</option>    
+        </select>
       </div>
         <table>
             <tr class="mymember_infotab_tit01">
@@ -97,12 +106,12 @@
             <#if order_page??>
                 <#list order_page.content as order>
                     <tr>
-                      <th colspan="7">订单编号：<a href="/user/order?id=${order.id}">${order.orderNumber!''}</a></th>
+                      <th colspan="7">订单编号：<a href="/user/order?id=${order.id?c}">${order.orderNumber!''}</a></th>
                     </tr>
                     <tr>
                       <td class="td001">
                         <#list order.orderGoodsList as og>
-                            <a href="/goods/${og.goodsId}"><img src="${og.goodsCoverImageUri}"></a>
+                            <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri}"></a>
                         </#list>
                       </td>
                       <td>${order.shippingName!''}</td>
@@ -148,10 +157,10 @@
                         </p>
                       </td>
                       <td class="td003"> 
-                        <p><a href="/user/order?id=${order.id}">查看</a></p>
+                        <p><a href="/user/order?id=${order.id?c}">查看</a></p>
                         <#if order.statusId==5>
-                            <p><a href="/user/comment?orderId=${order.id}">评价晒单</a></p>
-                            <p><a href="/user/return/${order.id}">申请返修/退换货</a></p>
+                            <p><a href="/user/comment?orderId=${order.id?c}">评价晒单</a></p>
+                            <p><a href="/user/return/${order.id?c}">申请返修/退换货</a></p>
                         <#elseif order.statusId==2>
                             <p><a href="javascript:;">去付款</a></p>
                         </#if>

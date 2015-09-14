@@ -29,6 +29,7 @@ import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCollect;
 import com.ynyes.huizi.entity.TdUserComment;
+import com.ynyes.huizi.entity.TdUserComplain;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
@@ -43,6 +44,7 @@ import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
+import com.ynyes.huizi.service.TdUserComplainService;
 import com.ynyes.huizi.service.TdUserConsultService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserRecentVisitService;
@@ -102,6 +104,9 @@ public class TdUserController {
     
     @Autowired
     private TdProductCategoryService tdProductCategoryService;
+    
+    @Autowired
+    private TdUserComplainService tdUserComplainService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
@@ -1298,6 +1303,157 @@ public class TdUserController {
         map.addAttribute("keywords", keywords);
         
         return "/client/user_consult_list";
+    }
+    
+    /*
+     * 投诉
+     * @zhangji
+     */
+    @RequestMapping(value = "/user/complain/list")
+    public String complainList(HttpServletRequest req, 
+                        Integer page,
+                        String keywords,
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        Page<TdOrder> complainPage = null;
+
+        if (null != keywords && !keywords.isEmpty())
+        {
+        	complainPage = tdOrderService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
+        }
+        else
+        {
+        	complainPage = tdOrderService.findByUsername(username, page, ClientConstant.pageSize);
+        }
+       
+        //猜你喜欢 zhangji
+        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
+        if (0 == lastVisitList.size())
+        {
+            List<TdProductCategory> topCategoryList = tdProductCategoryService
+                    .findByParentIdIsNullOrderBySortIdAsc();
+        	//没有浏览记录时，第一页
+            if (topCategoryList.size() > 0)
+            {
+		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), page, 4));
+		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
+		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
+            }
+	        //第二页
+            if (topCategoryList.size() > 1)
+            {
+		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), page, 4));
+		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
+		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
+            }
+	        //第三页
+            if (topCategoryList.size() > 2)
+            {
+		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), page, 4));
+		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
+		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
+            }
+        }
+        if (lastVisitList.size() > 0)
+	        	{
+		        	//猜你喜欢，第一页
+			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
+			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId0",good_0.getCategoryId());
+			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
+	        	}
+         if (lastVisitList.size() > 1)
+	        	{
+			        //猜你喜欢，第二页
+			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
+			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId1",good_1.getCategoryId());
+			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
+	        	}
+		  if (lastVisitList.size() > 2)
+	        	{
+				    //猜你喜欢，第三页
+			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
+			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), page, 4));
+			        map.addAttribute("categoryId2",good_2.getCategoryId());
+			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
+	        	}
+        
+        map.addAttribute("complain_page", complainPage);
+        map.addAttribute("keywords", keywords);
+        
+        return "/client/user_complain_list";
+    }
+    @RequestMapping(value = "/user/complain/add", method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> complainAdd(HttpServletRequest req, 
+                        TdUserComplain tdComplain,
+                        String code,
+                        ModelMap map){
+        Map<String, Object> res = new HashMap<String, Object>();
+        res.put("code", 1);
+        
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            res.put("message", "请先登录！");
+            return res;
+        }
+
+        if(null != tdUserComplainService.findByUsernameAndOrderId(username, tdComplain.getOrderId()))
+        {
+        	res.put("message", "该订单已提交投诉，请勿重复提交。");
+        	return res;
+        }
+        if (null == tdComplain.getOrderId())
+        {
+            res.put("message", "订单ID不能为空！");
+            return res;
+        }
+        
+        TdOrder order = tdOrderService.findOne(tdComplain.getOrderId());
+        
+        if (null == order)
+        {
+            res.put("message", "投诉的订单不存在！");
+            return res;
+        }
+        
+        tdComplain.setConsultTime(new Date());
+        tdComplain.setOrderId(order.getId());
+        tdComplain.setOrderNumber(order.getOrderNumber());
+        tdComplain.setIsReplied(false);
+        tdComplain.setStatusId(0L);
+        tdComplain.setUsername(username);
+        
+        TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+        if (null != user)
+        {
+        	tdComplain.setUserHeadImageUri(user.getHeadImageUri());
+        }
+        
+        tdUserComplainService.save(tdComplain);
+        
+        res.put("code", 0);
+        return res;
     }
     
     @RequestMapping(value = "/user/address/ajax/add")

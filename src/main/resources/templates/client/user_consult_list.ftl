@@ -60,7 +60,7 @@
                 <tr>
                 <th>咨询商品</th>
                 <th>商品名称</th>
-                <th align="center">咨询回复</th>
+                <th align="center" style="width:633px;">咨询回复</th>
                 </tr>
             </thead>			
             <tbody>
@@ -73,16 +73,21 @@
                         <td>
                            <a target="_blank" href="/goods/${consult.goodsId}">${consult.goodsTitle!''}</a>
                         </td>
-                        <td>
-                            我的咨询：${consult.content!''}
+                        <td style="text-align:left;text-indent:2em;">
+                            <p>我的咨询：${consult.content!''}
                             <br>
-                            ${consult.consultTime!''}
+                            <p style="text-align:right;margin:5px 0 10px 0;">${consult.consultTime!''}</p>
                             <br>
+                            </p>
                             <#if consult.isReplied>
+                            <p>
                             ${consult.reply!''}
+                            <br>
+                            <p style="text-align:right;margin:5px 0 10px 0;">${consult.replyTime!''} </p>
                             <#else>
-                            （暂无回复）
-                            </#if>    
+                            <p style="text-align:right;margin:5px 0 10px 0;">（暂无回复）</P>
+                            </#if>
+                            </p>    
                         </td>
                     </tr>   
                     </#list>

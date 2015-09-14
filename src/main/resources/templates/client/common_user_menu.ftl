@@ -34,7 +34,7 @@
         <a class="mymember_menu_tit" href="/user/return/list"><img src="/client/images/mymember/menu04.png" />客户服务</a>
         <div>
             <a href="/user/return/list">返修退换货</a>
-            <a href="#">我的投诉</a>
+            <a href="/user/complain/list">我的投诉</a>
             <a href="/user/consult/list">购买咨询</a>
         </div>
     </div>

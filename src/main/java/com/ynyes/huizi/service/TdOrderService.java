@@ -120,6 +120,12 @@ public class TdOrderService {
         
         return repository.findByUsernameOrderByIdDesc(username, pageRequest);
     }
+    //zhangji
+    public Page<TdOrder> findByUsernameAndStatusIdOrStatusIdOrStatusIdOrStatusId(String username,Long statusId1,Long statusId2,Long statusId3,Long statusId4,Integer page, int size)
+    {
+    	 PageRequest pageRequest = new PageRequest(page, size);
+    	 return repository.findByUsernameAndStatusIdOrStatusIdOrStatusIdOrStatusId(username,3L,4L,6L,7L,pageRequest);
+    }
     
     public TdOrder findByOrderNumber(String orderNumber)
     {
