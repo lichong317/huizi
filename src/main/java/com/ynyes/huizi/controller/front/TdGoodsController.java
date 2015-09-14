@@ -107,7 +107,9 @@ public class TdGoodsController {
                  SimpleDateFormat sdf =  new 	SimpleDateFormat("yyyy-MM-dd");
                  String visitDate = sdf.format(date);
                  recentVisit.setVisitDate(visitDate);
-            	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+                 if (null != recentVisit.getVisitCount()) {
+                	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+				}
             	 recentVisit.setVisitTime(new Date());
             	 
 
@@ -123,7 +125,9 @@ public class TdGoodsController {
 	         }
 	         else
 	             {
-	            	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+	        	     if (null != recentVisit.getVisitCount()) {
+                	 recentVisit.setVisitCount(recentVisit.getVisitCount()+1);
+			    	}
 	            	 recentVisit.setVisitTime(new Date());
 	            	 tdUserRecentVisitService.save(recentVisit);
 	             }

@@ -1,5 +1,6 @@
 package com.ynyes.huizi.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -150,6 +151,159 @@ public class TdGoodsService {
         return repository.findByIdAndIsOnSaleTrue(ids);
     }
 
+    /**
+	 * @author lc
+	 * @注释：新的商品筛选
+	 */
+    public Page<TdGoods> findByCategoryIdAndLeftNumberGreaterThanZeroAndSalePriceBetweenAndParamsLikeAndIsOnSaleTrue(
+            long catId, double priceLow, double priceHigh, 
+            List<String> paramValueList, Pageable pageRequest) {
+
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndLeftNumberGreaterThanAndSalePriceBetweenAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", 0L, priceLow, priceHigh, paramStr,
+                        pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndBrandIdAndLeftNumberGreaterThanZeroAndSalePriceBetweenAndParamsLikeAndIsOnSaleTrue(
+            long catId, long brandId, double priceLow, double priceHigh,
+            List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndBrandIdAndLeftNumberGreaterThanAndSalePriceBetweenAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", brandId, 0L, priceLow, priceHigh,
+                        paramStr, pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndLeftNumberGreaterThanZeroAndParamsLikeAndIsOnSaleTrue(
+            long catId, List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndLeftNumberGreaterThanAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", 0L, paramStr, pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndBrandIdAndLeftNumberGreaterThanZeroAndParamsLikeAndIsOnSaleTrue(
+            long catId, long brandId,
+            List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndBrandIdAndLeftNumberGreaterThanAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", brandId, 0L, paramStr, pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndSalePriceBetweenAndParamsLikeAndIsOnSaleTrue(
+            long catId, double priceLow, double priceHigh,
+            List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndSalePriceBetweenAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", priceLow, priceHigh, paramStr,
+                        pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndBrandIdAndSalePriceBetweenAndParamsLikeAndIsOnSaleTrue(
+            long catId, long brandId, double priceLow, double priceHigh,
+            List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndBrandIdAndSalePriceBetweenAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", brandId, priceLow, priceHigh,
+                        paramStr, pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndParamsLikeAndIsOnSaleTrue(
+            long catId, List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        if (null != paramValueList) {
+            for (int i = 0; i < paramValueList.size(); i++) {
+                String value = paramValueList.get(i);
+                if (!"".equals(value)) {
+                    paramStr += value;
+                    paramStr += "%";
+                }
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", paramStr, pageRequest);
+    }
+    
+    public Page<TdGoods> findByCategoryIdAndBrandIdAndParamsLikeAndIsOnSaleTrue(
+            long catId, long brandId,
+            List<String> paramValueList, Pageable pageRequest) {
+        String paramStr = "%";
+
+        for (int i = 0; i < paramValueList.size(); i++) {
+            String value = paramValueList.get(i);
+            if (!"".equals(value)) {
+                paramStr += value;
+                paramStr += "%";
+            }
+        }
+
+        return repository
+                .findByCategoryIdTreeContainingAndBrandIdAndParamValueCollectLikeAndIsOnSaleTrue(
+                        "[" + catId + "]", brandId, paramStr, pageRequest);
+    }
+    
     /**
      * 按类型查找所有商品
      * 
@@ -1377,6 +1531,95 @@ public class TdGoodsService {
         return repository
                 .findByIsFlashSaleTrueAndIsOnSaleTrueOrderByFlashSaleStartTimeAsc(pageRequest);
     }
+    
+    /**
+     * 判断该商品是否正在进行秒杀
+     * 
+     * @param tdGoods
+     * @return
+     */
+    public boolean isFlashSaleTrue(TdGoods tdGoods) {
+        if (null == tdGoods) {
+            return false;
+        }
+
+        Date curr = new Date();
+
+        if (null != tdGoods.getIsFlashSale() && tdGoods.getIsFlashSale()
+                && null != tdGoods.getFlashSaleStartTime()
+                && tdGoods.getFlashSaleStartTime().before(curr)
+                && null != tdGoods.getFlashSaleStopTime()
+                && tdGoods.getFlashSaleStopTime().after(curr)
+                && null != tdGoods.getFlashSaleLeftNumber()
+                && tdGoods.getFlashSaleLeftNumber().compareTo(0L) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    /**
+     * 计算实时秒杀价
+     * 
+     * @param goods
+     * @return
+     */
+    public Double getFlashPrice(TdGoods goods) {
+        if (null == goods) {
+            return null;
+        }
+
+        Double flashPrice = null;
+        Date curr = new Date();
+
+        if (null != goods.getIsFlashSale()
+                && null != goods.getFlashSaleStartTime()
+                && null != goods.getFlashSaleStopTime()
+                && null != goods.getFlashSalePrice() && goods.getIsFlashSale()
+                && goods.getFlashSaleStopTime().after(curr)
+                && goods.getFlashSaleStartTime().before(curr)) {
+            // 剩余毫秒数
+            long ts = goods.getFlashSaleStopTime().getTime() - curr.getTime();
+            // 总共毫秒数
+            long allts = goods.getFlashSaleStopTime().getTime()
+                    - goods.getFlashSaleStartTime().getTime();
+
+            flashPrice = goods.getFlashSalePrice() * ts / allts;
+
+            BigDecimal b = new BigDecimal(flashPrice);
+
+            flashPrice = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        }
+
+        return flashPrice;
+    }
+    
+    /**
+     * 判断该商品是否正在进行团购
+     * 
+     * @param tdGoods
+     * @return
+     */
+    public boolean isGroupSaleTrue(TdGoods tdGoods) {
+        if (null == tdGoods) {
+            return false;
+        }
+
+        Date curr = new Date();
+
+        if (null != tdGoods.getIsGroupSale() && tdGoods.getIsGroupSale()
+                && null != tdGoods.getGroupSaleStartTime()
+                && tdGoods.getGroupSaleStartTime().before(curr)
+                && null != tdGoods.getGroupSaleStopTime()
+                && tdGoods.getGroupSaleStopTime().after(curr)
+                && null != tdGoods.getGroupSaleLeftNumber()
+                && tdGoods.getGroupSaleLeftNumber().compareTo(0L) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    
     /**
      * 删除
      * 

@@ -38,7 +38,7 @@
 <body>
     <div class="w1065">
     <div class="denglutop">
-<div class="denglulogo"><img src="<#if site??>${site.logoUri!''}</#if>"></div>
+<div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
 <section class="denglu_center">
   <table>
     <tr>

@@ -401,6 +401,13 @@ function del_goods_comb(obj) {
             </dd>
         </dl>
         <dl>
+            <dt>商品编码</dt>
+            <dd>
+                <input name="code" type="text" value="<#if goods??>${goods.code!""}</#if>" class="input normal" datatype="*0-7" sucmsg=" ">
+                <span class="Validform_checktip">*编码最多7个字符</span>
+            </dd>
+        </dl>
+        <dl>
             <dt>服务</dt>
             <dd>
                 <textarea name="service" rows="2" cols="20" class="input" datatype="*0-255" sucmsg=" "><#if goods??>${goods.service!""}</#if></textarea>

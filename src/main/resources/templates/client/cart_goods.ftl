@@ -127,7 +127,7 @@
                                 <a href="javascript:void(0);" class="fl num_minus" cgid="${cg.id}"><img src="/client/images/slj.png" width="20" height="20"></a>
                             </#if>
                             <input type="text" class="content_zj" value="${cg.quantity!''}">
-                            <#if cg.qiang==1>
+                            <#if cg.qiang??&&cg.qiang==1>
                                 <span class="fr num_add"><img src="/client/images/sljj.png" width="20" height="20"></span>
                             <#else>
                                 <a href="javascript:void(0);" class="fr num_add" cgid="${cg.id}">

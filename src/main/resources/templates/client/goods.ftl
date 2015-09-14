@@ -36,7 +36,7 @@ $(document).ready(function(){
 	productImgShow("proshowimg","li","proshowmenu","sel",396,396);
 	checkBoxShow("assort_menu","a","assort_sum","li","sel");
 	topTitFloat("detail_tit",1250,"detail_tit_sel");
-	
+	   
 	$("#id-minus").click(function(){
         var q = parseInt($("#quantity").val());
         
@@ -45,7 +45,7 @@ $(document).ready(function(){
             $("#quantity").val(q-1);
         }
         
-  <!--      $("#addCart").attr("href", "/cart/init?id=${goods.id}&quantity=" + $("#quantity").val()); -->
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()); 
     });
     
     $("#id-plus").click(function(){
@@ -63,7 +63,7 @@ $(document).ready(function(){
         <#else>
             $("#quantity").val(q+1);
         </#if>
-  <!--      $("#addCart").attr("href", "/cart/init?id=${goods.id}&quantity=" + $("#quantity").val()); -->
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()); 
     
     });
     
@@ -73,7 +73,7 @@ $(document).ready(function(){
             str += $(this).attr("zpid");
             str += ",";
         });
-        var href = "/cart/init?id=" + ${goods.id} + "&zpid=" + str;
+        var href = "/order/buy/comb?gid=" + ${goods.id?c} + "&zhid=" + str;
         
         window.location = href;
         
@@ -82,10 +82,10 @@ $(document).ready(function(){
 
     function addCart(){
         var q = parseInt($("#quantity").val());
-        window.location.href="/cart/init?id=${goods.id}&quantity="+q+"<#if qiang??>&qiang=${qiang}</#if>";       
+        window.location.href="/cart/init?id=${goods.id?c}&quantity="+q+"<#if qiang??>&qiang=${qiang}</#if>";       
     }
     function buyNow(){
-        window.location.href="#";     
+        window.location.href="/order/buy/normal?gid=<#if goods??>${goods.id?c}</#if>";     
     }
 
     function combSelect(self, price, originPrice)
@@ -134,7 +134,7 @@ $(document).ready(function(){
         <span><a href="/">首页</a></span>
             <#if category_tree_list??>
                 <#list category_tree_list as category>
-                    > <span><a href="/list/${category.id}">${category.title!""}</a></span>
+                    > <span><a href="/list/${category.id?c}">${category.title!""}</a></span>
                 </#list>
             </#if>
             > <span>${goods.name!''}</span>
@@ -153,16 +153,28 @@ $(document).ready(function(){
               <div class="clear h20"></div>
                  <menu id="proshowmenu"></menu>
               <div class="clear h20"></div>
-          
+              
               <div class="pro_share">
-                    <span>分享：</span>
+                 <#-->   <span>分享：</span>
                     <a href="#"><img src="/client/images/content/share01.png" /></a>
                     <a href="#"><img src="/client/images/content/share02.png" /></a>
                     <a href="#"><img src="/client/images/content/share03.png" /></a>
                     <a href="#"><img src="/client/images/content/share04.png" /></a>
                     <a href="#"><img src="/client/images/content/share05.png" /></a>
-                    <span class="ml20">商品编码：${goods.code!''}</span>
-                    <a class="a1" href="javascript:addCollect(${goods.id});">关注该商品</a>
+                   -->
+                    <!-- JiaThis Button BEGIN -->
+                    <div class="jiathis_style">
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_weixin"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                    </div>
+                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                  <!-- JiaThis Button END -->
+                    <span class="ml10">商品编码：${goods.code!''}</span>
+                    <a class="a1" href="javascript:addCollect(${goods.id?c});">关注该商品</a>
                     <div class="clear"></div>
               </div>
         </section><!--proinfo_left END-->
@@ -198,7 +210,7 @@ function timer()
                 ${goods.flashSaleStartTime?string("mm")}, 
                 ${goods.flashSaleStartTime?string("ss")}));//总共的毫秒数
                 
-    if (0 > ts)
+    if (0 == ts)
     {
         window.location.reload();
     }
@@ -208,6 +220,18 @@ function timer()
     var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
     var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
     var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+    if(ss < 0){
+        ss = 0;
+    }
+    if(mm < 0){
+        mm = 0;
+    }
+    if(hh < 0){
+        hh = 0;
+    }
+    if(dd < 0){
+        dd = 0;
+    }
     dd = checkTime(dd);
     hh = checkTime(hh);
     mm = checkTime(mm);
@@ -219,7 +243,9 @@ function timer()
     $("#lsec").html(ss);
                     
     var price = ${goods.flashSalePrice?string("0.00")} * ts / allts;
-    
+    if(price < 1){
+        price = 1;
+    }
     var s_x = Math.round(price).toString();
     var pos_decimal = s_x.indexOf('.');
     if (pos_decimal < 0) {
@@ -261,22 +287,113 @@ function checkTime(i)
       </div>
       <#else>  
       <div class="pro_price">
-        <p class="p1">
-          <span>价格：</span>
-         <#if qiang?? && qiang != 1 && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>
+        <p class="p1">         
+          <#if qiang?? && qiang != 1 && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>
+<script>
+$(document).ready(function(){
+    setInterval("timer()",1000);
+});
+
+function timer()
+{
+    var ts = (new Date(${goods.groupSaleStopTime?string("yyyy")}, 
+                parseInt(${goods.groupSaleStopTime?string("MM")}, 10)-1, 
+                ${goods.groupSaleStopTime?string("dd")}, 
+                ${goods.groupSaleStopTime?string("HH")}, 
+                ${goods.groupSaleStopTime?string("mm")}, 
+                ${goods.groupSaleStopTime?string("ss")})) - (new Date());//计算剩余的毫秒数
+                
+    var allts = (new Date(${goods.groupSaleStopTime?string("yyyy")}, 
+                parseInt(${goods.groupSaleStopTime?string("MM")}, 10)-1, 
+                ${goods.groupSaleStopTime?string("dd")}, 
+                ${goods.groupSaleStopTime?string("HH")}, 
+                ${goods.groupSaleStopTime?string("mm")}, 
+                ${goods.groupSaleStopTime?string("ss")}))
+               - (new Date(${goods.groupSaleStartTime?string("yyyy")}, 
+                parseInt(${goods.groupSaleStartTime?string("MM")}, 10)-1, 
+                ${goods.groupSaleStartTime?string("dd")}, 
+                ${goods.groupSaleStartTime?string("HH")}, 
+                ${goods.groupSaleStartTime?string("mm")}, 
+                ${goods.groupSaleStartTime?string("ss")}));//总共的毫秒数
+                
+    if (0 == ts)
+    {
+        window.location.reload();
+    }
+    
+    var date = new Date();
+    var dd = parseInt(ts / 1000 / 60 / 60 / 24, 10);//计算剩余的天数
+    var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
+    var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
+    var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+    if(ss < 0){
+        ss = 0;
+    }
+    if(mm < 0){
+        mm = 0;
+    }
+    if(hh < 0){
+        hh = 0;
+    }
+    if(dd < 0){
+        dd = 0;
+    }
+    dd = checkTime(dd);
+    hh = checkTime(hh);
+    mm = checkTime(mm);
+    ss = checkTime(ss);
+    
+    $("#lday").html(dd);
+    $("#lhour").html(hh);
+    $("#lmin").html(mm);
+    $("#lsec").html(ss);
+                    
+    var price = ${goods.groupSalePrice?string("0.00")} * ts / allts;
+    if(price < 1){
+        price = 1;
+    }
+    var s_x = Math.round(price).toString();
+    var pos_decimal = s_x.indexOf('.');
+    if (pos_decimal < 0) {
+        pos_decimal = s_x.length;
+        s_x += '.';
+    }
+    while (s_x.length <= pos_decimal + 2) {
+        s_x += '0';
+    }
+    
+    $("#currPrice").html("￥：" + s_x);
+}
+
+function checkTime(i)  
+{  
+    if (i < 10) {  
+        i = "0" + i;  
+    }  
+    return i;  
+}
+</script>
+                <span>团购价格：</span>
                 <span class="red fs24 lh30 mr20">￥：<#if goods.groupSalePrice??>${goods.groupSalePrice?string("0.00")}</#if></span>
-              <#else>
+                <span class="unl-th c9">￥：<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span>
+              <p class="p1">
+                  <span >剩余时间</span>
+                  <span class="red mr10 ml10" id="lday">0</span>天<span class="red mr10 ml10" id="lhour">0</span>时<span class="red ml10 mr10" id="lmin">0</span>分<span class="red ml10 mr10" id="lsec">0</span>秒
+              </p>
+          <#else>
+              <span>价格：</span>
                 <span class="red fs24 lh30 mr20">￥：<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span>
+                <span class="unl-th c9">￥：<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span>
+                <p class="p1">
+                  <span>促销信息：</span>
+                  <span class="red">
+                    ${goods.promotion!''}
+                  </span>
+                </p>
           </#if>
-          <span class="unl-th c9">￥：<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span> 
+           
         </p>
-        <p class="p1">
-          <span>促销信息：</span>
-          <span class="red">
-               ${goods.promotion}
-          </span>
-        </p>
-        
+            
       </div><!--pro_price END-->
       </#if>
       <table class="pro_choose">
@@ -364,8 +481,16 @@ function checkTime(i)
           <td>
             <input name="quantity" type="text" id="quantity" value="1" class="text" />
             <div class="plus">
-                <a id="id-plus" href="javascript:;">+</a>
-                <a id="id-minus" href="javascript:;">-</a>
+                <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>
+                    <a id="" href="javascript:;">+</a>
+                    <a id="" href="javascript:;">-</a>
+                <#elseif qiang?? && qiang!=1 && goods.groupSaleStartTime < .now && goods.groupSaleStopTime gt .now>
+                    <a id="" href="javascript:;">+</a>
+                    <a id="" href="javascript:;">-</a>
+                <#else>
+                    <a id="id-plus" href="javascript:;">+</a>
+                    <a id="id-minus" href="javascript:;">-</a>
+                </#if>   
             </div>
             <span class="fl ml10">库存
              <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>
@@ -382,8 +507,23 @@ function checkTime(i)
         <tr>
           <th></th>
           <td>
-            <input type="submit" class="sub" onclick="addCart()" value="加入购物车" />  
-            <input type="submit" class="sub sub01" onclick="buyNow()" value="立即购买" />
+            <#if qiang?? && goods.flashSaleLeftNumber?? && goods.groupSaleLeftNumber??>
+                <#if qiang==1 && goods.flashSaleLeftNumber gt 0>
+                     <a id="addCart" href="/order/buy/qiang?gid=${goods.id?c}" class="sub">立即购买</a>
+                <#elseif qiang!=1 && goods.groupSaleLeftNumber gt 0>
+                     <a id="addCart" href="/order/buy/tuan?gid=${goods.id?c}" class="sub">立即购买</a>
+                <#else>
+                     <a id="addCart" href="#" class="sub">库存不足</a>   
+                </#if>
+            <#else>
+                <#if goods.leftNumber gt 0>
+                    <a id="addCart" href="/cart/init?id=${goods.id?c}" class="sub">加入购物车</a>
+                <#else>
+                    <a id="addCart" href="#" class="sub">库存不足</a>
+                </#if>    
+            </#if>
+            <!--<input type="submit" class="sub" onclick="addCart()" value="加入购物车" />  -->
+            <#--><input type="submit" class="sub sub01" onclick="buyNow()" value="立即购买" />-->
             <div class="clear"></div>
           </td>
         </tr>
@@ -406,7 +546,7 @@ function checkTime(i)
     <ul id="assort_sum">
       <li style="display: none;">
         <div class="part">
-          <a href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" width="140" height="140" /></a>
+          <a href="/goods/${goods.id?c}"><img src="${goods.coverImageUri!''}" width="140" height="140" /></a>
           <p style="height: 37px; overflow: hidden;">${goods.title!''}</p>
           <p class="p1"><span>￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span></p>
         </div>
@@ -417,11 +557,11 @@ function checkTime(i)
                     <#list goods.combList as item>
                       <#if item_index < 4 >
                         <div class="part">
-                            <a href="/goods/${item.goodsId}"><img src="${item.coverImageUri!''}" width="140" height="140"/></a>
+                            <a href="/goods/${item.goodsId?c}"><img src="${item.coverImageUri!''}" width="140" height="140"/></a>
                             <p style="height: 37px; overflow: hidden;">${item.goodsTitle!''}</p>
                             <p class="p2"><del>￥${item.goodsPrice?string("0.00")}</del></p>
                             <p class="p1">
-                                <input type="checkbox" class="comboCheckBox" zpid="${item.id}" onclick="javascript:combSelect(this, ${item.currentPrice?string("0.00")}, ${item.goodsPrice?string("0.00")});"/>
+                                <input type="checkbox" class="comboCheckBox" zpid="${item.id?c}" onclick="javascript:combSelect(this, ${item.currentPrice?string("0.00")}, ${item.goodsPrice?string("0.00")});"/>
                                 <span>￥${item.currentPrice?string("0.00")}</span>
                             </p>
                         </div>
@@ -437,7 +577,7 @@ function checkTime(i)
         <div class="part01">       
           <p>组合价：￥<span class="red" id="combCurrentPrice">${goods.salePrice?string("0.00")}</span></p>
           <p>原价：￥<span class="unl-th" id="combOriginPrice">${goods.salePrice?string("0.00")}</span></p>       
-          <input id="zhAddCart" class="sub" type="submit" value="加入购物车" />
+          <input id="zhAddCart" class="sub" type="submit" value="立即购买" />
         </div>
         <div class="clear"></div>
       </li>
@@ -494,10 +634,10 @@ function checkTime(i)
     
     <div class="clear h10"></div>
     
-    <section class="pro_mytext" id="pro_mytext">
+ <#-->   <section class="pro_mytext" id="pro_mytext">
         <#if username??>
             <form id="commentForm" action="javascript:submitComment();">
-                <input type="hidden" name="goodsId" value=${goods.id} />
+                <input type="hidden" name="goodsId" value=${goods.id?c} />
                 <div class="pb20">
                     <span class="fs18 mr20">我要评价</span>
                     <input class="ml20" type="radio" name="stars" value="3" datatype="n" nullmsg="请点击进行评价"/><span class="mr20"> 好评</span>
@@ -526,7 +666,7 @@ function checkTime(i)
     <section class="pro_myseek">
         <#if username??>
             <form id="consultForm" action="javascript:submitConsult();">
-                <input type="hidden" name="goodsId" value=${goods.id} />
+                <input type="hidden" name="goodsId" value=${goods.id?c} />
                 <h3 class="lh30 fs18 fw400 pb10">购买咨询</h3>
                 <menu>
                     <textarea name="content" datatype="*5-255" nullmsg="请输入咨询内容"></textarea>
@@ -550,7 +690,7 @@ function checkTime(i)
           <#if hot_list??>
                 <#list hot_list as item>
                     <#if item_index < 5>
-                        <a class="scan" href="/goods/${item.id}">
+                        <a class="scan" href="/goods/${item.id?c}">
                             <img src="${item.coverImageUri!''}" title="${item.title!''} ${item.subTitle!''}"/>
                             <div class="num1">${item_index+1}</div>
                             <p style="overflow: hidden; height: 61px;">${item.title!""}</p>
@@ -565,8 +705,8 @@ function checkTime(i)
             <#if recent_page??>
                 <#list recent_page.content as item>
                 <li>
-                    <a href="/goods/${item.goodsId}"><img src="${item.goodsCoverImageUri!''}" title="${item.goodsTitle!''}"/></a>
-                    <a href="/goods/${item.goodsId}">${item.goodsTitle!''}</a>
+                    <a href="/goods/${item.goodsId?c}"><img src="${item.goodsCoverImageUri!''}" title="${item.goodsTitle!''}"/></a>
+                    <a href="/goods/${item.goodsId?c}">${item.goodsTitle!''}</a>
                     <p class="fs18 red ta-c">￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></p>
                 </li>
                 </#list>
@@ -579,8 +719,6 @@ function checkTime(i)
 <div class="clear h40"></div>
 
 <#include "/client/common_footer.ftl" />
-
-
 
 </body>
 </html>

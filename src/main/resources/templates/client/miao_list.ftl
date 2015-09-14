@@ -73,7 +73,7 @@ function checkTime(i)
                                                 ${goods.flashSaleStopTime?string("HH")}, 
                                                 ${goods.flashSaleStopTime?string("mm")}, 
                                                 ${goods.flashSaleStopTime?string("ss")})) - (new Date());//计算剩余的毫秒数
-                                                if (0 > ts)
+                                                if (0 == ts)
                                                 {
                                                          window.location.reload();
                                                 }
@@ -83,6 +83,18 @@ function checkTime(i)
                                                 var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
                                                 var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
                                                 var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+                                                if(ss < 0){
+                                                    ss = 0;
+                                                }
+                                                if(mm < 0){
+                                                    mm = 0;
+                                                }
+                                                if(hh < 0){
+                                                    hh = 0;
+                                                }
+                                                if(dd < 0){
+                                                    dd = 0;
+                                                }
                                                 dd = checkTime(dd);
                                                 hh = checkTime(hh);
                                                 mm = checkTime(mm);
@@ -109,7 +121,7 @@ function checkTime(i)
                            <li>
                                <div class="clear"></div>
                                <div class="left_pic">
-                                    <a href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" width="396" height="307" ></a>
+                                    <a href="/goods/${goods.id?c}?qiang=1"><img src="${goods.coverImageUri!''}" width="396" height="307" ></a>
                                </div>
                                <div class="right_infor"> 
                                     <div class="infor_top">
@@ -147,7 +159,7 @@ function checkTime(i)
                                                           <#elseif goods.flashSaleStopTime < .now>
                                                                <a href="javascript:;" class="finish">已结束</a>
                                                           <#else>
-                                                               <a href="/goods/${goods.id}?qiang=1" class="buy">马上购买</a>
+                                                               <a href="/order/buy/qiang?gid=<#if goods??>${goods.id?c}</#if>" class="buy">立即抢购</a>
                                                           </#if>
                                                       </#if>
                                                 </div>
