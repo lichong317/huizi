@@ -469,6 +469,12 @@ public class TdGoodsService {
                         catStr, pageRequest);
     }
 
+    public Page<TdGoods> findByIsOnSaleTrueOrderByOnSaleTimeDesc(int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository
+                .findByIsOnSaleTrueOrderByOnSaleTimeDesc(pageRequest);
+    }
+    
     public Page<TdGoods> findByIsOnSaleTrueOrderBySoldNumberDesc(int page,
             int size) {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(

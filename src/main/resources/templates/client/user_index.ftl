@@ -72,13 +72,13 @@
             <#list order_page.content as order>
                 <#if order_index < 5>
                 <tr>
-                    <th colspan="7">订单编号：<a href="/user/order?id=${order.id}">${order.orderNumber!''}</a></th>
+                    <th colspan="7">订单编号：<a href="/user/order?id=${order.id?c}">${order.orderNumber!''}</a></th>
                 </tr>
                 <tr>
                     <td colspan="2" align="left" >
                         <#if order.orderGoodsList??>
                             <#list order.orderGoodsList as og>
-                                <a href="/goods/${og.goodsId}"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
+                                <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
                             </#list>
                         </#if>
                     </td>
@@ -126,10 +126,10 @@
                         </p>          
                     </td>
                     <td class="td003">
-                        <p><a href="/user/order?id=${order.id}">查看</a></p>
+                        <p><a href="/user/order?id=${order.id?c}">查看</a></p>
                         <#if order.statusId==5>
-                            <p><a href="/user/comment?orderId=${order.id}">评价晒单</a></p>
-                            <p><a href="/user/return/${order.id}">申请返修/退换货</a></p>
+                            <p><a href="/user/comment?orderId=${order.id?c}">评价晒单</a></p>
+                            <p><a href="/user/return/${order.id?c}">申请返修/退换货</a></p>
                         <#elseif order.statusId==2>
                             <p><a href="javascript:;">去付款</a></p>
                         </#if>          
@@ -148,7 +148,7 @@
             <li>
             <#if collect_page??>
                 <#list collect_page.content as cgoods>                                  
-                    <a class="mymember_gzlist" href="/goods/${cgoods.goodsId!''}">
+                    <a class="mymember_gzlist" href="/goods/${cgoods.goodsId?c!''}">
                         <img src="${cgoods.goodsCoverImageUri!''}" alt="${cgoods.goodsTitle!''}" />
                         <p>${cgoods.goodsTitle!''}</p>
                         <h6>￥${cgoods.goodsSalePrice?string("#.##")}</h6>
@@ -172,7 +172,7 @@
         <li>
         <#if recommend_goods_page??>
             <#list recommend_goods_page.content as item>                
-                  <a class="mymember_hot_list" href="/goods/${item.id}">
+                  <a class="mymember_hot_list" href="/goods/${item.id?c}">
                     <img src="${item.coverImageUri!''}" />
                     <p>${item.title!''}</p>
                     <b>￥${item.salePrice?string("0.00")}</b>

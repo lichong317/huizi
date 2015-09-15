@@ -42,6 +42,22 @@ public class TdArticleService {
     }
     
     /**
+	 * @author lc
+	 * @注释：按sortid 排序
+	 */
+    public Page<TdArticle> findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(Long menuId, Long catId, int page, int size)
+    {
+        if (null == menuId && null == catId)
+        {
+            return null;
+        }
+        
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByMenuIdAndCategoryIdAndStatusIdOrderBySortIdAsc(menuId, catId, 0L, pageRequest);
+    }
+    
+    /**
      * 通过菜单ID查找
      * @param menuId
      * @param page
@@ -242,6 +258,88 @@ public class TdArticleService {
     public List<TdArticle> findAll(Iterable<Long> ids)
     {
         return (List<TdArticle>) repository.findAll(ids);
+    }
+    
+    /**
+     * 查找上一篇
+     * 
+     * @param id ID
+     * @return
+     */
+    public TdArticle findPrevOne(Long id, Long catId, Long menuId)
+    {
+        if (null == id || null == catId || null == menuId)
+        {
+            return null;
+        }
+        
+        List<TdArticle> artList = repository.findByMenuIdAndCategoryIdAndStatusIdOrderByIdDesc(menuId, catId, 0L);
+        
+        if (null == artList || artList.size()==1)
+        {
+            return null;
+        }
+        else
+        {
+            for (int i=0; i < artList.size(); i++)
+            {
+                TdArticle a = artList.get(i);
+                
+                if (a.getId().equals(id))
+                {
+                    if (0 == i)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return artList.get(i - 1);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 查找下一篇
+     * 
+     * @param id ID
+     * @return
+     */
+    public TdArticle findNextOne(Long id, Long catId, Long menuId)
+    {
+        if (null == id || null == catId || null == menuId)
+        {
+            return null;
+        }
+        
+        List<TdArticle> artList = repository.findByMenuIdAndCategoryIdAndStatusIdOrderByIdDesc(menuId, catId, 0L);
+        
+        if (null == artList || artList.size()==1)
+        {
+            return null;
+        }
+        else
+        {
+            for (int i=0; i < artList.size(); i++)
+            {
+                TdArticle a = artList.get(i);
+                
+                if (a.getId().equals(id))
+                {
+                    if (artList.size() - 1 == i)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return artList.get(i + 1);
+                    }
+                }
+            }
+        }
+        return null;
     }
     
     /**

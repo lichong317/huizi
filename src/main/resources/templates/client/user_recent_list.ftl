@@ -50,7 +50,7 @@
         <a <#if !categoryId??>class="mysel"</#if> href="/user/recent/list">全部分类</a>
         <#if top_cat_list??>
         	<#list top_cat_list as item>
-        		<a <#if categoryId ?? &&categoryId == item.id>class="mysel"</#if> href="/user/recent/list?categoryId=${item.id!''}">${item.title!''}</a>
+        		<a <#if categoryId ?? &&categoryId == item.id>class="mysel"</#if> href="/user/recent/list?categoryId=${item.id?c!''}">${item.title!''}</a>
         	</#list>
         </#if>		
   </div>
@@ -87,8 +87,8 @@ $(document).ready(function(){
                     <img src="/client/images/mymember/delete.png">
                   </a>
                   -->
-                  <a class="a001" href="/user/recent/delete/${rg.id}" onClick="delcfm()"><img src="/client/images/mymember/delete.png" /></a>
-                  <a href="/goods/${rg.goodsId!''}">
+                  <a class="a001" href="/user/recent/delete/${rg.id?c}" onClick="delcfm()"><img src="/client/images/mymember/delete.png" /></a>
+                  <a href="/goods/${rg.goodsId?c!''}">
                     <img src="${rg.goodsCoverImageUri!''}" width="220" height="220">
                   </a>
                   <p>￥${rg.goodsSalePrice?string("#.##")}</p>

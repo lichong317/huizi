@@ -104,7 +104,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <span class="checkall" style="vertical-align:middle;">
                     <input id="listChkId" type="checkbox" name="listChkId" value="${content_index}" >
                 </span>
-                <input type="hidden" name="listId" id="listId" value="${content.id}">
+                <input type="hidden" name="listId" id="listId" value="${content.id?c}">
             </td>
             <td>${content.id!''}</td>
             <td><a href="/Verwalter/article/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id!""}&__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></td>

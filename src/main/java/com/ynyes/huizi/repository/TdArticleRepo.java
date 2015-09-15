@@ -32,7 +32,11 @@ public interface TdArticleRepo extends
     
     Page<TdArticle> findByChannelIdAndCategoryIdOrderBySortIdAsc(Long channeldId, Long catId, Pageable page);
     
+    Page<TdArticle> findByMenuIdAndCategoryIdAndStatusIdOrderBySortIdAsc(Long menuId, Long catId, Long statusId, Pageable page);
+    
     List<TdArticle> findByCategoryIdAndChannelIdAndParamIsSearchableTrueOrderBySortIdAsc(Long catId, Long channelId);
+    
+    List<TdArticle> findByMenuIdAndCategoryIdAndStatusIdOrderByIdDesc(Long menuId, Long catId, Long statusId);
     
     List<TdArticle> findByCategoryIdOrderBySortIdAsc(Long catId);
     Page<TdArticle> findByCategoryIdOrderBySortIdAsc(Long catId, Pageable page);

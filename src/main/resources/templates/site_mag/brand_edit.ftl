@@ -59,7 +59,7 @@ $(function () {
     
     // 选择类型后修改ajaxurl
     $("#proCatId").change(function(){
-        var url = "/Verwalter/brand/check?catId=" + $(this).val() + "<#if brand??>&id=${brand.id}</#if>";
+        var url = "/Verwalter/brand/check?catId=" + $(this).val() + "<#if brand??>&id=${brand.id?c}</#if>";
         $("#idBrandTitle").attr("ajaxurl", url);
     });
 });

@@ -5,7 +5,7 @@
 <title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
-<meta name="copyright" content="惠资生活" />
+<meta name="copyright" content="${site.copyright!''}" />
 <!--[if IE]>
    <script src="/client/js/html5.js"></script>
 <![endif]-->
@@ -121,9 +121,9 @@ function delItem(id)
           <#list cart_goods_list as item>
                     <div class="shopping_list">
                         <div class="clear"></div>
-                        <a class="a2" href="/goods/${item.goodsId}"><img src="${item.goodsCoverImageUri!''}" /></a>
-                        <a class="a3" href="/goods/${item.goodsId}">${item.goodsTitle!''}</a>
-                        <p>￥<#if item.price??>${item.price?string("0.00")} x ${item.quantity!''}</#if><a href="javascript:delItem(${item.id});">删除</a></p>
+                        <a class="a2" href="/goods/${item.goodsId?c}"><img src="${item.goodsCoverImageUri!''}" /></a>
+                        <a class="a3" href="/goods/${item.goodsId?c}">${item.goodsTitle!''}</a>
+                        <p>￥<#if item.price??>${item.price?string("0.00")} x ${item.quantity!''}</#if><a href="javascript:delItem(${item.id?c});">删除</a></p>
                         <div class="clear"></div>
                     </div>                  
                         <#if item.price??>
@@ -160,7 +160,7 @@ function delItem(id)
                     <#list top_cat_list as item>
                        <#if item_index < 9>
                         <li>
-                            <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id}">${item.title!''}</a></h3>
+                            <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id?c}">${item.title!''}</a></h3>
                 
                             <div class="nav_showbox">
                                 <i class="bg"></i>
@@ -193,11 +193,11 @@ function delItem(id)
                                     <table class="nav_more">
                                         <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
                                             <tr>
-                                                <th width="90"><span><a href="/list/${secondLevelItem.id}">${secondLevelItem.title!''}</a></span></th>
+                                                <th width="90"><span><a href="/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></span></th>
                                                 <td>
                                                     <#if ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval?? >
                                                         <#list ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval as thirdLevelItem>
-                                                            <a href="/list/${thirdLevelItem.id}">${thirdLevelItem.title!''}</a>
+                                                            <a href="/list/${thirdLevelItem.id?c}">${thirdLevelItem.title!''}</a>
                                                         </#list>
                                                     </#if>
                                                 </td>
@@ -234,7 +234,7 @@ function delItem(id)
 
 	<div class="main">
 		<menu class="index_zx">
-			<h3>惠资讯<a href="#">更多</a></h3>
+			<h3>惠资讯<a href="/info/list/10">更多</a></h3>
 			<ul>
 			   <#if latest_news_page??>
                  <#list latest_news_page.content as item>

@@ -75,6 +75,8 @@ public class TdSearchController {
         // 销量排行
         map.addAttribute("most_sold_list", tdGoodsService.findByIsOnSaleTrueOrderBySoldNumberDesc(0, 10).getContent());   
         
+        // 新品推荐
+        map.addAttribute("newest_list", tdGoodsService.findByIsOnSaleTrueOrderByOnSaleTimeDesc( 0, 10).getContent());  
         
         return "/client/search_result";
     }

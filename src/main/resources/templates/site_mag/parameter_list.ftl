@@ -132,7 +132,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 </span>
                 <input type="hidden" name="listId" id="listId" value="${content.id}">
             </td>
-            <td><a href="/Verwalter/parameter/edit?id=${content.id!""}">${content.title!""}</a></td>
+            <td><a href="/Verwalter/parameter/edit?id=${content.id?c!""}">${content.title!""}</a></td>
             <td>
                 <#if parameter_category_list?? && content.categoryId??>
                     <#list parameter_category_list as cat>
@@ -147,7 +147,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <input name="listSortId" type="text" value="${content.sortId!""}" id="listSortId" class="sort" onkeydown="return checkNumber(event);">
             </td>
             <td align="center">
-                <a href="/Verwalter/parameter/edit?id=${content.id!""}">修改</a>
+                <a href="/Verwalter/parameter/edit?id=${content.id?c!""}">修改</a>
             </td>
         </tr>
     </#list>

@@ -271,7 +271,7 @@ function del_goods_comb(obj) {
 </div>
 <input name="menuId" type="text" value='${mid!""}' style="display:none;">
 <input name="channelId" type="text" value='${cid!""}' style="display:none">
-<input name="id" type="text" value='<#if goods??>${goods.id}</#if>' style="display:none">
+<input name="id" type="text" value='<#if goods??>${goods.id?c}</#if>' style="display:none">
 <!--导航栏-->
 <div class="location">
     <a href="/Verwalter/goods/list" class="back"><i></i><span>
@@ -806,7 +806,7 @@ function del_goods_comb(obj) {
                             <#list goods.combList as item>
                                 <tr class="td_c">
                                     <td>
-                                        <input name="combList[${item_index}].id" type="hidden" value="${item.id!''}">
+                                        <input name="combList[${item_index}].id" type="hidden" value="${item.id?c!''}">
                                         <input name="combList[${item_index}].coverImageUri" type="hidden" value="${item.coverImageUri!''}">
                                         <input type="text" name="combList[${item_index}].sortId" class="td-input" value="${item.sortId!''}" style="width:90%;">
                                     </td>

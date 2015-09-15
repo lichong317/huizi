@@ -107,36 +107,36 @@
             <#list cart_goods_list as cg>
                 <tr>
                     <td class="gwc1_lm2_a">
-                        <input type="checkbox" class="fll duoxuank" cgid="${cg.id}" <#if cg.isSelected>checked="checked"<#else><#assign allChecked=false></#if>>
+                        <input type="checkbox" class="fll duoxuank" cgid="${cg.id?c}" <#if cg.isSelected>checked="checked"<#else><#assign allChecked=false></#if>>
                         <span>
                          <#if cg.qiang??&&cg.qiang==1>
-                            <a href="/goods/${cg.goodsId}?qiang=1"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                            <a href="/goods/${cg.goodsId?c}?qiang=1"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
                          <#elseif cg.qiang??&&cg.qiang!=1>
-                            <a href="/goods/${cg.goodsId}?qiang=3"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                            <a href="/goods/${cg.goodsId?c}?qiang=3"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
                          <#else>
-                            <a href="/goods/${cg.goodsId}"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
+                            <a href="/goods/${cg.goodsId?c}"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
                          </#if>
                         </span>
-                        <p><a href="goods/${cg.goodsId}"><p>${cg.goodsTitle!''}</p></a></td>
+                        <p><a href="goods/${cg.goodsId?c}"><p>${cg.goodsTitle!''}</p></a></td>
                     <td class="gwc1_lm2_b"><span>￥${cg.price?string("0.00")}</span></td>
                     <td class="gwc1_lm2_c">
                         <div class="ds content_nr_3_jg2">
                             <#if cg.quantity==1>
                                 <span class="fl"><img src="/client/images/slj.png" width="20" height="20"></span>
                             <#else>
-                                <a href="javascript:void(0);" class="fl num_minus" cgid="${cg.id}"><img src="/client/images/slj.png" width="20" height="20"></a>
+                                <a href="javascript:void(0);" class="fl num_minus" cgid="${cg.id?c}"><img src="/client/images/slj.png" width="20" height="20"></a>
                             </#if>
                             <input type="text" class="content_zj" value="${cg.quantity!''}">
                             <#if cg.qiang??&&cg.qiang==1>
                                 <span class="fr num_add"><img src="/client/images/sljj.png" width="20" height="20"></span>
                             <#else>
-                                <a href="javascript:void(0);" class="fr num_add" cgid="${cg.id}">
+                                <a href="javascript:void(0);" class="fr num_add" cgid="${cg.id?c}">
                                     <img src="/client/images/sljj.png" width="20" height="20">
                                 </a>
                             </#if>
                         </div></td>
                     <td class="gwc1_lm2_b"><span>￥${(cg.price*cg.quantity)?string("0.00")}</span></td>
-                    <td class="gwc1_lm2_d"><input type="button" class="gwc_delete" cgid="${cg.id}" value="删除订单"></td>
+                    <td class="gwc1_lm2_d"><input type="button" class="gwc_delete" cgid="${cg.id?c}" value="删除订单"></td>
                     <#if cg.isSelected>
                         <#assign totalGoods=totalGoods+cg.quantity>
                         <#assign totalPrice=totalPrice+cg.price*cg.quantity>

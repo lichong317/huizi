@@ -96,12 +96,12 @@ var theForm = document.forms['form1'];
                     <span class="checkall" style="vertical-align:middle;">
                         <input id="listChkId" type="checkbox" name="listChkId" value="${return_index}" >
                     </span>
-                    <input type="hidden" name="listId" id="listId" value="${return.id}">
+                    <input type="hidden" name="listId" id="listId" value="${return.id?c}">
                 </td>
                 <td align="center">${return.username!""}</td>
                 <td align="center">${return.telephone!""}</td>
                 <td align="center">${return.orderNumber!""}</td>
-                <td align="center">${return.goodsId!""}</td>
+                <td align="center">${return.goodsId?c!""}</td>
                 <td align="center">${return.goodsTitle!""}</td>
                 <td align="center">${return.returnNumber!""}</td>
                 <td align="center">${return.goodsPrice?string("#.##")}</td>
@@ -116,7 +116,7 @@ var theForm = document.forms['form1'];
                     </#if>
                 </td>
                 <td align="center">
-                    <a href="/Verwalter/user/return/edit?id=${return.id}&statusId=${statusId!""}">配置</a>
+                    <a href="/Verwalter/user/return/edit?id=${return.id?c}&statusId=${statusId!""}">配置</a>
                 </td>
             </tr>
         </#list>

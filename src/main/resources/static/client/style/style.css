@@ -624,7 +624,24 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
     line-height:30px;
     color:#333;}
 
- 
+.jgqj_txt { width: 48px; height: 20px; border: 1px solid #ccc; background: #fff; margin-top: 9px; text-align: center;}
+.sxtjBox { overflow: hidden; padding-left: 3px; float:left;}
+.sxtjBox span{ font-family:"Microsoft Yahei", "SimSun"; font-size:12px; color:#444444; /*margin-right:10px;*/ line-height:39px;}  
+.jgqj_btn {
+  width: 50px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  background: #ff4454;
+  color: #fff;
+  text-align: center;
+  margin-top: 9px;
+  margin-left: 10px;
+  border: none;
+}
+.jgqj_btn:hover{ background:#ff3535;}
+
 .buybtn{margin-top: 50px;}
 .buybtn .real{height: 38px;/*background: url(../images/hzd_64.png) no-repeat left center;*/display: inline-block;line-height: 38px;color:#333333;font-size: 14px;  padding-left: 45px;}
 .buybtn .speed{height: 38px;background: url(../images/hzd_65.png) no-repeat left center;display: inline-block;line-height: 38px;color:#333333;font-size: 14px;  padding-left: 45px;  margin-left: 20px;}

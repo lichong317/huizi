@@ -10,12 +10,17 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ynyes.huizi.entity.TdAdType;
+import com.ynyes.huizi.entity.TdArticle;
 import com.ynyes.huizi.entity.TdArticleCategory;
 import com.ynyes.huizi.entity.TdNavigationMenu;
+import com.ynyes.huizi.service.TdAdService;
+import com.ynyes.huizi.service.TdAdTypeService;
 import com.ynyes.huizi.service.TdArticleCategoryService;
 import com.ynyes.huizi.service.TdArticleService;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdNavigationMenuService;
+import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.util.ClientConstant;
 
 /**
@@ -25,7 +30,7 @@ import com.ynyes.huizi.util.ClientConstant;
  */
 @Controller
 @RequestMapping("/info")
-public class TdNewsController {
+public class TdInfoController {
 	@Autowired 
 	private TdArticleService tdArticleService;
 	
@@ -37,6 +42,15 @@ public class TdNewsController {
 	
 	@Autowired
     private TdCommonService tdCommonService;
+	
+	@Autowired
+    private TdAdTypeService tdAdTypeService;
+	
+	@Autowired
+    private TdAdService tdAdService;
+	
+	@Autowired
+    private TdUserRecentVisitService tdUserRecentVisitService;
     
 	@RequestMapping("/list/{mid}")
     public String infoList(@PathVariable Long mid, 
@@ -46,6 +60,18 @@ public class TdNewsController {
                             HttpServletRequest req){
 	    
 	    tdCommonService.setHeader(map, req);
+        
+        String username = (String) req.getSession().getAttribute("username");
+        
+        // 读取浏览记录
+        if (null == username)
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(req.getSession().getId(), 0, ClientConstant.pageSize));
+        }
+        else
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(username, 0, ClientConstant.pageSize));
+        }
         
 	    if (null == mid)
 	    {
@@ -70,9 +96,22 @@ public class TdNewsController {
 	            catId = catList.get(0).getId();
 	        }
 	        
-	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderByIdDesc(mid, catId, page, ClientConstant.pageSize));
+	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(mid, catId, page, ClientConstant.pageSize));
 	    }
+        
 	    
+//	    /**
+//		* @author lc
+//	    * @注释：
+//		*/
+//		// 文章列表页面广告
+//	    TdAdType adType = tdAdTypeService.findByTitle("文章列表页面广告");
+//
+//	    if (null != adType) {
+//	            map.addAttribute("Article_scroll_ad_list", tdAdService
+//	                    .findByTypeIdAndIsValidTrueOrderBySortIdAsc(adType.getId()));
+//	    }    
+        
 	    map.addAttribute("catId", catId);
 	    map.addAttribute("mid", mid);
 	    map.addAttribute("info_category_list", catList);
@@ -91,6 +130,18 @@ public class TdNewsController {
             return "/client/error_404";
         }
         
+        String username = (String) req.getSession().getAttribute("username");
+        
+        // 读取浏览记录
+        if (null == username)
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(req.getSession().getId(), 0, ClientConstant.pageSize));
+        }
+        else
+        {
+            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(username, 0, ClientConstant.pageSize));
+        }
+        
         TdNavigationMenu menu = tdNavigationMenuService.findOne(mid);
         
         map.addAttribute("menu_name", menu.getTitle());
@@ -99,9 +150,20 @@ public class TdNewsController {
         
         map.addAttribute("info_category_list", catList);
         map.addAttribute("mid", mid);
+        
+        TdArticle tdArticle = tdArticleService.findOne(id);
+        
+        if (null != tdArticle)
+        {
+            map.addAttribute("info", tdArticle);
+            map.addAttribute("prev_info", tdArticleService.findPrevOne(id, tdArticle.getCategoryId(), tdArticle.getMenuId()));
+            map.addAttribute("next_info", tdArticleService.findNextOne(id, tdArticle.getCategoryId(), tdArticle.getMenuId()));
+        }
+        
+        // 最近添加
         map.addAttribute("latest_info_page", tdArticleService.findByMenuIdAndIsEnableOrderByIdDesc(mid, 0, ClientConstant.pageSize));
-        map.addAttribute("info", tdArticleService.findOne(id));
         
         return "/client/info";
     }
+
 }

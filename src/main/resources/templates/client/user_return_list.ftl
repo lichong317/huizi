@@ -69,14 +69,14 @@
                 <#list return_page.content as return>
                     <tr>
                     	<td>${return.orderNumber!'' }</td>
-                      <td class="td001"><a href="/goods/${return.goodsId!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
+                      <td class="td001"><a href="/goods/${return.goodsId?c!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
 			          <td class="td003">
 			            <p>${return.returnTime?string("yyyy-MM-dd")!'' }</p>
 			            <p>${return.returnTime?string("HH:mm:ss")!'' }</p>
 			          </td>
 			          <td>订单支付金额：￥${return.goodsPrice?string(0.00)!'' }</td>
 					  <td><#if return.statusId==0>未完成<#else>已完成</#if></td>         
-			          <td><a href="/user/return/${return.orderId!''}?id=${return.goodsId!''}">查看</a></td>	
+			          <td><a href="/user/return/${return.orderId?c!''}?id=${return.goodsId?c!''}">查看</a></td>	
                     </tr>
                 </#list>
             </#if>

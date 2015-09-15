@@ -60,11 +60,11 @@ $(function () {
             <td>
                 <ul class="list-proinfo" id="removeTheSingleGife">
                     <li class="fore1">
-                        <a href="/goods/${order_goods.goodsId!''}" target="_blank">
+                        <a href="/goods/${order_goods.goodsId?c!''}" target="_blank">
                             <img height="50" width="50" title="${order_goods.goodsTitle!''}" src="${order_goods.goodsCoverImageUri!''}" data-img="1" alt="${order_goods.goodsTitle!''}">
                         </a>
                         <div class="p-info">
-                            <a href="/goods/${order_goods.goodsId!''}" target="_blank">${order_goods.goodsTitle!''}</a>
+                            <a href="/goods/${order_goods.goodsId?c!''}" target="_blank">${order_goods.goodsTitle!''}</a>
                         </div>
                     </li>
                 </ul>
@@ -83,8 +83,8 @@ $(function () {
             <td> 
                 <span style="position:absolute;right:88px;top:-13px;">
                 <img src="/client/images/mymember/arrow06.gif"></span>
-                <input type="hidden" name="goodsId" value="${order_goods.goodsId!''}" />
-                <input type="hidden" name="id" value="${order.id!''}" />
+                <input type="hidden" name="goodsId" value="${order_goods.goodsId?c!''}" />
+                <input type="hidden" name="id" value="${order.id?c!''}" />
                 <div class="mymember_eva_div">
                   <b><font>* </font>问题描述：</b>
                   <textarea name="reason" datatype="*5-255" errormsg="问题描述必须大于5个字符，小于255个字符" <#if has_returned??>disabled</#if>></textarea>

@@ -18,7 +18,7 @@
         <#if consult_page.number+1 == 1>
             <a href="javascript:;" class="disabled">上一页</a>
         <#else>
-            <a href="javascript:getConsult(${goodsId}, ${consult_page.number-1});">上一页</a>
+            <a href="javascript:getConsult(${goodsId?c}, ${consult_page.number-1});">上一页</a>
         </#if>
         
         <#if consult_page.totalPages gt 0>
@@ -27,7 +27,7 @@
                     <#if page == consult_page.number+1>
                         <a class="sel" href="javascript:;"">${page}</a>
                     <#else>
-                        <a href="javascript:getConsult(${goodsId}, ${page-1});">${page}</a>
+                        <a href="javascript:getConsult(${goodsId?c}, ${page-1});">${page}</a>
                     </#if>
                     <#assign continueEnter=false>
                 <#else>
@@ -42,7 +42,7 @@
         <#if consult_page.number+1 == consult_page.totalPages || consult_page.totalPages==0>
             <a class="pn-next" href="javascript:;">下一页</a>
         <#else>
-            <a class="pn-next" href="javascript:getConsult(${goodsId}, ${consult_page.number+1});">下一页</a>
+            <a class="pn-next" href="javascript:getConsult(${goodsId?c}, ${consult_page.number+1});">下一页</a>
         </#if>
     </div>
     <div class="clear h20"></div>

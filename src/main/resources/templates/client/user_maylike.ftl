@@ -16,7 +16,7 @@
           	  <#if reco_page0??>
 	              <#list reco_page0.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!''}" title="${item.subTitle!'' }">
+			          <a href="/goods/${item.id?c!''}" title="${item.subTitle!'' }">
 			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
@@ -30,7 +30,7 @@
           	  <#if reco_page1??>
 	              <#list reco_page1.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!'' }">
+			          <a href="/goods/${item.id?c!'' }">
 			          <img src="${item.coverImageUri!'' }"width="208" height="208" />
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
@@ -44,7 +44,7 @@
           	  <#if reco_page2??>
 	              <#list reco_page2.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!'' }">
+			          <a href="/goods/${item.id?c!'' }">
 			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						

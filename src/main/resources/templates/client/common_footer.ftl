@@ -22,12 +22,12 @@
         <ul>
             <#if help_level0_cat_list??>
                 <#list help_level0_cat_list as items>
-                    <li class="downli"><a href="/info/list/${help_id!'0'}?catId=${items.id!''}">${items.title!''}</a>
+                    <li class="downli"><a href="/info/list/${help_id!'0'}?catId=${items.id?c!''}">${items.title!''}</a>
                            <ul>
                                  <#if items_index <7 >
                                        <#if ("help_"+items_index+"_article_list")?eval?? >
                                                 <#list ("help_"+items_index+"_article_list")?eval as item> 
-                                                        <li><a href="/info/list/${help_id!'0'}?catId=${item.id!''}">${item.title!''}</a></li>
+                                                        <li><a href="/info/list/${help_id!'0'}?catId=${item.id?c!''}">${item.title!''}</a></li>
                                                 </#list> 
                                        </#if> 
                                  </#if>
@@ -77,9 +77,9 @@
            <#if about_us_list??>
                 <#list about_us_list as item>
                        <#if item_has_next>
-                             <li><a href="/info/list/${about_id!'0'}?catId=${item.id!''}">${item.title!''}</a>丨</li>
+                             <li><a href="/info/list/${about_id!'0'}?catId=${item.id?c!''}">${item.title!''}</a>丨</li>
                          <#else>
-                             <li><a href="/info/list/${about_id!'0'}?catId=${item.id!''}">${item.title!''}</a></li>   
+                             <li><a href="/info/list/${about_id!'0'}?catId=${item.id?c!''}">${item.title!''}</a></li>   
                        </#if>
                        
                 </#list>
