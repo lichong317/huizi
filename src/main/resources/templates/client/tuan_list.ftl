@@ -73,7 +73,7 @@ function checkTime(i)
                                                 ${goods.groupSaleStopTime?string("HH")}, 
                                                 ${goods.groupSaleStopTime?string("mm")}, 
                                                 ${goods.groupSaleStopTime?string("ss")})) - (new Date());//计算剩余的毫秒数
-                                                if (0 > ts)
+                                                if (0 == ts)
                                                 {
                                                          window.location.reload();
                                                 }
@@ -83,6 +83,18 @@ function checkTime(i)
                                                 var hh = parseInt(ts / 1000 / 60 / 60 % 24, 10);//计算剩余的小时数
                                                 var mm = parseInt(ts / 1000 / 60 % 60, 10);//计算剩余的分钟数
                                                 var ss = parseInt(ts / 1000 % 60, 10);//计算剩余的秒数
+                                                if(ss < 0){
+                                                    ss = 0;
+                                                }
+                                                if(mm < 0){
+                                                    mm = 0;
+                                                }
+                                                if(hh < 0){
+                                                    hh = 0;
+                                                }
+                                                if(dd < 0){
+                                                    dd = 0;
+                                                }
                                                 dd = checkTime(dd);
                                                 hh = checkTime(hh);
                                                 mm = checkTime(mm);
@@ -109,7 +121,7 @@ function checkTime(i)
                            <li>
                                <div class="clear"></div>
                                <div class="left_pic">
-                                    <a href="/goods/${goods.id}"><img src="${goods.groupSaleImage!''}" width="396" height="307" ></a>
+                                    <a href="/goods/${goods.id?c}?qiang=3"><img src="${goods.groupSaleImage!''}" width="396" height="307" ></a>
                                </div>
                                <div class="right_infor"> 
                                     <div class="infor_top">
@@ -119,11 +131,11 @@ function checkTime(i)
                                                 <div class="clear"></div>
                                                 <div class="sk fl">
                                                       <p>团购价：</p>
-                                                      <p class="redp">¥：${goods.groupSalePrice?string("0.00")}</p>
+                                                      <p class="redp">¥：<#if goods.groupSalePrice??>${goods.groupSalePrice?string("0.00")}</#if></p>
                                                 </div>
                                                 <div class="op fr">
                                                       <p>原价：</p>
-                                                      <p class="dep">¥：${goods.salePrice?string("0.00")}</p>
+                                                      <p class="dep">¥：<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></p>
                                                 </div>
                                                 <div class="clear"></div>
                                           </div>
@@ -145,9 +157,9 @@ function checkTime(i)
                                                           <#if goods.groupSaleStartTime gt .now>
                                                                <a href="javascript:;" class="soon">即将开始</a>
                                                           <#elseif goods.groupSaleStopTime < .now>
-                                                               <a href="javascript:;" class="finish">已结束</a>
+                                                               <a href="javascript:;" class="finish">团购结束</a>
                                                           <#else>
-                                                               <a href="/cart/init?id=${goods.id}&quantity=1&qiang=3" class="buy">马上购买</a>
+                                                               <a href="/order/buy/tuan?gid=<#if goods??>${goods.id?c}</#if>" class="buy">立即团购</a>
                                                           </#if>
                                                       </#if>
                                                 </div>

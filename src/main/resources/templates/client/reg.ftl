@@ -38,23 +38,22 @@
 <body>
     <div class="w1065">
     <div class="denglutop">
-<div class="denglulogo"><img src="<#if site??>${site.logoUri!''}</#if>"></div>
+<div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
 <section class="denglu_center">
   <table>
-    <tr>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_03.png" />正品保障</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_05.png" />极速物流</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_07.png" />售后无忧</a>
-      </td>
-      <td>
-        <a href="#"><img src="/client/images/dengluicon_09.png" />特色服务</a>
-      </td>
-    </tr>
+    <tbody>
+            <#if service_item_list??>
+                  <tr>
+                       <#list service_item_list as item>
+                            <#if item_index <4>
+                            <td>
+                                <a href="javascript:;"><img src="${item.logo!''}" width="38" height="38"/>${item.title!''}</a>
+                            </td>
+                            </#if>
+                       </#list>
+                  </tr>
+            </#if>
+     </tbody>   
   </table>
 </section>
     </div>
@@ -65,7 +64,7 @@
     <form id="form1" method="post" action="/reg">
         <div>
             <span class="Validform_checktip">请输入用户名/邮箱/手机号码</span>
-            <input type="text" name="username" class="login_txt1" datatype="s6-20"/>
+            <input type="text" name="username" class="login_txt1" datatype="s6-20" ajaxurl="/reg/check/username" value = "${username!''}"/>
         </div>
         
         <div>

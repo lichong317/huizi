@@ -1,4 +1,4 @@
-/* 首页 */
+/* 棣栭〉 */
 .index_zx {z-index: 1;width: 258px;height: 450px;background-color: #ffffff;  position: relative;
   margin-top: -450px;
   float: right;}
@@ -61,7 +61,7 @@
 .index_sg h3 { text-align:right; width:90%; margin:0 auto; border-bottom:1px dotted #ccc; font-size:14px; font-weight:400; line-height:50px; margin-bottom:5px;}
 .index_sg h3 span { display:inline-block;_display:inline; padding-left:35px; background:url(../images/index_sg.png) no-repeat left center; color:#ff8800; position:absolute;left:0;top:0; font-size:18px;}*/
 
-        /*首页推荐板块*/
+        /*棣栭〉鎺ㄨ崘鏉垮潡*/
 .index_tj { table-layout:fixed; /*border-collapse:separate;*/ border-spacing:2px;width:100%;margin:14px 0;}
 .index_tj td{border: 1px solid #cccccc;}
 .index_tj .td1 p{color:#00638e;}
@@ -199,7 +199,7 @@
 
 
 
-/* 栏目页面 */
+/* 鏍忕洰椤甸潰 */
 .column_qg { background:url(../images/content/part_tit01.png) no-repeat right center; height:136px; overflow:hidden; border-right:none; padding:15px 0 0 0;}
 .column_qg a.a1 { font-size:18px;color:#fff; line-height:25px; display:inline-block; width:40px; position:absolute; right:9px;top:49px;}
 .column_qg a.a1:hover { color:#f60;}
@@ -284,7 +284,7 @@
 .column_sum li a.a3 { width:50%; text-align:center;}
 .column_sum li:hover { border:1px solid #eee; box-shadow:0px 2px 0px #ccc;}
 
-/* 商品详细页 */
+/* 鍟嗗搧璇︾粏椤� */
 .pro_info { width:100%; min-width:1200px; margin:0 auto; background:#d9d9d9;}
 .pro_tit { font-weight:400; padding:20px 0 20px;}
 .pro_tit .a1 { font-size:32px; color:#333; line-height:40px;}
@@ -307,7 +307,7 @@
 .pro_price p.p3 { position:absolute; right:3%; bottom:45px;}
 .pro_choose { width:78%; margin:15px 0 0 3%;}
 .pro_choose th,.pro_choose td { vertical-align:top; padding:7px 0 2px;font-weight:400; line-height:30px;}
-/*lichong 文字靠左显示*/
+/*lichong 鏂囧瓧闈犲乏鏄剧ず*/
 .pro_choose th { white-space: nowrap; /*text-align:right;*/}
 .pro_choose td a { display:inline-block; padding:0 10px; line-height:28px; border:1px solid #ddd; margin:0 5px 2px 0;}
 .pro_choose td a.sel,.pro_choose td a:hover { background:url(../images/content/pro_ico04.png) no-repeat right bottom; border:1px solid #ff5a1e;}
@@ -328,7 +328,7 @@
 .pro_choose .plus { float:left; width:17px;}
 .pro_choose .plus a { display:block; line-height:17px; border:1px solid #ddd; background:#f1f1f1; text-align:center; padding:0; margin:0;}
 .pro_choose .plus a:hover { background:#eee;}
-.pro_choose .sub {height:40px; line-height:40px;float:left; background:#FFF; color:#222222; border:1px solid #fd3e3e; border-radius:20px; width:150px; margin-top:20px; font-size:16px;}
+.pro_choose .sub {height:40px; line-height:40px;float:left; background:#FFF; color:#222222; border:1px solid #fd3e3e; border-radius:20px; width:150px; margin-top:20px; font-size:16px;text-align:center}
 .pro_choose .sub:hover { background:#222222; color:#fff; border: solid 1px #222222;}
 .pro_choose .sub01 { background:#fd3e3e; border:1px solid #aaa;color:#FFF; width:150px; margin-left:20px;}
 .pro_choose .sub01:hover { background:#222222; color:#fff;}
@@ -402,7 +402,7 @@
 .pro_myseek .sub:hover { background:#ff8800;}
 .pro_myseek_list li { width:87%; padding:15px 11% 15px 2%; line-height:25px; border-bottom:1px dashed #ddd;}
 .pro_myseek_list li .sp1 { position:absolute; right:2%; top:15px; color:#999;}
-/* 购物车部分 */
+/* 璐墿杞﹂儴鍒� */
 .car_top { width:100%;}
 .car_top p { float:left; display:block; width:33%; height:35px; line-height:35px; text-align:center; color:#fff; background:#ddd;}
 .car_top p i { position:absolute;right:-20px;top:0; display:block; width:50px; border-right:4px solid #fff; height:35px; background:#ddd;
@@ -598,7 +598,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .yfxb img{float:left; margin-top:10px; margin-right:25px; margin-left:10px;}
 
 
-/*团购秒杀页面*/
+/*鍥㈣喘绉掓潃椤甸潰*/
 .bulk_list{ width: 100%;}
 .bulk_list li{display: block; width: 100%; border: 1px solid #cccccc; padding: 12px 0;margin-top: 18px;}
 .left_pic{ float: left; width: 33%;padding: 0px 102px;}
@@ -624,7 +624,24 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
     line-height:30px;
     color:#333;}
 
- 
+.jgqj_txt { width: 48px; height: 20px; border: 1px solid #ccc; background: #fff; margin-top: 9px; text-align: center;}
+.sxtjBox { overflow: hidden; padding-left: 3px; float:left;}
+.sxtjBox span{ font-family:"Microsoft Yahei", "SimSun"; font-size:12px; color:#444444; /*margin-right:10px;*/ line-height:39px;}  
+.jgqj_btn {
+  width: 50px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  background: #ff4454;
+  color: #fff;
+  text-align: center;
+  margin-top: 9px;
+  margin-left: 10px;
+  border: none;
+}
+.jgqj_btn:hover{ background:#ff3535;}
+
 .buybtn{margin-top: 50px;}
 .buybtn .real{height: 38px;/*background: url(../images/hzd_64.png) no-repeat left center;*/display: inline-block;line-height: 38px;color:#333333;font-size: 14px;  padding-left: 45px;}
 .buybtn .speed{height: 38px;background: url(../images/hzd_65.png) no-repeat left center;display: inline-block;line-height: 38px;color:#333333;font-size: 14px;  padding-left: 45px;  margin-left: 20px;}
@@ -635,7 +652,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .buybtn .soon{display:inline-block;width: 222px;height: 54px;background-color:#888888; color:white;font-size: 24px;line-height: 54px;text-align: center;margin-left: 106px;margin-top: 10px;}
 .buybtn .finish{display:inline-block;width: 222px;height: 54px;background-color:#666666; color:white;font-size: 24px;line-height: 54px;text-align: center;margin-left: 106px;margin-top: 10px;}
 
-/*底部版权信息*/
+/*搴曢儴鐗堟潈淇℃伅*/
 .downwenzi li{width:71px; float:left;}
 .downbq{line-height:30px; font-size:14px; height:160px;}
 .downwenzi a:hover{color:#e8323d;}

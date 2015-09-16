@@ -68,7 +68,7 @@
                     <#list consult_page.content as consult>
                     <tr>
                         <td>
-                           <a href="/goods/${consult.goodsId}">
+                           <a href="/goods/${consult.goodsId?c}">
                                 <img src="${consult.goodsCoverImageUri!''}" width="50" height="50" title="${consult.goodsTitle!''}">                                             </a>                                        </td>
                         <td>
                            <a target="_blank" href="/goods/${consult.goodsId}">${consult.goodsTitle!''}</a>

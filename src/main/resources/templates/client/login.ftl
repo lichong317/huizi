@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <head>
 <meta charset="utf-8">
-<title>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}" />
 <meta name="description" content="${site.seoDescription!''}" />
 <meta name="copyright" content="${site.copyright!''}" />
@@ -82,7 +82,7 @@
 <body>
     <div class="w1065">
     <div class="denglutop">
-<div class="denglulogo"><img src="<#if site??>${site.logoUri!''}</#if>"></div>
+<div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
 <section class="denglu_center">
   <table>
      <tbody>

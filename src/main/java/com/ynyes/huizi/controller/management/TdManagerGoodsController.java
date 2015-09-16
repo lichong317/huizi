@@ -686,7 +686,7 @@ public class TdManagerGoodsController {
                         String __VIEWSTATE,
                         String menuId,
                         String channelId,
-                        ModelMap map,
+                        ModelMap map,Boolean isRecommendIndex,Boolean isRecommendType,Boolean isHot,Boolean isNew,Boolean isSpecialPrice,
                         HttpServletRequest req){
         String username = (String) req.getSession().getAttribute("manager");
         if (null == username)
@@ -708,6 +708,36 @@ public class TdManagerGoodsController {
         {
             type = "edit";
         }
+        
+        /**
+		 * @author lc
+		 * @注释：推荐类型修改
+		 */
+        if (null != isRecommendIndex && isRecommendIndex) {
+			tdGoods.setIsRecommendIndex(true);
+		}else{
+			tdGoods.setIsRecommendIndex(false);
+		}
+        if (null != isRecommendType && isRecommendType) {
+			tdGoods.setIsRecommendType(true);
+		}else{
+			tdGoods.setIsRecommendType(false);
+		}
+        if (null != isHot && isHot) {
+			tdGoods.setIsHot(true);
+		}else{
+			tdGoods.setIsHot(false);
+		}
+        if (null != isNew && isNew) {
+			tdGoods.setIsNew(true);
+		}else{
+			tdGoods.setIsNew(false);
+		}
+        if (null != isSpecialPrice && isSpecialPrice) {
+			tdGoods.setIsSpecialPrice(true);
+		}else{
+			tdGoods.setIsSpecialPrice(false);
+		}
         
         tdGoodsService.save(tdGoods, username);
         

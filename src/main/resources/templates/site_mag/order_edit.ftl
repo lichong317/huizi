@@ -727,7 +727,7 @@
                         <#if order.orderGoodsList??>
                             <#list order.orderGoodsList as goods>
                                 <tr class="td_c">
-                                    <td>${goods.goodsId!""}</td>
+                                    <td>${goods.goodsId?c!""}</td>
                                     <td style="text-align: left; white-space: normal;">
                                         ${goods.goodsTitle!""} 
                                         ${goods.goodsColor!""}

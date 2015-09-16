@@ -77,18 +77,18 @@ function __doPostBack(eventTarget, eventArgument) {
                         <tr id="tr_1424195166">
                        	    <td width=10><input id="yu_1424195166" name="r" type="checkbox" value="1424195166" class="check" onClick="cancelCheck(1424195166)"/></td>
                             <td>
-                                <a href="/goods/${cg.goodsId}" target="_blank">
+                                <a href="/goods/${cg.goodsId?c}" target="_blank">
                                     <strong><img width="100" height="100" src="${cg.goodsCoverImageUri!''}"></strong>
                                 </a>
                             </td>
                             <td class="tb01">
-                                <a href="/goods/${cg.goodsId}" target="_blank"  clstag="homepage|keycount|guanzhu|shangpin01">${cg.goodsTitle!''}</a>
+                                <a href="/goods/${cg.goodsId?c}" target="_blank"  clstag="homepage|keycount|guanzhu|shangpin01">${cg.goodsTitle!''}</a>
                             </td>
                             <td class="tb02">￥${cg.goodsSalePrice?string("#.##")}</td>
                             <td>${cg.leftNumber!''}</td>
                             <td>
-                                <p><a href="/cart/init?id=${cg.goodsId!''}" target="_blank">加入购物车</a></p>
-                                <p><a href="/user/collect/del?id=${cg.goodsId!''}">取消关注</a></p>
+                                <p><a href="/cart/init?id=${cg.goodsId?c!''}" target="_blank">加入购物车</a></p>
+                                <p><a href="/user/collect/del?id=${cg.goodsId?c!''}">取消关注</a></p>
                             </td>
                           </tr>
                     </#list>
@@ -137,7 +137,7 @@ function __doPostBack(eventTarget, eventArgument) {
           	  <#if reco_page0??>
 	              <#list reco_page0.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!''}" title="${item.subTitle!'' }">
+			          <a href="/goods/${item.id?c!''}" title="${item.subTitle!'' }">
 			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
@@ -151,7 +151,7 @@ function __doPostBack(eventTarget, eventArgument) {
           	  <#if reco_page1??>
 	              <#list reco_page1.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!'' }">
+			          <a href="/goods/${item.id?c!'' }">
 			          <img src="${item.coverImageUri!'' }"width="208" height="208" />
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						
@@ -165,7 +165,7 @@ function __doPostBack(eventTarget, eventArgument) {
           	  <#if reco_page2??>
 	              <#list reco_page2.content as item>
 	              	<#if item_index lt 4>
-			          <a href="/goods/${item.id!'' }">
+			          <a href="/goods/${item.id?c!'' }">
 			          <img src="${item.coverImageUri!'' }" width="208" height="208"/>
 			           <p>${item.title!'' }</p>
 			           <p>￥<span>${item.salePrice?string(0.00)!'' }</span></p>						

@@ -83,7 +83,7 @@ $(function () {
 <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="${__EVENTARGUMENT!""}" />
 <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="${__VIEWSTATE!""}" />
 </div>
-<input name="id" type="text" value='<#if parameter??>${parameter.id!""}</#if>' style="display:none">
+<input name="id" type="text" value='<#if parameter??>${parameter.id?c!""}</#if>' style="display:none">
 <!--导航栏-->
 <div class="location">
     <a href="/Verwalter/parameter/list" class="back"><i></i><span>

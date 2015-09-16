@@ -262,6 +262,10 @@ public class TdGoods {
     @Column(scale=2)
     private Double flashSalePrice;
     
+    // 限时抢购成交价格
+    @Column(scale=2)
+    private Double flashSaleTransactionPrice;
+    
     // 限时抢购剩余数量
     @Column
     private Long flashSaleLeftNumber;
@@ -342,6 +346,14 @@ public class TdGoods {
     @Column
     private Long totalComments;
     
+    // 关注数
+    @Column
+    private Long totalCollects;
+    
+    // 商品编码
+    @Column
+    private String code;
+    
     public Long getId() {
         return id;
     }
@@ -358,7 +370,23 @@ public class TdGoods {
         this.productId = productId;
     }
 
-    public String getName() {
+    public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Long getTotalCollects() {
+		return totalCollects;
+	}
+
+	public void setTotalCollects(Long totalCollects) {
+		this.totalCollects = totalCollects;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -366,7 +394,15 @@ public class TdGoods {
         this.name = name;
     }
 
-    public String getTitle() {
+    public Double getFlashSaleTransactionPrice() {
+		return flashSaleTransactionPrice;
+	}
+
+	public void setFlashSaleTransactionPrice(Double flashSaleTransactionPrice) {
+		this.flashSaleTransactionPrice = flashSaleTransactionPrice;
+	}
+
+	public String getTitle() {
         return title;
     }
 

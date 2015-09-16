@@ -87,11 +87,11 @@ function showComplainTr(i, j)
               </table></td>
             <td ><p>${item.orderTime?string("yyyy-MM-dd")}</p>
               <p>${item.orderTime?string("HH-mm-ss")}</p></td>
-			  <td><a href="javascript:evaluateShow('mymember_eva${item.id}','mymember_evabox');">我要投诉</a></td>
+			  <td><a href="javascript:evaluateShow('mymember_eva${item.id?c}','mymember_evabox');">我要投诉</a></td>
           </tr>
-		     <tr id="mymember_eva${item.id}" class="mymember_evabox">
+		     <tr id="mymember_eva${item.id?c}" class="mymember_evabox">
           <td class="td004" colspan="4">
-            <form class="complainForm${item.id}" action="/user/complain/add">
+            <form class="complainForm${item.id?c}" action="/user/complain/add">
             <input type="hidden" name="orderId" value=${item.id?c} />
             <input type="hidden" name="orderNumber" value=${item.orderNumber} />
             <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
@@ -118,7 +118,7 @@ function showComplainTr(i, j)
 <script>        
         $(document).ready(function(){  
      //初始化表单验证
-    $(".complainForm${item.id}").Validform({
+    $(".complainForm${item.id?c}").Validform({
         tiptype: 4,
         ajaxPost:true,
         callback: function(data) {

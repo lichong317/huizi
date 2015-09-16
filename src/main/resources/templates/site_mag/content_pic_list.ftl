@@ -95,7 +95,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <span class="checkall">
                     <input type="checkbox" name="listChkId" value="${content_index}">
                 </span>
-                <input type="hidden" name="listId" id="listId" value="${content.id}">
+                <input type="hidden" name="listId" id="listId" value="${content.id?c}">
             </div>
             <#if content.imgUrl??>
             <div class="pic">

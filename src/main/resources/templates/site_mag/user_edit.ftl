@@ -63,7 +63,7 @@ $(function () {
 <form name="form_user" method="post" action="/Verwalter/user/save" id="form_user">
 <div>
 <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="${__VIEWSTATE!""}" >
-<input type="hidden" name="userId" value="<#if user??>${user.id!""}</#if>" >
+<input type="hidden" name="userId" value="<#if user??>${user.id?c!""}</#if>" >
 </div>
 <!--导航栏-->
 <div class="location" style="position: static; top: 0px;">

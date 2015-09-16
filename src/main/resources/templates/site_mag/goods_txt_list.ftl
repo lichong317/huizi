@@ -172,7 +172,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <span class="checkall" style="vertical-align:middle;">
                     <input id="listChkId" type="checkbox" name="listChkId" value="${content_index}" >
                 </span>
-                <input type="hidden" name="listId" id="listId" value="${content.id}">
+                <input type="hidden" name="listId" id="listId" value="${content.id?c}">
             </td>
             <td>${content.id!''}</td>
             <td><a href="/Verwalter/goods/edit?__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></td>
@@ -192,7 +192,7 @@ function __doPostBack(eventTarget, eventArgument) {
             </td>
             <td>
               <div class="btn-tools">
-                <a title="上架/下架" class="hot <#if content.isOnSale?? && content.isOnSale>selected</#if>" href="javascript:__doPostBack('btnOnSale','${content.id!''}')"></a>
+                <a title="上架/下架" class="hot <#if content.isOnSale?? && content.isOnSale>selected</#if>" href="javascript:__doPostBack('btnOnSale','${content.id?c!''}')"></a>
                 <a title="改价" class="change" href="javascript:showDialogChangePrice('${content.id!""}')"></a>
                 <a title="改价记录" class="record" href="javascript:showDialogPriceLog('${content.id!""}')"></a>
                 <#--

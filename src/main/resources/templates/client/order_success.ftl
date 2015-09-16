@@ -77,7 +77,7 @@ $(document).ready(function(){
                         <ul>
                             <#if goods_index <5>
                                   <li>
-                                       <a href="/goods/${goods.id}"><img src="${goods.coverImageUri!''}" height="190" width="190" title="${goods.title!''} ${goods.subTitle!''}"/>
+                                       <a href="/goods/${goods.id?c}"><img src="${goods.coverImageUri!''}" height="190" width="190" title="${goods.title!''} ${goods.subTitle!''}"/>
                                        <p>${goods.title!''} ${goods.subTitle!''}</p>
                                        <b>￥${goods.salePrice?string("0.00")}</b> </a>
                                   </li>

@@ -33,6 +33,8 @@ public interface TdGoodsRepo extends
     
     Page<TdGoods> findByCategoryIdTreeContainingAndIsOnSaleTrueOrderByOnSaleTimeDesc(String categoryId, Pageable page);
     
+    Page<TdGoods> findByIsOnSaleTrueOrderByOnSaleTimeDesc(Pageable page);
+    
     List<TdGoods> findTop10ByIsOnSaleTrueOrderBySoldNumberDesc();
     
     Page<TdGoods> findByIsOnSaleTrue(Pageable page);

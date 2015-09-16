@@ -2,24 +2,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>博大生活网——网站首页</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="copyright" content="" />
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
+<meta name="copyright" content="${site.copyright!''}" />
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <link href="/client/style/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/master.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/client/js/html5.js"></script>
-<script src="/client/js/header.js"></script>
+<link href="/client/style/common.css" rel="stylesheet" type="text/css" />
+<link href="/client/style/style.css" rel="stylesheet" type="text/css" />
+
+<#--><script type="text/javascript" src="/client/js/html5.js"></script>
+<script src="/client/js/header.js"></script> -->
+<script type="text/javascript" src="/client/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/client/js/common.js"></script>
+<script type="text/javascript" src="/client/js/ljs-v1.01.js"></script>
+<script type="text/javascript" src="/client/js/list.js"></script>
 </head>
+<script type="text/javascript">
+  $(document).ready(function(){
+    menuDownList("top_phone","#top_phonelist",".a1","sel");
+    phoneListMore();//单独下拉
+    menuDownList("top_order","#top_orderlist",".a4","sel");//顶部下拉
+    searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
+    searchTextClear(".bottext","查看所有门店","#fff","#fff");
+    checkNowHover("shopping_down","shopping_sel");
+    navDownList("navdown","li",".nav_showbox");
+    //menuDownList("mainnavdown","#navdown",".a2","sel");
+    
+    chooseMoreShow();
+        
+});
+</script>
 <body>
 <!-- header开始 -->
 <#include "/client/common_header.ftl" />
 <!-- header结束 -->
 <article id="main">
-    <div class="ipp1 top">
+   <div class="ipp1 top">
         <dd>您当前位置：<a href="/">首页</a> > <a href="/info/list/10" class="hover_zy">${menu_name!''}</a></dd>
-    </div>
+    </div> 
+    
     <div class="clear"></div>
     <!--面包屑结束-->
     
@@ -30,7 +53,7 @@
             <ul class="newlistnavS">
                 <#if info_category_list??>
                     <#list info_category_list as item>
-                        <li><a href="/info/list/${mid}?catId=${item.id}"><#list 1..item.layerCount as x>&nbsp;&nbsp;</#list>${item.title!''}</a></li>
+                        <li><a href="/info/list/${mid}?catId=${item.id?c}"><#list 1..item.layerCount as x>&nbsp;&nbsp;</#list>${item.title!''}</a></li>
                     </#list>
                 </#if>
             </ul>
@@ -66,7 +89,7 @@
         <ul class="newlisttxtB">
             <#if info_page??>
                 <#list info_page.content as item>
-                    <li><a href="/info/content/${item.id}?mid=${mid}">${item.title!''}<span>${item.createTime?string('yyyy-MM-dd')}</span></a></li>
+                    <li><a href="/info/content/${item.id?c}?mid=${mid?c}">${item.title!''}<span>${item.createTime?string('yyyy-MM-dd')}</span></a></li>
                 </#list>
             </#if>
         </ul>
@@ -84,7 +107,7 @@
                     <#if info_page.number+1 == 1>
                         <a class="pn-prev disabled"><i>&lt;</i><em>上一页</em></a>
                     <#else>
-                        <a href="/info/list/${mid}?catId=${catId}&page=${info_page.number-1}" class="pn-prev disabled"><i>&lt;</i><em>上一页</em></a>
+                        <a href="/info/list/${mid?c}?catId=${catId?c}&page=${info_page.number-1}" class="pn-prev disabled"><i>&lt;</i><em>上一页</em></a>
                     </#if>
                     
                     <#if info_page.totalPages gt 0>
@@ -93,7 +116,7 @@
                                 <#if page == info_page.number+1>
                                     <a href="javascript:;" class="curr">${page}</a>
                                 <#else>
-                                    <a href="/info/list/${mid}?catId=${catId}&page=${page}" class="hide">${page}</a> <#-- ${page} -->
+                                    <a href="/info/list/${mid?c}?catId=${catId?c}&page=${page}" class="hide">${page}</a> <#-- ${page} -->
                                 </#if>
                                 <#assign continueEnter=false>
                             <#else>
@@ -108,7 +131,7 @@
                     <#if info_page.number+1 == info_page.totalPages || info_page.totalPages==0>
                         <a href="javascript:;" class="pn-next disabled"><em>下一页</em><i>&gt;</i></a>
                     <#else>
-                        <a href="/info/list/${mid}?catId=${info_page.number+1}" class="pn-next"><em>下一页</em><i>&gt;</i></a>
+                        <a href="/info/list/${mid?c}?catId=${info_page.number+1}" class="pn-next"><em>下一页</em><i>&gt;</i></a>
                     </#if>
                 </#if>
                 </span>
@@ -116,8 +139,8 @@
         </div>  
         <#-- 分页结束 -->
         </div>
-        </div>
-         <div class="cle"></div>
+       <div class="cle"></div>
+       
 </article>
 <!--主体结束-->
 <#include "/client/common_footer.ftl" />

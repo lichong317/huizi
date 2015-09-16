@@ -84,8 +84,8 @@ $(function () {
                     <td>${address.receiverMobile!''}</td>
                     <td>${address.detailAddress!''}</td>
                     <td>
-                      <p><a href="/user/address/update?id=${address.id}">修改</a></p>
-                      <p><a href="/user/address/delete?id=${address.id}">删除</a></p>
+                      <p><a href="/user/address/update?id=${address.id?c}">修改</a></p>
+                      <p><a href="/user/address/delete?id=${address.id?c}">删除</a></p>
                     </td>
                   </tr>
             </#list>
@@ -96,7 +96,7 @@ $(function () {
     <h4>增加/修改</h4>
     <form method="post" action="/user/address/save" id="form1">
     <table class="mymember_address">
-      <input class="mytext" name="addressId" type="hidden" value="<#if address??>${address.id}</#if>">
+      <input class="mytext" name="addressId" type="hidden" value="<#if address??>${address.id?c}</#if>">
       <tbody>
       <tr>
         <th>收货人：</th>

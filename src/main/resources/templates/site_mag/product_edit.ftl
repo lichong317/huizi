@@ -70,7 +70,7 @@ $(function () {
     
     // 选择类型后修改ajaxurl
     $("#proCatId").change(function(){
-        var url = "/Verwalter/product/check?catId=" + $(this).val() + "<#if product??>&id=${product.id}</#if>";
+        var url = "/Verwalter/product/check?catId=" + $(this).val() + "<#if product??>&id=${product.id?c}</#if>";
         $("#idProductTitle").attr("ajaxurl", url);
     });
     
