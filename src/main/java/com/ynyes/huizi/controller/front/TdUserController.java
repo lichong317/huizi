@@ -922,7 +922,6 @@ public class TdUserController {
                 if (1L == order.getStatusId()||2L == order.getStatusId())
                 {
                 	if (null == order.getIsCancel()||false == order.getIsCancel())
-             
 	                {
 	                    order.setStatusId(7L);
 	                    order.setCancelApplyTime(new Date());
