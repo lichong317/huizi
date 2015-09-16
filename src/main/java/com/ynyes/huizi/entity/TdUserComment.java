@@ -53,7 +53,10 @@ public class TdUserComment {
     @Column
     private Long serviceStar;
     
-    // 评论被点击“有用”的数量
+    @Column
+    private Long compositeStar;
+     
+	// 评论被点击“有用”的数量
     @Column
     private Long positiveNumber;
     
@@ -110,8 +113,24 @@ public class TdUserComment {
     // 排序号
     @Column
     private Long sortId;
+    
+    // 同盟店id
+    @Column
+    private Long diysiteId;
+    
+    // 轮播展示图片，多张图片以,隔开 zhangji
+    @Column
+    private String showPictures;
+    
+    public Long getDiysiteId() {
+		return diysiteId;
+	}
 
-    public Long getId() {
+	public void setDiysiteId(Long diysiteId) {
+		this.diysiteId = diysiteId;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -126,7 +145,15 @@ public class TdUserComment {
     public void setTitle(String title) {
         this.title = title;
     }
+    
+    public Long getCompositeStar() {
+		return compositeStar;
+	}
 
+	public void setCompositeStar(Long compositeStar) {
+		this.compositeStar = compositeStar;
+	}
+	
     public String getContent() {
         return content;
     }
@@ -286,4 +313,13 @@ public class TdUserComment {
     public void setServiceStar(Long serviceStar) {
         this.serviceStar = serviceStar;
     }
+
+	public String getShowPictures() {
+		return showPictures;
+	}
+
+	public void setShowPictures(String showPictures) {
+		this.showPictures = showPictures;
+	}
+    
 }

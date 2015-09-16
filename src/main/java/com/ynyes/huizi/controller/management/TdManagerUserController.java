@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.service.TdManagerLogService;
+import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
@@ -74,6 +76,9 @@ public class TdManagerUserController {
     
     @Autowired
     TdManagerLogService tdManagerLogService;
+    
+    @Autowired
+    TdOrderService tdOrderService; //zhangji
     
     @RequestMapping(value="/check", method = RequestMethod.POST)
     @ResponseBody
@@ -537,6 +542,7 @@ public class TdManagerUserController {
                         Long userId,
                         Long statusId,
                         String keywords,
+                        Boolean isRefund, //zhangji
                         String __EVENTTARGET,
                         String __EVENTARGUMENT,
                         String __VIEWSTATE,
@@ -588,6 +594,7 @@ public class TdManagerUserController {
             keywords = keywords.trim();
         }
         
+        map.addAttribute("isRefund", isRefund); //zhangji
         map.addAttribute("page", page);
         map.addAttribute("size", size);
         map.addAttribute("userId", userId);
@@ -686,6 +693,11 @@ public class TdManagerUserController {
             {
                 map.addAttribute("user_return_page", findTdUserReturn(statusId, keywords, page, size));
                 return "/site_mag/user_return_list";
+            }
+            else if (type.equalsIgnoreCase("cancel")) // 取消订单 zhangji
+            {
+                map.addAttribute("user_cancel_page", findTdUserCancel( isRefund,page, size));
+                return "/site_mag/user_cancel_list";
             }
         }
         
@@ -805,6 +817,32 @@ public class TdManagerUserController {
             {
                 dataPage = tdUserReturnService.searchAndFindByStatusIdOrderBySortIdAsc(keywords, statusId, page, size);
             }
+        }
+        
+        return dataPage;
+    }
+    /**
+     * @author Zhangji
+     * @param isRefund
+     * @param page
+     * @param size
+     * @return
+     */
+    private Page<TdOrder> findTdUserCancel(Boolean isRefund, int page, int size)
+    {
+        Page<TdOrder> dataPage = null;
+        
+        if (null == isRefund)
+        {
+                dataPage = tdOrderService.findByIsCancelTrue(page, size);
+        }
+        else if(true == isRefund)
+        {
+                dataPage = tdOrderService.findByIsCancelTrueAndIsRefundTrue( page, size);
+        }
+        else if(false == isRefund)
+        {
+                dataPage = tdOrderService.findByIsCancelTrueAndIsRefundFalse( page, size);
         }
         
         return dataPage;

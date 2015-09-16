@@ -622,7 +622,7 @@ public class TdManagerOrderController {
             else if (type.equalsIgnoreCase("orderCancel"))
             {
                 if (order.getStatusId().equals(1L) ||
-                        order.getStatusId().equals(2L))
+                        order.getStatusId().equals(2L)|| order.getStatusId().equals(3L))            //zhangji
                 {
                     order.setStatusId(7L);
                     order.setCancelTime(new Date());

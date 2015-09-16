@@ -926,6 +926,7 @@
                 </#if>
             <#elseif order.statusId==3>
                 <input type="button" id="btnOrderExpress" value="确认发货" class="btn">
+                <input type="button" id="btnCancel" value="取消订单" class="btn green">
             <#elseif order.statusId==4>
                 <input type="button" id="btnOrderReceive" value="确认收货" class="btn green">
             <#elseif order.statusId==5>

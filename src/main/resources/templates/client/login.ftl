@@ -29,6 +29,7 @@
 	
 	chooseMoreShow();
 	
+		$("#txt_loginId")[0].focus();
 	//初始化表单验证
     $("#form1").Validform({
         tiptype: 3
@@ -76,6 +77,7 @@
     }
  });    
 </script>
+
 </head>
 <body>
     <div class="w1065">
@@ -119,7 +121,7 @@
             &nbsp;记住密码</label>
           &nbsp;&nbsp;<b class="wj"><a href="#">忘记密码？</a></b></p>
         <p class="mt15">还不是会员？<b class="zc"><a href="/reg">免费注册</a></b></p>
-        <input type="submit" class="login_btn" id="btn_login" value="立即登录"/>
+        <input type="submit"  class="login_btn" id="btn_login" value="立即登录"/>
       </div>
     </div>
     </div>

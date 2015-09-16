@@ -20,6 +20,7 @@ public interface TdUserReturnRepo extends
 		PagingAndSortingRepository<TdUserReturn, Long>,
 		JpaSpecificationExecutor<TdUserReturn> 
 {
+	TdUserReturn findByUsernameAndOrderNumberAndGoodsId(String username,String orderNumber, Long goodsId); //zhangji
     Page<TdUserReturn> findByStatusIdOrderBySortIdAsc(Long statusId, Pageable page);
     
     Page<TdUserReturn> findByUsernameContainingOrGoodsTitleContainingOrOrderNumberContainingOrderBySortIdAsc(String keywords1, String keywords2, String keywords3, Pageable page);

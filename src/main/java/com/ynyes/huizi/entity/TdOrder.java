@@ -161,6 +161,24 @@ public class TdOrder {
     @Column
     private String cancelReason;
     
+    //取消申请时间 zhangji
+    @Column
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date cancelApplyTime;
+    
+    // 退款时间 zhangji
+    @Column
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date refundTime;;
+    
+    //是否取消订单 zhangji
+    @Column
+    private  Boolean isCancel;
+    
+    //是否退款 zhangji
+    @Column
+    private Boolean isRefund;
+    
     // 用户
     @Column
     private String username;
@@ -169,8 +187,8 @@ public class TdOrder {
     @Column
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date sendTime;
-    
-    // 配货人
+
+	// 配货人
     @Column
     private String deliveryPerson;
     
@@ -206,7 +224,16 @@ public class TdOrder {
     @Column
     private Boolean isOnlinePay;
 
-    public Long getId() {
+    
+    public Boolean getIsCancel() {
+		return isCancel;
+	}
+
+	public void setIsCancel(Boolean isCancel) {
+		this.isCancel = isCancel;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -549,4 +576,30 @@ public class TdOrder {
     public void setPointUse(Long pointUse) {
         this.pointUse = pointUse;
     }
+    
+    
+    public Boolean getIsRefund() {
+		return isRefund;
+	}
+
+	public void setIsRefund(Boolean isRefund) {
+		this.isRefund = isRefund;
+	}
+
+	public Date getCancelApplyTime() {
+		return cancelApplyTime;
+	}
+
+	public void setCancelApplyTime(Date cancelApplyTime) {
+		this.cancelApplyTime = cancelApplyTime;
+	}
+
+	public Date getRefundTime() {
+		return refundTime;
+	}
+
+	public void setRefundTime(Date refundTime) {
+		this.refundTime = refundTime;
+	}
+
 }

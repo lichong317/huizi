@@ -10,7 +10,7 @@
             <a href="/user/order/list/7">取消订单记录</a>
          -->
             <a href="/user/comment/list">评价结单</a>
-            <a href="/user/return/list">取消订单记录</a>
+            <a href="/user/cancel/list">取消订单记录</a>
         </div>
     </div>
     
