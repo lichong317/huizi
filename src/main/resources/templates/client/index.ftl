@@ -165,30 +165,17 @@ function delItem(id)
                             <div class="nav_showbox">
                                 <i class="bg"></i>
                                 <div class="clear"></div>
-                                 <table class="nav_right">
-                                     <tr>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                     </tr>
-                                     <tr>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                    </tr>
-                                    <tr>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                    </tr>
-                                    <tr>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                            <td><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                    </tr>
-                                    <tr>
-                                            <td colspan="2" class="pt10"><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                    </tr>
-                                    <tr>
-                                            <td colspan="2"><a href="#"><img src="client/images/hzd_19.png" /></a></td>
-                                    </tr>
-                                 </table>
+                                  <#if ("nav_"+item_index+"_ad_list")?eval??> 
+                                     <table class="nav_right"> 
+                                          <#list ("nav_"+item_index+"_ad_list")?eval as aditem> 
+                                                <#if aditem_index < 4 >                                                           
+                                                      <tr>
+                                                           <td colspan="2" class="pt10"><a href="${aditem.linkUri!''}"><img src="${aditem.fileUri!''}" width="166" height="129"/></a></td>
+                                                      </tr>
+                                                </#if>
+                                          </#list>                                                    
+                                     </table>
+                                   </#if>
                                 <#if ("second_level_"+item_index+"_cat_list")?eval?? >
                                     <table class="nav_more">
                                         <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
@@ -242,9 +229,9 @@ function delItem(id)
                       <li>
                 <!--         <a href="#">${item.title!''}</a>  -->
                          <#if item.title?length lt 21>
-                            <a href="#">${item.title?default("")}</a>
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title?default("")}</a>
                              <#else>
-                            <a href="#" title="${item.title}">${item.title[0..17]?default("")}...</a>
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}" title="${item.title}">${item.title[0..17]?default("")}...</a>
                          </#if>
                       </li>
                     </#if>

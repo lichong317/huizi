@@ -663,8 +663,18 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .denglulogo{margin-top:35px; width:233px; height:73px; float:left;}
 
 
-
+/*article */
 .denglu_center {width:543px;padding:54px 0; float:right;}
 .denglu_center table { width:543px; table-layout:fixed; margin:0 auto;}
 .denglu_center a { display:block; padding:10px 0 0 79px; height:37px; font-size:14px;}
 .denglu_center a img { position:absolute;left:34px;top:0;}
+
+.wenzhangliebiao li{font-size:14px; border-bottom:dashed 1px #ccc; line-height:50px;}
+.wenzhangliebiao li a{width:1100px; float:left;}
+.wenzhangxiangxi h3{font-size:20px; text-align:center; line-height:50px; margin-bottom:20px;}
+.wenzhangxiangxi p{font-size:16px; line-height:30px;}
+.next{ width:100%; margin-top:20px; height:40px; float:left; border-bottom-style:solid; border-bottom-width:1px; border-bottom-color:#CCC;}
+.next a{color:#333;}
+.next a:hover{ color:#ff4454;}
+.shang{float:left; font-size:14px; line-height:40px;}
+.xia{float:right; font-size:14px; line-height:40px;}

@@ -6,105 +6,62 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<link href="/client/style/layout.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/master.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/client/js/html5.js"></script>
-<script src="/client/js/header.js"></script>
+<!--[if IE]>
+   <script src="js/html5.js"></script>
+<![endif]-->
+<script src="/client/js/jquery-1.9.1.min.js"></script>
+<script src="/client/js/common.js"></script>
+<script src="/client/js/ljs-v1.01.js"></script>
+
+<link href="/client/style/common.css" rel="stylesheet" type="text/css" />
+<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
+<link href="/client/style/style.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    menuDownList("top_phone","#top_phonelist",".a1","sel");
+    phoneListMore();//单独下拉
+    menuDownList("top_order","#top_orderlist",".a4","sel");//顶部下拉
+    searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
+    searchTextClear(".bottext","查看所有门店","#fff","#fff");
+    checkNowHover("shopping_down","shopping_sel");
+    navDownList("navdown","li",".nav_showbox");
+    menuDownList("mainnavdown","#navdown",".a2","sel");
+    
+    chooseMoreShow();
+        
+});
+</script>
+
 </head>
+
 <body>
 <!-- header开始 -->
 <#include "/client/common_header.ftl" />
 <!-- header结束 -->
-<article id="main">
-    <div class="ipp1 top">
-            <dd>您当前位置：<a href="/">首页</a> > <a href="/info/list/${mid!''}" >${menu_name!''}</a> > <a href="javascrip:;" class="hover_zy">内容</a></dd>
-    </div>
-    <div class="clear"></div>
-    <!--面包屑结束-->
-    
-	<div id="Content" class="mt20 fl">
-        <div class="newlistL">
-        <div class="newlistnav">
-        <h1>${menu_name!''}</h1>
-        <ul class="newlistnavS">
-            <#if info_category_list??>
-                <#list info_category_list as item>
-                    <li><a href="/info/list/${mid}?catId=${item.id}"><#list 1..item.layerCount as x>&nbsp;&nbsp;</#list>${item.title!''}</a></li>
-                </#list>
-            </#if>
-        </ul>
-        </div>
-        <#--
-        <div class="newindexMRFT">
-        <h1 class="newindexMRFTH3"><dl><dd>最近添加</dd><dt></dt></dl></h1>
-        <ul class="newindexMRFTM3">
-            <#if latest_info_page??>
-                <#list latest_info_page.content as item>
-                    <li>
-                        <a href="/info/content/${item.id}?mid=${mid}"><img src="${item.imgUrl!''}" width="70" height="67" /></a>
-                        <dl>
-                            <dd>
-                            <a href="/info/content/${item.id}?mid=${mid}">${item.title!''}</a>
-                            </dd>
-                            <dt>
-                                <#if item.content??>
-                                    ${item.content!''}
-                                </#if>
-                            </dt>
-                        </dl>
-                    </li>
-                </#list>
-            </#if>
-        </ul>
-        </div>
-        -->
-        
-        
-        </div>
-        <div class="newlistR">
-        <h1 class="newlistRT"><img src="/client/images/home.png" width="25" height="25" /> 内容</h1>
+<div class="clear h20"></div>
 
-            <div class="newcontent">
-            <h1 class="newcontentT">${info.title!''}</h1>
-            <div class="newcontentINFO">${info.createTime!''}　 <#if info.source??>出处：${info.source}</#if></div>
-            <div class="newcontentshow">
-                ${info.content!''}
-            </div>
-            <dl class="newcontentBTN">
-            <dd class="newcontentBTN1"><a href="#"><img src="/client/images/fenx.png" width="142" height="27" /></a></dd>
-            </dl>
-            <dl class="newcontentB">
-            <#--
-            <dd class="newcontentPRE">上一篇：<a href="#">不逊孤岛危机2 韩游《HOUNDS》前瞻</a></dd>
-            <dd class="newcontentNEXT">下一篇：<a href="#">QQ西游40~50级如何快速升级</a></dd>
-            -->
-            </dl>
-            <#--
-            <div class="newComment mt15">
-                <dl class="newCommentT">
-                    <dd><img src="images/newicon5.gif" /> 网友评论</dd>
-                    <dt>共<em>1</em>条评论 </dt>
-                </dl>
-                <textarea cols="12" rows="3" class="newcCommentTEX">请文明发言，发广告将被屏蔽IP</textarea>
-                <div class="yzm_zy mt10 fl" style="margin-left:520px;">验证码：<input type="text" name="reg_rand" id="reg_rand"  class="txt_input"/> <a href="javascript:;"> <img src="code_num.php" id="getcode_num" title="看不清，点击换一张" align="absmiddle" onClick="checkcode($(this));"></a></div>
-                <img class="Commentbtn" src="images/Commentbtn2.gif" />
-                <div class="clearboth"></div>
-                <ul class="newCommentlist fl">
-                    <li>
-                    <h1><em>1楼</em> 云南昆明市网友  <b>2012-05-23</b></h1>
-                    <p>不知不知打算垃圾啊困死了</p>
-                    </li>
-                </ul>
-            </div>
-            -->
-            
-            </div>
-         </div>
+    <!--liebiaoye-->
+    <div class="main">
+        <div class="weizhi">
+            <span><a href="/">首页</a></span>><span><a href="/info/list/${mid!''}" >${menu_name!''}</a> > <a href="javascrip:;" class="hover_zy">内容</a></span>
         </div>
+        <div class="clear h15"></div>
+        <div class="wenzhangxiangxi">            
+            <h3>${info.title!''}</h3>
+            <p style="text-align:center">${info.createTime!''}　</p>
+            <p>${info.content!''}</p>   
         </div>
-         <div class="cle"></div>
-</article>
+    
+        <div class="clear h30"></div>
+        <div class="next">
+            <div class="shang"><a href="#">上一篇:福建纺织品印花展</a></div>
+            <div class="xia"><a href="#">下一篇:福建纺织品印花展</a></div>
+        </div>
+        <!--分页-->
+    
+    </div>
+  <div class="clear h40"></div>
 <!--主体结束-->
 <#include "/client/common_footer.ftl" />
 <!--底部结束-->
