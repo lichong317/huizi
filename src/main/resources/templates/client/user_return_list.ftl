@@ -52,7 +52,12 @@
     <div class="mymember_mainbox">
       <div class="mymember_info mymember_info02">
         <div class="mymember_order_search"> 
-            <a class="a001" href="/user/return/list">取消订单记录 </a>
+            <a class="a001" href="/user/return/list">申请返修/退换货</a>
+            <form action="/user/return/list" method="post">
+            	<input type="hidden" name="timeId" value="${time_id}"/>
+          		<input class="mysub" type="submit" value="查询" />
+          		<input class="mytext" type="text" name="keywords" onFocus="if(value=='订单编号') {value=''}" onBlur="if (value=='') {value='订单编号'}"  value="订单编号" />
+            </form>
             <div class="clear"></div>
         </div>
         
@@ -60,23 +65,51 @@
             <tr class="mymember_infotab_tit01">
 			  <th width="70">订单编号</th>
 	          <th>订单商品</th>
-	          <th width="70">提交时间</th>
-	          <th width="80">支付明细</th>
-			  <th width="80">退款状态</th>         
-	          <th width="60">操作</th>
+              <th width="80"> <select>
+                  <option value="0" selected>下单时间</option>
+                  <option value="1" >最近一个月</option>
+                  <option value="3">最近三个月</option>
+                  <option value="6">最近六个月</option>
+                  <option value="12">今年内</option>
+                </select>
+              </th>
             </tr>
             <#if return_page??>
                 <#list return_page.content as return>
                     <tr>
                     	<td>${return.orderNumber!'' }</td>
+<<<<<<< HEAD
+                      
+                      <td class="td001">
+	                      <table width="100" border="0"  align=left>
+		                      <tr>
+		                      <#list return.orderGoodsList as og>
+			                      <td>
+				                      <a href="/goods/${og.goodsId?c!'' }"><img width="50" height="50" src="${og.goodsCoverImageUri!''}" title="${og.goodsTitle!''}"/></a><br/>
+				                      <#if og.isReturnApplied?? &&og.isReturnApplied>
+				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击查看详情">已申请</a>
+				                      <#else>	
+				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击申请退换货">申请</a>
+				                      </#if>	
+			                      </td>
+			                    </#list>
+		                      </tr>
+	                      </table>
+                      </td>
+          
+=======
                       <td class="td001"><a href="/goods/${return.goodsId?c!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
+>>>>>>> refs/remotes/origin/master
 			          <td class="td003">
-			            <p>${return.returnTime?string("yyyy-MM-dd")!'' }</p>
-			            <p>${return.returnTime?string("HH:mm:ss")!'' }</p>
+			            <p>${return.orderTime?string("yyyy-MM-dd")!'' }</p>
+			            <p>${return.orderTime?string("HH:mm:ss")!'' }</p>
 			          </td>
+<<<<<<< HEAD
+=======
 			          <td>订单支付金额：￥${return.goodsPrice?string(0.00)!'' }</td>
 					  <td><#if return.statusId==0>未完成<#else>已完成</#if></td>         
 			          <td><a href="/user/return/${return.orderId?c!''}?id=${return.goodsId?c!''}">查看</a></td>	
+>>>>>>> refs/remotes/origin/master
                     </tr>
                 </#list>
             </#if>
@@ -91,7 +124,7 @@
                             <#if page == return_page.number+1>
                                 <a class="mysel" href="javascript:;">${page}</a>
                             <#else>
-                                <a href="/user/distributor/return?page=${page-1}">${page}</a>
+                                <a href="/user/cancel/list?page=${page-1}">${page}</a>
                             </#if>
                             <#assign continueEnter=false>
                         <#else>

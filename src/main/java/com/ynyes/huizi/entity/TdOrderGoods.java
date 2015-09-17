@@ -73,8 +73,32 @@ public class TdOrderGoods {
     // 是否申请了退还该商品？
     @Column
     private Boolean isReturnApplied;
+    
+    // 是否已评价
+    @Column
+    private Boolean isCommented;
+    
+    // 评论ID
+    @Column
+    private Long commentId;
 
-    public Long getId() {
+    public Boolean getIsCommented() {
+		return isCommented;
+	}
+
+	public void setIsCommented(Boolean isCommented) {
+		this.isCommented = isCommented;
+	}
+
+	public Long getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(Long commentId) {
+		this.commentId = commentId;
+	}
+
+	public Long getId() {
         return id;
     }
 

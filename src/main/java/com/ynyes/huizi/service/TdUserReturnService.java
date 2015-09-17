@@ -77,6 +77,14 @@ public class TdUserReturnService {
         return repository.findOne(id);
     }
     
+    public TdUserReturn findByUsernameAndOrderNumberAndGoodsId(String username,String orderNumber,Long goodsId)
+    {
+    	if(null==orderNumber || null==goodsId || null == username)
+    	{
+    		return null;
+    	}
+    	return repository.findByUsernameAndOrderNumberAndGoodsId(username,orderNumber,goodsId);
+    }
     /**
      * 查找
      * 
@@ -91,7 +99,7 @@ public class TdUserReturnService {
     public List<TdUserReturn> findAll(){
     	return (List<TdUserReturn>) repository.findAll();
     }
-    
+
     public List<TdUserReturn> findByUsername(String username)
     {
         return repository.findByUsernameOrderByIdDesc(username);

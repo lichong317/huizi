@@ -25,14 +25,23 @@ public interface TdOrderRepo extends
     
     Page<TdOrder> findByUsernameOrderByIdDesc(String username, Pageable page);
     
+    Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1,Long statusId1, String username2,Long statusId2, String username3,Long statusId3, String username4,Long statusId4, Pageable page);
+    
     Page<TdOrder> findByUsernameAndOrderTimeAfterOrderByIdDesc(String username, Date time, Pageable page);
     
     Page<TdOrder> findByUsernameAndOrderTimeAfterAndOrderNumberContainingOrderByIdDesc(String username, Date time, String keywords, Pageable page);
     
     Page<TdOrder> findByUsernameAndOrderNumberContainingOrderByIdDesc(String username, String keywords, Pageable page);
     
+    //zhangji
+    Page<TdOrder> findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3,String username4, String keywords4, Long statusId4, Pageable page);
+    
     Page<TdOrder> findByUsernameAndStatusIdOrderByIdDesc(String username, Long statusId, Pageable page);
     
+    Page<TdOrder> findByUsernameAndIsCancelTrue(String username,Pageable page); //取消订单 zhangji
+    Page<TdOrder> findByIsCancelTrue(Pageable page); //取消订单 zhangji
+    Page<TdOrder> findByIsCancelTrueAndIsRefundFalse(Pageable page); //取消订单 zhangji
+    Page<TdOrder> findByIsCancelTrueAndIsRefundTrue(Pageable page); //取消订单 zhangji
     Page<TdOrder> findByUsernameAndStatusIdAndOrderNumberContainingOrderByIdDesc(String username, Long statusId, String keywords, Pageable page);
     
     Page<TdOrder> findByUsernameAndStatusIdAndOrderTimeAfterOrderByIdDesc(String username, Long statusId, Date time, Pageable page);

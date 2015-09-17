@@ -30,6 +30,45 @@
 	
 	
 });
+
+function receiveConfirm() {
+    if (!confirm("检查货物质量并确认收货？")) {
+        window.event.returnValue = false;
+    }
+}
+
+
+function cancelConfirm() {
+    if (!confirm("未付款可直接取消，是否确认取消订单？")) {
+        window.event.returnValue = false;
+    }
+}
+
+function orderReceive(id)
+{
+	 $.ajax({
+            type:"post",
+            url:"/user/order/receive",
+            data:{
+                "id":id
+            },
+            success:function(res) {
+                if (0 == res.code)
+                {
+                	alert(res.message);
+                    window.location.reload();
+                }
+                else
+                {
+                    alert(res.message);
+                    if (res.message = "请登录！！")
+                    {
+                    window.location.href="/login"
+                    }
+                }
+            }
+        });
+}
 </script>
 
 </head>
@@ -70,6 +109,8 @@
                 待发货订单
             <#elseif status_id==4>
                 待收货订单
+            <#elseif status_id==4>
+                待评价订单
             <#elseif status_id==6>
                 已完成订单
             <#elseif status_id==7>
@@ -81,7 +122,8 @@
             <option value="/user/order/list/1" <#if status_id==1>selected="selected"</#if>>待确认订单</option>
             <option value="/user/order/list/2" <#if status_id==2>selected="selected"</#if>>待付款订单</option>
             <option value="/user/order/list/3" <#if status_id==3>selected="selected"</#if>>待发货订单</option>
-            <option value="/user/order/list/4" <#if status_id==4>selected="selected"</#if>>待收货订单</option>             
+            <option value="/user/order/list/4" <#if status_id==4>selected="selected"</#if>>待收货订单</option> 
+            <option value="/user/order/list/5" <#if status_id==5>selected="selected"</#if>>待评价订单</option>             
             <option value="/user/order/list/6" <#if status_id==6>selected="selected"</#if>>已完成订单</option>     
             <option value="/user/order/list/7" <#if status_id==7>selected="selected"</#if>>已取消订单</option>    
         </select>
@@ -153,13 +195,22 @@
                                 待评价
                             <#elseif order.statusId==6>
                                 已完成
+                            <#elseif order.statusId==7>
+                                已取消    
                             </#if>
                         </p>
                       </td>
                       <td class="td003"> 
                         <p><a href="/user/order?id=${order.id?c}">查看</a></p>
-                        <#if order.statusId==5>
-                            <p><a href="/user/comment?orderId=${order.id?c}">评价晒单</a></p>
+                        <#if order.statusId == 1||order.statusId ==2>
+                        	<p><a href="/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()">取消订单</a></p>
+                        <#elseif order.statusId==3>
+                            <p><a href="/user/cancel/edit?id=${order.id?c}">取消订单</a></p>	
+                        <#elseif order.statusId==4>
+                            <p><a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()">确认收货</a></p>	 
+                        <#elseif order.statusId==5>
+                            <p><a href="/user/comment/list">评价晒单</a></p>
+                        <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6>   
                             <p><a href="/user/return/${order.id?c}">申请返修/退换货</a></p>
                         <#elseif order.statusId==2>
                             <p><a href="javascript:;">去付款</a></p>

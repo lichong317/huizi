@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ynyes.huizi.entity.TdOrder;
+import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.repository.TdOrderRepo;
 
 /**
@@ -121,6 +122,13 @@ public class TdOrderService {
         return repository.findByUsernameOrderByIdDesc(username, pageRequest);
     }
     //zhangji
+    public Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1, Long statusId1,String username2, Long statusId2,String username3, Long statusId3,String username4, Long statusId4, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username1, 3L,username2,4L,username3,5L,username4,6L,pageRequest);
+    }
+    //zhangji
     public Page<TdOrder> findByUsernameAndStatusIdOrStatusIdOrStatusIdOrStatusId(String username,Long statusId1,Long statusId2,Long statusId3,Long statusId4,Integer page, int size)
     {
     	 PageRequest pageRequest = new PageRequest(page, size);
@@ -159,7 +167,42 @@ public class TdOrderService {
         
         return repository.findByUsernameAndStatusIdOrderByIdDesc(username, statusId, pageRequest);
     }
-    
+    //zhangji
+    public Page<TdOrder> findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId(String username1, String keywords1, Long statuisId1,String username2, String keywords2, Long statuisId2,String username3, String keywords3, Long statuisId3,String username4, String keywords4, Long statuisId4,int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(username1, keywords1, 3L, username2, keywords2, 4L, username3, keywords3, 5L, username4, keywords4, 6L, pageRequest);
+    }
+    //zhangji
+    public Page<TdOrder> findByUsernameAndIsCancelTrue(String username, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndIsCancelTrue(username, pageRequest);
+    }
+    //zhangji
+    public Page<TdOrder> findByIsCancelTrue( int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIsCancelTrue(pageRequest);
+    }
+    //zhangji
+    public Page<TdOrder> findByIsCancelTrueAndIsRefundFalse( int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIsCancelTrueAndIsRefundFalse(pageRequest);
+    }
+    //zhangji
+    public Page<TdOrder> findByIsCancelTrueAndIsRefundTrue( int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIsCancelTrueAndIsRefundTrue(pageRequest);
+    }
+
     public Page<TdOrder> findByUsernameAndStatusIdAndSearch(String username, long statusId, String keywords, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);

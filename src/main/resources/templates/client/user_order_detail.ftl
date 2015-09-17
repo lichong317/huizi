@@ -59,8 +59,12 @@ $(document).ready(function(){
                     待发货
                 <#elseif order.statusId==4>
                     待收货
+                <#elseif order.statusId==5>
+                    待评价    
                 <#elseif order.statusId==6>
                     已完成
+                <#elseif order.statusId==7>
+                    已取消                   
                 </#if>
             </#if>
         </dt>
