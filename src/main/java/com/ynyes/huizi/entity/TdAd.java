@@ -29,6 +29,10 @@ public class TdAd {
     @Column
     private String title;
     
+    // 副标题
+    @Column
+    private String subtitle;
+    
     // 类型
     @Column
     private Long typeId;
@@ -92,7 +96,15 @@ public class TdAd {
         this.typeId = typeId;
     }
 
-    public Date getCreateTime() {
+    public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 
