@@ -1,6 +1,8 @@
 package com.ynyes.huizi.controller.management;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import com.ynyes.huizi.entity.TdOrder;
+import com.ynyes.huizi.entity.TdUserComment;
+import com.ynyes.huizi.entity.TdUserComplain;
+import com.ynyes.huizi.entity.TdUserConsult;
+import com.ynyes.huizi.entity.TdUserReturn;
+import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdUserCommentService;
+import com.ynyes.huizi.service.TdUserComplainService;
+import com.ynyes.huizi.service.TdUserConsultService;
+import com.ynyes.huizi.service.TdUserReturnService;
+import com.ynyes.huizi.entity.TdManagerRole;
+import com.ynyes.huizi.service.TdManagerRoleService;
 import com.ynyes.huizi.entity.TdManager;
 import com.ynyes.huizi.entity.TdNavigationMenu;
 import com.ynyes.huizi.entity.TdSetting;
@@ -34,6 +51,24 @@ public class TdManagerIndexController {
     @Autowired
     TdSettingService tdSettingService;
 
+    @Autowired
+    TdOrderService tdOrderService;
+    
+    @Autowired
+    TdUserCommentService tdUserCommentService;
+    
+    @Autowired
+    TdUserConsultService tdUserConsultService;
+    
+    @Autowired
+    TdUserReturnService tdUserReturnService;
+    
+    @Autowired
+    TdUserComplainService tdUserComplainService;
+    
+    @Autowired
+    TdManagerRoleService tdManagerRoleService;
+    
     @RequestMapping(value = "/Verwalter")
     public String index(ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("manager");
@@ -41,42 +76,224 @@ public class TdManagerIndexController {
             return "redirect:/Verwalter/login";
         }
 
-        List<TdNavigationMenu> rootMenuList = tdNavigationMenuService
-                .findByParentIdAndSort(0L);
+        /**
+		 * @author lc
+		 * @注释：管理员角色判断
+		 */
+        TdManager tdManager = tdManagerService.findByUsernameAndIsEnableTrue(username);
+        TdManagerRole tdManagerRole = null;
+        
+        if (null != tdManager.getRoleId())
+        {
+            tdManagerRole = tdManagerRoleService.findOne(tdManager.getRoleId());
+        }
+        
+        if (null != tdManagerRole && !tdManagerRole.getIsSys()) {
+        	List<TdNavigationMenu> rootMenuList = tdNavigationMenuService
+                    .findByParentIdAndSort(0L);
+        	TdNavigationMenu rootmenuList[] = null;
+        	if (null !=rootMenuList ) {
+        		//将list中的数据存入数组中
+                rootmenuList = new TdNavigationMenu[rootMenuList.size()];
+            	for(int i = 0; i < rootMenuList.size(); i++){
+            		rootmenuList[i] = rootMenuList.get(i);
+            	}
+			}
+        	
+        	int tempNumber = 0;
+        	int total_index = 0;
+			for(int i = 0; i < rootmenuList.length && total_index < tdManagerRole.getTotalPermission(); i++){
+					if (total_index >= tdManagerRole.getPermissionList().size()) {
+						//rootMenuList.remove(i);
+						rootmenuList[i] = null;
+					}else{
+						if (null!=(tdManagerRole.getPermissionList().get(total_index).getIsView()) && (tdManagerRole.getPermissionList().get(total_index).getIsView())==false) {
+							rootmenuList[i] = null;
+						}
+					}
+	
+					total_index = total_index + 1;
+					TdNavigationMenu rootMenu = null;
+					if (i < rootmenuList.length) {
+					    rootMenu = rootMenuList.get(i);
+					}
+					
+	                // 取一级菜单列表
+	                List<TdNavigationMenu> level0MenuList = null;
+	                if (null != rootMenu) {
+	                	level0MenuList = tdNavigationMenuService
+		                        .findByParentIdAndSort(rootMenu.getId());
+					}else{
+						
+					}
+	                
+	                TdNavigationMenu level0menuList[] = null;
+	                if (null != level0MenuList) {
+	                	//将list中的数据存入数组中
+		                level0menuList = new TdNavigationMenu[level0MenuList.size()];
+		            	for(int a = 0; a < level0MenuList.size(); a++){
+		            		level0menuList[a] = level0MenuList.get(a);
+		            	}
+					}
+	                
+	                if (null != level0menuList && level0menuList.length > 0){
+		                for(int j = 0; j < level0menuList.length && total_index < tdManagerRole.getTotalPermission(); j++){
+		                	if (total_index >= tdManagerRole.getPermissionList().size()) {
+		                		level0menuList[j] = null;
+							}else{
+								if(null!=tdManagerRole.getPermissionList().get(total_index)){
+			                		if (null!=(tdManagerRole.getPermissionList().get(total_index).getIsView()) && (tdManagerRole.getPermissionList().get(total_index).getIsView())==false) {
+			                			level0menuList[j] = null;
+				    				}
+			                	}
+							}
+		                	
+			                	total_index = total_index + 1;
+			                	
+			                	TdNavigationMenu level0Menu = null;
+			                	if (j < level0menuList.length) {
+			                		level0Menu = level0MenuList.get(j);
+								}			                	
+			                 
+			                    // 取二级菜单列表
+			                	
+			                    List<TdNavigationMenu> level1MenuList = null;
+			                    if(null != level0Menu){
+			                    	level1MenuList = tdNavigationMenuService
+				                            .findByParentIdAndSort(level0Menu.getId());
+			                    }
+			                    
+			                    TdNavigationMenu level1menuList[] = null;
+			                    if (null != level1MenuList) {
+			                    	//将list中的数据存入数组中
+					            	level1menuList = new TdNavigationMenu[level1MenuList.size()];
+					            	for(int b = 0; b < level1MenuList.size(); b++){
+					            		level1menuList[b] = level1MenuList.get(b);
+					            	}
+								}
+			                    
+			                    if (null != level1menuList && level1menuList.length > 0) {
+				                    for(int c = 0; c < level1menuList.length && total_index < tdManagerRole.getTotalPermission(); c++){
+				                    	if (total_index >= tdManagerRole.getPermissionList().size()) {
+				                    		level1menuList[c] = null;
+										}else{
+											if(null!=tdManagerRole.getPermissionList().get(total_index)){
+					                    		if (null!=(tdManagerRole.getPermissionList().get(total_index).getIsView()) && (tdManagerRole.getPermissionList().get(total_index).getIsView())==false) {
+					                    			level1menuList[c] = null;
+						        				}
+						                    	
+					                    	}
+										}
+				                    	
+				                    	total_index = total_index + 1;
+				                    }
+				                    
+				                    change(level1MenuList, level1menuList);
+				                    if (null != level1MenuList && level1MenuList.size() > 0) {
+					                    map.addAttribute("level_" + i + j + "_menu_list",
+					                                level1MenuList);
+				                    }
+			                    }
+	
+		                }
+		                change(level0MenuList, level0menuList);
+		                if (null != level0MenuList && level0MenuList.size() > 0){
+			                map.addAttribute("level_" + i + "_menu_list",
+			                        level0MenuList);
+			                }
+	                }    		
+				
+			}
+			//change(rootMenuList, rootmenuList);
+			if (null != rootMenuList && rootMenuList.size() > 0){
+				map.addAttribute("root_menu_list", rootMenuList);
+		    }
+		}
+        else{
+        	List<TdNavigationMenu> rootMenuList = tdNavigationMenuService
+                    .findByParentIdAndSort(0L);
 
-        if (null != rootMenuList && rootMenuList.size() > 0) {
-            for (int i = 0; i < rootMenuList.size(); i++) {
-                TdNavigationMenu rootMenu = rootMenuList.get(i);
+            if (null != rootMenuList && rootMenuList.size() > 0) {
+                for (int i = 0; i < rootMenuList.size(); i++) {
+                    TdNavigationMenu rootMenu = rootMenuList.get(i);
 
-                // 取一级菜单列表
-                List<TdNavigationMenu> level0MenuList = tdNavigationMenuService
-                        .findByParentIdAndSort(rootMenu.getId());
+                    // 取一级菜单列表
+                    List<TdNavigationMenu> level0MenuList = tdNavigationMenuService
+                            .findByParentIdAndSort(rootMenu.getId());
 
-                if (null != level0MenuList && level0MenuList.size() > 0) {
-                    map.addAttribute("level_" + i + "_menu_list",
-                            level0MenuList);
+                    if (null != level0MenuList && level0MenuList.size() > 0) {
+                        map.addAttribute("level_" + i + "_menu_list",
+                                level0MenuList);
 
-                    for (int j = 0; j < level0MenuList.size(); j++) {
-                        TdNavigationMenu level0Menu = level0MenuList.get(j);
+                        for (int j = 0; j < level0MenuList.size(); j++) {
+                            TdNavigationMenu level0Menu = level0MenuList.get(j);
 
-                        // 取二级菜单列表
-                        List<TdNavigationMenu> level1MenuList = tdNavigationMenuService
-                                .findByParentIdAndSort(level0Menu.getId());
+                            // 取二级菜单列表
+                            List<TdNavigationMenu> level1MenuList = tdNavigationMenuService
+                                    .findByParentIdAndSort(level0Menu.getId());
 
-                        if (null != level1MenuList && level1MenuList.size() > 0) {
-                            map.addAttribute("level_" + i + j + "_menu_list",
-                                    level1MenuList);
+                            if (null != level1MenuList && level1MenuList.size() > 0) {
+                                map.addAttribute("level_" + i + j + "_menu_list",
+                                        level1MenuList);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        map.addAttribute("root_menu_list", rootMenuList);
+            map.addAttribute("root_menu_list", rootMenuList);
+        }
+//        List<TdNavigationMenu> rootMenuList = tdNavigationMenuService
+//                .findByParentIdAndSort(0L);
+//
+//        if (null != rootMenuList && rootMenuList.size() > 0) {
+//            for (int i = 0; i < rootMenuList.size(); i++) {
+//                TdNavigationMenu rootMenu = rootMenuList.get(i);
+//
+//                // 取一级菜单列表
+//                List<TdNavigationMenu> level0MenuList = tdNavigationMenuService
+//                        .findByParentIdAndSort(rootMenu.getId());
+//
+//                if (null != level0MenuList && level0MenuList.size() > 0) {
+//                    map.addAttribute("level_" + i + "_menu_list",
+//                            level0MenuList);
+//
+//                    for (int j = 0; j < level0MenuList.size(); j++) {
+//                        TdNavigationMenu level0Menu = level0MenuList.get(j);
+//
+//                        // 取二级菜单列表
+//                        List<TdNavigationMenu> level1MenuList = tdNavigationMenuService
+//                                .findByParentIdAndSort(level0Menu.getId());
+//
+//                        if (null != level1MenuList && level1MenuList.size() > 0) {
+//                            map.addAttribute("level_" + i + j + "_menu_list",
+//                                    level1MenuList);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        map.addAttribute("root_menu_list", rootMenuList);
 
         return "/site_mag/frame";
     }
 
+    /**
+	 * @author lc
+	 * @注释：
+	 */
+    public List<TdNavigationMenu> change(List<TdNavigationMenu> list, TdNavigationMenu shu[]){
+    	list.clear();
+    	for(int i = 0; i < shu.length; i++){
+    		if (null != shu[i]) {
+				list.add(shu[i]);
+			}
+    	}
+    	
+    	return list;
+    } 
+    
     @RequestMapping(value = "/Verwalter/center")
     public String center(ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("manager");
@@ -127,4 +344,79 @@ public class TdManagerIndexController {
         return "/site_mag/center";
     }
 
+    /**
+	 * @author lc
+	 * @注释：自动提醒数据验证
+	 */
+	@RequestMapping(value = "/Verwalter/automaticRemind", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> automaticRemind(String alipayuser_id, String type, String code,
+			Boolean isSave, HttpServletRequest req) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("code", 1);
+		String username = (String) req.getSession().getAttribute("manager");
+        if (null == username) {
+        	res.put("msg", "请登陆！");
+            return res;
+        }
+        
+        //新待确认订单数量查询
+        List<TdOrder> tdOrdersnew = tdOrderService.findByStatusId(1L);
+        if (null != tdOrdersnew) {
+        	res.put("ordernumberconfirmed", tdOrdersnew.size());
+		}else{
+			res.put("ordernumberconfirmed", 0);
+		}        
+        
+        //新立即购买订单数量查询
+        List<TdOrder> tdOrdersnewbuy = tdOrderService.findByStatusId(2L);
+        if (null != tdOrdersnew) {
+        	res.put("ordernumberbuy", tdOrdersnewbuy.size());
+		}else{
+			res.put("ordernumberbuy", 0);
+		} 
+        
+        //支付订单数量查询
+        List<TdOrder> tdOrderspay = tdOrderService.findByStatusId(3L);
+        //List<TdOrder> tdOrderspayleft = tdOrderService.findByStatusId(4L);
+        if (null != tdOrderspay ) {
+        	res.put("ordernumberpay", tdOrderspay.size());
+		}else{
+			res.put("ordernumberpay", 0);
+		} 
+               
+        //咨询查询
+        List<TdUserConsult> tdUserConsults = tdUserConsultService.findAll();
+        if (null != tdUserConsults) {
+			res.put("consults", tdUserConsults.size());
+		}else{
+			res.put("consults", 0);
+		}
+        
+        //评论查询
+        List<TdUserComment> tdUserComments = tdUserCommentService.findAll();
+        if (null != tdUserComments) {
+			res.put("comments", tdUserComments.size());
+		}else{
+			res.put("comments", 0);
+		}
+        
+        //退换货申请查询
+        List<TdUserReturn> tdUserReturns = tdUserReturnService.findAll();
+        if (null != tdUserReturns) {
+			res.put("Returns", tdUserReturns.size());
+		}else{
+			res.put("Returns", 0);
+		}
+        
+        //投诉查询
+        List<TdUserComplain> tUserComplains = tdUserComplainService.findAll();
+        if (null != tUserComplains) {
+			res.put("complains", tUserComplains.size());
+		}else{
+			res.put("complains", 0);
+		}
+        res.put("code", 0);
+		return res;
+	}
 }

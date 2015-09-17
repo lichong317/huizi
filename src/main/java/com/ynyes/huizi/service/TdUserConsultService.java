@@ -77,6 +77,10 @@ public class TdUserConsultService {
         return repository.findOne(id);
     }
     
+    public List<TdUserConsult> findAll(){
+    	return (List<TdUserConsult>) repository.findAll();
+    }
+    
     /**
      * 查找
      * 

@@ -40,6 +40,10 @@ public class TdUserCommentService {
         }
     }
     
+    public List<TdUserComment> findAll(){
+    	return (List<TdUserComment>) repository.findAll();
+    }
+    
     /**
      * 删除
      * 
