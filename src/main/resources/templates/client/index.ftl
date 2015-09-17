@@ -13,7 +13,7 @@
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
 
-<link href="/client/style/common.css" rel="stylesheet" type="text/css" />
+<link href="/client/style/common.css" rel="stylesheet" type="text/css" />    
 <link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 
@@ -39,7 +39,7 @@
     <h1>亲，欢迎来到惠之店网上商城</h1>
     <p class="p2"><#if site??>${site.telephone!''}</#if></p>
     <p class="p3">服务热线：</p>
-    <menu id="top_phone">
+   <menu id="top_phone">
       <a class="a1" href="javascript:;">手机惠之店</a>
       <div class="clear"></div>
       <ul class="phone_sum" id="top_phonelist">

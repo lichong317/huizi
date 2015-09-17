@@ -2027,6 +2027,7 @@ public class TdUserController {
     @RequestMapping(value = "/user/comment/list")
     public String commentList(HttpServletRequest req, Integer page,
             Integer statusId, // 0表示未评价, 1表示已评价
+            String keywords,
             ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -2051,24 +2052,44 @@ public class TdUserController {
         if (null != tdUser) {
             if (0 == statusId) {
                 // 查找该用户的未评价订单
-            	Page<TdOrder> orderPage = tdOrderService
-                        .findByUsernameAndStatusId(username, 5L, page,
-                                ClientConstant.pageSize);
-                map.addAttribute("order_page", orderPage);
-                if (null != orderPage) {
-                    for (TdOrder tdOrder : orderPage.getContent()) {
-                        if (null != tdOrder) {
-                            for (TdOrderGoods og : tdOrder.getOrderGoodsList()) {
-                                if (null != og && null != og.getCommentId()) {
-                                    TdUserComment uc = tdUserCommentService
-                                            .findOne(og.getCommentId());
-                                    map.addAttribute("comment_"+tdOrder.getId()+"_"+og.getId(), uc);
-                                }
-                            }
-                        }
-                    }
-                }
-                
+            	if (null != keywords)
+            	{
+            		Page<TdOrder> orderPage = tdOrderService.findByUsernameAndSearch(username, keywords, page,   ClientConstant.pageSize);
+            		   map.addAttribute("order_page", orderPage);
+   	                if (null != orderPage) {
+   	                    for (TdOrder tdOrder : orderPage.getContent()) {
+   	                        if (null != tdOrder) {
+   	                            for (TdOrderGoods og : tdOrder.getOrderGoodsList()) {
+   	                                if (null != og && null != og.getCommentId()) {
+   	                                    TdUserComment uc = tdUserCommentService
+   	                                            .findOne(og.getCommentId());
+   	                                    map.addAttribute("comment_"+tdOrder.getId()+"_"+og.getId(), uc);
+   	                                }
+   	                            }
+   	                        }
+   	                    }
+   	                }
+            	}  
+            	else
+            	{
+	            	Page<TdOrder> orderPage = tdOrderService
+	                        .findByUsernameAndStatusId(username, 5L, page,
+	                                ClientConstant.pageSize);
+	                map.addAttribute("order_page", orderPage);
+	                if (null != orderPage) {
+	                    for (TdOrder tdOrder : orderPage.getContent()) {
+	                        if (null != tdOrder) {
+	                            for (TdOrderGoods og : tdOrder.getOrderGoodsList()) {
+	                                if (null != og && null != og.getCommentId()) {
+	                                    TdUserComment uc = tdUserCommentService
+	                                            .findOne(og.getCommentId());
+	                                    map.addAttribute("comment_"+tdOrder.getId()+"_"+og.getId(), uc);
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+            	}
 //                map.addAttribute("order_page", tdOrderService
 //                        .findByUsernameAndStatusId(username, 5L, page,
 //                                ClientConstant.pageSize));

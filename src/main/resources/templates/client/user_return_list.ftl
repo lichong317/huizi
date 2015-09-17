@@ -54,7 +54,7 @@
         <div class="mymember_order_search"> 
             <a class="a001" href="/user/return/list">申请返修/退换货</a>
             <form action="/user/return/list" method="post">
-            	<input type="hidden" name="timeId" value="${time_id}"/>
+            	<input type="hidden" name="timeId" value="${time_id!''}"/>
           		<input class="mysub" type="submit" value="查询" />
           		<input class="mytext" type="text" name="keywords" onFocus="if(value=='订单编号') {value=''}" onBlur="if (value=='') {value='订单编号'}"  value="订单编号" />
             </form>

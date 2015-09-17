@@ -260,6 +260,7 @@ a.white:hover { color:#ff7d43;}
 .phone_sum li.phone_sum_more {
 	display:none;
 	width:85px;
+	z-index:21;   /*zhangji*/
 	position:absolute;
 	background:#fff;
 	height:144px;
@@ -275,15 +276,18 @@ a.white:hover { color:#ff7d43;}
 	height:125px;
 	overflow:hidden;
 	padding:10px 0 0;
+	z-index:21;   /*zhangji*/
 	background:#fff;
 }
 .phone_sum_more p span {
 	line-height:18px;
 	font-size:12px;
 	display:block;
+	z-index:21;   /*zhangji*/
 	text-align:center;}
 .phone_sum_more p span img {
 	width:85px;
+    z-index:21;   /*zhangji*/
 	height:85px;}
 .maintop menu div {
 	display:none;
@@ -356,7 +360,7 @@ a.white:hover { color:#ff7d43;}
 	line-height:16px;
 	border-right:1px solid #eee;}
 .shopping_box {
-	z-index:20;
+	z-index:9;
 	width:169px;
 	float:right;
 	margin:44px 0 0 0;
@@ -396,6 +400,7 @@ a.white:hover { color:#ff7d43;}
 	position:absolute;
 	top:38px;
 	right:-2px;
+	z-index:9;
 	background:#fff;
 	width:370px;
 	border:2px solid #e5e5e5;}
