@@ -534,7 +534,64 @@ public class TdManagerUserController {
         
         return "redirect:/Verwalter/user/return/list?statusId=" + __VIEWSTATE;
     }
+    //zhangji
+    @RequestMapping(value="/cancel/edit")
+    public String cancelEdit(Long id,
+                        Long statusId,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        if (null != id)
+        {
+            map.addAttribute("id", id);
+            map.addAttribute("user_cancel", tdOrderService.findOne(id));
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        map.addAttribute("statusId", statusId);
+        
+        return "/site_mag/user_cancel_edit";
+    }
     
+    @RequestMapping(value="/cancel/save")
+    public String cancelSave(Long id,
+    					Boolean isRefund,
+    					Double refund,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        
+        TdOrder order = tdOrderService.findOne(id);
+        
+        if (null == order.getIsRefund())
+        {
+            tdManagerLogService.addLog("add", "修改用户取消订单", req);
+        }
+        else
+        {
+            tdManagerLogService.addLog("edit", "修改用户取消订单", req);
+        }
+        
+        order.setRefundTime(new Date());
+        order.setRefund(refund);
+        order.setIsRefund(isRefund);
+        tdOrderService.save(order);
+        
+        return "redirect:/Verwalter/user/cancel/list?statusId=" + __VIEWSTATE;
+    }
     @RequestMapping(value="/{type}/list")
     public String list(@PathVariable String type,
                         Integer page,

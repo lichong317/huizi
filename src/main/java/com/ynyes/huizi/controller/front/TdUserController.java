@@ -416,11 +416,11 @@ public class TdUserController {
         {
                 if (null != keywords && !keywords.isEmpty())
                 {
-                    orderPage = tdOrderService.findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId(username, keywords,3L, username, keywords,4L,username, keywords,5L,username, keywords,6L,page, ClientConstant.pageSize);
+                    orderPage = tdOrderService.findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId( username, keywords,4L,username, keywords,5L,username, keywords,6L,page, ClientConstant.pageSize);
                 }
                 else
                 {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username, 3L,username,4L,username,5L,username,6L,page, ClientConstant.pageSize);
+                    orderPage = tdOrderService.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username,4L,username,5L,username,6L,page, ClientConstant.pageSize);
                 }
         }
         else if (timeId.equals(1))

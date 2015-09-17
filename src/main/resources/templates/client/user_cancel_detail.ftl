@@ -97,27 +97,35 @@
           <th>处理信息</th>
           <th width="100">操作人</th>
         </tr>
-        <#if order.cancelApplyTime??>
-        <tr>
+        <#if order.cancelApplyTime??&&order.statusId == 7 &&!order.refundTime??>
+         <tr>
           <td>${order.cancelApplyTime!''}</td>
-          <td>提交申请！</td>
+          <td>未付款订单已取消！</td>
           <td>客户</td>
         </tr>
-        </#if>
-        <#if order.cancelTime??>
-        <tr>
-          <td>${order.cancelTime!''}</td>
-          <td>订单已取消！</td>
-          <td>商家</td>
-        </tr>
-        </#if>
-        <#if order.refundTime??>
-        <tr>
-          <td>${order.refundTime!''}</td>
-          <td>商家已退款，订单取消完成！</td>
-          <td>商家</td>
-        </tr>
-        </#if>
+        <#else>
+	        <#if order.cancelApplyTime??>
+	        <tr>
+	          <td>${order.cancelApplyTime!''}</td>
+	          <td>提交申请！</td>
+	          <td>客户</td>
+	        </tr>
+	        </#if>
+	        <#if order.cancelTime??>
+	        <tr>
+	          <td>${order.cancelTime!''}</td>
+	          <td>订单已取消！</td>
+	          <td>商家</td>
+	        </tr>
+	        </#if>
+	        <#if order.refundTime??>
+	        <tr>
+	          <td>${order.refundTime!''}</td>
+	          <td>商家已退款，订单取消完成！</td>
+	          <td>商家</td>
+	        </tr>
+	        </#if>
+	    </#if>    
       </table>
     </div><!--mymember_info END-->
     
@@ -131,12 +139,18 @@
         </tr>
         <tr>
           <th>支付明细</th>
-          <td>支付总额：<font color="#ff1000">￥<#if order??>${order.totalPrice?string("#.##")}</#if></font></td>
+          <td>支付总额：<font color="#ff1000">￥<#if order??>${order.totalPrice?string("0.00")}</#if></font></td>
+        </tr>
+        <#if order.cancelReason??>
+        <tr>
+          <th>退款金额</th>
+          <td>￥${order.refund?string("0.00")!'0.00'}</td>
         </tr>
         <tr>
           <th>取消原因</th>
-          <td></td>
+          <td>${order.cancelReason!''}</td>
         </tr>
+        </#if>
         <tr>
           <th>联系方式</th>
           <td>联系人：${order.shippingName!''} &nbsp;&nbsp; 联系电话：${order.shippingPhone!''}</td>

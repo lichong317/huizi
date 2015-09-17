@@ -1,13 +1,13 @@
     <div class="mymember_info">
       <h3 id="mymember_likecheck">
         <#if reco_page0??>
-        	<a class="mysel" href="/list/${categoryId0!'' }" title="进入“${categoryTitle0!''}”商品分类">&nbsp;</a>
+        	<a class="mysel" href="/list/${categoryId0?c!'' }" title="进入“${categoryTitle0!''}”商品分类">&nbsp;</a>
         </#if>
         <#if reco_page1??>
-        	<a href="/list/${categoryId1!'' }" title="进入“${categoryTitle1!''}”商品分类">&nbsp;</a>
+        	<a href="/list/${categoryId1?c!'' }" title="进入“${categoryTitle1!''}”商品分类">&nbsp;</a>
         </#if>        
         <#if reco_page2??>
-        	<a href="/list/${categoryId2!'' }" title="进入“${categoryTitle2!''}”商品分类">&nbsp;</a>
+        	<a href="/list/${categoryId2?c!'' }" title="进入“${categoryTitle2!''}”商品分类">&nbsp;</a>
         </#if>
         <span>猜你喜欢</span>  
       </h3>

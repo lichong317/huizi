@@ -78,8 +78,6 @@
                 <#list return_page.content as return>
                     <tr>
                     	<td>${return.orderNumber!'' }</td>
-<<<<<<< HEAD
-                      
                       <td class="td001">
 	                      <table width="100" border="0"  align=left>
 		                      <tr>
@@ -96,20 +94,12 @@
 		                      </tr>
 	                      </table>
                       </td>
-          
-=======
-                      <td class="td001"><a href="/goods/${return.goodsId?c!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
->>>>>>> refs/remotes/origin/master
+
 			          <td class="td003">
 			            <p>${return.orderTime?string("yyyy-MM-dd")!'' }</p>
 			            <p>${return.orderTime?string("HH:mm:ss")!'' }</p>
 			          </td>
-<<<<<<< HEAD
-=======
-			          <td>订单支付金额：￥${return.goodsPrice?string(0.00)!'' }</td>
-					  <td><#if return.statusId==0>未完成<#else>已完成</#if></td>         
-			          <td><a href="/user/return/${return.orderId?c!''}?id=${return.goodsId?c!''}">查看</a></td>	
->>>>>>> refs/remotes/origin/master
+
                     </tr>
                 </#list>
             </#if>
