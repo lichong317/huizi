@@ -227,7 +227,7 @@ function commentJump()
                                             <div class="mymember_eva_div">
                                                 <#-- 上传图片 zhangji -->
                                                 <div class="upload-box upload-show360"></div>
-                                                <input style="float:right;margin-right:20%;" class="mysub" type="submit" value="发表口碑">
+                                                <input style="float:right;margin-right:20%;" class="mysub" type="submit" value="发表评论">
 								                <div class="photo-list_show360">
 								                    <ul>
 								            

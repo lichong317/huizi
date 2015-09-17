@@ -183,6 +183,14 @@ public class TdOrder {
     @Column
     private Boolean isRefund;
     
+    //退款金额 zhangji
+    @Column(scale = 2)
+    private Double refund;
+    
+    //退款详细 zhangji
+    @Column
+    private String handleDetail;
+    
     // 用户
     @Column
     private String username;
@@ -229,7 +237,15 @@ public class TdOrder {
     private Boolean isOnlinePay;
 
     
-    public Boolean getIsCancel() {
+    public Double getRefund() {
+		return refund;
+	}
+
+	public void setRefund(Double refund) {
+		this.refund = refund;
+	}
+
+	public Boolean getIsCancel() {
 		return isCancel;
 	}
 
@@ -245,7 +261,15 @@ public class TdOrder {
         this.id = id;
     }
 
-    public String getOrderNumber() {
+    public String getHandleDetail() {
+		return handleDetail;
+	}
+
+	public void setHandleDetail(String handleDetail) {
+		this.handleDetail = handleDetail;
+	}
+
+	public String getOrderNumber() {
         return orderNumber;
     }
 

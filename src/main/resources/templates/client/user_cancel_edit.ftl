@@ -67,8 +67,9 @@ $(function () {
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                 <tr>
-                        <th width="260" style="text-align:center;">订单编号</th>
-                        <th width="170" style="text-align:center;">商品总价</th>
+                        <th width="230" style="text-align:center;">订单编号</th>
+                        <th width="100" style="text-align:center;">商品总价</th>
+                        <th width="100" style="text-align:center;">订单总价</th>
                         <th width="105" style="text-align:center;">下单时间</th>
                 </tr>
                 </thead>
@@ -80,7 +81,9 @@ $(function () {
                     <td>
                        		 ￥${order.totalGoodsPrice?string("#.##")!'0'}
                     </td>                  
-
+                    <td>
+                       		 ￥${order.totalPrice?string("#.##")!'0'}
+                    </td>       
                     <td>${order.orderTime?string("yyyy-MM-dd HH:mm:ss")}</td>
                 </tr>
                 </tbody>
@@ -89,16 +92,16 @@ $(function () {
 			<table width="100%" border="0">
 			  <tr>
 			    <td> <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
-			            <input type="hidden" name="id" value="${orderId}" />
+			            <input type="hidden" name="id" value="${orderId?c}" />
 			            <div class="mymember_eva_div">
 			              <b><font>* </font>取消原因：</b>
 			              <#if order.isCancel?? &&order.isCancel>
-			              	 <textarea name="cancelReason" datatype="*5-255" disabled="disabled" >${order.cancelReason!''}</textarea>
+			              	 <textarea name="cancelReason" datatype="*2-255" disabled="disabled" >${order.cancelReason!''}</textarea>
 			             </div>
 			              <div class="mymember_eva_div">
 			              <h3>已提交申请</h3>
 			              <#else>	 
-			             	 <textarea name="cancelReason" datatype="*5-255"></textarea>
+			             	 <textarea name="cancelReason" datatype="*2-255"></textarea>
 			             	 </div>
 			              <div class="mymember_eva_div">
 			              <input class="mysub" type="submit" value="提交" />

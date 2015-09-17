@@ -54,7 +54,7 @@
         <div class="mymember_order_search"> 
             <a class="a001" href="/user/return/list">申请返修/退换货</a>
             <form action="/user/return/list" method="post">
-            	<input type="hidden" name="timeId" value="${time_id}"/>
+            	<input type="hidden" name="timeId" value="${time_id!''}"/>
           		<input class="mysub" type="submit" value="查询" />
           		<input class="mytext" type="text" name="keywords" onFocus="if(value=='订单编号') {value=''}" onBlur="if (value=='') {value='订单编号'}"  value="订单编号" />
             </form>
@@ -78,8 +78,6 @@
                 <#list return_page.content as return>
                     <tr>
                     	<td>${return.orderNumber!'' }</td>
-<<<<<<< HEAD
-                      
                       <td class="td001">
 	                      <table width="100" border="0"  align=left>
 		                      <tr>
@@ -96,20 +94,12 @@
 		                      </tr>
 	                      </table>
                       </td>
-          
-=======
-                      <td class="td001"><a href="/goods/${return.goodsId?c!'' }"><img src="${return.goodsCoverImageUri!''}" /></a></td>
->>>>>>> refs/remotes/origin/master
+
 			          <td class="td003">
 			            <p>${return.orderTime?string("yyyy-MM-dd")!'' }</p>
 			            <p>${return.orderTime?string("HH:mm:ss")!'' }</p>
 			          </td>
-<<<<<<< HEAD
-=======
-			          <td>订单支付金额：￥${return.goodsPrice?string(0.00)!'' }</td>
-					  <td><#if return.statusId==0>未完成<#else>已完成</#if></td>         
-			          <td><a href="/user/return/${return.orderId?c!''}?id=${return.goodsId?c!''}">查看</a></td>	
->>>>>>> refs/remotes/origin/master
+
                     </tr>
                 </#list>
             </#if>

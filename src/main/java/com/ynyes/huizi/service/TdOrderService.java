@@ -122,11 +122,11 @@ public class TdOrderService {
         return repository.findByUsernameOrderByIdDesc(username, pageRequest);
     }
     //zhangji
-    public Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1, Long statusId1,String username2, Long statusId2,String username3, Long statusId3,String username4, Long statusId4, int page, int size)
+    public Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1, Long statusId1,String username2, Long statusId2,String username3, Long statusId3, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username1, 3L,username2,4L,username3,5L,username4,6L,pageRequest);
+        return repository.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username1, 4L,username2,5L,username3,6L,pageRequest);
     }
     //zhangji
     public Page<TdOrder> findByUsernameAndStatusIdOrStatusIdOrStatusIdOrStatusId(String username,Long statusId1,Long statusId2,Long statusId3,Long statusId4,Integer page, int size)
@@ -168,11 +168,11 @@ public class TdOrderService {
         return repository.findByUsernameAndStatusIdOrderByIdDesc(username, statusId, pageRequest);
     }
     //zhangji
-    public Page<TdOrder> findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId(String username1, String keywords1, Long statuisId1,String username2, String keywords2, Long statuisId2,String username3, String keywords3, Long statuisId3,String username4, String keywords4, Long statuisId4,int page, int size)
+    public Page<TdOrder> findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId(String username1, String keywords1, Long statuisId1,String username2, String keywords2, Long statuisId2,String username3, String keywords3, Long statuisId3, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(username1, keywords1, 3L, username2, keywords2, 4L, username3, keywords3, 5L, username4, keywords4, 6L, pageRequest);
+        return repository.findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(username1, keywords1, 4L, username2, keywords2, 5L, username3, keywords3, 6L, pageRequest);
     }
     //zhangji
     public Page<TdOrder> findByUsernameAndIsCancelTrue(String username, int page, int size)

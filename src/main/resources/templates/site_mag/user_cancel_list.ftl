@@ -103,8 +103,19 @@ var theForm = document.forms['form1'];
                 <td align="center">${cancel.cancelApplyTime!""}</td>
                 <td align="center">
                 <#if cancel.statusId == 3>
-                	<a href="/Verwalter/order/edit?id=${cancel.id?c}&statusId=3" title="点击进行取消操作">待取消</a><#elseif cancel.statusId == 7>已取消</#if></td>
+                	<a href="/Verwalter/order/edit?id=${cancel.id?c}&statusId=3" title="点击进行取消操作">待取消</a>
+                <#elseif cancel.statusId == 7>
+                	已取消
+                </#if>
+                </td>
                 <td align="center">
+                <#if !cancel.cancelReason??>
+                	   用户未付款
+                </td>
+                <td align="center">
+              
+                </td>                	   
+                <#else>	   
                     <#if cancel.isRefund?? && cancel.isRefund>
                         已退款
                     <#elseif cancel.isRefund?? && !cancel.isRefund||!cancel.isRefund??>
@@ -112,8 +123,9 @@ var theForm = document.forms['form1'];
                     </#if>
                 </td>
                 <td align="center">
-                    <a href="/Verwalter/user/cancel/edit?id=${cancel.id}&statusId=${statusId!""}">配置</a>
+                    <a href="/Verwalter/user/cancel/edit?id=${cancel.id}&statusId=${statusId!""}">退款</a>
                 </td>
+                </#if>    
             </tr>
         </#list>
     </#if>

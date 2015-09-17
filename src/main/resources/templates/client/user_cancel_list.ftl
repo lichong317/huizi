@@ -76,7 +76,7 @@
 			          </td>
 			          <td>订单支付金额：￥${return.totalGoodsPrice?string(0.00)!'' }</td>
 					  <td><#if return.statusId==7>已完成<#else>未完成</#if></td>         
-			          <td><a href="/user/cancel?id=${return.id!''}">查看</a></td>	
+			          <td><a href="/user/cancel?id=${return.id?c!''}">查看</a></td>	
                     </tr>
                 </#list>
             </#if>
