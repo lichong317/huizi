@@ -89,6 +89,10 @@ public class TdUserComplainService {
         return repository.findByUsernameAndOrderId(username,orderId);
     }
     
+    public List<TdUserComplain> findAll(){
+    	return (List<TdUserComplain>) repository.findAll();
+    }
+    
     /**
      * 查找
      * 

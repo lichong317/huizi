@@ -78,7 +78,9 @@
                     <td colspan="2" align="left" >
                         <#if order.orderGoodsList??>
                             <#list order.orderGoodsList as og>
-                                <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
+                                <#if og_index <4>
+                                    <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
+                                </#if>
                             </#list>
                         </#if>
                     </td>

@@ -95,6 +95,10 @@ public class TdUserReturnService {
     {
         return (List<TdUserReturn>) repository.findAll(ids);
     }
+    
+    public List<TdUserReturn> findAll(){
+    	return (List<TdUserReturn>) repository.findAll();
+    }
 
     public List<TdUserReturn> findByUsername(String username)
     {

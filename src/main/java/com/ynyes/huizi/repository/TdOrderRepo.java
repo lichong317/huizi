@@ -1,6 +1,7 @@
 package com.ynyes.huizi.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,8 @@ public interface TdOrderRepo extends
     Page<TdOrder> findByUsernameAndStatusIdOrStatusIdOrStatusIdOrStatusId(String username, Long statusId1, Long statusId2,Long statusId3,Long statusId4, Pageable page); //zhangji
     
     Long countByUsernameAndStatusId(String username, Long statusId);
+    
+    List<TdOrder> findByStatusId(Long statusId);
     
     TdOrder findByOrderNumber(String orderNumber);
 }

@@ -228,7 +228,10 @@ public class TdOrderService {
     {
         return repository.countByUsernameAndStatusId(username, statusId);
     }
-    
+   
+    public List<TdOrder> findByStatusId(Long statusId){
+    	return repository.findByStatusId(statusId);
+    }
     /**
      * 保存
      * 
