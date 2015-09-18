@@ -31,77 +31,123 @@
     chooseMoreShow();
         
 });
+
+function btnPageSubmit() 
+{
+    window.location.href = "/info/list/${mid!'10'}?catId=${catId!'0'}&page="+(parseInt($('#iPageNum').val()) - 1);
+}
 </script>
 <body>
 <!-- header开始 -->
 <#include "/client/common_header.ftl" />
 <!-- header结束 -->
 <div class="clear h20"></div>
-<!--liebiaoye-->
+
+    <!--liebiaoye-->
     <div class="main">
         <div class="weizhi">
-            <span><a href="#">首页</a></span>><span>团购秒杀</span>
+            <span><a href="#">首页</a></span>><span>文章列表</span>
         </div>
         <div class="clear h15"></div>
+        <menu class="help_menu">
+            <h3>资讯</h3>
+                <#if informationcatList??>
+                    <#list informationcatList as item>
+                        <#if item.id == catId>
+                            <a class="sel" href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        <#else>
+                            <a href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        </#if>
+                    </#list>
+                </#if>           
+            <h3>帮助中心</h3>
+                <#if helpcatList??>
+                    <#list helpcatList as item>
+                        <#if item.id == catId>
+                            <a class="sel" href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        <#else>
+                            <a href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        </#if>
+                    </#list>
+                </#if>
+            <h3>关于我们</h3>
+                <#if aboutuscatList??>
+                    <#list aboutuscatList as item>
+                        <#if item.id == catId>
+                            <a class="sel" href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        <#else>
+                            <a href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        </#if>
+                    </#list>
+                </#if>
+            <h3>联系我们</h3>
+                <#if contactuscatList??>
+                    <#list contactuscatList as item>
+                        <#if item.id == catId>
+                            <a class="sel" href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        <#else>
+                            <a href="/info/list/${item.menuId?c}?catId=${item.id?c}">${item.title!''}</a>
+                        </#if>
+                    </#list>
+                </#if>
+        </menu>
         <div class="wenzhangliebiao">
-        <ul>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        <li>
-        <a href="#">杜绝“中国式剩宴”—— 对舌尖上浪费的思考</a>2015.06.03
-        </li>
-        </ul>
+            <ul>
+                <#if info_page??>
+                    <#list info_page.content as item>
+                        <li>
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title!''}</a>${item.createTime!''}
+                        </li>
+                    </#list>
+                </#if>           
+            </ul>
         </div>
     <!--分页-->
+    <div class="clear"></div>
     <div class="pagebox">
-      <div class="num">
-        <a class="a1 a0" href="#"><span>上一页</span></a>
-        <a class="sel" href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <span> ... </span>
-        <a href="#">45</a>
-        <a class="a2" href="#"><span>下一页</span></a>
-        <span> 共<b>45</b>页 </span>
-      </div>
-      <div class="page">
-        <input class="sub" type="submit" value="确定" />
+       <div class="num">
+          <#if info_page??>
+                <#assign continueEnter=false>
+                <#if info_page.number+1 == 1>
+                    <a href="javascript:;">上一页</a>
+                <#else>
+                    <a href="/info/list/${mid}?catId=${catId}&page=${info_page.number-1}">上一页</a>
+                </#if>
+                
+                <#if info_page.totalPages gt 0>
+                    <#list 1..info_page.totalPages as page>
+                        <#if page <= 3 || (info_page.totalPages-page) < 3 || (info_page.number+1-page)?abs<3 >
+                            <#if page == info_page.number+1>
+                                <a href="javascript:;" class="sel">${page}</a>
+                            <#else>
+                                <a href="/info/list/${mid}?catId=${catId}&page=${page-1}">${page}</a>
+                            </#if>
+                            <#assign continueEnter=false>
+                        <#else>
+                            <#if !continueEnter>
+                                <b class="pn-break">&hellip;</b>
+                                <#assign continueEnter=true>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#if>
+                
+                <#if info_page.number+1 == info_page.totalPages || info_page.totalPages==0>
+                    <a href="javascript:;">下一页</a>
+                <#else>
+                    <a href="/info/list/${mid}?catId=${info_page.number+1}">下一页</a>
+                </#if>
+                <span class="sp1">共${info_page.totalPages!'0'}页</span>
+            </#if>
+        </div>
+        <div class="page">
+        <input class="sub" type="submit" onclick="javascript:btnPageSubmit();" value="确定" />
         <span>页</span>
-        <input class="text" type="text" value="1" />
+        <input class="text" type="text" value="${pageId + 1}" id="iPageNum"/>
         <span>到第</span>
       </div>
-      <div class="clear"></div>
     </div>
-    </div>
+  </div>
   <div class="clear h40"></div>
 <!--主体结束-->
 <#include "/client/common_footer.ftl" />

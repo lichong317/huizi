@@ -102,6 +102,13 @@ $(function () {
         </dd>
     </dl>
     <dl>
+        <dt>广告副标题</dt>
+        <dd>
+            <input name="subtitle" type="text" value="<#if ad??>${ad.subtitle!""}</#if>" class="input normal" >
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
+    <dl>
         <dt>广告图片</dt>
         <dd>
             <input id="txtImgUrl" name="fileUri" type="text" datatype="*" value="<#if ad??>${ad.fileUri!""}</#if>" class="input normal upload-path">

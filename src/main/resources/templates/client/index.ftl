@@ -284,9 +284,9 @@ function delItem(id)
 			       
 			        <td class="td${item_index+1}"><a href="${item.linkUri!''}">
                          <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
-                         <p class="p1">${item.title}</p>
-                 <!--    <p class="p2">70吋超大屏幕</p> -->
-                         <p class="p2">${item.mark}</p>
+                         <p class="p1">${item.title!''}</p>
+                         <p class="p2">${item.subtitle!''}</p> 
+                         <p class="p3">${item.mark!''}</p>
                          </a>
                      </td>                          
                  </#if>                
@@ -298,9 +298,9 @@ function delItem(id)
                    
                     <td class="td${item_index+1}"><a href="${item.linkUri!''}">
                          <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
-                         <p class="p1">${item.title}</p>
-                 <!--    <p class="p2">70吋超大屏幕</p> -->
-                         <p class="p2">${item.mark}</p>
+                         <p class="p1">${item.title!''}</p>
+                         <p class="p2">${item.subtitle!''}</p> 
+                         <p class="p3">${item.mark!''}</p>
                          </a>
                      </td>                          
                  </#if>                
@@ -314,106 +314,148 @@ function delItem(id)
 		<div class="index_onetit">1F&nbsp;&nbsp;&nbsp;&nbsp;家用电器</div>
 		<div class="index_one">
 			<menu class="index_one_list">
-				<a href="#">三星</a>
-				<a href="#">小米4</a>
-				<a href="#">华为</a>
-				<a href="#">酷派大神</a>
-				<a href="#">小米</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">点放过</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
+			    <#if domesticAppliance_cat_list??>
+			         <#assign total_index =0>
+			         <#list domesticAppliance_cat_list as item>
+			             <#if total_index < 16>
+    			             <a href="/list/${item.id?c}">${item.title!''}</a>
+    			             <#assign total_index = total_index+1>
+    			             <#if ("second_level_" + item_index + "domesticAppliance_cat_list")?eval??>
+    			                 <#list ("second_level_" + item_index + "domesticAppliance_cat_list")?eval as seconditem>
+    			                     <#if total_index < 16>
+        			                     <a href="/list/${item.id?c}">${seconditem.title!''}</a>
+        			                     <#assign total_index = total_index+1>
+    			                     </#if>
+    			                 </#list>			                 
+    			             </#if>
+    			         </#if>
+			         </#list>
+			    </#if>				
 			</menu>
-			<div class="index_litbanner"><img src="images/content/litba.jpg"></div>
+			<div class="index_litbanner">
+			    <#if OneFlittle_ad_list??>
+			        <#list OneFlittle_ad_list as item>
+			            <#if item_index < 1>
+			                <a href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="210" height="218"></a>
+			            </#if>
+			        </#list>
+			    </#if>
+			</div>
 		</div>
 		<div class="index_tab">
 			<table>
 				<tbody>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td rowspan="2"><a href="#" class="a2"><img src="images/content/indexpic1.jpg"></a></td>
+					    <#if OneFtransverse_ad_list??>
+					       <#list OneFtransverse_ad_list as item>
+					           <#if item_index < 2>
+					               <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+					           </#if>
+					       </#list>
+					    </#if>
+					    <#if OneFvertical_ad_list??>
+					       <#list OneFvertical_ad_list as item>		
+					           <#if item_index < 1>				
+						          <td rowspan="2"><a href="${item.linkUri!'#'}" class="a2"><img src="${item.fileUri!''}" width="330" height="442"></a></td>
+						       </#if>
+						   </#list>
+						</#if>
 					</tr>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if OneFtransverse_ad_list??>
+                           <#list OneFtransverse_ad_list as item>
+                               <#if item_index gt 1 && item_index <4>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="clear"></div>
-		<a class="index_ad" href="#">banner广告</a>
+		<#if OneFbottom_ad_list??>
+		   <#list OneFbottom_ad_list as item>
+		      <#if item_index < 1>
+		          <a class="index_ad" href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="1200" height="100"></a>
+		      </#if>
+		   </#list>
+		</#if>
 		<!--2楼-->
 		<div class="index_twotit">2F&nbsp;&nbsp;&nbsp;&nbsp;电脑</div>
 		<div class="index_two">
 			<menu class="index_two_list">
-				<a href="#">三星</a>
-				<a href="#">小米4</a>
-				<a href="#">华为</a>
-				<a href="#">酷派大神</a>
-				<a href="#">小米</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">点放过</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
+				 <#if computer_cat_list??>
+                     <#assign total_index =0>
+                     <#list computer_cat_list as item>
+                         <#if total_index < 16>
+                             <a href="/list/${item.id?c}">${item.title!''}</a>
+                             <#assign total_index = total_index+1>
+                             <#if ("second_level_" + item_index + "computer_cat_list")?eval??>
+                                 <#list ("second_level_" + item_index + "computer_cat_list")?eval as seconditem>
+                                     <#if total_index < 16>
+                                         <a href="/list/${item.id?c}">${seconditem.title!''}</a>
+                                         <#assign total_index = total_index+1>
+                                     </#if>
+                                 </#list>                            
+                             </#if>
+                         </#if>
+                     </#list>
+                </#if>  
 			</menu>
-			<div class="index_litbanner"><img src="images/content/litba.jpg"></div>
+			<div class="index_litbanner">
+                <#if twoFlittle_ad_list??>
+                    <#list twoFlittle_ad_list as item>
+                        <#if item_index < 1>
+                            <a href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="210" height="218"></a>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
 		</div>
 		<div class="index_tab">
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="2"><a href="#" class="a2"><img src="images/content/indexpic1.jpg"></a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if twoFvertical_ad_list??>
+                           <#list twoFvertical_ad_list as item>     
+                               <#if item_index < 1>             
+                                  <td rowspan="2"><a href="${item.linkUri!'#'}" class="a2"><img src="${item.fileUri!''}" width="330" height="442"></a></td>
+                               </#if>
+                           </#list>
+                        </#if>
+						<#if twoFtransverse_ad_list??>
+                           <#list twoFtransverse_ad_list as item>
+                               <#if item_index < 2>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if twoFtransverse_ad_list??>
+                           <#list twoFtransverse_ad_list as item>
+                               <#if item_index gt 1 && item_index <4>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 				</tbody>
 			</table>
@@ -423,106 +465,159 @@ function delItem(id)
 		<div class="index_threetit">3F&nbsp;&nbsp;&nbsp;&nbsp;摄影</div>
 		<div class="index_three">
 			<menu class="index_three_list">
-				<a href="#">三星</a>
-				<a href="#">小米4</a>
-				<a href="#">华为</a>
-				<a href="#">酷派大神</a>
-				<a href="#">小米</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">点放过</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
+				<#if shoot_cat_list??>
+                     <#assign total_index =0>
+                     <#list shoot_cat_list as item>
+                         <#if total_index < 16>
+                             <a href="/list/${item.id?c}">${item.title!''}</a>
+                             <#assign total_index = total_index+1>
+                             <#if ("second_level_" + item_index + "shoot_cat_list")?eval??>
+                                 <#list ("second_level_" + item_index + "shoot_cat_list")?eval as seconditem>
+                                     <#if total_index < 16>
+                                         <a href="/list/${item.id?c}">${seconditem.title!''}</a>
+                                         <#assign total_index = total_index+1>
+                                     </#if>
+                                 </#list>                            
+                             </#if>
+                         </#if>
+                     </#list>
+                </#if>  
 			</menu>
-			<div class="index_litbanner"><img src="images/content/litba.jpg"></div>
+			<div class="index_litbanner">
+                <#if threeFlittle_ad_list??>
+                    <#list threeFlittle_ad_list as item>
+                        <#if item_index < 1>
+                            <a href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="210" height="218"></a>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
 		</div>
 		<div class="index_tab">
 			<table>
 				<tbody>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td rowspan="2"><a href="#" class="a2"><img src="images/content/indexpic1.jpg"></a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if threeFtransverse_ad_list??>
+                           <#list threeFtransverse_ad_list as item>
+                               <#if item_index < 1>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
+						<#if threeFvertical_ad_list??>
+                           <#list threeFvertical_ad_list as item>     
+                               <#if item_index < 1>             
+                                  <td rowspan="2"><a href="${item.linkUri!'#'}" class="a2"><img src="${item.fileUri!''}" width="330" height="442"></a></td>
+                               </#if>
+                           </#list>
+                        </#if>
+						<#if threeFtransverse_ad_list??>
+                           <#list threeFtransverse_ad_list as item>
+                               <#if item_index gt 0 && item_index < 2>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if threeFtransverse_ad_list??>
+                           <#list threeFtransverse_ad_list as item>
+                               <#if item_index gt 1 && item_index < 4>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="clear"></div>
-		<a class="index_ad" href="#">banner广告</a>
+		<#if threeFbottom_ad_list??>
+           <#list threeFbottom_ad_list as item>
+              <#if item_index < 1>
+                  <a class="index_ad" href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="1200" height="100"></a>
+              </#if>
+           </#list>
+        </#if>
 		<!--4楼-->
 		<div class="index_fourtit">4F&nbsp;&nbsp;&nbsp;&nbsp;食品酒水</div>
 		<div class="index_four">
 			<menu class="index_four_list">
-				<a href="#">三星</a>
-				<a href="#">小米4</a>
-				<a href="#">华为</a>
-				<a href="#">酷派大神</a>
-				<a href="#">小米</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">点放过</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
+				<#if FoodDrinks_cat_list??>
+                     <#assign total_index =0>
+                     <#list FoodDrinks_cat_list as item>
+                         <#if total_index < 16>
+                             <a href="/list/${item.id?c}">${item.title!''}</a>
+                             <#assign total_index = total_index+1>
+                             <#if ("second_level_" + item_index + "FoodDrinks_cat_list")?eval??>
+                                 <#list ("second_level_" + item_index + "FoodDrinks_cat_list")?eval as seconditem>
+                                     <#if total_index < 16>
+                                         <a href="/list/${item.id?c}">${seconditem.title!''}</a>
+                                         <#assign total_index = total_index+1>
+                                     </#if>
+                                 </#list>                            
+                             </#if>
+                         </#if>
+                     </#list>
+                </#if>  
 			</menu>
-			<div class="index_litbanner"><img src="images/content/litba.jpg"></div>
+			<div class="index_litbanner">
+                <#if fourFlittle_ad_list??>
+                    <#list fourFlittle_ad_list as item>
+                        <#if item_index < 1>
+                            <a href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="210" height="218"></a>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
 		</div>
 		<div class="index_tab">
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="2"><a href="#" class="a2"><img src="images/content/indexpic1.jpg"></a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if fourFvertical_ad_list??>
+                           <#list fourFvertical_ad_list as item>     
+                               <#if item_index < 1>             
+                                  <td rowspan="2"><a href="${item.linkUri!'#'}" class="a2"><img src="${item.fileUri!''}" width="330" height="442"></a></td>
+                               </#if>
+                           </#list>
+                        </#if>
+                        <#if fourFtransverse_ad_list??>
+                           <#list fourFtransverse_ad_list as item>
+                               <#if item_index < 2>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if fourFtransverse_ad_list??>
+                           <#list fourFtransverse_ad_list as item>
+                               <#if item_index gt 1 && item_index <4>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 				</tbody>
 			</table>
@@ -532,51 +627,69 @@ function delItem(id)
 		<div class="index_fivetit">5F&nbsp;&nbsp;&nbsp;&nbsp;手机</div>
 		<div class="index_five">
 			<menu class="index_five_list">
-				<a href="#">三星</a>
-				<a href="#">小米4</a>
-				<a href="#">华为</a>
-				<a href="#">酷派大神</a>
-				<a href="#">小米</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">点放过</a>
-				<a href="#">三星</a>
-				<a href="#">科技新品</a>
-				<a href="#">科技新品</a>
-				<a href="#">三星</a>
+				<#if phone_cat_list??>
+                     <#assign total_index =0>
+                     <#list phone_cat_list as item>
+                         <#if total_index < 16>
+                             <a href="/list/${item.id?c}">${item.title!''}</a>
+                             <#assign total_index = total_index+1>
+                             <#if ("second_level_" + item_index + "phone_cat_list")?eval??>
+                                 <#list ("second_level_" + item_index + "phone_cat_list")?eval as seconditem>
+                                     <#if total_index < 16>
+                                         <a href="/list/${item.id?c}">${seconditem.title!''}</a>
+                                         <#assign total_index = total_index+1>
+                                     </#if>
+                                 </#list>                            
+                             </#if>
+                         </#if>
+                     </#list>
+                </#if>  
 			</menu>
-			<div class="index_litbanner"><img src="images/content/litba.jpg"></div>
+			<div class="index_litbanner">
+                <#if fiveFlittle_ad_list??>
+                    <#list fiveFlittle_ad_list as item>
+                        <#if item_index < 1>
+                            <a href="${item.linkUri!'#'}"><img src="${item.fileUri!''}" width="210" height="218"></a>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
 		</div>
 		<div class="index_tab">
 			<table>
 				<tbody>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td rowspan="2"><a href="#" class="a2"><img src="images/content/indexpic1.jpg"></a></td>
+						<#if fiveFtransverse_ad_list??>
+                           <#list fiveFtransverse_ad_list as item>
+                               <#if item_index < 2>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
+						<#if fiveFvertical_ad_list??>
+                           <#list fiveFvertical_ad_list as item>     
+                               <#if item_index < 1>             
+                                  <td rowspan="2"><a href="${item.linkUri!'#'}" class="a2"><img src="${item.fileUri!''}" width="330" height="442"></a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 					<tr>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
-						<td><a href="#" class="a1">
-							<p class="p1"><b>索尼 3D网络智能WIFI液晶电视</b></p>
-							<p class="p2">超窄边框   高清硬屏</p>
-							<img src="images/content/indexpic.jpg">
-						</a></td>
+						<#if fiveFtransverse_ad_list??>
+                           <#list fiveFtransverse_ad_list as item>
+                               <#if item_index gt 1 && item_index <4>
+                                   <td><a href="${item.linkUri!'#'}" class="a1">
+                                        <p class="p1"><b>${item.title!''}</b></p>
+                                        <p class="p2">${item.subtitle!''}</p>
+                                        <img src="${item.fileUri!''}" width="170" height="153">
+                                    </a></td>
+                               </#if>
+                           </#list>
+                        </#if>
 					</tr>
 				</tbody>
 			</table>
@@ -585,111 +698,6 @@ function delItem(id)
 	</section>
 
 	<!--页脚-->
-	  <div class="down1">
-<section class="index_center">
-  <table>
-    <tr>
-      <td>
-        <a href="#"><img src="images/hzd_36.png" />正品保障<br>正品保障，提供发票</a>
-      </td>
-      <td>
-        <a href="images/hzd_39.png"><img src="images/hzd_39.png" />极速物流<br>极速物流，极速达人</a>
-      </td>
-      <td>
-        <a href="#"><img src="images/hzd_42.png" />售后无忧<br>15天无理由退换货</a>
-      </td>
-      <td>
-        <a href="#"><img src="images/hzd_45.png" />特色服务<br>自主维修保养预约</a>
-      </td>
-    </tr>
-  </table>
-</section><!--index_center END-->
-<div class="clear"></div>
-
-<section class="bot_help main">
-  <menu>
-    <h3>购物指南</h3>
-    <a href="#">购物流程</a>
-    <a href="#">发票制度</a>
-    <a href="#">账户管理</a>
-    <a href="#">会员优惠</a>
-  </menu>
-  <menu>
-    <h3>支付方式</h3>
-    <a href="#">订单配送查询</a>
-    <a href="#">订单状态说明</a>
-    <a href="#">自助取消订单</a>
-    <a href="#">自助修改订单</a>
-  </menu>
-  <menu>
-    <h3>购物指南</h3>
-    <a href="#">购物流程</a>
-    <a href="#">发票制度</a>
-    <a href="#">账户管理</a>
-    <a href="#">会员优惠</a>
-  </menu>
-  <menu>
-    <h3>购物指南</h3>
-    <a href="#">购物流程</a>
-    <a href="#">发票制度</a>
-    <a href="#">账户管理</a>
-    <a href="#">会员优惠</a>
-  </menu>
-  <menu>
-    <h3>购物指南</h3>
-    <a href="#">购物流程</a>
-    <a href="#">发票制度</a>
-    <a href="#">账户管理</a>
-    <a href="#">会员优惠</a>
-  </menu>
-
-  <div class="clear h20"></div>
-</section>
-</div>
-
-<div class="down2">
-<div class=" erweima main">
-<div class="saoyisao">
-<img src="images/hzd_55.png" />
-<h3><a href="#">安卓客户端</a></h3> </div>
-<div class="saoyisao">
-<img src="images/hzd_55.png" />
-<h3><a href="#">安卓客户端</a></h3> </div>
-<div class="saoyisao">
-<img src="images/hzd_55.png" />
-<h3><a href="#">安卓客户端</a></h3> </div>
-<div class="saoyisao">
-<img src="images/hzd_55.png" />
-<h3><a href="#">安卓客户端</a></h3> </div>
-<div class="mendian">
-<img src="images/hzd_52.png" />
-<h3><a href="#">点击查询</a></h3>
-</div>
-<div class="dizhi">
-<p>
-<span>红河蒙自店</span><br>
-<span>地址：</span>蒙自市XX街道XX大楼CX号<br>
-<span>电话：</span>0871-564531245<br>
-</p>
-</div>
-</div>
-</div>
-
-<div class="down3">
-<div class="main">
-		<div class="clear"></div>
-          <ul class="downwenzi">
-          <li><a href="#">公司简介</a>丨</li>
-          <li><a href="#">联系我们</a>丨</li>
-          <li><a href="#">招贤纳士</a>丨</li>
-          <li><a href="#">合作伙伴</a>丨</li>
-          <li><a href="#">广告合作</a></li>
-          </ul>
-    <div class="clear"></div>
-    版权所有2015 办公狗网上商城 保留所有权利 <br>
-    Copyright ©  2015 bangonggou.com.cn All Rights Reserved <a style="color:#FFF" href="#">滇ICP备2-20140075</a>
-          <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
-</div>
-</div>
+	<#include "/client/common_footer.ftl" />
 </body>
 </html>

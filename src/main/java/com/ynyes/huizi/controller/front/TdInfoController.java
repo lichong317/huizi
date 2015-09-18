@@ -99,6 +99,18 @@ public class TdInfoController {
 	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(mid, catId, page, ClientConstant.pageSize));
 	    }
         
+	    //资讯类别
+	    List<TdArticleCategory> informationcatList = tdArticleCategoryService.findByMenuId(10L);
+	    map.addAttribute("informationcatList", informationcatList);
+	    //帮助中心类别
+	    List<TdArticleCategory> helpcatList = tdArticleCategoryService.findByMenuId(12L);
+	    map.addAttribute("helpcatList", helpcatList);
+	    //关于我们类别
+	    List<TdArticleCategory> aboutuscatList = tdArticleCategoryService.findByMenuId(8L);
+	    map.addAttribute("aboutuscatList", aboutuscatList);
+	    //联系我们类别
+	    List<TdArticleCategory> contactuscatList = tdArticleCategoryService.findByMenuId(13L);
+	    map.addAttribute("contactuscatList", contactuscatList);
 	    
 //	    /**
 //		* @author lc
@@ -110,8 +122,8 @@ public class TdInfoController {
 //	    if (null != adType) {
 //	            map.addAttribute("Article_scroll_ad_list", tdAdService
 //	                    .findByTypeIdAndIsValidTrueOrderBySortIdAsc(adType.getId()));
-//	    }    
-        
+//	    }  
+	    map.addAttribute("pageId", page);
 	    map.addAttribute("catId", catId);
 	    map.addAttribute("mid", mid);
 	    map.addAttribute("info_category_list", catList);

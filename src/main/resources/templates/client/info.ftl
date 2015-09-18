@@ -55,8 +55,8 @@
     
         <div class="clear h30"></div>
         <div class="next">
-            <div class="shang"><a href="#">上一篇:福建纺织品印花展</a></div>
-            <div class="xia"><a href="#">下一篇:福建纺织品印花展</a></div>
+            <div class="shang"><#if prev_info??><a href="/info/content/${prev_info.id?c}?mid=${prev_info.menuId?c}">上一篇:${prev_info.title!''}</a></#if></div>
+            <div class="xia"><#if next_info??><a href="/info/content/${next_info.id?c}?mid=${next_info.menuId?c}">下一篇:${next_info.title!''}</a></#if></div>
         </div>
         <!--分页-->
     

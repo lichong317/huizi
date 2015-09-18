@@ -125,12 +125,7 @@ public class TdIndexController {
 //                "mobile_brand_page",
 //                tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, cat.getId(), 0, ClientConstant.pageSize));
         
-        // 资讯一级分类
-        Long newsId = 10L;
-        map.addAttribute("news_id", newsId);
-
-        List<TdArticleCategory> level0NewsList = tdArticleCategoryService
-                .findByMenuIdAndParentId(newsId, 0L);
+       
 
         // 首页轮播广告
         TdAdType tdAdType = tdAdTypeService.findByTitle("首页大图广告");
@@ -151,48 +146,267 @@ public class TdIndexController {
                     tdAdService.findByTypeId(tdAdType.getId()));
         }
         
-        tdAdType = tdAdTypeService.findByTitle("下期预告底部广告");
+        /*****1F家用电器******/ 
+        //家用电器分类 取两级
+        TdProductCategory domesticAppliance = tdProductCategoryService.findByTitle("家用电器");
+ 
+        List<TdProductCategory> domesticApplianceCatList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(domesticAppliance.getId());
+        map.addAttribute("domesticAppliance_cat_list", domesticApplianceCatList);
 
-        if (null != tdAdType) {
-            map.addAttribute("next_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != domesticApplianceCatList && domesticApplianceCatList.size() > 0) 
+        {
+            for (int i = 0; i < domesticApplianceCatList.size(); i++) 
+            {
+                TdProductCategory topCat = domesticApplianceCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                map.addAttribute("second_level_" + i + "domesticAppliance_cat_list", secondLevelList);               
+            }
         }
+        
+        //1F小广告
+        TdAdType OneFtdAdType = tdAdTypeService.findByTitle("1F小广告");
 
-        tdAdType = tdAdTypeService.findByTitle("品牌专区大图广告");
-
-        if (null != tdAdType) {
-            map.addAttribute("brand_big_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != OneFtdAdType) {
+            map.addAttribute("OneFlittle_ad_list",
+                    tdAdService.findByTypeId(OneFtdAdType.getId()));
         }
+        
+        //1F 4个横向广告
+        OneFtdAdType = tdAdTypeService.findByTitle("1F4个横向广告");
 
-        tdAdType = tdAdTypeService.findByTitle("品牌专区小图广告");
-
-        if (null != tdAdType) {
-            map.addAttribute("brand_small_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != OneFtdAdType) {
+            map.addAttribute("OneFtransverse_ad_list",
+                    tdAdService.findByTypeId(OneFtdAdType.getId()));
         }
+        
+        //1F 竖向广告
+        OneFtdAdType = tdAdTypeService.findByTitle("1F竖向广告");
 
-        tdAdType = tdAdTypeService.findByTitle("食品生鲜楼层广告");
-
-        if (null != tdAdType) {
-            map.addAttribute("fresh_floor_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != OneFtdAdType) {
+            map.addAttribute("OneFvertical_ad_list",
+                    tdAdService.findByTypeId(OneFtdAdType.getId()));
         }
+        //1F 底层广告
+        OneFtdAdType = tdAdTypeService.findByTitle("1F底层广告");
 
-        tdAdType = tdAdTypeService.findByTitle("家装厨具楼层广告");
-
-        if (null != tdAdType) {
-            map.addAttribute("kitchen_floor_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != OneFtdAdType) {
+            map.addAttribute("OneFbottom_ad_list",
+                    tdAdService.findByTypeId(OneFtdAdType.getId()));
         }
+        /*****1F家用电器******/
+        
+        /*****2F电脑******/ 
+        //电脑办公分类 取两级
+        TdProductCategory computer = tdProductCategoryService.findByTitle("电脑办公");
+ 
+        List<TdProductCategory> computerCatList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(computer.getId());
+        map.addAttribute("computer_cat_list", computerCatList);
 
-        tdAdType = tdAdTypeService.findByTitle("手机通讯楼层广告");
-
-        if (null != tdAdType) {
-            map.addAttribute("mobile_floor_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+        if (null != computerCatList && computerCatList.size() > 0) 
+        {
+            for (int i = 0; i < computerCatList.size(); i++) 
+            {
+                TdProductCategory topCat = computerCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                map.addAttribute("second_level_" + i + "computer_cat_list", secondLevelList);               
+            }
         }
+        
+        //2F小广告
+        TdAdType twoFtdAdType = tdAdTypeService.findByTitle("2F小广告");
 
+        if (null != twoFtdAdType) {
+            map.addAttribute("twoFlittle_ad_list",
+                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+        }
+        
+        //2F 4个横向广告
+        twoFtdAdType = tdAdTypeService.findByTitle("2F4个横向广告");
+
+        if (null != twoFtdAdType) {
+            map.addAttribute("twoFtransverse_ad_list",
+                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+        }
+        
+        //2F 竖向广告
+        twoFtdAdType = tdAdTypeService.findByTitle("2F竖向广告");
+
+        if (null != twoFtdAdType) {
+            map.addAttribute("twoFvertical_ad_list",
+                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+        }
+        //2F 底层广告
+        twoFtdAdType = tdAdTypeService.findByTitle("2F底层广告");
+
+        if (null != twoFtdAdType) {
+            map.addAttribute("twoFbottom_ad_list",
+                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+        }
+        /*****2F电脑******/
+        
+        /*****3F摄影******/ 
+        //摄影分类 取两级
+        TdProductCategory shoot = tdProductCategoryService.findByTitle("摄影摄像");
+ 
+        List<TdProductCategory> shootCatList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(shoot.getId());
+        map.addAttribute("shoot_cat_list", shootCatList);
+
+        if (null != shootCatList && shootCatList.size() > 0) 
+        {
+            for (int i = 0; i < shootCatList.size(); i++) 
+            {
+                TdProductCategory topCat = shootCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                map.addAttribute("second_level_" + i + "shoot_cat_list", secondLevelList);               
+            }
+        }
+        
+        //3F小广告
+        TdAdType threeFtdAdType = tdAdTypeService.findByTitle("3F小广告");
+
+        if (null != threeFtdAdType) {
+            map.addAttribute("threeFlittle_ad_list",
+                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+        }
+        
+        //3F 4个横向广告
+        threeFtdAdType = tdAdTypeService.findByTitle("3F4个横向广告");
+
+        if (null != threeFtdAdType) {
+            map.addAttribute("threeFtransverse_ad_list",
+                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+        }
+        
+        //3F 竖向广告
+        threeFtdAdType = tdAdTypeService.findByTitle("3F竖向广告");
+
+        if (null != threeFtdAdType) {
+            map.addAttribute("threeFvertical_ad_list",
+                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+        }
+        //3F 底层广告
+        threeFtdAdType = tdAdTypeService.findByTitle("3F底层广告");
+
+        if (null != threeFtdAdType) {
+            map.addAttribute("threeFbottom_ad_list",
+                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+        }
+        /*****3F电脑******/
+        
+        /*****4F食品酒水******/ 
+        //食品酒水分类 取两级
+        TdProductCategory FoodDrinks = tdProductCategoryService.findByTitle("食品酒水");
+ 
+        List<TdProductCategory> FoodDrinksCatList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(FoodDrinks.getId());
+        map.addAttribute("FoodDrinks_cat_list", FoodDrinksCatList);
+
+        if (null != FoodDrinksCatList && FoodDrinksCatList.size() > 0) 
+        {
+            for (int i = 0; i < FoodDrinksCatList.size(); i++) 
+            {
+                TdProductCategory topCat = FoodDrinksCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                map.addAttribute("second_level_" + i + "FoodDrinks_cat_list", secondLevelList);               
+            }
+        }
+        
+        //4F小广告
+        TdAdType FourtdAdType = tdAdTypeService.findByTitle("4F小广告");
+
+        if (null != FourtdAdType) {
+            map.addAttribute("fourFlittle_ad_list",
+                    tdAdService.findByTypeId(FourtdAdType.getId()));
+        }
+        
+        //4F 4个横向广告
+        FourtdAdType = tdAdTypeService.findByTitle("4F4个横向广告");
+
+        if (null != FourtdAdType) {
+            map.addAttribute("fourFtransverse_ad_list",
+                    tdAdService.findByTypeId(FourtdAdType.getId()));
+        }
+        
+        //4F 竖向广告
+        FourtdAdType = tdAdTypeService.findByTitle("4F竖向广告");
+
+        if (null != FourtdAdType) {
+            map.addAttribute("fourFvertical_ad_list",
+                    tdAdService.findByTypeId(FourtdAdType.getId()));
+        }
+        //4F 底层广告
+        FourtdAdType = tdAdTypeService.findByTitle("4F底层广告");
+
+        if (null != FourtdAdType) {
+            map.addAttribute("fourFbottom_ad_list",
+                    tdAdService.findByTypeId(FourtdAdType.getId()));
+        }
+        /*****4F食品酒水******/
+        
+        /*****5F手机******/ 
+        //摄影分类 取两级
+        TdProductCategory phone = tdProductCategoryService.findByTitle("手机大全");
+ 
+        List<TdProductCategory> phoneCatList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(phone.getId());
+        map.addAttribute("phone_cat_list", phoneCatList);
+
+        if (null != phoneCatList && phoneCatList.size() > 0) 
+        {
+            for (int i = 0; i < phoneCatList.size(); i++) 
+            {
+                TdProductCategory topCat = phoneCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                map.addAttribute("second_level_" + i + "phone_cat_list", secondLevelList);               
+            }
+        }
+        
+        //5F小广告
+        TdAdType fiveFtdAdType = tdAdTypeService.findByTitle("5F小广告");
+
+        if (null != fiveFtdAdType) {
+            map.addAttribute("fiveFlittle_ad_list",
+                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+        }
+        
+        //5F 4个横向广告
+        fiveFtdAdType = tdAdTypeService.findByTitle("5F4个横向广告");
+
+        if (null != fiveFtdAdType) {
+            map.addAttribute("fiveFtransverse_ad_list",
+                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+        }
+        
+        //5F 竖向广告
+        fiveFtdAdType = tdAdTypeService.findByTitle("5F竖向广告");
+
+        if (null != fiveFtdAdType) {
+            map.addAttribute("fiveFvertical_ad_list",
+                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+        }
+        //5F 底层广告
+        fiveFtdAdType = tdAdTypeService.findByTitle("5F底层广告");
+
+        if (null != fiveFtdAdType) {
+            map.addAttribute("fiveFbottom_ad_list",
+                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+        }
+        /*****5F手机******/
+        
+        // 资讯一级分类
+        Long newsId = 10L;
+        map.addAttribute("news_id", newsId);
+
+        List<TdArticleCategory> level0NewsList = tdArticleCategoryService
+                    .findByMenuIdAndParentId(newsId, 0L);
         map.addAttribute("news_level0_cat_list", level0NewsList);
 
         if (null != level0NewsList) {
