@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/client/js/common.js"></script>
 <script type="text/javascript" src="/client/js/ljs-v1.01.js"></script>
 <script type="text/javascript" src="/client/js/mymember.js"></script>
+<script type="text/javascript" src="/client/js/jquery.cookie.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -27,6 +28,13 @@
 	navDownList("navdown","li",".nav_showbox");
 	menuDownList("mainnavdown","#navdown",".a2","sel");
 	
+	//记住密码
+	if ($.cookie("rmbUser") == "true") { 
+        $("#rmbUser").attr("checked", true); 
+        $("#txt_loginId").val($.cookie("userName")); 
+        $("#txt_loginPwd").val($.cookie("passWord")); 
+    } 
+	
 	chooseMoreShow();
 	
 		$("#txt_loginId")[0].focus();
@@ -36,12 +44,14 @@
     });
     $(function(){
     	$("#btn_login").click(function(){
+    	    saveUserInfo();
     		login();
     	});	
     });
 
     document.onkeydown = function(event){
         if((event.keyCode || event.which) == 13){
+            saveUserInfo();
             login();
         }
        }
@@ -75,7 +85,23 @@
                 }
             });
     }
- });    
+ });
+ 
+ //保存用户信息 
+function saveUserInfo() { 
+    if (document.getElementById("rmbUser").checked=true) { 
+        var userName = $("#txt_loginId").val(); 
+        var passWord = $("#txt_loginPwd").val(); 
+        $.cookie("rmbUser", "true", { expires: 7 }); // 存储一个带7天期限的 cookie 
+        $.cookie("userName", userName, { expires: 7 }); // 存储一个带7天期限的 cookie 
+        $.cookie("passWord", passWord, { expires: 7 }); // 存储一个带7天期限的 cookie 
+    } 
+    else { 
+        $.cookie("rmbUser", "false", { expires: -1 }); 
+        $.cookie("userName", '', { expires: -1 }); 
+        $.cookie("passWord", '', { expires: -1 }); 
+    } 
+}     
 </script>
 
 </head>
@@ -117,7 +143,7 @@
         <input id="txt_loginPwd" type="password" class="login_txt2" />
         <p>
           <label>
-            <input name="" type="checkbox" value="" />
+            <input id="rmbUser" type="checkbox" />
             &nbsp;记住密码</label>
           &nbsp;&nbsp;<b class="wj"><a href="#">忘记密码？</a></b></p>
         <p class="mt15">还不是会员？<b class="zc"><a href="/reg">免费注册</a></b></p>

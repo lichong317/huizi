@@ -537,7 +537,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 
 
 
-.top{height:141px;overflow: hidden;position: relative;}	
+.top{height:141px;/*overflow: hidden;*/position: relative;}	
 .logo{margin-top:32px; height:71px; width:233px; float:left;}
 
 

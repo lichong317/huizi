@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.service.TdCouponService;
@@ -39,7 +40,8 @@ public class TdManagerCouponController {
     @Autowired
     TdManagerLogService tdManagerLogService;
     
-    
+    @Autowired
+    private TdProductCategoryService tdProductCategoryService;
 //    @RequestMapping(value="/check", method = RequestMethod.POST)
 //    @ResponseBody
 //    public Map<String, String> validateForm(String param, Long id) {
@@ -128,7 +130,8 @@ public class TdManagerCouponController {
         }
 
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
-
+        map.addAttribute("category_list", tdProductCategoryService.findAll());
+        
         if (null != id) {
             map.addAttribute("coupon_type", tdCouponTypeService.findOne(id));
         }
@@ -147,7 +150,7 @@ public class TdManagerCouponController {
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
 
         if (null == tdCouponType.getId()) {
-            tdManagerLogService.addLog("add", "用户修改优惠券类型", req);
+            tdManagerLogService.addLog("add", "用户添加优惠券类型", req);
         } else {
             tdManagerLogService.addLog("edit", "用户修改优惠券类型", req);
         }
