@@ -97,6 +97,14 @@ public class TdUserConsultService {
         return repository.findByUsernameOrderByIdDesc(username);
     }
     
+    public Long countByGoodsIdAndIsShowable(Long goodsId){
+    	 if (null == goodsId)
+         {
+             return 0L;
+         }
+    	 return repository.countByGoodsIdAndStatusId(goodsId, 1L);
+    }
+    
     public Page<TdUserConsult> findByUsername(String username, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);

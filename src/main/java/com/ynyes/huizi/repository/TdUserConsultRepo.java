@@ -46,6 +46,8 @@ public interface TdUserConsultRepo extends
     
     List<TdUserConsult> findByUsernameOrderByIdDesc(String username);
     
+    Long countByGoodsIdAndStatusId(Long goodsId, Long statusId);
+    
     Page<TdUserConsult> findByUsernameOrderByIdDesc(String username, Pageable page);
     
     Page<TdUserConsult> findByUsernameAndGoodsTitleContainingOrderByIdDesc(String username, String keywords, Pageable page);
