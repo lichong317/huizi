@@ -246,6 +246,10 @@ public class TdGoods {
     @Column
     private Boolean isFlashSale;
     
+    // 抢拍展示图
+    @Column
+    private String flashSaleImage;
+    
     // 限时抢购开始时间
     @Column
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -362,7 +366,15 @@ public class TdGoods {
         this.id = id;
     }
 
-    public Long getProductId() {
+    public String getFlashSaleImage() {
+		return flashSaleImage;
+	}
+
+	public void setFlashSaleImage(String flashSaleImage) {
+		this.flashSaleImage = flashSaleImage;
+	}
+
+	public Long getProductId() {
         return productId;
     }
 

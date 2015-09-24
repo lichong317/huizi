@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.repository.TdCartGoodsRepo;
 
@@ -27,6 +29,8 @@ public class TdCartGoodsService {
     @Autowired
     TdCartGoodsRepo repository;
     
+    @Autowired
+    TdGoodsService tdGoodsService;
     /**
      * 删除
      * 
@@ -110,6 +114,16 @@ public class TdCartGoodsService {
         return repository.findByGoodsIdAndPriceAndUsername(goodsId, price, username);
     }
     
+    public List<TdCartGoods> findByGoodsIdAndUsername(Long goodsId, String username)
+    {
+        if (null == goodsId || null == username)
+        {
+            return null;
+        }
+        
+        return repository.findByGoodsIdAndUsername(goodsId, username);
+    }
+    
     public List<TdCartGoods> findByUsername(String username)
     {
         return repository.findByUsername(username);
@@ -125,7 +139,29 @@ public class TdCartGoodsService {
         repository.delete(entities);
     }
     
-    
+    public List<TdCartGoods> updateGoodsInfo(List<TdCartGoods> cartGoodsList)
+    {
+        if (null == cartGoodsList || cartGoodsList.size() < 0)
+        {
+            return null;
+        }
+        
+        for (TdCartGoods cartGoods : cartGoodsList)
+        {
+            if (null != cartGoods)
+            {
+                TdGoods goods = tdGoodsService.findOne(cartGoods.getGoodsId());
+                
+                if (null != goods)
+                {
+                    cartGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+                    cartGoods.setGoodsTitle(goods.getTitle());
+                    cartGoods.setPrice(goods.getSalePrice());
+                }
+            }
+        }
+        return cartGoodsList;
+    }
     /**
      * 保存
      * 

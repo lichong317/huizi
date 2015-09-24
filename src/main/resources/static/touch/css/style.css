@@ -185,7 +185,7 @@
 	border-bottom:2px solid #e9e9e9;}
 .carlist b {
 	display:block;
-	width:30%;
+	width:25%;
 	float:left;
 	border:1px solid #ddd;}
 .carlist p {
@@ -677,21 +677,21 @@ font-size: 0.8em;
 
 
 
-.lanse{ color:#00638e; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.lansebg{background:#00638e; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
-.lansebg span{width:50%; overflow:hidden; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
-.zongse{ color:#6a3906; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.zongsebg{background:#6a3906; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
-.zongsebg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em;font-size:0.8em;overflow:hidden;}
-.lvse{ color:#6ba64c; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.lvsebg{background:#6ba64c; color:#FFF; margin-top:5%; width:80%;height:1.2em;}
-.lvsebg span{width:50%; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
-.zise{ color:#978de6; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.zisebg{background:#978de6; color:#FFF; margin-top:5%; width:80%;height:1.2em;;}
-.zisebg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
-.fengse{ color:#f779a9; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.fengsebg{background:#f779a9; color:#FFF; margin-top:5%; width:80%; height:1.2em;}
-.fengsebg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; overflow:hidden; font-size:0.8em;}
+.se1{ color:#00638e; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se1bg{background:#00638e; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
+.se1bg span{width:50%; overflow:hidden; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
+.se2{ color:#6a3906; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se2bg{background:#6a3906; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
+.se2bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em;font-size:0.8em;overflow:hidden;}
+.se3{ color:#6ba64c; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se3bg{background:#6ba64c; color:#FFF; margin-top:5%; width:80%;height:1.2em;}
+.se3bg span{width:50%; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
+.se4{ color:#978de6; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se4bg{background:#978de6; color:#FFF; margin-top:5%; width:80%;height:1.2em;;}
+.se4bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
+.se5{ color:#f779a9; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se5bg{background:#f779a9; color:#FFF; margin-top:5%; width:80%; height:1.2em;}
+.se5bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; overflow:hidden; font-size:0.8em;}
 
 .fenleiwenzi{position:absolute; z-index:999999; width:60%; overflow:hidden;}
 .fenleiwenzi p{width:60%; overflow:hidden; height:1.5em;}
@@ -834,3 +834,11 @@ menu.protext a.a2 span { background-size: auto 19px; }
 
 .timebox,.myorder_list a p.p4 { font-size:0.8em; line-height:25px;}
 .timebox b,.myorder_list a p.p4 span { display:inline-block; padding:0 3px; background:#2b2e34; color:#fff; border-radius:2px; margin:0 1px;}
+
+.address_list{}
+.address_list a{display: block;width: 95%; height: auto;border-bottom:1px solid #c0bfbf;padding: 10px 3%;}
+.address_list a p{font-size: 0.9em;}
+.address_list a p span{padding-left: 10%;}
+.address_list a.sel{background:url(../images/true.png) no-repeat 95% center #e6e4e5;background-size: 22px;}
+
+

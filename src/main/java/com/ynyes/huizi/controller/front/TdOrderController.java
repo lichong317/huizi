@@ -813,7 +813,7 @@ public class TdOrderController {
                 .findByUsernameAndIsSelectedTrue(username);
 
         Long totalPointLimited = 0L;
-
+        Double totalPrice = 0.0; // 购物总额
         // 积分限制总和
         if (null != selectedGoodsList) {
             for (TdCartGoods cg : selectedGoodsList) {
@@ -822,11 +822,19 @@ public class TdOrderController {
                 if (null != goods && null != goods.getPointLimited()) {
                     totalPointLimited += goods.getPointLimited()
                             * cg.getQuantity();
+                    totalPrice += cg.getPrice() * cg.getQuantity();
                 }
             }
         }
 
-        map.addAttribute("total_point_limit", totalPointLimited);
+        // 积分限额
+        if (null != user.getTotalPoints()) {
+            if (totalPointLimited > user.getTotalPoints()) {
+                map.addAttribute("total_point_limit", user.getTotalPoints());
+            } else {
+                map.addAttribute("total_point_limit", totalPointLimited);
+            }
+        }
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
         map.addAttribute("delivery_type_list",
                 tdDeliveryTypeService.findByIsEnableTrue());

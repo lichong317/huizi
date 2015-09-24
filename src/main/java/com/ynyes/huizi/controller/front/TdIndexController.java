@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,8 +60,12 @@ public class TdIndexController {
     private TdBrandService tdBrandService;
 
     @RequestMapping
-    public String index(HttpServletRequest req, ModelMap map) {
-
+    public String index(HttpServletRequest req, Device device, ModelMap map) {
+    	 // 触屏
+        if (device.isMobile() || device.isTablet()) {
+            return "redirect:/touch/";
+        }
+        
         tdCommonService.setHeader(map, req);
 
         map.addAttribute(

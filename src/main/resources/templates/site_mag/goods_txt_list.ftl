@@ -76,6 +76,12 @@
             height: 500
         });
     }
+     function confirmCopy(id)
+    {
+        $.dialog.confirm("确定复制该商品吗？", function () {
+            window.location.href = "/Verwalter/goods/copy?id=" + id;
+        });
+    }
 </script>
 </head>
 

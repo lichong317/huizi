@@ -61,10 +61,10 @@ public class TdCommonService {
             map.addAttribute("user",
                     tdUserService.findByUsernameAndIsEnabled(username));
             map.addAttribute("cart_goods_list",
-                    tdCartGoodsService.findByUsername(username));
+                    tdCartGoodsService.updateGoodsInfo(tdCartGoodsService.findByUsername(username)));
         } else {
             map.addAttribute("cart_goods_list",
-                    tdCartGoodsService.findByUsername(req.getSession().getId()));
+                    tdCartGoodsService.updateGoodsInfo(tdCartGoodsService.findByUsername(req.getSession().getId())));
         }
 
         // 网站基本信息

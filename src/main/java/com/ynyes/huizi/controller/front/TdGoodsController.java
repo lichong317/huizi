@@ -263,6 +263,11 @@ public class TdGoodsController {
                 case 1:
                     sOne = goods.getSelectOneValue().trim();
                     
+                    if (null != sOne)
+                    {
+                        sOne = sOne.trim();
+                    }
+                    
                     for (TdGoods pdtGoods : productGoodsList)
                     {
                         String s1 = pdtGoods.getSelectOneValue().trim();
@@ -280,7 +285,16 @@ public class TdGoodsController {
                     break;
                 case 2:
                     sOne = goods.getSelectOneValue().trim();
+                    if (null != sOne)
+                    {
+                        sOne = sOne.trim();
+                    }
+                    
                     sTwo = goods.getSelectTwoValue().trim();
+                    if (null != sTwo)
+                    {
+                        sTwo = sTwo.trim();
+                    }
                     
                     for (TdGoods pdtGoods : productGoodsList)
                     {
@@ -293,11 +307,12 @@ public class TdGoodsController {
                             selectOneGoodsList.add(pdtGoods);
                         }
                         
-                        if (!selectTwoList.contains(s2))
+                        if (!selectTwoList.contains(s2) && sOne.equalsIgnoreCase(s1))
                         {
                             selectTwoList.add(s2);
                             selectTwoGoodsList.add(pdtGoods);
-                        }
+                        }                                                                     
+                        
                     }
                     
                     map.addAttribute("select_one_name", product.getSelectOneName());
@@ -310,8 +325,22 @@ public class TdGoodsController {
                     
                 case 3:
                     sOne = goods.getSelectOneValue().trim();
+                    if (null != sOne)
+                    {
+                        sOne = sOne.trim();
+                    }
+                    
                     sTwo = goods.getSelectTwoValue().trim();
+                    if (null != sTwo)
+                    {
+                        sTwo = sTwo.trim();
+                    }
+                    
                     sThree = goods.getSelectThreeValue().trim();
+                    if (null != sThree)
+                    {
+                        sThree = sThree.trim();
+                    }
                     
                     for (TdGoods pdtGoods : productGoodsList)
                     {
@@ -325,13 +354,14 @@ public class TdGoodsController {
                             selectOneGoodsList.add(pdtGoods);
                         }
                         
-                        if (!selectTwoList.contains(s2))
+                        if (!selectTwoList.contains(s2) && sOne.equalsIgnoreCase(s1))
                         {
                             selectTwoList.add(s2);
                             selectTwoGoodsList.add(pdtGoods);
                         }
                         
-                        if (!selectThreeList.contains(s3))
+                        if (!selectThreeList.contains(s3)  && sTwo.equalsIgnoreCase(s2)
+                                && sOne.equalsIgnoreCase(s1))
                         {
                             selectThreeList.add(s3);
                             selectThreeGoodsList.add(pdtGoods);

@@ -1,10 +1,10 @@
 $(document).ready(function(){
     $("#commentForm").Validform({
-        tiptype: 1
+        tiptype: 4
     });
     
     $("#consultForm").Validform({
-        tiptype: 1
+        tiptype: 4
     });
 });
 
