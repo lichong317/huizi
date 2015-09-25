@@ -421,6 +421,7 @@ public class TdManagerOrderController {
     
     @RequestMapping(value="/setting/diysite/save", method = RequestMethod.POST)
     public String save(TdDiySite tdDiySite,
+    					String[] hid_photo_name_show360,
                         ModelMap map,
                         HttpServletRequest req){
         String username = (String) req.getSession().getAttribute("manager");
@@ -428,6 +429,10 @@ public class TdManagerOrderController {
         {
             return "redirect:/Verwalter/login";
         }
+        
+        String uris = parsePicUris(hid_photo_name_show360);
+        
+        tdDiySite.setShowPictures(uris);
         
         if (null == tdDiySite.getId())
         {
@@ -831,5 +836,34 @@ public class TdManagerOrderController {
                 }
             }
         }
+    }
+    
+    /**
+     * 图片地址字符串整理，多张图片用,隔开
+     * 
+     * @param params
+     * @return
+     */
+    private String parsePicUris(String[] uris)
+    {
+        if (null == uris || 0 == uris.length)
+        {
+            return null;
+        }
+        
+        String res = "";
+        
+        for (String item : uris)
+        {
+            String uri = item.substring(item.indexOf("|")+1, item.indexOf("|", 2));
+            
+            if (null != uri)
+            {
+                res += uri;
+                res += ",";
+            }
+        }
+        
+        return res;
     }
 }

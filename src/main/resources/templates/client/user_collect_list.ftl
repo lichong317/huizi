@@ -69,7 +69,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <tr class="mymember_infotab_tit01">
             <th colspan="3">商品</th>
             <th width="80">金额</th>
-            <th width="80">库存</th>
+          <#-->  <th width="80">库存</th> -->
             <th width="70">操作</th>
                 </tr>
                 <#if collect_page??>
@@ -85,7 +85,7 @@ function __doPostBack(eventTarget, eventArgument) {
                                 <a href="/goods/${cg.goodsId?c}" target="_blank"  clstag="homepage|keycount|guanzhu|shangpin01">${cg.goodsTitle!''}</a>
                             </td>
                             <td class="tb02">￥${cg.goodsSalePrice?string("#.##")}</td>
-                            <td>${cg.leftNumber!''}</td>
+                           <#--> <td>${cg.leftNumber!''}</td> -->
                             <td>
                                 <p><a href="/cart/init?id=${cg.goodsId?c!''}" target="_blank">加入购物车</a></p>
                                 <p><a href="/user/collect/del?id=${cg.goodsId?c!''}">取消关注</a></p>

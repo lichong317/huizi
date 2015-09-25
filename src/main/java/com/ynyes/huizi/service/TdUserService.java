@@ -346,6 +346,13 @@ public class TdUserService {
         return repository.findByUsernameContainingOrMobileContainingOrEmailContainingOrderByIdDesc(keywords, keywords, keywords, pageRequest);
     }
     
+    public TdUser findByMobileAndIsEnabled(String mobile){
+    	if(null==mobile){
+    		return null;
+    	}
+    	return repository.findByMobileAndStatusIdOrMobileAndStatusId(mobile, 0L, mobile, 1L);
+    }
+    
     /**
      * 保存
      * 

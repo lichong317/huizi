@@ -28,7 +28,9 @@
       <tr>
         <td class="pt10" width="35%"><img src="/touch/images/images/index_03.png" height="50%" /></td>
         <td style="padding-top:7px;">
-          <div class="topsearch"><input class="text" type="text" /><input class="sub" type="submit" value=" " /></div>
+        <form action="/touch/search" method="get">
+          <div class="topsearch"><input class="text" type="text" name="keywords"/><input class="sub" type="submit" value=" " /></div>
+        </form>
         </td>
       </tr>
     </table> 
@@ -54,8 +56,8 @@
       <tr>
         <td><a class="a1" href="#">会员中心</a></td>
         <td><a class="a2" href="#">我的订单</a></td>
-        <td><a class="a3" href="#">购物车</a></td>
-        <td><a class="a4" href="#">门店查询</a></td>
+        <td><a class="a3" href="/touch/cart">购物车</a></td>
+        <td><a class="a4" href="/touch/shop/list">门店查询</a></td>
         <td><a class="a5" href="#">客户端</a></td>
       </tr>
     </table>
@@ -181,26 +183,26 @@
     </h3>
     
     <table class="index_list">
-    <#if selection_ad_list??>
-        <#list selection_ad_list as item>
+    <#if top_cat_list??>
+        <#list top_cat_list as item>
             <#if item_index % 2 == 0>
                 <tr>
                     <td>
-                      <a href="${item.linkUri!''}">
+                      <a href="/touch/list/${item.id?c}">
                         <div class="fenleiwenzi"><h4>${item.title!''}</h4>
                         <p>${item.subtitle!''}</p></div>
                         <div class="fenleitupian">
-                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                        <p class="ta-r"><img src="${item.imgUrl!''}"width="39" height="39" /></p>
                       </div>
                       </a>
                     </td>
             <#else>
                     <td>
-                      <a href="${item.linkUri!''}">
+                      <a href="/touch/list/${item.id?c}">
                         <div class="fenleiwenzi"><h4>${item.title!''}</h4>
                         <p>${item.subtitle!''}</p></div>
                         <div class="fenleitupian">
-                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                        <p class="ta-r"><img src="${item.imgUrl!''}"width="39" height="39" /></p>
                       </div>
                       </a>
                     </td>

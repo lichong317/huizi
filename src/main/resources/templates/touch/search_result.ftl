@@ -24,7 +24,7 @@ function loadMore()
 {
     $.ajax({
         type:"post",
-        url:"/touch/list/more/${categoryId!'1'}-${orderId?c!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-" + pageIdx,
+        url:"/touch/search?keywords=${keywords!''}&page=" + pageIdx + "&st=${st!''}&sd=${sd!''}",
         success:function(data){
             if ("" == data)
             {
@@ -46,7 +46,7 @@ function loadMore()
 <div class="maintop_bg"></div>
 <header class="maintop">
   <div class="main">
-    <p><#if productCategory??>${productCategory.title!''}</#if></p>
+    <p>搜索结果</p>
     <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
     <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
   </div>
@@ -55,10 +55,9 @@ function loadMore()
 <div class="list_top">
 <table class="main">
   <tr>    
-    <td <#if orderId==0><#if sort_id_list[0]==0>class="sel"<#else>class="sel"</#if></#if>><a  href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-0<#if sort_id_list??><#list sort_id_list as sortId><#if sortId_index==0><#if sortId==0>-1<#else>-0</#if><#else>-${sortId!'0'}</#if></#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>综合</span></a></td>
-    <td <#if orderId==1><#if sort_id_list[1]==0>class="sel"<#else>class="sel"</#if></#if>><a  href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-1<#if sort_id_list??><#list sort_id_list as sortId><#if sortId_index==1><#if sortId==0>-1<#else>-0</#if><#else>-${sortId!'0'}</#if></#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>价格</span></a></td>
-    <td <#if orderId==2><#if sort_id_list[2]==0>class="sel"<#else>class="sel"</#if></#if>><a  href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-2<#if sort_id_list??><#list sort_id_list as sortId><#if sortId_index==2><#if sortId==0>-1<#else>-0</#if><#else>-${sortId!'0'}</#if></#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>销量</span></a></td>
-    <td <#if orderId==3><#if sort_id_list[3]==0>class="sel"<#else>class="sel"</#if></#if>><a  href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-3<#if sort_id_list??><#list sort_id_list as sortId><#if sortId_index==3><#if sortId==0>-1<#else>-0</#if><#else>-${sortId!'0'}</#if></#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>评价</span></a></td>
+    <td <#if st==0>class="sel"</#if>><a  href="/touch/search?keywords=${keywords!''}&page=0&st=0&<#if sd?? && sd==0>sd=1<#else>sd=0</#if>"><span>价格</span></a></td>
+    <td <#if st==1>class="sel"</#if>><a  href="/touch/search?keywords=${keywords!''}&page=0&st=1&<#if sd?? && sd==0>sd=1<#else>sd=0</#if>"><span>销量</span></a></td>
+    <td <#if st==2>class="sel"</#if>><a  href="/touch/search?keywords=${keywords!''}&page=0&st=2&<#if sd?? && sd==0>sd=1<#else>sd=0</#if>"><span>上架时间</span></a></td>
   </tr>
 </table>
 </div>

@@ -34,7 +34,7 @@
   </footer>
 <#else>
     <div>
-        <p>购物车空空的哦，去看看心意的商品吧！</p>
-        <p><a class="blue" href="/touch">马上去购物>>  </a></p>
+        <p style="text-align:center">购物车空空的哦，去看看心意的商品吧！</p>
+        <p style="text-align:center"><a class="blue" href="/touch">马上去购物>>  </a></p>
     </div>
 </#if>

@@ -25,6 +25,8 @@ public interface TdOrderRepo extends
     
     Page<TdOrder> findByUsernameOrderByIdDesc(String username, Pageable page);
     
+    Page<TdOrder> findByUsernameAndStatusIdNotOrderByIdDesc(String username, Long statusId, Pageable page);
+    
     Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1,Long statusId1, String username2,Long statusId2, String username3,Long statusId3, Pageable page);
     
     Page<TdOrder> findByUsernameAndOrderTimeAfterOrderByIdDesc(String username, Date time, Pageable page);
@@ -32,6 +34,7 @@ public interface TdOrderRepo extends
     Page<TdOrder> findByUsernameAndOrderTimeAfterAndOrderNumberContainingOrderByIdDesc(String username, Date time, String keywords, Pageable page);
     
     Page<TdOrder> findByUsernameAndOrderNumberContainingOrderByIdDesc(String username, String keywords, Pageable page);
+    Page<TdOrder> findByUsernameAndStatusIdNotAndOrderNumberContainingOrderByIdDesc(String username,  Long statusId, String keywords, Pageable page);
     
     //zhangji
     Page<TdOrder> findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3, Pageable page);

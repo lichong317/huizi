@@ -31,6 +31,45 @@
 	
 	
 });
+
+function receiveConfirm() {
+    if (!confirm("检查货物质量并确认收货？")) {
+        window.event.returnValue = false;
+    }
+}
+
+
+function cancelConfirm() {
+    if (!confirm("未付款可直接取消，是否确认取消订单？")) {
+        window.event.returnValue = false;
+    }
+}
+
+function orderReceive(id)
+{
+     $.ajax({
+            type:"post",
+            url:"/user/order/receive",
+            data:{
+                "id":id
+            },
+            success:function(res) {
+                if (0 == res.code)
+                {
+                    alert(res.message);
+                    window.location.reload();
+                }
+                else
+                {
+                    alert(res.message);
+                    if (res.message = "请登录！！")
+                    {
+                    window.location.href="/login"
+                    }
+                }
+            }
+        });
+}
 </script>
 </head>
 <body>

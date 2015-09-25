@@ -4,16 +4,64 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="/mag/style/idialog.css" rel="stylesheet" id="lhgdialoglink">
 <title>编辑物流配送</title>
+
 <script type="text/javascript" src="/mag/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/mag/js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="/mag/js/lhgdialog.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
-<link href="/mag/style/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/mag/js/swfupload.js"></script>
+<script type="text/javascript" src="/mag/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/mag/js/swfupload.handlers.js"></script>
+<script src="/client/js/jquery.cityselect.js"></script>
+
+
+<link href="/mag/style/style.css" rel="stylesheet" type="text/css"> 
 <script type="text/javascript">
     $(function () {
         //初始化表单验证
         $("#form1").initValidform();
+        
+         //初始化上传控件
+    $(".upload-img").each(function () {
+        $(this).InitSWFUpload({ 
+            sendurl: "/Verwalter/upload", 
+            flashurl: "/mag/js/swfupload.swf"
+        });
     });
+    
+    //（缩略图）
+    var txtPic = $("#txtImgUrl").val();
+    if (txtPic == "" || txtPic == null) {
+        $(".thumb_ImgUrl_show").hide();
+    }
+    else {
+        $(".thumb_ImgUrl_show").html("<ul><li><div class='img-box1'><img src='" + txtPic + "' bigsrc='" + txtPic + "' /></div></li></ul>");
+        $(".thumb_ImgUrl_show").show();
+    }
+    
+    $(".upload-show360").each(function () {
+        $(this).InitSWFUpload_show360({ 
+            btntext: "批量上传", 
+            btnwidth: 66, 
+            single: false, 
+            water: true, 
+            thumbnail: true, 
+            filesize: "5120", 
+            sendurl: "/Verwalter/upload", 
+            flashurl: "/mag/js/swfupload.swf", 
+            filetypes: "*.jpg;*.jpge;*.png;*.gif;" 
+        });
+    });
+    
+     $("#address").citySelect({
+        nodata:"none",
+        <#if diy_site?? && diy_site.province??>prov: "${diy_site.province!''}",</#if>
+        <#if diy_site?? && diy_site.city??>city: "${diy_site.city!''}",</#if>
+        <#if diy_site?? && diy_site.disctrict??>dist: "${diy_site.disctrict!''}",</#if>
+        required:false
+    }); 
+ });
+   
 </script>
 </head>
 
@@ -55,14 +103,6 @@
         <span class="Validform_checktip">*自提点名称</span>
     </dd>
   </dl>
-  
-  <dl>
-    <dt>自提点位置</dt>
-    <dd>
-      <input name="address" type="text" value="<#if diy_site??>${diy_site.address!""}</#if>" class="input normal" datatype="*" errormsg="" sucmsg=" ">
-      <span class="Validform_checktip">该信息可以帮助用户选择最合适的自提点</span>
-    </dd>
-  </dl>
   <dl>
     <dt>是否启用</dt>
     <dd>
@@ -73,8 +113,94 @@
             <input type="radio" name="isEnable" value="0" <#if !diy_site?? || !diy_site.isEnable?? || !diy_site.isEnable>checked="checked"</#if>>
             <label>否</label>
       </div>
-      <span class="Validform_checktip">*不启用则不显示该支付方式</span>
+      <span class="Validform_checktip">*不启用则不显示</span>
     </dd>
+  </dl>
+  <dl>
+    <dt>手机号</dt>
+    <dd>
+        <input name="mobile" type="text" value="<#if diy_site??>${diy_site.mobile!""}</#if>" class="input normal" > 
+        <span class="Validform_checktip">*用于接收通知短信</span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>客服QQ</dt>
+    <dd>
+        <input name="qq" type="text" value="<#if diy_site??>${diy_site.qq!""}</#if>" class="input normal" > 
+        <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  <dl>
+       <dt>*地区：</dt>
+       <dd>
+             <div id="address">
+             <select id="prov" name="province" class="prov" style="width: 100px;"></select>
+             <select id="city" name="city" class="city" style="width: 100px;"></select>
+             <select id="dist" name="disctrict" class="dist" style="width: 100px;"></select>
+             </div>
+       </dd>
+  </dl>
+  <dl>
+    <dt>自提点位置</dt>
+    <dd>
+      <input name="address" type="text" value="<#if diy_site??>${diy_site.address!""}</#if>" class="input normal" datatype="*" errormsg="" sucmsg=" ">
+      <span class="Validform_checktip">该信息可以帮助用户选择最合适的自提点</span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>经度</dt>
+    <dd>
+      <input name="longitude" type="text" value="<#if diy_site?? && diy_site.longitude??>${diy_site.longitude?string("#.######")}</#if>" class="input normal" datatype="/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,6})?$/" errormsg="" sucmsg=" ">
+      <a href="http://api.map.baidu.com/lbsapi/getpoint/" target="_blank">坐标拾取(点击获取坐标)</a>
+      <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  
+  <dl>
+    <dt>纬度</dt>
+    <dd>
+      <input name="latitude" type="text" value="<#if diy_site?? && diy_site.latitude??>${diy_site.latitude?string("#.######")}</#if>" class="input normal" datatype="/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,6})?$/" errormsg="" sucmsg=" ">
+      <a href="http://api.map.baidu.com/lbsapi/getpoint/" target="_blank">坐标拾取(点击获取坐标)</a>
+      <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>店面图片</dt>
+    <dd>
+        <input id="txtImgUrl" name="imageUri" type="text" datatype="*" value="<#if diy_site?? && diy_site.imageUri??>${diy_site.imageUri!""}</#if>" class="input normal upload-path">
+        <div class="upload-box upload-img"></div>
+        <div class="photo-list thumb_ImgUrl_show">
+            <ul>
+                <li>
+                    <div class="img-box1"></div>
+                </li>
+            </ul>
+        </div>
+        <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  <dl id="div_show360_container">
+            <dt>展示图片</dt>
+            <dd>
+                <div class="upload-box upload-show360"></div>
+                <div class="photo-list_show360">
+                    <ul>
+                        <#if diy_site?? && diy_site.showPictures??>
+                            <#list diy_site.showPictures?split(",") as uri>
+                                <#if uri != "">
+                                <li>
+                                    <input type="hidden" name="hid_photo_name_show360" value="0|${uri!""}|${uri!""}">
+                                    <div class="img-box">
+                                        <img src="${uri!""}" bigsrc="${uri!""}">
+                                    </div>
+                                    <a href="javascript:;" onclick="delImg(this);">删除</a>
+                                </li>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </ul>
+                </div>
+            </dd>
   </dl>
   <dl>
     <dt>排序数字</dt>
@@ -83,6 +209,28 @@
       <span class="Validform_checktip">*数字，越小越向前</span>
     </dd>
   </dl>
+  <dl>
+    <dt>营业时间</dt>
+    <dd>
+      <input name="openTimeSpan" type="text" value="<#if diy_site??>${diy_site.openTimeSpan!""}</#if>" class="input normal" datatype="*" errormsg="" sucmsg=" ">
+      <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>客服电话</dt>
+    <dd>
+      <input name="serviceTele" type="text" value="<#if diy_site??>${diy_site.serviceTele!""}</#if>" class="input normal" datatype="*" errormsg="" sucmsg=" ">
+      <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+   <dl>
+    <dt>投诉电话</dt>
+    <dd>
+      <input name="complainTele" type="text" value="<#if diy_site??>${diy_site.complainTele!""}</#if>" class="input normal" datatype="*" errormsg="" sucmsg=" ">
+      <span class="Validform_checktip"></span>
+    </dd>
+  </dl>
+  
   <dl>
     <dt>描述说明</dt>
     <dd>

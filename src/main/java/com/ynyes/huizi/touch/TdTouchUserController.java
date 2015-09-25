@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,7 +115,7 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -126,7 +127,7 @@ public class TdTouchUserController {
         
         if (null == tdUser)
         {
-            return "/client/error_404";
+            return "/touch/error_404";
         }
         
         map.addAttribute("user", tdUser);
@@ -136,10 +137,11 @@ public class TdTouchUserController {
         map.addAttribute("total_unpayed", tdOrderService.countByUsernameAndStatusId(username, 2));
         map.addAttribute("total_undelivered", tdOrderService.countByUsernameAndStatusId(username, 3));
         map.addAttribute("total_unreceived", tdOrderService.countByUsernameAndStatusId(username, 4));
+        map.addAttribute("total_uncommented", tdOrderService.countByUsernameAndStatusId(username, 5));
         map.addAttribute("total_finished", tdOrderService.countByUsernameAndStatusId(username, 6));
         map.addAttribute("recommend_goods_page", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
         
-        return "/client/user_index";
+        return "/touch/user_index";
     }
     
     @RequestMapping(value = "/user/order/list/{statusId}")
@@ -153,7 +155,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -181,17 +183,18 @@ public class TdTouchUserController {
          
         Page<TdOrder> orderPage = null;
         
-        if (timeId.equals(0))
-        {
-            if (statusId.equals(0))
+        
+        if (statusId.equals(0))
             {
                 if (null != keywords && !keywords.isEmpty())
                 {
-                    orderPage = tdOrderService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
+                    //orderPage = tdOrderService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
+                	orderPage = tdOrderService.findByUsernameAndStatusIdNotAndSearch(username, 8L, keywords, page, ClientConstant.pageSize);
                 }
                 else
                 {
-                    orderPage = tdOrderService.findByUsername(username, page, ClientConstant.pageSize);
+                    //orderPage = tdOrderService.findByUsername(username, page, ClientConstant.pageSize);
+                	orderPage = tdOrderService.findByUsernameAndStatusIdNot(username, 8L, page, ClientConstant.pageSize);
                 }
             }
             else
@@ -204,136 +207,75 @@ public class TdTouchUserController {
                 {
                     orderPage = tdOrderService.findByUsernameAndStatusId(username, statusId, page, ClientConstant.pageSize);
                 }
-            }
-        }
-        else if (timeId.equals(1))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -1);//月份减一
-            Date time =calendar.getTime();
-            
-            if (statusId.equals(0))
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-            }
-            else
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfterAndSearch(username, statusId, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfter(username, statusId, time, page, ClientConstant.pageSize);
-                }
-            }
-        }
-        else if (timeId.equals(3))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -3);//月份减一
-            Date time =calendar.getTime();
-            
-            if (statusId.equals(0))
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-            }
-            else
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfterAndSearch(username, statusId, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfter(username, statusId, time, page, ClientConstant.pageSize);
-                }
-            }
-        }
-        else if (timeId.equals(6))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -6);//月份减一
-            Date time =calendar.getTime();
-            
-            if (statusId.equals(0))
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-            }
-            else
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfterAndSearch(username, statusId, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfter(username, statusId, time, page, ClientConstant.pageSize);
-                }
-            }
-        }
-        else if (timeId.equals(12))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.YEAR, -1);//减一
-            Date time =calendar.getTime();
-            
-            if (statusId.equals(0))
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-            }
-            else
-            {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfterAndSearch(username, statusId, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdAndTimeAfter(username, statusId, time, page, ClientConstant.pageSize);
-                }
-            }
-        }
+         }        
         
         map.addAttribute("order_page", orderPage);
         
-        return "/client/user_order_list";
+        return "/touch/user_order_list";
+    }
+    
+    @RequestMapping(value = "/user/order/list/more/{statusId}")
+    public String orderListmore(@PathVariable Integer statusId, 
+                        Integer page,
+                        String keywords,
+                        Integer timeId,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+                     
+        if (null == statusId)
+        {
+            statusId = 0;
+        }
+        
+       TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        map.addAttribute("status_id", statusId);       
+         
+        Page<TdOrder> orderPage = null;
+        
+        
+        if (statusId.equals(0))
+            {
+                if (null != keywords && !keywords.isEmpty())
+                {
+                    //orderPage = tdOrderService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
+                    orderPage = tdOrderService.findByUsernameAndStatusIdNotAndSearch(username, 8L, keywords, page, ClientConstant.pageSize);
+                }
+                else
+                {
+                    //orderPage = tdOrderService.findByUsername(username, page, ClientConstant.pageSize);
+                	orderPage = tdOrderService.findByUsernameAndStatusIdNot(username, 8L, page, ClientConstant.pageSize);
+                }
+            }
+            else
+            {
+                if (null != keywords && !keywords.isEmpty())
+                {
+                    orderPage = tdOrderService.findByUsernameAndStatusIdAndSearch(username, statusId, keywords, page, ClientConstant.pageSize);
+                }
+                else
+                {
+                    orderPage = tdOrderService.findByUsernameAndStatusId(username, statusId, page, ClientConstant.pageSize);
+                }
+        }       
+        
+        map.addAttribute("order_page", orderPage);
+        
+        return "/touch/user_order_list_more";
     }
     
     /**
@@ -391,7 +333,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -549,7 +491,7 @@ public class TdTouchUserController {
         map.addAttribute("return_page", orderPage);
         map.addAttribute("keywords", keywords);
         
-        return "/client/user_return_list";
+        return "/touch/user_return_list";
     }
     /**
      * 取消订单
@@ -567,7 +509,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -641,7 +583,7 @@ public class TdTouchUserController {
         
         map.addAttribute("cancel_page", cancelPage);
         
-        return "/client/user_cancel_list";
+        return "/touch/user_cancel_list";
     }
     
     @RequestMapping(value = "/user/cancel")
@@ -651,7 +593,7 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -665,7 +607,7 @@ public class TdTouchUserController {
             map.addAttribute("order", tdOrderService.findOne(id));
         }
         
-        return "/client/user_cancel_detail";
+        return "/touch/user_cancel_detail";
     }
     
     /**
@@ -684,7 +626,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
 
         tdCommonService.setHeader(map, req);
@@ -757,7 +699,7 @@ public class TdTouchUserController {
 	            return "/client/user_cancel_edit";
 	        }
         
-        return "/client/error_404";
+        return "/touch/error_404";
     }
  
     @RequestMapping(value = "/user/cancel/save", method=RequestMethod.POST)
@@ -769,7 +711,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -845,7 +787,7 @@ public class TdTouchUserController {
             }
         }
         
-        return "redirect:/user/cancel/list";
+        return "redirect:/touch/user/cancel/list";
     }
     @RequestMapping(value = "/user/cancel/direct")
     public String cancelDirect(HttpServletRequest req, 
@@ -856,7 +798,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -935,7 +877,34 @@ public class TdTouchUserController {
             }
         }
         
-        return "redirect:/user/cancel/list";
+        return "redirect:/touch/user/order/list/0";
+    }
+    
+    @RequestMapping(value = "/user/order/delete")
+    public String orderdelete(Long id,  HttpServletRequest req, 
+            				  ModelMap map){
+    	 String username = (String) req.getSession().getAttribute("username");
+         if (null == username)
+         {
+             return "redirect:/touch/login";
+         }
+         
+         tdCommonService.setHeader(map, req);
+    	
+         if (null == id) {
+			return "/touch/error_404";
+		}
+        
+        TdOrder tdOrder = tdOrderService.findOne(id);
+        
+        if (null != tdOrder) {
+			tdOrder.setStatusId(8L);
+			tdOrderService.save(tdOrder);
+		}
+        
+        
+        
+        return "redirect:/touch/user/order/list/0";
     }
     
     @RequestMapping(value = "/user/order")
@@ -945,7 +914,7 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -959,7 +928,7 @@ public class TdTouchUserController {
             map.addAttribute("order", tdOrderService.findOne(id));
         }
         
-        return "/client/user_order_detail";
+        return "/touch/user_order_detail";
     }
     
     @RequestMapping(value = "/user/collect/list")
@@ -971,7 +940,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1053,7 +1022,7 @@ public class TdTouchUserController {
         map.addAttribute("collect_page", collectPage);
         map.addAttribute("keywords", keywords);
         
-        return "/client/user_collect_list";
+        return "/touch/user_collect_list";
     }
     
     @RequestMapping(value = "/user/collect/del")
@@ -1063,7 +1032,7 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
 
         if (null == username) {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         if (null != id)
@@ -1077,7 +1046,7 @@ public class TdTouchUserController {
             }
         }
         
-        return "redirect:/user/collect/list";
+        return "redirect:/touch/user/collect/list";
     }
     
     @RequestMapping(value = "/user/collect/add", method=RequestMethod.POST)
@@ -1148,7 +1117,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1195,7 +1164,7 @@ public class TdTouchUserController {
         map.addAttribute("recent_page", recentPage);
         map.addAttribute("keywords", keywords);
         
-        return "/client/user_recent_list";
+        return "/touch/user_recent_list";
     }
     /*
      * 删除历史记录
@@ -1209,7 +1178,7 @@ public class TdTouchUserController {
          String username = (String) req.getSession().getAttribute("username");
 
          if (null == username) {
-        	 return "redirect:/login";
+        	 return "redirect:/touch/login";
          }
          if (0 == id &&null != date)
          {
@@ -1227,7 +1196,7 @@ public class TdTouchUserController {
         	 TdUserRecentVisit recent = tdUserRecentVisitService.findOne(id);
         	 tdUserRecentVisitService.delete(id);
          }
-    	 return "redirect:/user/recent/list";
+    	 return "redirect:/touch/user/recent/list";
     }
     
     //listId 0-全部，1-未使用，2-已使用，3-已过期 
@@ -1238,7 +1207,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1345,7 +1314,7 @@ public class TdTouchUserController {
 		map.addAttribute("listId", listId);  
         map.addAttribute("coupan_list", coupanList);
         
-        return "/client/user_coupon_list";
+        return "/touch/user_coupon_list";
     }
     
     /*
@@ -1359,7 +1328,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1409,7 +1378,7 @@ public class TdTouchUserController {
         
         map.addAttribute("coupan_list", coupanList);
         
-        return "/client/user_coupon_list_detail";
+        return "/touch/user_coupon_list_detail";
     }
         
     @RequestMapping(value = "/user/point/list")
@@ -1419,7 +1388,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1492,7 +1461,7 @@ public class TdTouchUserController {
         
         map.addAttribute("point_page", pointPage);
         
-        return "/client/user_point_list";
+        return "/touch/user_point_list";
     }
     
     @RequestMapping(value = "/user/return/{orderId}")
@@ -1505,7 +1474,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1592,13 +1561,13 @@ public class TdTouchUserController {
                         map.addAttribute("orderId",orderId);
                         map.addAttribute("order_goods", tog);
 
-                        return "/client/user_return_edit";
+                        return "/touch/user_return_edit";
                     }
                 }
             }
         }
         
-        return "/client/user_return_list";
+        return "/touch/user_return_list";
     }
     
     @RequestMapping(value = "/user/return/save", method=RequestMethod.POST)
@@ -1613,7 +1582,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -1715,7 +1684,7 @@ public class TdTouchUserController {
             }
         }
         
-        return "redirect:/user/return/list";
+        return "redirect:/touch/user/return/list";
     }
     
 //    @RequestMapping(value = "/user/return/list")
@@ -2023,7 +1992,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/comment/sec")
     public String commentSec(HttpServletRequest req, Long commentId,
             ModelMap map) {
-        return "/client/comment_sec";
+        return "/touch/comment_sec";
     }
     @RequestMapping(value = "/user/comment/list")
     public String commentList(HttpServletRequest req, Integer page,
@@ -2033,7 +2002,7 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
 
         if (null == username) {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
 
         tdCommonService.setHeader(map, req);
@@ -2119,7 +2088,7 @@ public class TdTouchUserController {
 
         map.addAttribute("statusId", statusId);
 
-        return "/client/user_comment_list";
+        return "/touch/user_comment_list";
     }
     
     @RequestMapping(value = "/user/consult/add", method=RequestMethod.POST)
@@ -2203,7 +2172,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2231,7 +2200,7 @@ public class TdTouchUserController {
         map.addAttribute("consult_page", consultPage);
         map.addAttribute("keywords", keywords);
         
-        return "/client/user_consult_list";
+        return "/touch/user_consult_list";
     }
     
     /*
@@ -2247,7 +2216,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2328,7 +2297,7 @@ public class TdTouchUserController {
         map.addAttribute("complain_page", complainPage);
         map.addAttribute("keywords", keywords);
         
-        return "/client/user_complain_list";
+        return "/touch/user_complain_list";
     }
     @RequestMapping(value = "/user/complain/add", method=RequestMethod.POST)
     @ResponseBody
@@ -2446,7 +2415,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2486,7 +2455,7 @@ public class TdTouchUserController {
                                 addressList.remove(id);
                                 user.setShippingAddressList(addressList);
                                 tdShippingAddressService.delete(add);
-                                return "redirect:/user/address/list";
+                                return "redirect:/touch/user/address/list";
                             }
                         }
                     }
@@ -2506,14 +2475,14 @@ public class TdTouchUserController {
                         tdUserService.save(user);
                     }
                     
-                    return "redirect:/user/address/list";
+                    return "redirect:/touch/user/address/list";
                 }
             }
             
             map.addAttribute("address_list", user.getShippingAddressList());
         }
         
-        return "/client/user_address_list";
+        return "/touch/user_address_list";
     }
     
     @RequestMapping(value = "/user/distributor/return")
@@ -2524,7 +2493,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2539,7 +2508,7 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         map.addAttribute("reward_page", tdUserCashRewardService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
         
-        return "/client/user_distributor_return";
+        return "/touch/user_distributor_return";
     }
     
     @RequestMapping(value = "/user/distributor/lower")
@@ -2551,7 +2520,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2566,7 +2535,7 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         map.addAttribute("lower_page", tdUserService.findByUpperUsernameAndIsEnabled(username, page, ClientConstant.pageSize));
         
-        return "/client/user_distributor_lower";
+        return "/touch/user_distributor_lower";
     }
     
     @RequestMapping(value = "/user/distributor/bankcard")
@@ -2576,7 +2545,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2585,7 +2554,7 @@ public class TdTouchUserController {
 
         map.addAttribute("user", user);
         
-        return "/client/user_distributor_bankcard";
+        return "/touch/user_distributor_bankcard";
     }
     
     /**
@@ -2605,7 +2574,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2628,7 +2597,7 @@ public class TdTouchUserController {
             map.addAttribute("goods_page", tdGoodsService.findByReturnPriceNotZeroAndSearchAndIsOnSaleTrue(page, ClientConstant.pageSize, keywords));
         }
         
-        return "/client/user_distributor_goods";
+        return "/touch/user_distributor_goods";
     }
     
     @RequestMapping(value = "/user/info", method=RequestMethod.GET)
@@ -2638,7 +2607,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2649,7 +2618,7 @@ public class TdTouchUserController {
         
         map.addAttribute("recommend_goods_page", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
         
-        return "/client/user_info";
+        return "/touch/user_info";
     }
     
     @RequestMapping(value = "/user/info", method=RequestMethod.POST)
@@ -2663,7 +2632,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
@@ -2677,7 +2646,7 @@ public class TdTouchUserController {
             user = tdUserService.save(user);
         }
         
-        return "redirect:/user/info";
+        return "redirect:/touch/user/info";
     }
     
     @RequestMapping(value = "/user/password", method=RequestMethod.GET)
@@ -2687,7 +2656,7 @@ public class TdTouchUserController {
         
         if (null == username)
         {
-            return "redirect:/login";
+            return "redirect:/touch/login";
         }
         
         tdCommonService.setHeader(map, req);
@@ -2696,7 +2665,7 @@ public class TdTouchUserController {
         
         map.addAttribute("user", user);
         
-        return "/client/user_change_password";
+        return "/touch/user_change_password";
     }
     
     @RequestMapping(value = "/user/password", method = RequestMethod.POST)

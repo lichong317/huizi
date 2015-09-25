@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
+<meta name="copyright" content="${site.copyright!''}" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+<script src="/touch/js/jquery-1.9.1.min.js"></script>
+<script src="/touch/js/common.js"></script>
+
+<link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<div class="maintop_bg"></div>
+<header class="maintop">
+  <div class="main">
+    <p>订单详情</p>
+    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
+    <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
+  </div>
+</header>
+<#if order??>
+<section class="whitebg">
+  <menu class="myorder_info mainbox"> 
+    <p><span class="c7">订单日期：</span>${order.orderTime!''}</p>
+    <p><span class="c7">订单总价：</span><#if order.totalPrice??>${order.totalPrice?string("0.00")}</#if></p>    
+    <p><span class="c7">订单编号：</span>${order.orderNumber!''}<span class="fc">
+        <#if order.statusId == 1>（待确认）
+        <#elseif order.statusId == 2>（待付款）
+        <#elseif order.statusId == 3>（待发货）
+        <#elseif order.statusId == 4>（待收货）
+        <#elseif order.statusId == 5>（待评价）
+        <#elseif order.statusId == 6>（已完成）
+        <#elseif order.statusId == 7>（已取消）
+        </#if>
+    </span>
+    </p>
+    <p><span class="c7">支付方式：</span>${order.payTypeTitle!''}<span class="red">
+        <#if order.statusId == 1 || order.statusId == 2 >（未支付）
+        </#if>
+    </span></p>
+    <p><span class="c7">配送方式：</span>${order.deliverTypeTitle!''}</p>
+  </menu>
+</section>
+
+<div class="clearh"></div>
+<section class="whitebg" style="margin-top:1px;">
+  <menu class="myorder_info mainbox">
+    <p><span class="c7">收货人：</span>${order.shippingName!''}</p>
+    <p><span class="c7">手机号码：</span>${order.shippingPhone!''}</p>
+    <p><span class="c7">地址：</span>${order.shippingAddress!''}</p>
+    <p><span class="c7">发票抬头：</span><#if order.isNeedInvoice>${order.invoiceTitle!''}</#if></p>
+  </menu>
+</section>
+<div class="main">
+<div class="myorder_list">
+    <#if order.orderGoodsList??>
+        <#list order.orderGoodsList as item>
+            <a class="a1" href="/touch/goods/${item.goodsId?c}">
+              <span class="sp1"><img src="${item.goodsCoverImageUri!''}" /></span>
+              <p class="mb10">${item.goodsTitle!''}</p>
+              <p>单价：<span class="sc">￥<#if item.price??>${item.price?string("0.00")}</#if></span>&nbsp;&nbsp;数量：${item.quantity!''}</p>
+              <div class="clear"></div>
+            </a>
+        </#list>
+    </#if>   
+    <div class="clear"></div>
+  </div>
+</div>
+
+<section class="whitebg" style="margin-top:1px;">
+  <menu class="myorder_info mainbox">
+    <p><span class="c7">商品总金额：</span><#if order.totalGoodsPrice??>${order.totalGoodsPrice?string("0.00")}</#if></p>
+    <#--><p><span class="c7">邮费：</span>2333.00</p>
+    <p><span class="c7">服务费：</span>云南省昆明市西山区</p> -->
+    <p><span class="c7">优惠：</span>￥${order.totalPrice - order.totalGoodsPrice}</p>
+    <p class="mt10"><span class="c9">应付总额：</span><span class="red fs11">￥<#if order.totalPrice??>${order.totalPrice?string("0.00")}</#if></span></p>
+  </menu>
+</section>
+<!--main END-->
+
+
+  <p class="ta-c mb10">
+    <a class="fc fs09" href="#">触屏版</a>
+    <span>&nbsp;|&nbsp;</span>
+    <a class="fs09" href="/user/order/list/0">电脑版</a>
+  </p>
+  <p class="ta-c fs08 c7">${site.copyright!''} </p> 
+  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+  
+  <div class="buyfoot_bg"></div>
+<footer class="buyfoot">
+  <div class="mainbox">
+    <a class="fl" href="#">去付款</a>
+    <a class="fr" href="#">取消订单</a>
+    <div class="clear"></div>
+  </div>
+</#if>
+</body>
+</html>

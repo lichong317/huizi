@@ -118,9 +118,18 @@ public class TdOrderService {
     public Page<TdOrder> findByUsername(String username, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
-        
+               
         return repository.findByUsernameOrderByIdDesc(username, pageRequest);
     }
+    public Page<TdOrder> findByUsernameAndStatusIdNot(String username, Long StatusId,  int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndStatusIdNotOrderByIdDesc(username,StatusId,pageRequest);
+        //return repository.findByUsernameOrderByIdDesc(username, pageRequest);
+    }
+    
+    
     //zhangji
     public Page<TdOrder> findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(String username1, Long statusId1,String username2, Long statusId2,String username3, Long statusId3, int page, int size)
     {
@@ -160,6 +169,13 @@ public class TdOrderService {
         
         return repository.findByUsernameAndOrderNumberContainingOrderByIdDesc(username, keywords, pageRequest);
     }
+    public Page<TdOrder> findByUsernameAndStatusIdNotAndSearch(String username, Long StatusId, String keywords, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndStatusIdNotAndOrderNumberContainingOrderByIdDesc(username,StatusId, keywords, pageRequest);
+    }
+    
     
     public Page<TdOrder> findByUsernameAndStatusId(String username, long statusId, int page, int size)
     {

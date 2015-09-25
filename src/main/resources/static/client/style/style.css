@@ -703,3 +703,14 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
     color:#FFF;}
 .help_menu a.sel {background:#ff4454;color:#FFF;}
 .wenzhangliebiao{float:right;}
+
+.dituliebiao_lt{width:457px; height:650px; overflow:hidden; float:left;}
+.mendiantupian{width:137px; height:104px; float:left;}
+.mendianditu_rt{width:300px; height:104px; float:right; margin-left:20px; font-size:14px; line-height:21px;}
+.mendianditu_rt p{width:300px; overflow:hidden;}
+.dianouweizhi{width:100px !important; float:right !important;}
+.dituliebiao_rt{width:743px; margin-top:20px; height:650px;}
+.dituliebiao_lt{ margin-top:20px;}
+.dituliebiao_lt li{margin-top:20px;margin-top: 20px;
+width: 457px;
+height: 104px;}
