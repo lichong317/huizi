@@ -69,7 +69,7 @@ public class TdTouchIndexController {
         }
         
         // 顶部广告1
-        tdAdType = tdAdTypeService.findByTitle("触屏首页顶部广告位");
+        tdAdType = tdAdTypeService.findByTitle("触屏首页顶部广告");
         
         if (null != tdAdType) {
             map.addAttribute("top_ad_list",
@@ -80,7 +80,7 @@ public class TdTouchIndexController {
         map.addAttribute("hot_sale_list", tdGoodsService.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc());
         
         // 商品推荐广告位
-        tdAdType = tdAdTypeService.findByTitle("触屏商品推荐广告位");
+        tdAdType = tdAdTypeService.findByTitle("触屏商品推荐广告");
         
         if (null != tdAdType) {
             map.addAttribute("goodsRecommend_ad_list",
@@ -88,7 +88,7 @@ public class TdTouchIndexController {
         }                 
         
         // 精选分类广告位
-        tdAdType = tdAdTypeService.findByTitle("触屏精选分类广告位");
+        tdAdType = tdAdTypeService.findByTitle("触屏精选分类广告");
         
         if (null != tdAdType) {
             map.addAttribute("selection_ad_list",

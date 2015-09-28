@@ -190,6 +190,12 @@ public class TdOrderService {
         
         return repository.findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(username1, keywords1, 4L, username2, keywords2, 5L, username3, keywords3, 6L, pageRequest);
     }
+    public Page<TdOrder> findByUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusId(String username1, String keywords1, Long statuisId1,String username2, String keywords2, Long statuisId2,String username3, String keywords3, Long statuisId3, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrderByIdDesc(username1, keywords1, 4L, username2, keywords2, 5L, username3, keywords3, 6L, pageRequest);
+    }
     //zhangji
     public Page<TdOrder> findByUsernameAndIsCancelTrue(String username, int page, int size)
     {

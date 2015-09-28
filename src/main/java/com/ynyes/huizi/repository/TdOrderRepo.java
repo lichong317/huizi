@@ -38,6 +38,7 @@ public interface TdOrderRepo extends
     
     //zhangji
     Page<TdOrder> findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3, Pageable page);
+    Page<TdOrder> findByUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3, Pageable page);
     
     Page<TdOrder> findByUsernameAndStatusIdOrderByIdDesc(String username, Long statusId, Pageable page);
     

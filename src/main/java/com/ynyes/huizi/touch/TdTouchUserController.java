@@ -355,139 +355,16 @@ public class TdTouchUserController {
          
         Page<TdOrder> orderPage = null;
         
-        if (timeId.equals(0))
-        {
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusIdOrUsernameAndSearchAndStatusId( username, keywords,4L,username, keywords,5L,username, keywords,6L,page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username,4L,username,5L,username,6L,page, ClientConstant.pageSize);
-                }
-        }
-        else if (timeId.equals(1))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -1);//月份减一
-            Date time =calendar.getTime();
-
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-        }
-        else if (timeId.equals(3))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -3);//月份减一
-            Date time =calendar.getTime();
-            
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-        }
-        else if (timeId.equals(6))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.MONTH, -6);//月份减一
-            Date time =calendar.getTime();
-
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-        }
-        else if (timeId.equals(12))
-        {
-            Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();//日历对象
-            calendar.setTime(cur);//设置当前日期
-            calendar.add(Calendar.YEAR, -1);//减一
-            Date time =calendar.getTime();
-
-                if (null != keywords && !keywords.isEmpty())
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfterAndSearch(username, time, keywords, page, ClientConstant.pageSize);
-                }
-                else
-                {
-                    orderPage = tdOrderService.findByUsernameAndTimeAfter(username, time, page, ClientConstant.pageSize);
-                }
-            
-        }
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
         
+        if (null != keywords && !keywords.isEmpty())
+        {
+              orderPage = tdOrderService.findByUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusId( username, keywords,4L,username, keywords,5L,username, keywords,6L,page, ClientConstant.pageSize);
+        }
+        else
+        {
+              orderPage = tdOrderService.findByUsernameAndStatusIdOrUsernameAndStatusIdOrUsernameAndStatusIdOrderByIdDesc(username,4L,username,5L,username,6L,page, ClientConstant.pageSize);
+        }
+                                                  
         map.addAttribute("return_page", orderPage);
         map.addAttribute("keywords", keywords);
         
@@ -1586,60 +1463,7 @@ public class TdTouchUserController {
         }
         
         tdCommonService.setHeader(map, req);
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
-
+              
         if (null != id && null != goodsId)
         {
             TdOrder order = tdOrderService.findOne(id);
@@ -1687,210 +1511,7 @@ public class TdTouchUserController {
         return "redirect:/touch/user/return/list";
     }
     
-//    @RequestMapping(value = "/user/return/list")
-//    public String returnList(HttpServletRequest req, 
-//                        Integer page,
-//                        String keywords,
-//                        ModelMap map){
-//        String username = (String) req.getSession().getAttribute("username");
-//        
-//        if (null == username)
-//        {
-//            return "redirect:/login";
-//        }
-//        
-//        tdCommonService.setHeader(map, req);
-//        
-//        if (null == page)
-//        {
-//            page = 0;
-//        }
-//        
-//        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
-//        
-//        map.addAttribute("user", tdUser);
-//        
-//        Page<TdUserReturn> returnPage = null;
-//        
-//        if (null == keywords || keywords.isEmpty())
-//        {
-//            returnPage = tdUserReturnService.findByUsername(username, page, ClientConstant.pageSize);
-//        }
-//        else
-//        {
-//            returnPage = tdUserReturnService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
-//        }
-//        //猜你喜欢 zhangji
-//        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-//        if (0 == lastVisitList.size())
-//        {
-//            List<TdProductCategory> topCategoryList = tdProductCategoryService
-//                    .findByParentIdIsNullOrderBySortIdAsc();
-//        	//没有浏览记录时，第一页
-//            if (topCategoryList.size() > 0)
-//            {
-//		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-//		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-//		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-//            }
-//	        //第二页
-//            if (topCategoryList.size() > 1)
-//            {
-//		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-//		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-//		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-//            }
-//	        //第三页
-//            if (topCategoryList.size() > 2)
-//            {
-//		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-//		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-//		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-//            }
-//        }
-//        if (lastVisitList.size() > 0)
-//	        	{
-//		        	//猜你喜欢，第一页
-//			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-//			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-//			        map.addAttribute("categoryId0",good_0.getCategoryId());
-//			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-//	        	}
-//         if (lastVisitList.size() > 1)
-//	        	{
-//			        //猜你喜欢，第二页
-//			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-//			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-//			        map.addAttribute("categoryId1",good_1.getCategoryId());
-//			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-//	        	}
-//		  if (lastVisitList.size() > 2)
-//	        	{
-//				    //猜你喜欢，第三页
-//			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-//			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-//			        map.addAttribute("categoryId2",good_2.getCategoryId());
-//			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-//	        	}
-//        
-//        map.addAttribute("return_page", returnPage);
-//        map.addAttribute("keywords", keywords);
-//        
-//        return "/client/user_return_list";
-//    }
-    
-//    @RequestMapping(value = "/user/comment/add", method=RequestMethod.POST)
-//    @ResponseBody
-//    public Map<String, Object> commentAdd(HttpServletRequest req, 
-//                        TdUserComment tdComment,
-//                        String code,
-//                        ModelMap map){
-//        Map<String, Object> res = new HashMap<String, Object>();
-//        res.put("code", 1);
-//        
-//        String username = (String) req.getSession().getAttribute("username");
-//        
-//        if (null == username)
-//        {
-//            res.put("message", "请先登录！");
-//            return res;
-//        }
-//        
-//        if (null == tdComment.getGoodsId())
-//        {
-//            res.put("message", "商品ID不能为空！");
-//            return res;
-//        }
-//        
-//        TdGoods goods = tdGoodsService.findOne(tdComment.getGoodsId());
-//        
-//        if (null == goods)
-//        {
-//            res.put("message", "评论的商品不存在！");
-//            return res;
-//        }
-//        
-////        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
-////        
-////        if (!codeBack.equalsIgnoreCase(code))
-////        {
-////            res.put("message", "验证码不匹配！");
-////            return res;
-////        }
-////        
-//        tdComment.setCommentTime(new Date());
-//        tdComment.setGoodsCoverImageUri(goods.getCoverImageUri());
-//        tdComment.setGoodsTitle(goods.getTitle());
-//        tdComment.setIsReplied(false);
-//        tdComment.setNegativeNumber(0L);
-//        tdComment.setPositiveNumber(0L);
-//        tdComment.setUsername(username);
-//        
-//        TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
-//        
-//        if (null != user)
-//        {
-//            tdComment.setUserHeadUri(user.getHeadImageUri());
-//        }
-//        
-//        tdComment.setStatusId(0L);
-//        
-//        tdUserCommentService.save(tdComment);
-//        
-//
-//        if (null == goods.getTotalComments())
-//        {
-//            goods.setTotalComments(1L);
-//        }
-//        else
-//        {
-//            goods.setTotalComments(goods.getTotalComments() + 1L);
-//        }
-//        
-//        res.put("code", 0);
-//        
-//        return res;
-//    }
-    
-//    @RequestMapping(value = "/user/comment/list")
-//    public String commentList(HttpServletRequest req, 
-//                        Integer page,
-//                        String keywords,
-//                        ModelMap map){
-//        String username = (String) req.getSession().getAttribute("username");
-//        
-//        if (null == username)
-//        {
-//            return "redirect:/login";
-//        }
-//        
-//        tdCommonService.setHeader(map, req);
-//        
-//        if (null == page)
-//        {
-//            page = 0;
-//        }
-//        
-//        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
-//        
-//        map.addAttribute("user", tdUser);
-//        
-//        Page<TdUserComment> commentPage = null;
-//        
-//        if (null == keywords || keywords.isEmpty())
-//        {
-//            commentPage = tdUserCommentService.findByUsername(username, page, ClientConstant.pageSize);
-//        }
-//        else
-//        {
-//            commentPage = tdUserCommentService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
-//        }
-//        
-//        map.addAttribute("comment_page", commentPage);
-//        map.addAttribute("keywords", keywords);
-//        
-//        return "/client/user_comment_list";
-//    }
+
     //zhangji
     @RequestMapping(value = "/user/comment/add", method=RequestMethod.POST)
     @ResponseBody
@@ -1994,6 +1615,38 @@ public class TdTouchUserController {
             ModelMap map) {
         return "/touch/comment_sec";
     }
+    
+    @RequestMapping(value = "/user/comment/edit")
+    public String commentedit(Long goodsId, Long orderId,
+    		                  HttpServletRequest req, ModelMap map){
+    	String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        if (null == goodsId || null == orderId) {
+        	return "/client/error_404";
+		}
+        tdCommonService.setHeader(map, req);
+        
+        TdOrderGoods tdOrderGoods = tdOrderGoodsService.findOne(goodsId);
+        if (null == tdOrderGoods) {
+			return "/client/error_404";
+		}
+        map.addAttribute("tdOrderGoods", tdOrderGoods);
+        map.addAttribute("orderId", orderId);
+        
+        if (null != tdOrderGoods && null != tdOrderGoods.getCommentId()) {
+            TdUserComment uc = tdUserCommentService
+                    .findOne(tdOrderGoods.getCommentId());
+            map.addAttribute("comment", uc);
+        }
+        
+        return "/touch/user_comment_edit";
+    }
+    
     @RequestMapping(value = "/user/comment/list")
     public String commentList(HttpServletRequest req, Integer page,
             Integer statusId, // 0表示未评价, 1表示已评价
@@ -2627,6 +2280,9 @@ public class TdTouchUserController {
                         String sex,
                         String email,
                         String mobile,
+                        String province,
+                        String city,
+                        String disctrict,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2643,7 +2299,11 @@ public class TdTouchUserController {
             user.setSex(sex);
             user.setEmail(email);
             user.setMobile(mobile);
+            user.setProvince(province);
+            user.setCity(city);
+            user.setDistrict(disctrict);
             user = tdUserService.save(user);
+            
         }
         
         return "redirect:/touch/user/info";

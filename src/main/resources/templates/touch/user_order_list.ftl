@@ -148,7 +148,7 @@ function orderReceive(id)
                     <a href="/touch/user/return/list?keywords=${order.orderNumber!''}" class="a2" style="width:35%">申请返修/退换货</a>
                     <a href="/touch/user/order/delete?id=${order.id?c}" onClick="deleteConfirm()" class="a2">删除订单</a>
                 <#elseif order.statusId==7>
-                    <a href="/touch/user/return/list?keywords=${order.orderNumber!''}" class="a2" style="width:35%">申请返修/退换货</a> 
+                    <#--><a href="/touch/user/return/list?keywords=${order.orderNumber!''}" class="a2" style="width:35%">申请返修/退换货</a>  -->
                     <a href="/touch/user/order/delete?id=${order.id?c}" onClick="deleteConfirm()" class="a2">删除订单</a> 
                 </#if>
                 </span>

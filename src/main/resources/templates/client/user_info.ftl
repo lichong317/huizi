@@ -66,7 +66,7 @@
                         <input type="radio" id="pcUserman" name="sex" class="pcUserRaman" value="男" <#if user.sex?? && user.sex=="男">checked="checked" </#if>/>
                         <label for="pcUserman">&nbsp;男</label>
                         
-                        <input type="radio" id="pcUserwoman" name="sex" value="男" <#if user.sex?? && user.sex=="女">checked="checked" </#if>/>
+                        <input type="radio" id="pcUserwoman" name="sex" value="女" <#if user.sex?? && user.sex=="女">checked="checked" </#if>/>
                         <label for="pcUserwoman">&nbsp;女</label>
                         
                         <span class="Validform_checktip"></span>

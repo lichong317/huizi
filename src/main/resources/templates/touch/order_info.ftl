@@ -115,10 +115,10 @@ function formsubmit(){
       <input id="postcode" type="text" class="address" value="" />
       <p class="address">收货地址</p>
       <div id="address" class="address">                    
-          <select id="prov" class="prov fl"></select>
-          <select id="city" class="city fr"></select>
+          <select id="prov" name="province" class="prov fl"></select>
+          <select id="city" name="city" class="city fr"></select>
           <div class="clear"></div>
-          <select id="dist" class="dist" style="width:100%;"></select>
+          <select id="dist" name="disctrict" class="dist" style="width:100%;"></select>
           <textarea id="detailAdd" ></textarea>
       </div>
         

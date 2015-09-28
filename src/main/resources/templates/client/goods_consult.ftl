@@ -4,7 +4,7 @@
             <#list consult_page.content as item>
             <li>
                 <span class="sp1">${item.consultTime?string("yyyy-MM-dd")}</span>
-                <p><b>${item.username!''}：</b>${item.content!''}</p>
+                <p><b class="userName">${item.username!''}：</b>${item.content!''}</p>
                 <#if item.isReplied?? && item.isReplied>
                     <p class="red pt5">商家回复：${item.reply!''}</p>
                 </#if>

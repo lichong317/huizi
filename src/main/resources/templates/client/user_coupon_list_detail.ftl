@@ -1,4 +1,4 @@
-        <div class="mymember_order_search"><a class="a001" href="/user/coupon/list/0">全部</a><a class="a001" href="/user/coupon/list/1">未使用</a> <a class="a001" href="/user/coupon/list/2">已使用</a> <a class="a001" href="/user/coupon/list/3">已过期</a>
+        <div class="mymember_order_search"><a class="a001" href="/user/coupon/list/0">全部&nbsp;&nbsp;</a><a class="a001" href="/user/coupon/list/1">未使用&nbsp;&nbsp;</a> <a class="a001" href="/user/coupon/list/2">已使用&nbsp;&nbsp;</a> <a class="a001" href="/user/coupon/list/3">已过期</a>
           <div class="clear"></div>
         </div>
 <table class="tb-void tb-coupon">

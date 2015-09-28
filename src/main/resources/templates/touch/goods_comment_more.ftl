@@ -5,7 +5,7 @@
                 <#if item.isReplied?? && item.isReplied>
                     <p class="ta-r red pt10">商家回复：${item.reply!''}</p>
                 </#if>
-                <p class="c9">用户名：${item.username!''}<span>时间：${item.commentTime?string("yyyy-MM-dd")}</span></p>
+                <p class="c9">用户名：<b class="userName">${item.username!''}</b><span>时间：${item.commentTime?string("yyyy-MM-dd")}</span></p>
               </li>
          </#list>
     </#if>

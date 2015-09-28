@@ -10,7 +10,7 @@
         <#if comment_page??>
             <#list comment_page.content as item>
             <li>
-                <a class="a1" href="javascript:;"><img src="${item.userHeadUri!''}" width="85" height="85"/><p>${item.username!''}</p></a>
+                <a class="a1" href="javascript:;"><img src="${item.userHeadUri!''}" width="85" height="85"/><p class="userName">${item.username!''}</p></a>
                 <p class="pb10">${item.content!''}</p>
                 <#if item.isReplied?? && item.isReplied>
                     <p class="ta-r red pt10">商家回复：${item.reply!''}</p>

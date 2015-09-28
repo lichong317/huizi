@@ -421,6 +421,13 @@
 	padding:10px 0;
 	border-bottom:1px dashed #ddd;
 	margin:0 auto;}
+.myorder_list .comment{
+	display:block;
+    width:96%;
+    padding:10px 0;
+    border-bottom:1px dashed #ddd;
+    margin:0 auto;
+}
 .myorder_list a.a1 .sp1 {
 	float:left;
 	display:inline-block;
@@ -450,6 +457,16 @@ text-align: center;
 border: solid #1c2b38 1px;
 color: #1c2b38;
 font-size: 0.8em;
+}
+.myorder_list a.a4 {
+display: block;
+width: 18%;
+margin:0 10px 5px 0;
+float: right;
+text-align: center;
+border: solid #ff4454 1px;
+color: #ff4454;
+font-size: 0.7em;
 }
 
 .myorder_list a.a2 span {
@@ -842,4 +859,5 @@ menu.protext a.a2 span { background-size: auto 19px; }
 .address_list a p span{padding-left: 10%;}
 .address_list a.sel{background:url(../images/true.png) no-repeat 95% center #e6e4e5;background-size: 22px;}
 
-
+.jifen td{ width:20%; text-align:center; line-height:40px; border:solid 1px #ccc; font-size:0.9em;
+}

@@ -44,10 +44,10 @@
 
 <menu class="main memberlist">
   <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="#">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="#">我的优惠券<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="#">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="#">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+  <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+  <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+  <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
 </menu>
 <div class=" tuichu main">
 <a href="/touch/logout">退出</a> </div>

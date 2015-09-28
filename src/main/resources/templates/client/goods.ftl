@@ -122,6 +122,50 @@ $(document).ready(function(){
         
         $(".comboCheckBox").attr("checked", false);
     }
+    
+    <!-- 用户名中间变为*号  2015-8-4 15:38:18 mdj  -->
+$(document).ready(function(){
+    getElement();
+});
+/**
+ * 获取要隐藏用户名的元素
+ * @author mdj
+ */
+function getElement(){
+    var pElement = $(".userName").toArray();
+    for(var i = 0;i < pElement.length;i++)
+    {
+       var originName = pElement[i].innerHTML;
+       var name =  changeName(originName);
+       pElement[i].innerText=name;
+    }
+}
+/**
+ * 隐藏用户名
+ * @author mdj
+ */
+function changeName(p)
+{
+    var temp = p;
+    if(temp.length == 11)
+    {
+        var changeStr = temp.substring(3, 7);
+        temp = temp.replace(changeStr,"****");
+    }
+    else
+    {
+        var startStr = "";
+        var strLength = temp.length;
+        for (var i = 0; i < strLength - 4; i++)
+        {
+            startStr += "*";
+        }
+        var changeStr = temp.substring(2, strLength - 2)
+
+        temp = temp.replace(changeStr, startStr);
+    }
+    return temp;
+}
 </script>
 </head>
 

@@ -48,7 +48,7 @@ public class TdTouchLoginController {
 	            referer = "/touch/";
 	        }
 	        
-	        return "redirect:" + referer;
+	        return "redirect:/touch" + referer;
 	    }
 	    
 	    @RequestMapping(value="/touch/login",method = RequestMethod.POST)
