@@ -116,6 +116,91 @@ public class TdCouponService {
         return repository.findByUsernameAndExpireTimeAfterAndIsDistributtedTrueAndIsUsedFalse(username, new Date());
     }
     
+    /***领用记录****/
+    public Page<TdCoupon> findByIsDistributtedTrueOrderByIdDesc(int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIsDistributtedTrueOrderByIdDesc(pageRequest);
+    }
+    public Page<TdCoupon> findByTypeIdAndIsDistributtedTrueOrderByIdDesc(Long typeId,int page,int size)
+    {
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository.findByTypeIdAndIsDistributtedTrueOrderByIdDesc(typeId, pageRequest);
+    }
+    public Page<TdCoupon> findByIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository.findByIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(pageRequest);
+    }
+    public Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(Long typeId,int page, int size){
+    	if(null == typeId){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository.findByTypeIdAndIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(typeId,pageRequest);
+    }
+    public Page<TdCoupon> findByIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository.findByIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(pageRequest);
+    }
+    public Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(Long typeId, int page, int size){
+    	if(null == typeId){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	return repository.findByTypeIdAndIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(typeId,pageRequest);
+    }
+    
+    public Page<TdCoupon> findByIsDistributtedTrueAndContainingKeywords(String keywords, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByIsDistributtedTrueAndUsernameContainingOrIsDistributtedTrueAndMobileContainingOrIsDistributtedTrueAndCarCodeContainingOrderByIdDesc(keywords,keywords,keywords,pageRequest);
+    }
+    public Page<TdCoupon> findBytypeIdAndIsDistributtedTrueAndContainingKeywords(Long typeId,String keywords, int page, int size){
+    	if(null == typeId){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByTypeIdAndIsDistributtedTrueAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndMobileContainingOrTypeIdAndIsDistributtedTrueAndCarCodeContainingOrderByIdDesc(typeId,keywords,typeId,keywords,typeId,keywords,pageRequest);
+    }
+    public Page<TdCoupon> findByIsDistributtedTrueAndIsUsedTrueAndContainingKeywords(String keywords, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByIsDistributtedTrueAndIsUsedTrueAndUsernameContainingOrIsDistributtedTrueAndIsUsedTrueAndMobileContainingOrIsDistributtedTrueAndIsUsedTrueAndCarCodeContainingOrderByIdDesc(keywords,keywords,keywords,pageRequest);
+    }
+    public Page<TdCoupon> findBytypeIdAndIsDistributtedTrueAndIsUsedTrueAndContainingKeywords(Long typeId,String keywords, int page, int size){
+    	if(null == typeId){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByTypeIdAndIsDistributtedTrueAndIsUsedTrueAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndIsUsedTrueAndMobileContainingOrTypeIdAndIsDistributtedTrueAndIsUsedTrueAndCarCodeContainingOrderByIdDesc(typeId,keywords,typeId,keywords,typeId,keywords,pageRequest);
+    }
+    public Page<TdCoupon> findByIsDistributtedTrueAndIsUsedFalseAndContainingKeywords(String keywords, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByIsDistributtedTrueAndIsUsedFalseAndUsernameContainingOrIsDistributtedTrueAndIsUsedFalseAndMobileContainingOrIsDistributtedTrueAndIsUsedFalseAndCarCodeContainingOrderByIdDesc(keywords,keywords,keywords,pageRequest);
+    }
+    public Page<TdCoupon> findBytypeIdAndIsDistributtedTrueAndIsUsedFalseAndContainingKeywords(Long typeId,String keywords, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	return repository.findByTypeIdAndIsDistributtedTrueAndIsUsedFalseAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndIsUsedFalseAndMobileContainingOrTypeIdAndIsDistributtedTrueAndIsUsedFalseAndCarCodeContainingOrderByIdDesc(typeId,keywords,typeId,keywords,typeId,keywords,pageRequest);
+    }
+    /***领用记录****/
+    
+    /**
+	 * @author lc
+	 * @注释：根据类型查找优惠券
+	 */
+    public TdCoupon findTopByTypeIdAndIsDistributtedFalse(Long typeId){
+    	 if (null == typeId )
+         {
+             return null;
+         }
+    	 return repository.findTopByTypeIdAndIsDistributtedFalse(typeId);
+    }
+    
     //已使用 zhangji
     public List<TdCoupon> findByMobileAndIsUsedTrue(String mobile)
     {
@@ -221,6 +306,16 @@ public class TdCouponService {
         }
         
         return repository.findTopByTypeIdAndMobileAndIsDistributtedTrue(typeId, mobile);
+    }
+    
+    public TdCoupon findByTypeIdAndUsernameAndIsDistributtedTrue(Long typeId, String username)
+    {
+        if (null == typeId || null == username)
+        {
+            return null;
+        }
+        
+        return repository.findTopByTypeIdAndUsernameAndIsDistributtedTrue(typeId, username);
     }
     /**
 	 * @author lc

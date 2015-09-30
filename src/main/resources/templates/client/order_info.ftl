@@ -45,7 +45,8 @@ $(document).ready(function(){
         <#if address?? && address.disctrict??>dist: "${address.disctrict!''}",</#if>
         required:false
     }); 
-    
+           
+    //积分修改
     $("#idPointUse").change(function(){
         var point = $.trim($(this).val());
         if (isNaN(point) || point=="") { point = 0 }
@@ -59,20 +60,27 @@ $(document).ready(function(){
         <#assign point_limit=total_point_limit />
         </#if>
         
+        var deliPrice =  parseFloat($("#deliveryFee").html());
+        var couponFee =  parseFloat($("#couponFeee").html()); 
+        var currentPrice = parseFloat($("#currentPrice").html());
         if (parseInt(point) > ${point_limit!'0'})
         {
             alert("最多可使用(${point_limit!'0'})个积分");
             $(this).val(0);
-            $("#totalPrice").html(price);
+            if(couponFee > currentPrice + deliPrice){
+                $("#totalPrice").html(0);
+            }else{
+                $("#totalPrice").html(currentPrice + deliPrice - couponFee);
+            }
         }
         else
         {
-            var totalPrice = parseFloat(price);
+            //var totalPrice = parseFloat(price);
             var pointPrice = parseFloat(point);
             
-            if (totalPrice > pointPrice)
+            if (currentPrice + deliPrice > pointPrice + couponFee)
             {
-                $("#totalPrice").html(totalPrice-pointPrice);
+                $("#totalPrice").html(currentPrice + deliPrice - pointPrice - couponFee);
             }
             else
             {
@@ -81,6 +89,31 @@ $(document).ready(function(){
         }
     }); 
 });
+
+function couponChange()
+{
+    var couponFee = parseFloat($("#couponSelect option:selected").attr("fee"));
+    
+    if (undefined == couponFee)
+    {
+        couponFee = 0;
+    }
+    
+    var currentPrice = parseFloat($("#currentPrice").html());
+    //var payTypeFee = parseFloat($("#payTypeFee").html());
+    var pointFee = parseFloat($("#idPointUse").val());
+    var deliPrice =  parseFloat($("#deliveryFee").html());
+
+    $("#couponFeee").html(couponFee);
+    $("#couponFee").html(couponFee);
+    if(pointFee + couponFee > currentPrice + deliPrice){
+        $("#totalPrice").html(0);
+    }
+    else{
+        $("#totalPrice").html(currentPrice + deliPrice - pointFee - couponFee);
+    }
+    
+}
 </script>
 </head>
 <body>
@@ -216,7 +249,7 @@ $(document).ready(function(){
                             </#if>
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>说明：</span><input type="text" class="fapiaolan">
+                        <span>说明：</span><input type="text" name="userRemarkInfo" class="fapiaolan">
                     </div>
                 </div>
             </div>
@@ -265,7 +298,7 @@ $(document).ready(function(){
                 </div>
             </div>
     
-            <#--
+            
             <div class="main mt15">
                 <div class="s_gwc3_1">
                     <div class="s_gwc3_1_a">
@@ -273,35 +306,41 @@ $(document).ready(function(){
                     </div>
                     <div class="invoice">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <select>
-                            <option>优惠抵用券</option>
-                            <option>红包抵用</option>
-                            <option>优惠卡</option>
+                        <select id="couponSelect" name="couponId"  onchange="couponChange();">
+                            <#if coupon_list??>
+                                <option value="" fee="0">不使用优惠券</option>
+                                <#list coupon_list as item>
+                                    <option value="${item.id?c}" fee="${item.price!''}">${item.typeTitle!''}</option>
+                                </#list>
+                            </#if>
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="orange">抵用金额：￥55.22元</span>
+                        <span class="orange">抵用金额：￥<b id="couponFeee">0.00</b>元</span>
                     </div>
                 </div>
             </div>
             
-    
+    <#-->
             <div class="main mt15">
                 <div class="s_gwc3_1">
                     <div class="s_gwc3_1_a">
                         <p><span>商品备注</span></p>
                     </div>
                     <div class="gwc_3zf11 fll">
-                        <textarea class="input12"  onfocus="if(value=='留言内容') {value=''}" onblur="if (value=='') {value='留言内容'}"  value="留言内容"  id="et_contact_message" name="et_contact_message">留言内容</textarea>
+                        <textarea class="input12"  onfocus="if(value=='留言内容') {value=''}" onblur="if (value=='') {value='留言内容'}"  value="留言内容"  id="et_contact_message" name="userRemarkInfo">留言内容</textarea>
                     </div>
                     <div class="clear"></div>
                 </div>
-            </div>
-            -->
+            </div> -->
+            
             
             <div class="main">
                 <div class="s_gwc1zj flr">
                     <input id="idTotalPriceSteady" type="hidden" value="${(totalPrice+delivery_fee!0)?string("#.##")}" />
-                    <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>) + 运费（<span>¥<b id="deliveryFee">${delivery_fee!'0'}</b></span>）- 积分抵扣（<span>￥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）= 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+delivery_fee!0)?string("0.00")}</b></span> </p>
+                    <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
+                     + 运费（<span>¥<b id="deliveryFee">${delivery_fee!'0'}</b></span>）
+                     - 积分抵扣（<span>￥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
+                     = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+delivery_fee!0)?string("0.00")}</b></span> </p>
                 </div>
             </div>
             <div class="clear"></div>

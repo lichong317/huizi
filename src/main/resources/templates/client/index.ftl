@@ -31,6 +31,11 @@
 	chooseMoreShow();
 		
 });
+
+function move()
+{
+    $('html,body').animate({scrollTop:0},500);
+}
 </script>
 </head>
 <body>
@@ -65,7 +70,7 @@
         <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登陆<i></i></a>
         <a class="a" href="/reg" style="float:left;" target="_blank">注册<i></i></a>
     </#if>
-    <a class="a2" href="#">在线咨询</a>
+    <a class="a2" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes">在线咨询</a>
     <a class="a3" href="/user">会员俱乐部</a>
     <a class="z-in10" href="/info/list/12">帮助中心</a>
     <a class="a4" href="/user/order/list/0">我的订单<i></i></a>
@@ -143,11 +148,14 @@ function delItem(id)
 </div>
 
 <aside class="floatbox">
-  <a href="#" title="微信客服"><img src="/client/images/float_ico01.png" width="42" height="42" alt="微信客服" /><span><img src="/client/images/hzd_55.png" /></span></a>
-  <a href="#" title="在线咨询"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /></a>
-  <a href="#" title="新浪微博"><img src="/client/images/float_ico03.png" width="42" height="42" alt="新浪微博" /></a>
-  <a href="#" title="服务热线"><img src="/client/images/float_ico04.png" width="42" height="42" alt="服务热线" /><span><img src="/client/images/hzd_55.png" /></span></a>
-  <a href="#" title="到顶部"><img src="/client/images/float_ico05.png" width="42" height="42" alt="到顶部" /></a>
+  <a href="#" title="微信客服"><img src="/client/images/float_ico01.png" width="42" height="42" alt="微信客服" /><span><img src="${site.wxQrCode!''}"width="84" height="84" /></span></a>
+  <a href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线咨询"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /></a>
+  <a href="#" title="新浪微博"><img src="/client/images/float_ico03.png" width="42" height="42" alt="新浪微博" /> 
+        <span>
+            <img src="${site.weiboQrCode!''}" width="84" height="84"/>
+        </span></a>
+  <a href="#" title="${site.telephone!''}"><img src="/client/images/float_ico04.png" width="42" height="42" alt="服务热线" /></a>
+  <a href="javascript:move();" title="到顶部"><img src="/client/images/float_ico05.png" width="42" height="42" alt="到顶部" /></a>
 </aside>
 
 	<!--导航-->

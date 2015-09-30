@@ -89,7 +89,7 @@ public class TdOrder {
     @Column
     private String expressUri;
     
-    // 用户留言备注
+    // 快递用户留言备注
     @Column
     private String userRemarkInfo;
     
@@ -232,6 +232,13 @@ public class TdOrder {
     @Column
     private Long points;
     
+    // 使用优惠券抵用额度
+    @Column
+    private Double couponUse;
+    
+    @Column
+    private String couponTitle;
+    
     // 是否在线付款
     @Column
     private Boolean isOnlinePay;
@@ -261,7 +268,23 @@ public class TdOrder {
         this.id = id;
     }
 
-    public String getHandleDetail() {
+    public Double getCouponUse() {
+		return couponUse;
+	}
+
+	public void setCouponUse(Double couponUse) {
+		this.couponUse = couponUse;
+	}
+
+	public String getCouponTitle() {
+		return couponTitle;
+	}
+
+	public void setCouponTitle(String couponTitle) {
+		this.couponTitle = couponTitle;
+	}
+
+	public String getHandleDetail() {
 		return handleDetail;
 	}
 

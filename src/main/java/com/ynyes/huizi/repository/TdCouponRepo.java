@@ -41,6 +41,7 @@ public interface TdCouponRepo extends
     List<TdCoupon> findByTypeIdAndIsDistributtedTrueOrderByIdDesc(Long typeId);
     
     TdCoupon findTopByTypeIdAndMobileAndIsDistributtedTrue(Long typeId, String mobile);
+    TdCoupon findTopByTypeIdAndUsernameAndIsDistributtedTrue(Long typeId, String username);
     
     Page<TdCoupon> findByIsDistributtedFalseOrderBySortIdAsc(Pageable page);
     
@@ -55,4 +56,20 @@ public interface TdCouponRepo extends
     TdCoupon findByMobileAndConsumerPassword(String mobile, String password);
     
     TdCoupon findByTypeId(Long typeId);
+    TdCoupon findTopByTypeIdAndIsDistributtedFalse(Long typeId);
+    
+    /**领用记录**/
+    Page<TdCoupon> findByIsDistributtedTrueOrderByIdDesc(Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueOrderByIdDesc(Long typeId,Pageable page);
+    Page<TdCoupon> findByIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedTrueOrderByIdDesc(Long typeId,Pageable page);
+    Page<TdCoupon> findByIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedFalseOrderByIdDesc(Long typeId,Pageable page);
+    Page<TdCoupon> findByIsDistributtedTrueAndUsernameContainingOrIsDistributtedTrueAndMobileContainingOrIsDistributtedTrueAndCarCodeContainingOrderByIdDesc(String keywords,String keywords1,String keywords2, Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndMobileContainingOrTypeIdAndIsDistributtedTrueAndCarCodeContainingOrderByIdDesc(long typeId,String keywords,long typeId1,String keywords1,long typeId2,String keywords2, Pageable page);
+    Page<TdCoupon> findByIsDistributtedTrueAndIsUsedTrueAndUsernameContainingOrIsDistributtedTrueAndIsUsedTrueAndMobileContainingOrIsDistributtedTrueAndIsUsedTrueAndCarCodeContainingOrderByIdDesc(String keywords,String keywords1,String keywords2, Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedTrueAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndIsUsedTrueAndMobileContainingOrTypeIdAndIsDistributtedTrueAndIsUsedTrueAndCarCodeContainingOrderByIdDesc(long typeId,String keywords,long typeId1,String keywords1,long typeId2,String keywords2,Pageable page);
+    Page<TdCoupon> findByIsDistributtedTrueAndIsUsedFalseAndUsernameContainingOrIsDistributtedTrueAndIsUsedFalseAndMobileContainingOrIsDistributtedTrueAndIsUsedFalseAndCarCodeContainingOrderByIdDesc(String keywords,String keywords1,String keywords2, Pageable page);
+    Page<TdCoupon> findByTypeIdAndIsDistributtedTrueAndIsUsedFalseAndUsernameContainingOrTypeIdAndIsDistributtedTrueAndIsUsedFalseAndMobileContainingOrTypeIdAndIsDistributtedTrueAndIsUsedFalseAndCarCodeContainingOrderByIdDesc(long typeId,String keywords,long typeId1,String keywords1,long typeId2,String keywords2,Pageable page);
+    /**领用记录**/
 }

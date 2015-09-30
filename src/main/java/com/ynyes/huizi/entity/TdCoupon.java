@@ -69,7 +69,7 @@ public class TdCoupon {
     @Column
     private Long leftNumber;
     
-    // 剩余数量
+    // 领取数量
     @Column
     private Long getNumber;
     

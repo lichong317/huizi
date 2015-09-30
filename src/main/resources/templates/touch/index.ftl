@@ -54,8 +54,8 @@
   <section class="index_part">
     <table class="comtab indexnav">
       <tr>
-        <td><a class="a1" href="#">会员中心</a></td>
-        <td><a class="a2" href="#">我的订单</a></td>
+        <td><a class="a1" href="/touch/user">会员中心</a></td>
+        <td><a class="a2" href="/touch/user/order/list/0">我的订单</a></td>
         <td><a class="a3" href="/touch/cart">购物车</a></td>
         <td><a class="a4" href="/touch/shop/list">门店查询</a></td>
         <td><a class="a5" href="#">客户端</a></td>

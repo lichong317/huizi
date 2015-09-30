@@ -22,6 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ynyes.huizi.entity.TdGoodsCombination;
 import com.ynyes.huizi.entity.TdGoodsDto;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
+import com.ynyes.huizi.entity.TdCoupon;
+import com.ynyes.huizi.entity.TdCouponType;
+import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.service.TdCouponTypeService;
+import com.ynyes.huizi.service.TdCouponService;
+import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdGoods;
@@ -79,6 +85,15 @@ public class TdOrderController {
 
     @Autowired
     private TdGoodsCombinationService tdGoodsCombinationService;
+    
+    @Autowired
+    private TdCouponTypeService tdCouponTypeService;
+    
+    @Autowired
+    private TdCouponService tdCouponService;
+    
+    @Autowired
+    private TdProductCategoryService tdProductCategoryService;
     /**
      * 立即购买
      * 
@@ -827,6 +842,59 @@ public class TdOrderController {
             }
         }
 
+        // 查询购物车的所有种类
+        List<String> productIds = new ArrayList<>();
+        for (TdCartGoods cg : selectedGoodsList) {
+            TdGoods goods = tdGoodsService.findOne(cg.getGoodsId());
+            if (productIds.isEmpty()) {
+                productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+            } else {
+                if (!productIds
+                        .contains(goods.getCategoryIdTree().split(",")[0])) {
+                    productIds.add(goods.getCategoryIdTree().split(",")[0]);
+                }
+            }
+        }
+        
+     // 如果有不同种类的商品则不能使用优惠券
+        if (productIds.size() < 2) {
+            List<TdCoupon> userCoupons = null;
+            if (null != user.getMobile()) {
+                userCoupons = tdCouponService.findByMobileAndIsUseable(user
+                        .getMobile());// 根据账号查询所有优惠券
+            }
+
+            if (null != userCoupons) {
+                List<TdCoupon> userCouponList = new ArrayList<>(); // 可用券
+                TdCouponType couponType = null;
+                for (int i = 0; i < userCoupons.size(); i++) {
+                    couponType = tdCouponTypeService.findOne(userCoupons.get(i)
+                            .getTypeId());
+                    if (null != couponType) {
+                        if (couponType.getCategoryId().equals(1L)) {
+                            TdProductCategory tpc = tdProductCategoryService
+                                    .findOne(couponType.getProductTypeId());
+                            List<String> templist = new ArrayList<>();
+                            for (String cid : tpc.getParentTree().split(",")) {
+                                templist.add(cid);
+                            }
+                            // 判断购物总价>满购券使用金额
+                            if (totalPrice > couponType.getCanUsePrice()
+                                    && templist.contains(productIds.get(0))) {
+                                userCouponList.add(userCoupons.get(i));
+                            }
+                        } else if (couponType.getCategoryId().equals(0L)) {
+                            userCouponList.add(userCoupons.get(i));
+                        } else if (couponType.getCategoryId().equals(2L)) {
+                            if (totalPrice > couponType.getCanUsePrice()) {
+                                userCouponList.add(userCoupons.get(i));
+                            }
+                        }
+                    }
+                }
+                map.addAttribute("coupon_list", userCouponList);
+            }
+        }
         // 积分限额
         if (null != user.getTotalPoints()) {
             if (totalPointLimited > user.getTotalPoints()) {
@@ -861,13 +929,7 @@ public class TdOrderController {
         if (null != cgList && null != type && null != gid) {
             for (TdCartGoods cg : cgList) {
                 if (gid.equals(cg.getGoodsId())) {
-                	/**
-					 * @author lc
-					 * @注释：如果是抢购数量不变
-					 */
-                	if (1==cg.getQiang()) {
-						break;
-					}else{
+                	
                     TdGoods goods = tdGoodsService.findOne(cg.getGoodsId());
 
                     if (null != goods) {
@@ -898,7 +960,7 @@ public class TdOrderController {
                         tdCartGoodsService.save(cg);
                         break;
                     }
-				  }
+				  
                 }
             }
         }
@@ -910,8 +972,8 @@ public class TdOrderController {
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String submit(Long addressId, Long payTypeId, Long deliveryTypeId,
-            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,
+    public String submit(Long addressId, Long payTypeId, Long deliveryTypeId, Long couponId,
+            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,String userRemarkInfo,
             HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -1044,11 +1106,39 @@ public class TdOrderController {
         tdOrder.setTotalGoodsPrice(totalPrice);
         // 使用积分
         tdOrder.setPointUse(pointUse);
-        tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse);
-
+        
+        //优惠券使用
+        if (null != couponId) {
+			TdCoupon tdCoupon = tdCouponService.findOne(couponId);
+			tdCoupon.setIsUsed(true);
+			tdCouponService.save(tdCoupon);
+			tdOrder.setCouponTitle(tdCoupon.getTypeTitle());
+			if (null != tdCoupon.getPrice()) {
+				tdOrder.setCouponUse(tdCoupon.getPrice());
+				if (totalPrice + deliveryType.getFee() > pointUse + tdCoupon.getPrice()) {
+					tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse - tdCoupon.getPrice());
+				}else{
+					tdOrder.setTotalPrice(0.0);
+				}				
+			}
+		}else{
+			//订单总价
+			if (totalPrice + deliveryType.getFee() > pointUse) {
+				tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse);
+			}
+			else {
+				tdOrder.setTotalPrice(0.0);
+			}
+		}
+        
         // 积分奖励
         tdOrder.setPoints(0L);
 
+        //订单配送备注
+        if (null != userRemarkInfo) {
+        	tdOrder.setUserRemarkInfo(userRemarkInfo);
+		}
+                
         // 保存订单
         tdOrderGoodsService.save(orderGoodsList);
         tdOrder = tdOrderService.save(tdOrder);

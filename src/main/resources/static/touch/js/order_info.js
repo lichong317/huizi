@@ -14,9 +14,14 @@ $(document).ready(function(){
     $("#deliveryTypeSelect").change(function(){
         var deliPrice = parseFloat($(this).find("option:selected").attr("price"));
         var curPrice = parseFloat($("#currentPrice").html());
+        var couponPrice = parseFloat($("#couponFeee").html());
+        var pointPrice = parseFloat($("#idPointUse").val());
         
         $("#deliveryFee").html(deliPrice);
-        $("#totalPrice").html(curPrice + deliPrice);
+        if(curPrice + deliPrice < couponPrice + pointPrice){
+        	$("#totalPrice").html(0);
+        }
+        $("#totalPrice").html(curPrice + deliPrice - couponPrice - pointPrice);
     });
     
     // 新增地址

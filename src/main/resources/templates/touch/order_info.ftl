@@ -49,20 +49,27 @@ $(document).ready(function(){
         <#assign point_limit=total_point_limit />
         </#if>
         
+        var deliPrice =  parseFloat($("#deliveryFee").html());
+        var couponFee =  parseFloat($("#couponFeee").html()); 
+        var currentPrice = parseFloat($("#currentPrice").html());
         if (parseInt(point) > ${point_limit!'0'})
         {
             alert("最多可使用(${point_limit!'0'})个积分");
             $(this).val(0);
-            $("#totalPrice").html(price);
+            if(couponFee > currentPrice + deliPrice){
+                $("#totalPrice").html(0);
+            }else{
+                $("#totalPrice").html(currentPrice + deliPrice - couponFee);
+            }
         }
         else
         {
-            var totalPrice = parseFloat(price);
+            //var totalPrice = parseFloat(price);
             var pointPrice = parseFloat(point);
             
-            if (totalPrice > pointPrice)
+            if (currentPrice + deliPrice > pointPrice + couponFee)
             {
-                $("#totalPrice").html(totalPrice-pointPrice);
+                $("#totalPrice").html(currentPrice + deliPrice - pointPrice - couponFee);
             }
             else
             {
@@ -71,6 +78,31 @@ $(document).ready(function(){
         }
     }); 
 });
+
+function couponChange()
+{
+    var couponFee = parseFloat($("#couponSelect option:selected").attr("fee"));
+    
+    if (undefined == couponFee)
+    {
+        couponFee = 0;
+    }
+    
+    var currentPrice = parseFloat($("#currentPrice").html());
+    //var payTypeFee = parseFloat($("#payTypeFee").html());
+    var pointFee = parseFloat($("#idPointUse").val());
+    var deliPrice =  parseFloat($("#deliveryFee").html());
+
+    $("#couponFeee").html(couponFee);
+    $("#couponFee").html(couponFee);
+    if(pointFee + couponFee > currentPrice + deliPrice){
+        $("#totalPrice").html(0);
+    }
+    else{
+        $("#totalPrice").html(currentPrice + deliPrice - pointFee - couponFee);
+    }
+    
+}
 
 function formsubmit(){
   var myform=document.getElementById("form1");
@@ -127,7 +159,14 @@ function formsubmit(){
   
   <p class="address">选择优惠券：</p>
   <div class="address">
-    <select style="width:100%;"><option>无可用优惠券</option></select>
+    <select style="width:100%;" id="couponSelect" name="couponId"  onchange="couponChange();">
+        <#if coupon_list??>
+             <option value="" fee="0">不使用优惠券</option>
+             <#list coupon_list as item>
+                    <option value="${item.id?c}" fee="${item.price!''}">${item.typeTitle!''}</option>
+             </#list>
+        </#if>
+    </select>
   </div>
   <p class="address">发票信息：</p>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -145,26 +184,42 @@ function formsubmit(){
     </#if>
   </ul>
   
-  <p class="address">选择配送方式：</p>
+ <#-- <p class="address">选择配送方式：</p>
   <ul class="paystyle">
     <#if delivery_type_list??>
         <#list delivery_type_list as item>
             <li><input type="radio" name="deliveryTypeId" datatype="n" value="${item.id?c}" nullmsg="请选择支付方式!" />${item.title!''}</li>
         </#list>
     </#if>
-  </ul>
-  
+  </ul> -->
+  <p class="address">选择配送方式：</p>
+  <div class="address">
+    <select style="width:100%;" id="deliveryTypeSelect" name="deliveryTypeId" datatype="n" nullmsg="请选择配送方式">
+           <option value="" price="0">请选择</option>
+           <#if delivery_type_list??>
+                 <#list delivery_type_list as delivery_type>
+                         <option value="${delivery_type.id?c!''}" price="${delivery_type.fee?string("#.##")}">${delivery_type.title!''}</option>
+                 </#list>
+           </#if>
+    </select>
+  </div>
   <div class="clear"></div>
   <p class="address">留言：</p>
   <input type="text" name="userRemarkInfo" class="address" value="" />
-  <p class="address ta-r">共${totalQuantity!'0'}件商品，合计<span class="red">￥${totalPrice?string("0.00")}</span></p>
+  <#--><p class="address ta-r">共${totalQuantity!'0'}件商品，合计<span class="red">￥${totalPrice?string("0.00")}</span></p> -->
 </div><!--main END-->
 <div class="clear70"></div>
-<footer class="mainfoot">
+<footer class="orderfoot">
 <div class="main" style="background:#35424e;">
 <section class="car_price">
-    <h3>合计：<span class="sc">￥${totalPrice?string("0.00")}</span>（共<span>${totalQuantity!'0'}</span>件商品）</h3>
-  
+    <#--><h3>合计：<span class="sc">￥${totalPrice?string("0.00")}</span>（共<span>${totalQuantity!'0'}</span>件商品）</h3>-->
+    <h3 style="font-size:0.75em; float:left;width:100%;font-weight:400;">共${totalQuantity!'0'}件商品，
+              商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
+    + 运费（<span>¥<b id="deliveryFee">${delivery_fee!'0'}</b></span>）
+    - 优惠券抵扣（<span>¥<b id="couponFeee">0</b></span>）
+    - 积分抵扣（<span>¥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）    
+    = 总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+delivery_fee!0)?string("0.00")}</b></span>
+    </h3>
     <a id="btn_sub" href="javascript:;">提交订单（${totalQuantity!'0'}）</a> 
     <div class="clear"></div>
   </section>

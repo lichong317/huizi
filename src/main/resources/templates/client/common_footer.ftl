@@ -59,7 +59,7 @@
         </div>     
         <div class="mendian">
             <img src="/client/images/hzd_52.png" width="87" height="71"/>
-            <h3><a href="#">点击查询</a></h3>
+            <h3><a href="/shop/list">门店查询</a></h3>
         </div>
         <div class="dizhi">
             <p>

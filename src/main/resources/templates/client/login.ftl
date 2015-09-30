@@ -89,7 +89,7 @@
  
  //保存用户信息 
 function saveUserInfo() { 
-    if (document.getElementById("rmbUser").checked=true) { 
+    if (document.getElementById("rmbUser").checked==true) { 
         var userName = $("#txt_loginId").val(); 
         var passWord = $("#txt_loginPwd").val(); 
         $.cookie("rmbUser", "true", { expires: 7 }); // 存储一个带7天期限的 cookie 

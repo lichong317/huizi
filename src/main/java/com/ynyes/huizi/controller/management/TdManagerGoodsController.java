@@ -357,6 +357,7 @@ public class TdManagerGoodsController {
                               Integer size,
                               Long categoryId,
                               String property,
+                              String saleType,
                               String __EVENTTARGET,
                               String __EVENTARGUMENT,
                               String __VIEWSTATE,
@@ -452,58 +453,258 @@ public class TdManagerGoodsController {
         
         Page<TdGoods> goodsPage = null;
         
-        if (null == categoryId)
-        {
-            if (null == property || property.isEmpty())
-            {
-                if (null == keywords || "".equalsIgnoreCase(keywords))
-                {
-                    goodsPage = tdGoodsService.findAllOrderBySortIdAsc(page, size);
+//        if (null == categoryId)
+//        {
+//            if (null == property || property.isEmpty())
+//            {
+//                if (null == keywords || "".equalsIgnoreCase(keywords))
+//                {
+//                    goodsPage = tdGoodsService.findAllOrderBySortIdAsc(page, size);
+//                }
+//                else
+//                {
+//                    goodsPage = tdGoodsService.searchAndOrderBySortIdAsc(keywords, page, size);
+//                }
+//            }
+//            else
+//            {
+//                if (property.equalsIgnoreCase("isOnSale"))
+//                {
+//                    if (null == keywords || "".equalsIgnoreCase(keywords))
+//                    {
+//                        goodsPage = tdGoodsService.findByIsOnSaleTrueOrderBySortIdAsc(page, size);
+//                    }
+//                    else
+//                    {
+//                        goodsPage = tdGoodsService.searchAndIsOnSaleTrueOrderBySortIdAsc(keywords, page, size);
+//                    }
+//                }
+//            }
+//        }
+//        else
+//        {
+//            if (null == property || property.isEmpty())
+//            {
+//                if (null == keywords || "".equalsIgnoreCase(keywords))
+//                {
+//                    goodsPage = tdGoodsService.findByCategoryIdTreeContainingOrderBySortIdAsc(categoryId, page, size);
+//                }
+//                else
+//                {
+//                    goodsPage = tdGoodsService.searchAndFindByCategoryIdOrderBySortIdAsc(keywords, categoryId, page, size);
+//                }
+//            }
+//            else
+//            {
+//                if (property.equalsIgnoreCase("isOnSale"))
+//                {
+//                    if (null == keywords || "".equalsIgnoreCase(keywords))
+//                    {
+//                        goodsPage = tdGoodsService.findByCategoryIdTreeContainingAndIsOnSaleTrueOrderBySortIdAsc(categoryId, page, size);
+//                    }
+//                    else
+//                    {
+//                        goodsPage = tdGoodsService.searchAndFindByCategoryIdAndIsOnSaleTrueOrderBySortIdAsc(keywords, categoryId, page, size);
+//                    }
+//                }
+//            }
+//        }
+        
+        if (null == categoryId) {
+            if ("isOnSale".equalsIgnoreCase(property)) {
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleTrueAndFlashSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleTrueAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleTrueAndGroupSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleTrueAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
                 }
-                else
-                {
-                    goodsPage = tdGoodsService.searchAndOrderBySortIdAsc(keywords, page, size);
+            } else if ("isNotOnSale".equalsIgnoreCase(property)) {
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleFalseAndIsFlashSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleFalseAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleFalseAndIsGroupSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleFalseAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsOnSaleFalseOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsOnSaleFalseOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
                 }
             }
             else
             {
-                if (property.equalsIgnoreCase("isOnSale"))
-                {
-                    if (null == keywords || "".equalsIgnoreCase(keywords))
-                    {
-                        goodsPage = tdGoodsService.findByIsOnSaleTrueOrderBySortIdAsc(page, size);
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsFlashSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
                     }
-                    else
-                    {
-                        goodsPage = tdGoodsService.searchAndIsOnSaleTrueOrderBySortIdAsc(keywords, page, size);
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByIsGroupSaleTrueOrderBySortIdAsc(page,
+                                        size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService.findAllOrderBySortIdAsc(
+                                page, size);
+                    } else {
+                        goodsPage = tdGoodsService.searchAndOrderBySortIdAsc(
+                                keywords, page, size);
                     }
                 }
             }
-        }
-        else
-        {
-            if (null == property || property.isEmpty())
-            {
-                if (null == keywords || "".equalsIgnoreCase(keywords))
-                {
-                    goodsPage = tdGoodsService.findByCategoryIdTreeContainingOrderBySortIdAsc(categoryId, page, size);
+        } else {
+            if ("isOnSale".equalsIgnoreCase(property)) {
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleTrueAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleTrueAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleTrueAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleTrueAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
                 }
-                else
-                {
-                    goodsPage = tdGoodsService.searchAndFindByCategoryIdOrderBySortIdAsc(keywords, categoryId, page, size);
+            } else if ("isNotOnSale".equalsIgnoreCase(property)) {
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleFalseAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleFalseAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleFalseAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleFalseAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsOnSaleFalseOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsOnSaleFalseOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
                 }
             }
             else
             {
-                if (property.equalsIgnoreCase("isOnSale"))
-                {
-                    if (null == keywords || "".equalsIgnoreCase(keywords))
-                    {
-                        goodsPage = tdGoodsService.findByCategoryIdTreeContainingAndIsOnSaleTrueOrderBySortIdAsc(categoryId, page, size);
+                if ("flashSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsFlashSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
                     }
-                    else
-                    {
-                        goodsPage = tdGoodsService.searchAndFindByCategoryIdAndIsOnSaleTrueOrderBySortIdAsc(keywords, categoryId, page, size);
+                } else if ("groupSale".equalsIgnoreCase(saleType)) {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdAndIsGroupSaleTrueOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
+                    }
+                } else {
+                    if (null == keywords || "".equalsIgnoreCase(keywords)) {
+                        goodsPage = tdGoodsService
+                                .findByCategoryIdTreeContainingOrderBySortIdAsc(
+                                        categoryId, page, size);
+                    } else {
+                        goodsPage = tdGoodsService
+                                .searchAndFindByCategoryIdOrderBySortIdAsc(
+                                        keywords, categoryId, page, size);
                     }
                 }
             }

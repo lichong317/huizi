@@ -62,7 +62,7 @@ function __doPostBack(eventTarget, eventArgument) {
   <tr class="odd_bg">
     <th width="8%">选择</th>
     <th align="left">名称</th>
-    <th width="10%">价格</th>
+    <th width="10%">抵用金额</th>
     <th align="left" width="37%">描述</th>
     <th align="center" width="12%">排序</th>
     <th width="10%">操作</th>

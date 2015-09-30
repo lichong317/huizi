@@ -528,7 +528,7 @@ function del_goods_comb(obj) {
             <dt>销售价</dt>
             <dd>
                 <input id="idComputeSalePrice" name="salePrice" type="text" disabled="disabled" value="<#if goods?? && goods.salePrice??>${goods.salePrice?string("0.00")}<#else>0</#if>" class="input normal" sucmsg="" style="background: #EEEEEE;">
-                <span class="Validform_checktip">系统自动计算 (销售价 = 分销价 + 最高返现额)</span>
+                <span class="Validform_checktip">系统自动计算 (销售价 = 出厂价 + 最高返现额)</span>
             </dd>
         </dl>
         <dl>
