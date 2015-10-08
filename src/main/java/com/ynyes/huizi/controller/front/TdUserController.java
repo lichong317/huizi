@@ -1713,7 +1713,15 @@ public class TdUserController {
                 }
             }
         }
-        
+        TdUser tdUser = tdUserService.findByUsername(username);
+        if (null != tdUser) {
+			if (null != tdUser.getTotalReturns()) {
+				tdUser.setTotalReturns(tdUser.getTotalReturns() + 1);
+			}else{
+				tdUser.setTotalReturns(1L);
+			}
+			tdUserService.save(tdUser);
+		}
         return "redirect:/user/return/list";
     }
     
@@ -2002,6 +2010,12 @@ public class TdUserController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
 
         if (null != user) {
+        	if (null != user.getTotalComments()) {
+				user.setTotalComments(user.getTotalComments() + 1);
+			}else{
+				user.setTotalComments(1L);
+			}
+        	tdUserService.save(user);
             tdComment.setUserHeadUri(user.getHeadImageUri());
         }
 
@@ -2170,6 +2184,12 @@ public class TdUserController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         if (null != user)
         {
+        	if (null != user.getTotalConsults()) {
+				user.setTotalConsults(user.getTotalConsults() + 1);
+			}else{
+				user.setTotalConsults(1L);
+			}
+        	tdUserService.save(user);
             tdConsult.setUserHeadImageUri(user.getHeadImageUri());
         }
         

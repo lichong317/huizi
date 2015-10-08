@@ -40,6 +40,10 @@ public class TdUserLevelService {
         }
     }
     
+    public List<TdUserLevel> findIsEnableTrue(){
+    	 return repository.findByIsEnableTrueOrderByLevelIdAsc();
+    }
+    
     public TdUserLevel findByLevelIdAndIsEnableTrue(Long levelId)
     {
         return repository.findByLevelIdAndIsEnableTrue(levelId);

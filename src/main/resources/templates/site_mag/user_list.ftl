@@ -76,7 +76,8 @@ var theForm = document.forms['form1'];
   <tr class="odd_bg">
     <th width="8%">选择</th>
     <th align="left" colspan="2">用户名</th>
-    <th align="left" width="6%">用户组</th>
+    <th align="left" width="6%">用户等级</th>
+    <th align="left" width="6%">用户角色</th>
     <th align="center" width="12%">邮箱</th>
     <th width="12%">手机号</th>
     <th width="8%">最近登录</th>
@@ -113,6 +114,7 @@ var theForm = document.forms['form1'];
                     </span>
                   </div>
                 </td>
+                <td align="left">${user.userLevelTitle!""}</td>
                 <td><#if user.roleId?? && user.roleId==0>普通会员<#elseif user.roleId?? && user.roleId==1>分销商</#if></td>
                 <td align="center">${user.email!""}</td>
                 <td align="center">${user.mobile!""}</td>

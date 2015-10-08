@@ -200,14 +200,31 @@ $(function () {
     <dt>累计消费额</dt>
     <dd><span><#if user??>${user.totalSpendCash!""}</#if></span></dd>
   </dl>
+ <#--> <dl>
+    <dt>用户等级</dt>
+    <dd><input name="userLevelId" type="text" value="<#if user??>${user.userLevelId!""}</#if>" class="input normal" datatype="n0-2" errormsg="请输入正确的等级" sucmsg=" " > <span class="Validform_checktip">*数字表示的用户等级，从1开始，熟悉越高等级越高</span></dd>
+  </dl> -->
   <dl>
     <dt>用户等级</dt>
-    <dd><input name="userLevelId" type="text" value="<#if user??>${user.userLevelId!""}</#if>" class="input normal" datatype="n0-2" errormsg="请输入正确的等级" sucmsg=" " > <span class="Validform_checktip"></span></dd>
+    <dd>
+         <div class="rule-single-select">
+              <select name="userLevelId" id="userLevelId" >
+                   <#if !user??>
+                        <option value="">请选择类别...</option>
+                    </#if>
+                    <#if user_level_list??>
+                         <#list user_level_list as level>
+                             <option value="${level.id!""}" <#if user?? && user.userLevelId?? && user.userLevelId==level.id>selected="selected"</#if>>${level.title!""}</option>
+                         </#list>
+                    </#if>
+              </select>
+         </div>
+    </dd>
   </dl>
-  <dl>
+ <#--> <dl>
     <dt>用户等级名称</dt>
     <dd><span><#if user??>${user.userLevelTitle!""}</#if></span></dd>
-  </dl>
+  </dl>-->
   <dl>
     <dt>用户积分</dt>
     <dd><span><#if user??>${user.totalPoints!""}</#if></span></dd>

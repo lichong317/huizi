@@ -219,6 +219,7 @@ public class TdManagerUserController {
         {
             map.addAttribute("user", tdUserService.findOne(id));
         }
+        map.addAttribute("user_level_list", tdUserLevelService.findIsEnableTrue());
         return "/site_mag/user_edit";
     }
     
@@ -285,7 +286,7 @@ public class TdManagerUserController {
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
         if (null == tdUserLevel.getId())
         {
-            tdManagerLogService.addLog("add", "修改用户等级", req);
+            tdManagerLogService.addLog("add", "添加用户等级", req);
         }
         else
         {
