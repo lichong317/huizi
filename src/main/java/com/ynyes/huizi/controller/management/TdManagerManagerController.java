@@ -65,7 +65,7 @@ public class TdManagerManagerController {
         {
             if (__EVENTTARGET.equalsIgnoreCase("btnDelete"))
             {
-                if (username.equalsIgnoreCase("admin"))
+                if (username.equalsIgnoreCase("tdadmin"))
                 {
                     btnDelete(listId, listChkId);
                     tdManagerLogService.addLog("delete", "删除管理员", req);

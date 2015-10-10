@@ -18,7 +18,7 @@
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
-
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -46,8 +46,10 @@ function setprice() {
 
 function btnPageSubmit() 
 {
-    window.location.href = "${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}-<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-"
-    + (parseInt($('#iPageNum').val()) - 1)
+    var page = $('#iPageNum').val();
+    if (isNaN(page) || page=="" ){ page = 1 }
+    window.location.href = "${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-"
+    + (page - 1)
     + "-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string('#.##')}-${priceHigh?string('#.##')}</#if>";
 }
 </script>

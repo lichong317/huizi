@@ -34,8 +34,8 @@
             <td>面值</td>
             <td>所需消费金额</td>
             <td>使用限制</td>
-            <td>状态</td>
-            <th align="left">&nbsp;</th>
+            <td colspan="2">状态</td>
+            <#--<th align="left">&nbsp;</th> -->
       </tr>      
       <#if coupan_list??>
                 <#list coupan_list as item>

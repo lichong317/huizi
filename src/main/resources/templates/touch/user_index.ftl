@@ -33,7 +33,7 @@
    </#if>
 </section>
 
-<section class="main membertop mt10 mb10">
+<section class="main membertop mt10 mb10" >
   <menu>
     <a href="/touch/user/order/list/2"><img src="/touch/images/huiyuan_05.png" height="48" /><p>待付款（<#if total_unpayed??>${total_unpayed!''}</#if>）</p></a>
     <a href="/touch/user/order/list/4"><img src="/touch/images/huiyuan_07.png" height="48" /><p>待收货（<#if total_unreceived??>${total_unreceived!''}</#if>）</p></a>

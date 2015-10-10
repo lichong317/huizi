@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <link href="/client/style/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/master.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/client/style/mymember.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/client/js/html5.js"></script>
 <!--<link href="/client/css/member.css" rel="stylesheet" type="text/css" />-->

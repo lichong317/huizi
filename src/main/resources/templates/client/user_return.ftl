@@ -10,6 +10,7 @@
 <link href="/client/style/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/master.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/mymember.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <script type="text/javascript" src="/client/js/html5.js"></script>
 <!--<link href="/client/css/member.css" rel="stylesheet" type="text/css" />-->
 <script src="/client/js/jquery-1.9.1.min.js"></script>
