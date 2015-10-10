@@ -147,7 +147,7 @@ function saveUserInfo() {
             <input id="rmbUser" type="checkbox" />
             &nbsp;记住密码</label>
           &nbsp;&nbsp;<b class="wj"><a href="#">忘记密码？</a></b></p>
-        <p class="mt15">还不是会员？<b class="zc"><a href="/reg">免费注册</a></b></p>
+        <p class="mt15">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
         <input type="submit"  class="login_btn" id="btn_login" value="立即登录"/>
       </div>
     </div>

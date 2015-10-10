@@ -56,6 +56,7 @@ function formsubmit(){
 </header>
 
 <form id="form1" name="form1" action="/touch/order/submit" method="post">
+<input name="shareId" type="hidden" value="${shareId!''}">
 <div class="mainbox">
   <p class="address">收货地址：<span class="fr" ><a id="addAddress" style="border:none !important;"href="javascript:;">新增收货地址</a></span></p>
   <section class="address_list">

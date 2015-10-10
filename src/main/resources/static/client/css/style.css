@@ -122,7 +122,7 @@
 .index_lh li span { color:#ff8800;}
 .index_lh li p { font-size:12px;}
 
-/* 鏍忕洰椤甸潰 */
+/** 鏍忕洰椤甸潰 **/
 .column_qg { background:url(../images/content/part_tit01.png) no-repeat right center; height:136px; overflow:hidden; border-right:none; padding:15px 0 0 0;}
 .column_qg a.a1 { font-size:18px;color:#fff; line-height:25px; display:inline-block; width:40px; position:absolute; right:9px;top:49px;}
 .column_qg a.a1:hover { color:#f60;}
@@ -202,7 +202,7 @@
 .column_sum li a.a3 { width:50%; text-align:center;}
 .column_sum li:hover { border:1px solid #eee; box-shadow:0px 2px 0px #ccc;}
 
-/* 鍟嗗搧璇︾粏椤� */
+/** 鍟嗗搧璇︾粏椤� **/
 .pro_info { width:100%; min-width:1200px; margin:0 auto; background:#d9d9d9;}
 .pro_tit { font-weight:400; padding:20px 0 20px;}
 .pro_tit .a1 { font-size:32px; color:#333; line-height:40px;}
@@ -333,7 +333,7 @@ line-height: 16px;
 .pro_myseek .sub:hover { background:#ff8800;}
 .pro_myseek_list li { width:87%; padding:15px 11% 15px 2%; line-height:25px; border-bottom:1px dashed #ddd;}
 .pro_myseek_list li .sp1 { position:absolute; right:2%; top:15px; color:#999;}
-/* 璐墿杞﹂儴鍒� */
+/** 璐墿杞﹂儴鍒� **/
 .car_top { width:100%;}
 .car_top p { float:left; display:block; width:33%; height:35px; line-height:35px; text-align:center; color:#fff; background:#ddd;}
 .car_top p i { position:absolute;right:-20px;top:0; display:block; width:50px; border-right:4px solid #fff; height:35px; background:#ddd;
@@ -531,7 +531,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 
 
 
-/*鐧婚檰椤甸潰*/
+/**鐧婚檰椤甸潰**/
 .dltop{ height:127px; line-height:127px; font-size:14px;}
 .dltop span{float:right;display:block;}
 .help{margin-left:25px;}
@@ -561,7 +561,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .qy{float:right; margin-right:38px;}
 
 
-/*搴曢儴鐗堟潈淇℃伅*/
+/**搴曢儴鐗堟潈淇℃伅**/
 .downwenzi li{width:71px; float:left;}
 .downbq{line-height:30px; font-size:14px; height:160px;}
 .downwenzi a:hover{color:#e8323d;}

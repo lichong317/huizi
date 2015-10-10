@@ -30,10 +30,14 @@ public class TdTouchLoginController {
 	    private TdCommonService tdCommonService;
 
 	    @RequestMapping(value = "/touch/login", method = RequestMethod.GET)
-	    public String login(HttpServletRequest req, ModelMap map) {
+	    public String login(HttpServletRequest req, Long shareId,  ModelMap map) {
 	        String username = (String) req.getSession().getAttribute("username");
 
 	        String referer = req.getHeader("referer");
+	        
+	        if (null != shareId) {
+	        	map.addAttribute("shareId", shareId);
+			}
 	        
 	        // 基本信息
 	        tdCommonService.setHeader(map, req);

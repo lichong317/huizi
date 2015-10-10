@@ -156,12 +156,3 @@ function delCartItem(id)
     });
 }
 
-function goNext(goodsNum)
-{
-    if (0==goodsNum)
-    {
-        alert("请至少选择一种商品!");
-        return false;
-    }
-    window.location.href="/touch/order/info";
-}

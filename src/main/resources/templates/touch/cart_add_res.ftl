@@ -15,6 +15,17 @@
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
+<script type="text/javascript">
+function goNext(goodsNum)
+{
+    if (0==goodsNum)
+    {
+        alert("请至少选择一种商品!");
+        return false;
+    }
+    window.location.href="/touch/order/info<#if shareId??>?shareId=${shareId}</#if>";
+}
+</script>
 </head>
 
 <body>

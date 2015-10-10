@@ -110,7 +110,7 @@
 .buy_ok_top { font-family: "微软雅黑"; color: #454545; font-size: 20px; height: 46px; line-height: 46px; border-bottom: 1px solid #e2e2e2; }
 
 
-/*购买后又买*/
+/**购买后又买**/
 .sx_list2 { overflow: hidden; width:1200px; margin:0 auto; }
 .sx_list2 ul{ margin-left:-37px;}
 .sx_list2 li { width: 190px; overflow: hidden; float: left; display: block; margin-left:37px; border: 4px solid #fff; padding: 6px; margin-top: 16px; transition: all .2s linear; -webkit-transition: all .2s linear; }

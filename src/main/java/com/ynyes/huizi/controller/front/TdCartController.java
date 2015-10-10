@@ -41,7 +41,7 @@ public class TdCartController {
     private TdCommonService tdCommonService;
 
     @RequestMapping(value = "/cart/init")
-    public String addCart(Long id, Long quantity, String zpid, Integer qiang, Integer m,
+    public String addCart(Long id, Long quantity, String zpid, Integer qiang, Integer m, Long  shareId,
             HttpServletRequest req) {
         // 是否已登录
         boolean isLoggedIn = true;
@@ -84,6 +84,10 @@ public class TdCartController {
                 if (null != oldCartGoodsList && oldCartGoodsList.size() > 0) {
                     long oldQuantity = oldCartGoodsList.get(0).getQuantity();
                     oldCartGoodsList.get(0).setQuantity(oldQuantity + quantity);
+                    //添加分享用户id
+                    if (null != shareId) {
+                    	oldCartGoodsList.get(0).setShareId(shareId);;
+					}
                     tdCartGoodsService.save(oldCartGoodsList.get(0));
                 }
                 // 新增购物车项
@@ -99,22 +103,35 @@ public class TdCartController {
     
                     cartGoods.setQuantity(quantity);
                     
+                    //添加分享用户id
+                    if (null != shareId) {
+                    	cartGoods.setShareId(shareId);;
+					}
+                    
                     tdCartGoodsService.save(cartGoods);
                 }
             }
                         
         }
-
-        return "redirect:/cart/add?id=" + id + "&m=" + m;
+        
+        if (null != shareId) {
+        	return "redirect:/cart/add?id=" + id + "&m=" + m + "&shareId=" + shareId;
+		}else{
+			return "redirect:/cart/add?id=" + id + "&m=" + m;
+		}       
     }
 
     @RequestMapping(value = "/cart/add")
-    public String cartInit(Long id, Integer m, HttpServletRequest req, ModelMap map) {
+    public String cartInit(Long id, Long shareId, Integer m, HttpServletRequest req, ModelMap map) {
         tdCommonService.setHeader(map, req);
         if (null == m)
         {
             m = 0;
         }
+        
+        if (null != shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
         
         if (m.equals(1)) { // 移动端浏览器
             
@@ -124,7 +141,7 @@ public class TdCartController {
     }
     
     @RequestMapping(value = "/cart")
-    public String cart(HttpServletRequest req, ModelMap map) {
+    public String cart(HttpServletRequest req, Long shareId, ModelMap map) {
 
         String username = (String) req.getSession().getAttribute("username");
 
@@ -161,6 +178,10 @@ public class TdCartController {
 
         tdCommonService.setHeader(map, req);
 
+        if (null != shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
+        
         if (null == resList || resList.size() == 0) {
             return "/client/cart_null";
         }

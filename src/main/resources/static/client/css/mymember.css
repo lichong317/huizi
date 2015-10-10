@@ -365,7 +365,7 @@ textarea { resize:none;}
 	width:82%;
 	position:relative;}
 	
-/* 其他页面 */
+/** 其他页面 **/
 .mymember_info03 h3{
 	position:relative;
 	width:100%;
@@ -745,7 +745,7 @@ textarea { resize:none;}
 #mymember_ordersum01 { display:none;}
 #mymember_ordersum02 { display:none;}
 
-/*lichong 收货地址弹窗*/
+/*lichong 收货地址弹窗**/
 .mymember_address{border-collapse:collapse;width:100%;}
 .mymember_address th{text-align:right;padding:0 10px 0 0;background:none;width:120px;vertical-align:middle;border:none;}
 .mymember_address td{text-align:left;padding:10px 0;background:none;border:none;}
@@ -760,7 +760,7 @@ textarea { resize:none;}
 .ftx-03{color: #999;width:100%;text-align:center}
 .new-address { background-color:#f0f0f0;padding-left:350px}
 
-/* 支付界面*/.bank{border-top:2px solid #da090b}
+/** 支付界面**/.bank{border-top:2px solid #da090b}
 .order{position:relative;*zoom:1;width:1198px;height:auto;background-color:#f9f9f9;}
 .order .o-left{float:left;width:640px;padding-top:14px;padding-bottom:14px;padding-left:30px}
 .order .o-right{float:right;width:190px;padding-top:14px;padding-bottom:14px;padding-right:125px;overflow:hidden}

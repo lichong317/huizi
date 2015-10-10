@@ -243,8 +243,23 @@ public class TdOrder {
     @Column
     private Boolean isOnlinePay;
 
+    // 分享用户id
+    @Column
+    private Long shareId;
     
-    public Double getRefund() {
+    // 分享用户可获取积分
+    @Column
+    private Long totalSharePoints;
+    
+    public Long getTotalSharePoints() {
+		return totalSharePoints;
+	}
+
+	public void setTotalSharePoints(Long totalSharePoints) {
+		this.totalSharePoints = totalSharePoints;
+	}
+
+	public Double getRefund() {
 		return refund;
 	}
 
@@ -258,6 +273,14 @@ public class TdOrder {
 
 	public void setIsCancel(Boolean isCancel) {
 		this.isCancel = isCancel;
+	}
+
+	public Long getShareId() {
+		return shareId;
+	}
+
+	public void setShareId(Long shareId) {
+		this.shareId = shareId;
 	}
 
 	public Long getId() {

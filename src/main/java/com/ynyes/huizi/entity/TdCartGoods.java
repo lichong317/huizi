@@ -52,14 +52,10 @@ public class TdCartGoods {
     @Column
     private Integer qiang;
     
-    public Integer getQiang() {
-		return qiang;
-	}
-
-	public void setQiang(Integer qiang) {
-		this.qiang = qiang;
-	}
-
+    //分享用户id
+    @Column
+    private Long shareId;
+    
 	// 是否选中，选中的商品将进行结算
     @Column
     private Boolean isSelected;
@@ -75,7 +71,15 @@ public class TdCartGoods {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public Integer getQiang() {
+		return qiang;
+	}
 
+	public void setQiang(Integer qiang) {
+		this.qiang = qiang;
+	}
+	
     public String getUsername() {
         return username;
     }
@@ -84,7 +88,15 @@ public class TdCartGoods {
         this.username = username;
     }
 
-    public Long getGoodsId() {
+    public Long getShareId() {
+		return shareId;
+	}
+
+	public void setShareId(Long shareId) {
+		this.shareId = shareId;
+	}
+
+	public Long getGoodsId() {
         return goodsId;
     }
 

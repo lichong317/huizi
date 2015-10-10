@@ -36,7 +36,7 @@ public class TdTouchCartController {
     private TdCommonService tdCommonService;
 
     @RequestMapping(value = "/touch/cart")
-    public String cart(HttpServletRequest req, ModelMap map) {
+    public String cart(HttpServletRequest req, Long shareId, ModelMap map) {
 
         String username = (String) req.getSession().getAttribute("username");
 
@@ -76,6 +76,10 @@ public class TdTouchCartController {
         
         map.addAttribute("cart_goods_list", tdCartGoodsService.updateGoodsInfo(resList));
 
+        if (null != shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
+        
         tdCommonService.setHeader(map, req);
 
         return "/touch/cart";

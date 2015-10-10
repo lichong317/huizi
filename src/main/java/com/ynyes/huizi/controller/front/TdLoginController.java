@@ -45,10 +45,14 @@ public class TdLoginController {
     private TdAdService tdAdService;
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest req, ModelMap map) {
+    public String login(HttpServletRequest req, Long shareId, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
         String referer = req.getHeader("referer");
+        
+        if (null != shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
         
         // 网站基本信息
         map.addAttribute("site", tdSettingService.findTopBy());
@@ -77,23 +81,7 @@ public class TdLoginController {
         
         return "redirect:" + referer;
     }
-    
-    /**
-     * 
-     * 密码找回<BR>
-     * 方法名：forget<BR>
-     * 创建人：guozhengyang <BR>
-     * 时间：2015年2月2日-下午4:37:35 <BR>
-     * @return String<BR>
-     * @param  [参数1]   [参数1说明]
-     * @param  [参数2]   [参数2说明]
-     * @exception <BR>
-     * @since  1.0.0
-     */
-//    @RequestMapping("/forget")
-//    public String forget(){
-//        return "/front/forget";
-//    }
+       
     
     @RequestMapping(value="/login",method = RequestMethod.POST)
     @ResponseBody

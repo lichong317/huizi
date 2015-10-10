@@ -45,7 +45,7 @@ $(document).ready(function(){
             $("#quantity").val(q-1);
         }
         
-        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()); 
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()<#if shareId??>+"&shareId=${shareId}"</#if>); 
     });
     
     $("#id-plus").click(function(){
@@ -63,7 +63,7 @@ $(document).ready(function(){
         <#else>
             $("#quantity").val(q+1);
         </#if>
-        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()); 
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&quantity=" + $("#quantity").val()<#if shareId??>+"&shareId=${shareId}"</#if>); 
     
     });
     
@@ -73,7 +73,7 @@ $(document).ready(function(){
             str += $(this).attr("zpid");
             str += ",";
         });
-        var href = "/order/buy/comb?gid=" + ${goods.id?c} + "&zhid=" + str;
+        var href = "/order/buy/comb?gid=" + ${goods.id?c} + "&zhid=" + str<#if shareId??>+"&shareId=${shareId}"</#if>;
         
         window.location = href;
         
@@ -207,7 +207,7 @@ function changeName(p)
                     <a href="#"><img src="/client/images/content/share05.png" /></a>
                    -->
                     <!-- JiaThis Button BEGIN -->
-                    <div class="jiathis_style">
+                <#--    <div class="jiathis_style">
                         <a class="jiathis_button_qzone"></a>
                         <a class="jiathis_button_tsina"></a>
                         <a class="jiathis_button_tqq"></a>
@@ -215,7 +215,28 @@ function changeName(p)
                         <a class="jiathis_button_renren"></a>
                         <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
                     </div>
-                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>  -->
+                    <!-- JiaThis Button BEGIN -->
+                        <div class="jiathis_style">
+                        <a class="jiathis_button_qzone"></a>
+                        <a class="jiathis_button_tsina"></a>
+                        <a class="jiathis_button_tqq"></a>
+                        <a class="jiathis_button_renren"></a>
+                        <a class="jiathis_button_weixin"></a>
+                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+                        </div>
+                        <script type="text/javascript" >
+                        var jiathis_config={
+                            url:"http://192.168.20.80:8080/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>",
+                            summary:"",
+                            title:"惠资生活##${goods.title!''}",
+                            shortUrl:false,
+                            hideMore:false
+                        }
+                        </script>
+                        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                    <!-- JiaThis Button END -->
+                    
                   <!-- JiaThis Button END -->
                     <span class="ml10">商品编码：${goods.code!''}</span>
                     <a class="a1" href="javascript:addCollect(${goods.id?c});">关注该商品</a>
@@ -553,15 +574,15 @@ function checkTime(i)
           <td>
             <#if qiang?? && goods.flashSaleLeftNumber?? && goods.groupSaleLeftNumber??>
                 <#if qiang==1 && goods.flashSaleLeftNumber gt 0>
-                     <a id="addCart" href="/order/buy/qiang?gid=${goods.id?c}" class="sub">立即购买</a>
+                     <a id="addCart" href="/order/buy/qiang?gid=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>" class="sub">立即购买</a>
                 <#elseif qiang!=1 && goods.groupSaleLeftNumber gt 0>
-                     <a id="addCart" href="/order/buy/tuan?gid=${goods.id?c}" class="sub">立即购买</a>
+                     <a id="addCart" href="/order/buy/tuan?gid=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>" class="sub">立即购买</a>
                 <#else>
                      <a id="addCart" href="#" class="sub">库存不足</a>   
                 </#if>
             <#else>
                 <#if goods.leftNumber gt 0>
-                    <a id="addCart" href="/cart/init?id=${goods.id?c}" class="sub">加入购物车</a>
+                    <a id="addCart" href="/cart/init?id=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>" class="sub">加入购物车</a>
                 <#else>
                     <a id="addCart" href="#" class="sub">库存不足</a>
                 </#if>    

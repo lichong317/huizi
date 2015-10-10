@@ -383,50 +383,63 @@ public class TdGoodsController {
         }
 
         // 分享时添加积分
-        if (null != shareId) {
-            TdUser sharedUser = tdUserService.findOne(shareId);
-            TdSetting setting = tdSettingService.findTopBy();
-
-            String clientIp = req.getRemoteHost();
-            String oldIp = (String) req.getSession().getAttribute("remote_ip");
-
-            // 不是来自同一个ip的访问，普通用户
-            if (!clientIp.equalsIgnoreCase(oldIp) && sharedUser.getRoleId().equals(0L)) {
-                req.getSession().setAttribute("remote_ip", clientIp);
-
-                if (null != sharedUser && null != setting) {
-                    if (null == sharedUser.getPointGetByShareGoods()) {
-                        sharedUser.setPointGetByShareGoods(0L);
-                    }
-
-                    if (null == setting.getGoodsShareLimits()) {
-                        setting.setGoodsShareLimits(50L); // 设定一个默认值
-                    }
-
-                    // 小于积分限额，进行积分
-                    if (sharedUser.getPointGetByShareGoods().compareTo(setting.getGoodsShareLimits()) < 0) {
-                        TdUserPoint point = new TdUserPoint();
-                        point.setDetail("分享商品获得积分");
-                        point.setPoint(setting.getGoodsSharePoints());
-                        point.setPointTime(new Date());
-                        point.setUsername(sharedUser.getUsername());
-
-                        if (null != sharedUser.getTotalPoints()) {
-                            point.setTotalPoint(sharedUser.getTotalPoints()
-                                    + point.getPoint());
-                        } else {
-                            point.setTotalPoint(point.getPoint());
-                        }
-
-                        point = tdUserPointService.save(point);
-
-                        sharedUser.setTotalPoints(point.getTotalPoint()); // 积分
-                        tdUserService.save(sharedUser);
-                    }
-                }
-            }
-        }
-
+//        if (null != shareId) {
+//        	
+//            TdUser sharedUser = tdUserService.findOne(shareId);
+//            TdSetting setting = tdSettingService.findTopBy();
+//
+//            String clientIp = req.getRemoteHost();
+//            String oldIp = (String) req.getSession().getAttribute("remote_ip");
+//
+//            // 不是来自同一个ip的访问，普通用户
+//            if (!clientIp.equalsIgnoreCase(oldIp) && sharedUser.getRoleId().equals(0L)) {
+//                req.getSession().setAttribute("remote_ip", clientIp);
+//
+//                if (null != sharedUser && null != setting) {
+//                    if (null == sharedUser.getPointGetByShareGoods()) {
+//                        sharedUser.setPointGetByShareGoods(0L);
+//                    }
+//
+//                    if (null == setting.getGoodsShareLimits()) {
+//                        setting.setGoodsShareLimits(50L); // 设定一个默认值
+//                    }
+//
+//                    // 小于积分限额，进行积分
+//                    if (sharedUser.getPointGetByShareGoods().compareTo(setting.getGoodsShareLimits()) < 0) {
+//                        TdUserPoint point = new TdUserPoint();
+//                        point.setDetail("分享商品获得积分");
+//                        point.setPoint(setting.getGoodsSharePoints());
+//                        point.setPointTime(new Date());
+//                        point.setUsername(sharedUser.getUsername());
+//
+//                        if (null != sharedUser.getTotalPoints()) {
+//                            point.setTotalPoint(sharedUser.getTotalPoints()
+//                                    + point.getPoint());
+//                        } else {
+//                            point.setTotalPoint(point.getPoint());
+//                        }
+//
+//                        point = tdUserPointService.save(point);
+//
+//                        sharedUser.setTotalPoints(point.getTotalPoint()); // 积分
+//                        tdUserService.save(sharedUser);
+//                    }
+//                }
+//            }
+//        }
+      if (null != shareId) {    
+    	  map.addAttribute("shareId", shareId);
+//        TdUser sharedUser = tdUserService.findOne(shareId);
+//
+//        String clientIp = req.getRemoteHost();
+//        String oldIp = (String) req.getSession().getAttribute("remote_ip");
+//
+//        // 不是来自同一个ip的访问，普通用户
+//        if (!clientIp.equalsIgnoreCase(oldIp) && sharedUser.getRoleId().equals(0L)) {
+//            req.getSession().setAttribute("remote_ip", clientIp);
+//            map.addAttribute("shareId", shareId);
+//        }  
+       }
         map.addAttribute("server_ip", req.getLocalName());
         map.addAttribute("server_port", req.getLocalPort());
 

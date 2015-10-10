@@ -137,7 +137,7 @@ a.white:hover { color:#ff7d43;}
 .clear30 { width:100%;clear:both;height:30px;}
 .clear35 { width:100%;clear:both;height:35px;}
 .main {width:1200px;margin-left:auto;margin-right:auto;}
-/* 通用顶部 */
+/** 通用顶部 **/
 .maintop {
 	z-index:20;
 	width:100%;

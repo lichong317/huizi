@@ -625,14 +625,14 @@ function del_goods_comb(obj) {
         <dl>
             <dt>限时抢购剩余数量</dt>
             <dd>
-                <input name="flashSaleLeftNumber" type="text" value="<#if goods??>${goods.flashSaleLeftNumber!''}</#if>" class="input normal" datatype="n0-10" sucmsg=" ">
+                <input name="flashSaleLeftNumber" type="text" value="<#if goods??>${goods.flashSaleLeftNumber!''}<#else>0</#if>" class="input normal" datatype="n0-10" sucmsg=" ">
                 <span class="Validform_checktip">为0时抢购结束</span>
             </dd>
         </dl>
         <dl>
             <dt>限时抢购销量</dt>
             <dd>
-                <input name="flashSaleSoldNumber" type="text" value="<#if goods??>${goods.flashSaleSoldNumber!''}</#if>" class="input normal" datatype="n0-10" sucmsg=" ">
+                <input name="flashSaleSoldNumber" type="text" value="<#if goods??>${goods.flashSaleSoldNumber!''}<#else>0</#if>" class="input normal" datatype="n0-10" sucmsg=" ">
                 <span class="Validform_checktip">已抢购商品数量</span>
             </dd>
         </dl>

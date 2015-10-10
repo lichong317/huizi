@@ -31,6 +31,7 @@ import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdPayType;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserPoint;
@@ -44,6 +45,7 @@ import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdPayTypeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
@@ -93,6 +95,9 @@ public class TdTouchOrderController {
     private TdCouponService tdCouponService;
     
     @Autowired
+    private TdSettingService tdSettingService;
+    
+    @Autowired
     private TdProductCategoryService tdProductCategoryService;
     /**
      * 立即购买
@@ -108,10 +113,14 @@ public class TdTouchOrderController {
      * @return
      */
     @RequestMapping(value = "/buy/{type}")
-    public String orderBuy(@PathVariable String type, Long gid, String zhid,
+    public String orderBuy(@PathVariable String type, Long gid, String zhid,Long shareId,
             HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
+        if (null !=  shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
+        
         if (null == username) {
             return "redirect:/touch/login";
         }
@@ -308,8 +317,12 @@ public class TdTouchOrderController {
         // 支付方式列表
         //setPayTypes(map, true, false, req);
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
+        
         map.addAttribute("delivery_type_list",
                 tdDeliveryTypeService.findByIsEnableTrue());
+        
+        //用户分享
+        map.addAttribute("shareId", shareId);
         
         tdCommonService.setHeader(map, req);
 
@@ -353,6 +366,7 @@ public class TdTouchOrderController {
             Boolean isNeedInvoice, // 是否需要发票
             String invoiceTitle, // 发票抬头
             String userMessage, // 用户留言
+            Long shareId,// 分享用户id
             String appointmentTime, HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -786,6 +800,46 @@ public class TdTouchOrderController {
 			}       	
         }
         
+        //分享用户id
+        if (null != shareId) {
+			tdOrder.setShareId(shareId);
+			TdUser sharedUser = tdUserService.findOne(shareId);
+            TdSetting setting = tdSettingService.findTopBy();
+          
+            if (null != sharedUser && null != setting) {
+                    if (null == sharedUser.getPointGetByShareGoods()) {
+                        sharedUser.setPointGetByShareGoods(0L);
+                    }
+
+                    if (null == setting.getGoodsShareLimits()) {
+                        setting.setGoodsShareLimits(50L); // 设定一个默认值
+                    }
+
+                    // 小于积分限额，进行积分
+                    if (sharedUser.getPointGetByShareGoods().compareTo(setting.getGoodsShareLimits()) < 0) {
+                    	if (!user.getId().equals(shareId)) {
+                     		 TdUserPoint point = new TdUserPoint();
+                              point.setDetail("分享商品获得积分");
+                              point.setPoint(setting.getGoodsSharePoints());
+                              point.setPointTime(new Date());
+                              point.setUsername(sharedUser.getUsername());
+
+                              if (null != sharedUser.getTotalPoints()) {
+                                  point.setTotalPoint(sharedUser.getTotalPoints()
+                                          + point.getPoint());
+                              } else {
+                                  point.setTotalPoint(point.getPoint());
+                              }
+
+                              point = tdUserPointService.save(point);
+
+                              sharedUser.setTotalPoints(point.getTotalPoint()); // 积分
+                              tdUserService.save(sharedUser);
+ 						}
+                  }
+              }
+		}
+        
         tdOrder = tdOrderService.save(tdOrder);
 
          if (tdOrder.getIsOnlinePay()) {
@@ -796,10 +850,14 @@ public class TdTouchOrderController {
     }
     
     @RequestMapping(value = "/info")
-    public String orderInfo(HttpServletRequest req, HttpServletResponse resp,
+    public String orderInfo(HttpServletRequest req, HttpServletResponse resp, Long shareId,
             ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
+        if (null !=  shareId) {
+        	map.addAttribute("shareId", shareId);
+		}
+        
         if (null == username) {
             return "redirect:/touch/login";
         }
@@ -1019,10 +1077,53 @@ public class TdTouchOrderController {
         List<TdOrderGoods> orderGoodsList = new ArrayList<TdOrderGoods>();
 
         Double totalPrice = 0.0;
-
+        Long totalSharePoints = 0L;
         if (null != cartGoodsList) {
             for (TdCartGoods cartGoods : cartGoodsList) {
                 if (cartGoods.getIsSelected()) {
+                	
+                	//分享用户积分奖励
+                	if (null != cartGoods.getShareId()) {
+                		  TdUser sharedUser = tdUserService.findOne(cartGoods.getShareId());
+	                      TdSetting setting = tdSettingService.findTopBy();
+
+	                      if (null != sharedUser && null != setting) {
+	                           if (null == sharedUser.getPointGetByShareGoods()) {
+	                               sharedUser.setPointGetByShareGoods(0L);
+	                           }
+	          
+	                           if (null == setting.getGoodsShareLimits()) {
+	                               setting.setGoodsShareLimits(50L); // 设定一个默认值
+	                           }
+	          
+	                           // 小于积分限额，进行积分
+	                           if (sharedUser.getPointGetByShareGoods().compareTo(setting.getGoodsShareLimits()) < 0) {
+	                               totalSharePoints += setting.getGoodsSharePoints();
+	                               
+	                               if (!user.getId().equals(cartGoods.getShareId())) {
+	                              		 TdUserPoint point = new TdUserPoint();
+	                                       point.setDetail("分享商品获得积分");
+	                                       point.setPoint(setting.getGoodsSharePoints());
+	                                       point.setPointTime(new Date());
+	                                       point.setUsername(sharedUser.getUsername());
+
+	                                       if (null != sharedUser.getTotalPoints()) {
+	                                           point.setTotalPoint(sharedUser.getTotalPoints()
+	                                                   + point.getPoint());
+	                                       } else {
+	                                           point.setTotalPoint(point.getPoint());
+	                                       }
+
+	                                       point = tdUserPointService.save(point);
+
+	                                       sharedUser.setTotalPoints(point.getTotalPoint()); // 积分
+	                                       tdUserService.save(sharedUser);
+	          						}
+	                           }
+	                      }
+	                      
+					}
+                	
                     TdGoods goods = tdGoodsService.findOne(cartGoods
                             .getGoodsId());
 
@@ -1139,6 +1240,9 @@ public class TdTouchOrderController {
         // 积分奖励
         tdOrder.setPoints(0L);
 
+        //保存分享商品用户可获取积分
+        tdOrder.setTotalSharePoints(totalSharePoints);
+        
         // 保存订单
         tdOrderGoodsService.save(orderGoodsList);
         tdOrder = tdOrderService.save(tdOrder);

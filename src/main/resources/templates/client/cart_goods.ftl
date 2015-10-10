@@ -136,7 +136,7 @@
                             </#if>
                         </div></td>
                     <td class="gwc1_lm2_b"><span>￥${(cg.price*cg.quantity)?string("0.00")}</span></td>
-                    <td class="gwc1_lm2_d"><input type="button" class="gwc_delete" cgid="${cg.id?c}" value="删除订单"></td>
+                    <td class="gwc1_lm2_d"><input type="button" class="gwc_delete" cgid="${cg.id?c}" value="删除商品"></td>
                     <#if cg.isSelected>
                         <#assign totalGoods=totalGoods+cg.quantity>
                         <#assign totalPrice=totalPrice+cg.price*cg.quantity>

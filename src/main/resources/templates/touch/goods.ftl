@@ -26,7 +26,7 @@ $(document).ready(function(){
             $("#quantity").val(q-1);
         }
         
-        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&m=1&quantity=" + $("#quantity").val() );
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&m=1&quantity=" + $("#quantity").val()<#if shareId??>+"&shareId=${shareId}"</#if> );
     });
     
     $("#id-plus").click(function(){
@@ -43,7 +43,7 @@ $(document).ready(function(){
         <#else>
             $("#quantity").val(q+1);
         </#if>
-        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&m=1&quantity=" + $("#quantity").val() );
+        $("#addCart").attr("href", "/cart/init?id=${goods.id?c}&m=1&quantity=" + $("#quantity").val()<#if shareId??>+"&shareId=${shareId}"</#if> );
     
     });
 });
@@ -412,7 +412,7 @@ function checkTime(i)
                 <input type="text" disabled="disabled" class="text" value="1" />
             </div>
             <#if goods.flashSaleLeftNumber gt 0>
-                <a id="addCart" class="fr" href="/touch/order/buy/qiang?gid=${goods.id?c}">立即购买</a>
+                <a id="addCart" class="fr" href="/touch/order/buy/qiang?gid=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>">立即购买</a>
             <#else>
                 <a id="addCart" class="fr" href="#">抢购结束</a>
             </#if>
@@ -426,7 +426,7 @@ function checkTime(i)
                 <input type="text" disabled="disabled" class="text" value="1" />
             </div>
             <#if goods.groupSaleLeftNumber gt 0>
-                <a id="addCart" class="fr" href="/touch/order/buy/tuan?gid=${goods.id?c}">立即购买</a>
+                <a id="addCart" class="fr" href="/touch/order/buy/tuan?gid=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>">立即购买</a>
             <#else>
                 <a id="addCart" class="fr" href="#">团购结束</a>
             </#if>
@@ -440,7 +440,7 @@ function checkTime(i)
                 <input type="text" id="quantity" class="text" value="1" />
             </div>
             <#if goods.leftNumber gt 0>
-                <a id="addCart" class="fr" href="/cart/init?id=${goods.id?c}&m=1<#if qiang??>&qiang=${qiang}</#if>">加入购物车</a>
+                <a id="addCart" class="fr" href="/cart/init?id=${goods.id?c}&m=1<#if qiang??>&qiang=${qiang}</#if><#if shareId??>&shareId=${shareId}</#if>">加入购物车</a>
             <#else>
                 <a id="addCart" class="fr" href="#">库存不足</a>
             </#if>
