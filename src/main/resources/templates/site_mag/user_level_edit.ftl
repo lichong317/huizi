@@ -72,6 +72,13 @@ $(function () {
         </dd>
     </dl>
     <dl>
+        <dt>签到可领取积分</dt>
+        <dd>
+            <input name="signinPoints" type="text" value="<#if user_level??>${user_level.signinPoints!'0'}<#else>0</#if>" class="input txt100" datatype="/^[0-9][0-9]*[.]?[0-9]{0,2}$/" sucmsg=" ">
+            <span class="Validform_checktip">*用户签到时获取的积分</span>
+        </dd>
+    </dl>
+    <dl>
         <dt>是否开启</dt>
         <dd>
             <div class="rule-multi-radio multi-radio">

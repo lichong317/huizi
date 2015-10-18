@@ -240,7 +240,13 @@ function delItem(id)
                          <#if item.title?length lt 21>
                             <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title?default("")}</a>
                              <#else>
-                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}" title="${item.title}">${item.title[0..17]?default("")}...</a>
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}" title="${item.title}">
+                            <#if item.title?length lt 18>
+                                ${item.title!''}
+                            <#else>
+                                ${item.title[0..17]?default("")}...
+                            </#if>
+                            </a>
                          </#if>
                       </li>
                     </#if>

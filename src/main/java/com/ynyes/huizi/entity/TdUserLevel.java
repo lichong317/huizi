@@ -47,6 +47,10 @@ public class TdUserLevel {
     @Column
     private Long sortId;
 
+    //签到可以获取积分
+    @Column
+    private Long signinPoints;
+    
     public Long getId() {
         return id;
     }
@@ -63,7 +67,15 @@ public class TdUserLevel {
         this.levelId = levelId;
     }
 
-    public String getTitle() {
+    public Long getSigninPoints() {
+		return signinPoints;
+	}
+
+	public void setSigninPoints(Long signinPoints) {
+		this.signinPoints = signinPoints;
+	}
+
+	public String getTitle() {
         return title;
     }
 

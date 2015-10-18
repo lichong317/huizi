@@ -53,8 +53,20 @@ public class TdUserPoint {
     // 排序号
     @Column
     private Long sortId;
+    
+    // 是否仅后台显示
+    @Column
+    private Boolean isBackgroundShow;
 
-    public Long getId() {
+    public Boolean getIsBackgroundShow() {
+		return isBackgroundShow;
+	}
+
+	public void setIsBackgroundShow(Boolean isBackgroundShow) {
+		this.isBackgroundShow = isBackgroundShow;
+	}
+
+	public Long getId() {
         return id;
     }
 

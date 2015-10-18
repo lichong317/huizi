@@ -250,7 +250,13 @@ public class TdRegisgerController {
                 
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
                 tdUserService.save(sharedUser);
+                
+                //用户层级关系
+                user.setUpperUsername(sharedUser.getUsername());
+                tdUserService.save(user);
             }
+            
+           
         }
         
         request.getSession().setAttribute("username", username);

@@ -136,7 +136,7 @@ function hideDialog()
               
             </div>
             <div class="mianfeilingqu_right">
-                <h3>领取车友</h3>
+                <h3>领取用户</h3>
                 <ul>
                     <ul>
                         <#if ("distributed_coupon_" + item.id + "_list")?eval?? >

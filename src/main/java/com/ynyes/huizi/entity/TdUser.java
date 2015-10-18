@@ -198,6 +198,10 @@ public class TdUser {
     @Column
     private Long pointGetByShareGoods;
     
+    // 今日是否签到
+    @Column
+    private Boolean isSignin;
+    
     public Long getId() {
         return id;
     }
@@ -222,7 +226,15 @@ public class TdUser {
         this.headImageUri = headImageUri;
     }
 
-    public String getUsername() {
+    public Boolean getIsSignin() {
+		return isSignin;
+	}
+
+	public void setIsSignin(Boolean isSignin) {
+		this.isSignin = isSignin;
+	}
+
+	public String getUsername() {
         return username;
     }
 

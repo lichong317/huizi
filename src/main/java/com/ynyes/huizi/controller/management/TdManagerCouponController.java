@@ -208,7 +208,7 @@ public class TdManagerCouponController {
         
         if (null == size || size <= 0)
         {
-            size = SiteMagConstant.pageSize;;
+            size = SiteMagConstant.pageSize;
         }
         
         map.addAttribute("page", page);

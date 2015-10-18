@@ -180,7 +180,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 </span>
                 <input type="hidden" name="listId" id="listId" value="${content.id?c}">
             </td>
-            <td>${content.id!''}</td>
+            <td>${content.id?c}</td>
             <td><a href="/Verwalter/goods/edit?__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></td>
             <td>
                 <#if category_list?? && content.categoryId??>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserComment;
@@ -222,6 +223,49 @@ public class TdManagerUserController {
         map.addAttribute("user_level_list", tdUserLevelService.findIsEnableTrue());
         return "/site_mag/user_edit";
     }
+    
+    /**
+	 * @author lc
+	 * @注释：手动修改积分
+	 */
+	@RequestMapping(value = "/param/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> paramEdit(Long userId, Long totalPoints, String data, String type,
+			Boolean isBackgroundShow, ModelMap map, HttpServletRequest req) {
+
+		Map<String, Object> res = new HashMap<String, Object>();
+
+		res.put("code", 1);
+		String username = (String) req.getSession().getAttribute("manager");
+		if (null == username) {
+			res.put("message", "请重新登录");
+			return res;
+		}
+		if (null != userId && null != type && !type.isEmpty() && null != isBackgroundShow) {
+			TdUser tdUser = tdUserService.findOne(userId);
+
+			if (type.equalsIgnoreCase("editPoint")) {
+				if (null != totalPoints) {
+					tdUser.setTotalPoints(totalPoints);
+					TdUserPoint userPoint = new TdUserPoint();
+
+					userPoint.setIsBackgroundShow(isBackgroundShow);
+					userPoint.setTotalPoint(totalPoints);
+					userPoint.setUsername(tdUser.getUsername());
+					userPoint.setPoint(totalPoints);
+					if (null != data) {
+						userPoint.setDetail(data);
+					}
+					userPoint = tdUserPointService.save(userPoint);
+
+					res.put("code", 0);
+					return res;
+				}
+			}
+		}
+
+		return res;
+	}
     
     @RequestMapping(value="/save")
     public String orderEdit(TdUser tdUser,

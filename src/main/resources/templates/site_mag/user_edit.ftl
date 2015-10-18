@@ -54,7 +54,55 @@ $(function () {
             $(this).parent().addClass("selected");
         }
     }); 
+    
+    $("#btnEditRemark").click(function () { EditOrderRemark(); });    //修改积分备注 
 });   
+
+ //修改粮草备注
+        function EditOrderRemark() {
+            var dialog = $.dialog({
+                title: '修改积分备注',
+                content: '<input type="checkbox" name="showtype" id="showtype" checked="checked"/><label> 仅后台显示</label> </br><textarea id="pointRemark" name="txtPointRemark" rows="2" cols="20" class="input"></textarea>',
+                min: false,
+                max: false,
+                lock: true,
+                ok: function () {
+                    var showtype = $("#showtype", parent.document).is(':checked');                    
+                    var remark = $("#pointRemark", parent.document).val();                   
+                    if (remark == "") {
+                        $.dialog.alert('对不起，请输入备注内容！', function () { }, dialog);
+                        return false;
+                    }
+                    var userId = eval(document.getElementById("userId")).value;
+                    var point = eval(document.getElementById("totalPoints")).value;
+                    var postData = { "userId": userId, "totalPoints": point, "data": remark, "type":"editPoint", "isBackgroundShow": showtype};
+                    //发送AJAX请求
+                    sendAjaxUrl(dialog, postData, "/Verwalter/user/param/edit");
+                    return false;
+                },
+                cancel: true
+            });
+        }
+    //发送AJAX请求
+        function sendAjaxUrl(winObj, postData, sendUrl) {
+            $.ajax({
+                type: "post",
+                url: sendUrl,
+                data: postData,
+                dataType: "json",
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.dialog.alert('尝试发送失败，错误信息：' + errorThrown, function () { }, winObj);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        winObj.close();
+                        $.dialog.tips(data.msg, 2, '32X32/succ.png', function () { location.reload(); }); //刷新页面
+                    } else {
+                        $.dialog.alert('错误提示：' + data.message, function () { }, winObj);
+                    }
+                }
+            });
+        }   
 
 </script>
 </head>
@@ -63,7 +111,7 @@ $(function () {
 <form name="form_user" method="post" action="/Verwalter/user/save" id="form_user">
 <div>
 <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="${__VIEWSTATE!""}" >
-<input type="hidden" name="userId" value="<#if user??>${user.id?c!""}</#if>" >
+<input type="hidden" id="userId" name="userId" value="<#if user??>${user.id?c!""}</#if>" >
 </div>
 <!--导航栏-->
 <div class="location" style="position: static; top: 0px;">
@@ -229,6 +277,13 @@ $(function () {
     <dt>用户积分</dt>
     <dd><span><#if user??>${user.totalPoints!""}</#if></span></dd>
   </dl>
+  <dl>
+    <dt>修改用户积分</dt>
+    <dd>
+        <input name="totalPoints1" id="totalPoints" type="text" class="input" value="<#if user?? && user.totalPoints??>${user.totalPoints?c}<#else>0</#if>">
+        <input name="btnEditRemark" type="button" id="btnEditRemark" class="ibtn" value="确认修改" style="margin-top: -3px;">
+    </dd>
+  </dl> 
   <dl>
     <dt>咨询总数</dt>
     <dd><span><#if user??>${user.totalConsults!""}</#if></span></dd>
