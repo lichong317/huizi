@@ -220,7 +220,7 @@ function orderReceive(id)
                 <#list collect_page.content as cgoods>                                  
                     <a class="mymember_gzlist" href="/goods/${cgoods.goodsId?c!''}">
                         <img src="${cgoods.goodsCoverImageUri!''}" alt="${cgoods.goodsTitle!''}" />
-                        <p>${cgoods.goodsTitle!''}</p>
+                        <p style="overflow: hidden;height: 20px;">${cgoods.goodsTitle!''}</p>
                         <h6>￥${cgoods.goodsSalePrice?string("#.##")}</h6>
                     </a>                                  
                 </#list>
@@ -244,7 +244,7 @@ function orderReceive(id)
             <#list recommend_goods_page.content as item>                
                   <a class="mymember_hot_list" href="/goods/${item.id?c}">
                     <img src="${item.coverImageUri!''}" />
-                    <p>${item.title!''}</p>
+                    <p style="overflow: hidden;height: 40px;">${item.title!''}</p>
                     <b>￥${item.salePrice?string("0.00")}</b>
                   </a>                
             </#list>

@@ -71,7 +71,7 @@ function btnPageSubmit()
                         <a class="scan" href="/goods/${item.id?c}">
                             <img src="${item.coverImageUri!''}" height="80" width="80" title="${item.title!''} ${item.subTitle!''}"/>
                             <div class="num1">${item_index+1}</div>
-                            <p>${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</p>
+                            <p style="overflow: hidden;height: 60px;">${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</p>
                             <p class="red">￥${item.salePrice?string("0.00")}</p>
                         </a>
                     </#if>
@@ -85,7 +85,7 @@ function btnPageSubmit()
                   <#if item_index < 4>
                     <li>
                         <a href="/goods/${item.id?c}"><img src="${item.coverImageUri!''}" height="177" width="177" title="${item.title!''} ${item.subTitle!''}"/></a>
-                        <a href="/goods/${item.id?c}">${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</a>
+                        <a href="/goods/${item.id?c}" >${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</a>
                         <p class="fs18 red ta-c">￥${item.salePrice?string("0.00")}</p>
                     </li>
                   </#if>
@@ -118,7 +118,7 @@ function btnPageSubmit()
                 <#list goods_page.content as goods>
                     <li>
                         <a class="a1" href="/goods/${goods.id?c}"><img src="${goods.coverImageUri!''}" height="210" width="210" title="${goods.title!''} ${goods.subTitle!''}"/></a>
-                        <a class="block h40" href="/goods/${goods.id?c}">${goods.title!""} ${goods.version!""} ${goods.color!""} ${goods.capacity!""}</a>
+                        <a class="block h40" href="/goods/${goods.id?c}" style="overflow: hidden;height: 40px;">${goods.title!""} ${goods.version!""} ${goods.color!""} ${goods.capacity!""}</a>
                         <p class="fs26 lh35 red">￥${goods.salePrice?string("0.00")}</p>
                         <span class="pl"><img src="/client/images/images/pl_07.png" /></span>
                         <p class="fs12 lh13"><span><a href="/goods/${goods.id?c}#commentDiv">${goods.totalComments!"0"}</a></span>条</p>

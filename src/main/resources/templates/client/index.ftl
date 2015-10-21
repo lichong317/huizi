@@ -299,9 +299,9 @@ function delItem(id)
 			       
 			        <td class="td${item_index+1}"><a href="${item.linkUri!''}">
                          <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
-                         <p class="p1">${item.title!''}</p>
-                         <p class="p2">${item.subtitle!''}</p> 
-                         <p class="p3">${item.mark!''}</p>
+                         <p class="p1" style="overflow: hidden;height: 60px;">${item.title!''}</p>
+                         <p class="p2" style="overflow: hidden;height: 30px;">${item.subtitle!''}</p> 
+                         <p class="p3" style="overflow: hidden;height: 60px;">${item.mark!''}</p>
                          </a>
                      </td>                          
                  </#if>                
@@ -313,9 +313,9 @@ function delItem(id)
                    
                     <td class="td${item_index+1}"><a href="${item.linkUri!''}">
                          <img src="${item.fileUri!''}" width="210" height="150" style="position:absolute;right:10px; top:45px;">
-                         <p class="p1">${item.title!''}</p>
-                         <p class="p2">${item.subtitle!''}</p> 
-                         <p class="p3">${item.mark!''}</p>
+                         <p class="p1" style="overflow: hidden;height: 60px;">${item.title!''}</p>
+                         <p class="p2" style="overflow: hidden;height: 30px;">${item.subtitle!''}</p> 
+                         <p class="p3" style="overflow: hidden;height: 60px;">${item.mark!''}</p>
                          </a>
                      </td>                          
                  </#if>                
@@ -365,8 +365,8 @@ function delItem(id)
 					       <#list OneFtransverse_ad_list as item>
 					           <#if item_index < 2>
 					               <td><a href="${item.linkUri!'#'}" class="a1">
-                                        <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p1" style="overflow: hidden;"><b>${item.title!''}</b></p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
 					           </#if>
@@ -386,7 +386,7 @@ function delItem(id)
                                <#if item_index gt 1 && item_index <4>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -452,7 +452,7 @@ function delItem(id)
                                <#if item_index < 2>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -465,7 +465,7 @@ function delItem(id)
                                <#if item_index gt 1 && item_index <4>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -517,7 +517,7 @@ function delItem(id)
                                <#if item_index < 1>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -535,7 +535,7 @@ function delItem(id)
                                <#if item_index gt 0 && item_index < 2>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -548,7 +548,7 @@ function delItem(id)
                                <#if item_index gt 1 && item_index < 4>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -614,7 +614,7 @@ function delItem(id)
                                <#if item_index < 2>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -627,7 +627,7 @@ function delItem(id)
                                <#if item_index gt 1 && item_index <4>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -679,7 +679,7 @@ function delItem(id)
                                <#if item_index < 2>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
@@ -699,7 +699,7 @@ function delItem(id)
                                <#if item_index gt 1 && item_index <4>
                                    <td><a href="${item.linkUri!'#'}" class="a1">
                                         <p class="p1"><b>${item.title!''}</b></p>
-                                        <p class="p2">${item.subtitle!''}</p>
+                                        <p class="p2" style="overflow: hidden;width: 150px;">${item.subtitle!''}</p>
                                         <img src="${item.fileUri!''}" width="170" height="153">
                                     </a></td>
                                </#if>
