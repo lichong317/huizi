@@ -7,7 +7,7 @@
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
 <!--[if IE]>
-   <script src="js/html5.js"></script>
+   <script src="/client/js/html5.js"></script>
 <![endif]-->
 <script src="/client/js/jquery-1.9.1.min.js"></script>
 <script src="/client/js/common.js"></script>
@@ -97,7 +97,7 @@ function btnPageSubmit()
                 <#if info_page??>
                     <#list info_page.content as item>
                         <li>
-                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title!''}</a>${item.createTime!''}
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title!''}</a>${item.createTime!''}&nbsp;&nbsp;&nbsp;<span>浏览次数：${item.viewCount!'0'}</span>
                         </li>
                     </#list>
                 </#if>           

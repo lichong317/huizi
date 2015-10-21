@@ -7,7 +7,7 @@
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
 <!--[if IE]>
-   <script src="js/html5.js"></script>
+   <script src="/client/js/html5.js"></script>
 <![endif]-->
 <script src="/client/js/jquery-1.9.1.min.js"></script>
 <script src="/client/js/common.js"></script>
@@ -50,6 +50,7 @@
         <div class="clear h15"></div>
         <div class="wenzhangxiangxi">            
             <h3>${info.title!''}</h3>
+            <p style="text-align:center">作者：${info.author!''}&nbsp;&nbsp;&nbsp;来源：${info.source!''}</p>
             <p style="text-align:center">${info.createTime!''}　</p>
             <p>${info.content!''}</p>   
         </div>

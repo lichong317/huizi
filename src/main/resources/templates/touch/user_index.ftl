@@ -28,7 +28,20 @@
 
 <section class="memberhead main">
    <#if user??>
-      <a href="#"><img src="${user.headImageUri!''}" /></a>
+      <a onclick="changeHeads();"><img src="${user.headImageUri!''}" width="100px" height="100px"/></a>
+                     <script>
+                        function changeHeads(){
+                            var filebutton = document.getElementById("filebutton");
+                            filebutton.click();
+                        }
+                        function getFile(){
+                            document.getElementById("uploadImgForm").submit();
+                            
+                        }
+                    </script>
+                    <form id="uploadImgForm" enctype="multipart/form-data" action="/user/center/headImg" method="post">
+                        <input style="display:none" name="Filedata" type="file" onchange="getFile();" id="filebutton">
+                    </from>
       <p class="white fs08 lh20 ta-c">${user.username!''}</p>
    </#if>
 </section>

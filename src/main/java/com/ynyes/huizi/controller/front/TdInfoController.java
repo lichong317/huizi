@@ -167,6 +167,11 @@ public class TdInfoController {
         
         if (null != tdArticle)
         {
+        	//浏览次数
+        	if (null != tdArticle.getViewCount()) {
+        		tdArticle.setViewCount(tdArticle.getViewCount()+1);
+        		tdArticleService.save(tdArticle);
+			}        	
             map.addAttribute("info", tdArticle);
             map.addAttribute("prev_info", tdArticleService.findPrevOne(id, tdArticle.getCategoryId(), tdArticle.getMenuId()));
             map.addAttribute("next_info", tdArticleService.findNextOne(id, tdArticle.getCategoryId(), tdArticle.getMenuId()));

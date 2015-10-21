@@ -152,8 +152,8 @@ public class TdManagerSettingController {
         tdManagerLogService.addLog("edit", "修改商城服务", req);
         
         return "redirect:/Verwalter/setting/service/list";
-    }
-
+    }  
+    
     @ModelAttribute
     public void getModel(@RequestParam(value = "id", required = false) Long id,
                             @RequestParam(value = "serviceItemId", required = false) Long serviceItemId,

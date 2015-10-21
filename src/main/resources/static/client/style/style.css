@@ -669,7 +669,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 
 /*article */
 .wenzhangliebiao li{font-size:14px; border-bottom:dashed 1px #ccc; line-height:50px;}
-.wenzhangliebiao li a{width:800px; float:left;}
+.wenzhangliebiao li a{width:710px; float:left;}
 .wenzhangxiangxi h3{font-size:20px; text-align:center; line-height:50px; margin-bottom:20px;}
 .wenzhangxiangxi p{font-size:16px; line-height:30px;}
 .next{ width:100%; margin-top:20px; height:40px; float:left; border-bottom-style:solid; border-bottom-width:1px; border-bottom-color:#CCC;}

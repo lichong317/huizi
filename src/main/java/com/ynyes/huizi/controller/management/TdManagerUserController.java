@@ -22,6 +22,7 @@ import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserComment;
+import com.ynyes.huizi.entity.TdUserComplain;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserReturn;
@@ -30,6 +31,7 @@ import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
+import com.ynyes.huizi.service.TdUserComplainService;
 import com.ynyes.huizi.service.TdUserConsultService;
 import com.ynyes.huizi.service.TdUserLevelService;
 import com.ynyes.huizi.service.TdUserPointService;
@@ -59,6 +61,9 @@ public class TdManagerUserController {
     
     @Autowired
     TdUserCommentService tdUserCommentService;
+    
+    @Autowired
+    TdUserComplainService tdUserComplainService;
     
     @Autowired
     TdUserReturnService tdUserReturnService;
@@ -528,6 +533,64 @@ public class TdManagerUserController {
         return "redirect:/Verwalter/user/comment/list?statusId=" + __VIEWSTATE;
     }
     
+    @RequestMapping(value="/complain/edit")
+    public String complainEdit(Long id,
+                        Long statusId,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        if (null != id)
+        {
+            map.addAttribute("userComplainId", id);
+            map.addAttribute("user_complain", tdUserComplainService.findOne(id));
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        map.addAttribute("statusId", statusId);
+        
+        return "/site_mag/user_complain_edit";
+    }
+    
+    @RequestMapping(value="/complain/save")
+    public String complainSave(TdUserComplain tdUserComplain,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        
+        if (null == tdUserComplain.getIsReplied() || !tdUserComplain.getIsReplied())
+        {
+        	tdUserComplain.setIsReplied(true);
+        	tdUserComplain.setReplyTime(new Date());
+        }
+        
+        if (null == tdUserComplain.getId())
+        {
+            tdManagerLogService.addLog("add", "修改用户投诉", req);
+        }
+        else
+        {
+            tdManagerLogService.addLog("edit", "修改用户投诉", req);
+        }
+        
+        
+        tdUserComplainService.save(tdUserComplain);
+        
+        return "redirect:/Verwalter/user/complain/list?statusId=" + __VIEWSTATE;
+    }
+    
     @RequestMapping(value="/return/edit")
     public String returnEdit(Long id,
                         Long statusId,
@@ -796,6 +859,11 @@ public class TdManagerUserController {
                 map.addAttribute("user_return_page", findTdUserReturn(statusId, keywords, page, size));
                 return "/site_mag/user_return_list";
             }
+            else if (type.equalsIgnoreCase("complain")) // 投诉
+            {
+                map.addAttribute("user_complain_page", findTdUserComplain(statusId, keywords, page, size));
+                return "/site_mag/user_complain_list";
+            }
             else if (type.equalsIgnoreCase("cancel")) // 取消订单 zhangji
             {
                 map.addAttribute("user_cancel_page", findTdUserCancel( isRefund,page, size));
@@ -812,6 +880,7 @@ public class TdManagerUserController {
                     @RequestParam(value = "userConsultId", required = false) Long userConsultId,
                     @RequestParam(value = "userCommentId", required = false) Long userCommentId,
                     @RequestParam(value = "userReturnId", required = false) Long userReturnId,
+                    @RequestParam(value = "userComplainId", required = false) Long userComplainId,
                         Model model) {
         if (null != userId) {
             model.addAttribute("tdUser", tdUserService.findOne(userId));
@@ -831,6 +900,10 @@ public class TdManagerUserController {
         
         if (null != userReturnId) {
             model.addAttribute("tdUserReturn", tdUserReturnService.findOne(userReturnId));
+        }
+        
+        if (null != userComplainId) {
+            model.addAttribute("tdUserComplain", tdUserComplainService.findOne(userComplainId));
         }
     }
     
@@ -888,6 +961,36 @@ public class TdManagerUserController {
             else
             {
                 dataPage = tdUserCommentService.searchAndFindByStatusIdOrderByIdDesc(keywords, statusId, page, size);
+            }
+        }
+
+        return dataPage;
+    }
+    
+    private Page<TdUserComplain> findTdUserComplain(Long statusId, String keywords, int page, int size)
+    {
+        Page<TdUserComplain> dataPage = null;
+        
+        if (null == statusId)
+        {
+            if (null == keywords || "".equalsIgnoreCase(keywords))
+            {
+                dataPage = tdUserComplainService.findAllOrderByIdDesc(page, size);
+            }
+            else
+            {
+                dataPage = tdUserComplainService.searchAndOrderByIdDesc(keywords, page, size);
+            }
+        }
+        else
+        {
+            if (null == keywords || "".equalsIgnoreCase(keywords))
+            {
+                dataPage = tdUserComplainService.findByStatusIdOrderByIdDesc(statusId, page, size);
+            }
+            else
+            {
+                dataPage = tdUserComplainService.searchAndFindByStatusIdOrderByIdDesc(keywords, statusId, page, size);
             }
         }
 
@@ -1015,6 +1118,19 @@ public class TdManagerUserController {
                     }
                 }
             }
+            else if (type.equalsIgnoreCase("complain")) // 投诉
+            {
+                TdUserComplain e = tdUserComplainService.findOne(id);
+                
+                if (null != e)
+                {
+                    if (sortIds.length > i)
+                    {
+                        e.setSortId(sortIds[i]);
+                        tdUserComplainService.save(e);
+                    }
+                }
+            }
             else if (type.equalsIgnoreCase("return")) // 退换货
             {
                 TdUserReturn e = tdUserReturnService.findOne(id);
@@ -1062,6 +1178,10 @@ public class TdManagerUserController {
                 {
                     tdUserCommentService.delete(id);
                 }
+                else if (type.equalsIgnoreCase("complain")) // 投诉
+                {
+                    tdUserComplainService.delete(id);
+                }
                 else if (type.equalsIgnoreCase("return")) // 退换货
                 {
                     tdUserReturnService.delete(id);
@@ -1103,6 +1223,16 @@ public class TdManagerUserController {
                     {
                         e.setStatusId(1L);
                         tdUserCommentService.save(e);
+                    }
+                }
+                else if (type.equalsIgnoreCase("complain")) // 投诉
+                {
+                    TdUserComplain e = tdUserComplainService.findOne(id);
+                    
+                    if (null != e)
+                    {
+                        e.setStatusId(1L);
+                        tdUserComplainService.save(e);
                     }
                 }
                 else if (type.equalsIgnoreCase("return")) // 退换货

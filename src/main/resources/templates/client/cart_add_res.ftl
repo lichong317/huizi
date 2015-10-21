@@ -5,6 +5,11 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
+
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
+
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
@@ -17,6 +22,8 @@
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
 <script src="/client/js/mymember.js"></script>
+
+
 
 <script type="text/javascript">
   $(document).ready(function(){

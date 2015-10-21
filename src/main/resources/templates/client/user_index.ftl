@@ -5,6 +5,9 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
@@ -91,7 +94,17 @@ function orderReceive(id)
       <table>
         <tr>
           <th width="150" rowspan="2">
-          <a class="mymember_header" href="#"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" /></a></th>
+          <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a></th>
+               <script>
+                        function changeHeads(){
+                            var filebutton = document.getElementById("filebutton");
+                            filebutton.click();
+                        }
+                        function getFile(){
+                            document.getElementById("uploadImgForm").submit();
+                            
+                        }
+              </script>
           <td><a href="/user/order/list/2"><img src="/client/images/mymember/buy01.png" />待付款：<span>${total_unpayed!0}</span></a></td>
           <td><a href="/user/order/list/3"><img src="/client/images/mymember/buy02.png" />待发货：<span>${total_undelivered!0}</span></a></td>
           <th rowspan="2" class="mymember_fen">
@@ -104,7 +117,9 @@ function orderReceive(id)
         </tr>
       </table>
     </div>
-    
+                <form id="uploadImgForm" enctype="multipart/form-data" action="/user/center/headImg" method="post">
+                    <input style="display:none" name="Filedata" type="file" onchange="getFile();" id="filebutton">
+                </from>
     <div class="mymember_info mymember_info02">
     <h3>我的订单<a href="/user/order/list/0">查看全部订单</a></h3>
         <table width="100%">              

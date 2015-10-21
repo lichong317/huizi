@@ -5,6 +5,9 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
@@ -59,8 +62,25 @@ function showComplainTr(i, j)
   
     <div class="mymember_mainbox">
       <div class="mymember_info mymember_info02">
-        <div class="mymember_order_search"> <a class="a001" href="#">投诉</a>
-          <form action ="/user/complain/list">
+        <div class="mymember_order_search"> <a class="a001" href="#">投诉</a> 
+          <form  name="form1" action ="/user/complain/list" >  
+<script type="text/javascript">
+    var theForm = document.forms['form1'];
+    if (!theForm) {
+        theForm = document.form1;
+    }
+    function __doPostBack(eventTarget, eventArgument) {
+        if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+            theForm.submit();
+        }
+    }
+</script>
+               <select name="states" onchange="javascript:setTimeout(__doPostBack('statusId',''), 0)" style="margin-left:10px">
+                     <option value="0" <#if !states?? || states==0>selected="selected"</#if>>所有订单</option>
+                     <option value="1" <#if states==1>selected="selected"</#if>>已投诉订单</option>                                              
+               </select>
+          </form>     
+          <form  action ="/user/complain/list">
                <input class="mysub" type="submit" value="查询" />
                <input class="mytext" name="keywords" type="text" onFocus="if(value=='商品名称、订单编号') {value=''}" onBlur="if (value=='') {value='商品名称、订单编号'}"  value="商品名称、订单编号" />
           </form>
@@ -88,34 +108,60 @@ function showComplainTr(i, j)
               </table></td>
             <td ><p>${item.orderTime?string("yyyy-MM-dd")}</p>
               <p>${item.orderTime?string("HH-mm-ss")}</p></td>
-			  <td><a href="javascript:evaluateShow('mymember_eva${item.id?c}','mymember_evabox');">我要投诉</a></td>
+              <#if ("complain_"+item.id)?eval??>
+			     <td><a href="javascript:evaluateShow('mymember_eva${item.id?c}','mymember_evabox');">查看投诉</a></td>
+			  <#else>
+			     <td><a href="javascript:evaluateShow('mymember_eva${item.id?c}','mymember_evabox');">我要投诉</a></td>
+			  </#if>
           </tr>
-		     <tr id="mymember_eva${item.id?c}" class="mymember_evabox">
-          <td class="td004" colspan="4">
-            <form class="complainForm${item.id?c}" action="/user/complain/add">
-            <input type="hidden" name="orderId" value=${item.id?c} />
-            <input type="hidden" name="orderNumber" value=${item.orderNumber} />
-            <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
-            <div class="mymember_eva_div">
-			涉及订单：${item.orderNumber!''}&nbsp;&nbsp;&nbsp;&nbsp;投诉类型： <select name="type">
-              <option value="产品相关">产品相关</option>
-              <option value="价格相关">价格相关</option>
-              <option value="服务相关">服务相关</option>
-              <option value="物流相关">物流相关</option>
-              <option value="其他相关">其它相关</option>
-            </select>
-          
-            </div>
-            <div class="mymember_eva_div">
-              <b><font>* </font>投诉内容：</b>
-              <textarea name="content" datatype="*5-255"></textarea>
-            </div>         
-            <div class="mymember_eva_div">
-              <input class="mysub" type="submit" value="提交我的投诉" />
-            </div>
-            </form>
-          </td>
-        </tr>
+            <#if ("complain_"+item.id)?eval??>
+                 <tr id="mymember_eva${item.id?c}"  class="mymember_evabox">
+                  <td class="td004" colspan="4">                                       
+                    <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
+                    <div class="mymember_eva_div">
+                                                                     涉及订单：${item.orderNumber!''}&nbsp;&nbsp;&nbsp;&nbsp;投诉类型： <select name="type">
+                      <option value="产品相关" <#if ("complain_"+item.id)?eval.type=="产品相关">selected="selected"</#if>>产品相关</option>
+                      <option value="价格相关"<#if ("complain_"+item.id)?eval.type=="价格相关">selected="selected"</#if>>价格相关</option>
+                      <option value="服务相关"<#if ("complain_"+item.id)?eval.type=="服务相关">selected="selected"</#if>>服务相关</option>
+                      <option value="物流相关"<#if ("complain_"+item.id)?eval.type=="物流相关">selected="selected"</#if>>物流相关</option>
+                      <option value="其他相关"<#if ("complain_"+item.id)?eval.type=="其他相关">selected="selected"</#if>>其它相关</option>
+                    </select>
+                  
+                    </div>
+                    <div class="mymember_eva_div">
+                      <b><font>* </font>投诉内容：</b>
+                      <textarea name="content" datatype="*5-255">${("complain_"+item.id)?eval.content!''}</textarea>
+                    </div>                             
+                  </td>
+                </tr>
+            <#else>
+    		     <tr id="mymember_eva${item.id?c}" class="mymember_evabox">
+                  <td class="td004" colspan="4">
+                    <form class="complainForm${item.id?c}" action="/user/complain/add">
+                    <input type="hidden" name="orderId" value=${item.id?c} />
+                    <input type="hidden" name="orderNumber" value=${item.orderNumber} />
+                    <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
+                    <div class="mymember_eva_div">
+        			涉及订单：${item.orderNumber!''}&nbsp;&nbsp;&nbsp;&nbsp;投诉类型： <select name="type">
+                      <option value="产品相关">产品相关</option>
+                      <option value="价格相关">价格相关</option>
+                      <option value="服务相关">服务相关</option>
+                      <option value="物流相关">物流相关</option>
+                      <option value="其他相关">其它相关</option>
+                    </select>
+                  
+                    </div>
+                    <div class="mymember_eva_div">
+                      <b><font>* </font>投诉内容：</b>
+                      <textarea name="content" datatype="*5-255"></textarea>
+                    </div>         
+                    <div class="mymember_eva_div">
+                      <input class="mysub" type="submit" value="提交我的投诉" />
+                    </div>
+                    </form>
+                  </td>
+                </tr>
+            </#if>
 <script>        
         $(document).ready(function(){  
      //初始化表单验证
@@ -125,7 +171,7 @@ function showComplainTr(i, j)
         callback: function(data) {
             if (data.code==0)
             {
-                alert("提交投诉成功");
+                alert("提交投诉成功!我们会尽快回复");
                 window.location.reload();
             }
             else

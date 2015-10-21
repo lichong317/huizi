@@ -223,8 +223,16 @@
             <dt>
                 <span id="div_source_title">信息来源</span></dt>
             <dd>
-                <input name="source" type="text" value="<#if article??>${article.title!""}<#else>本站</#if>" id="field_control_source" class="input normal">
+                <input name="source" type="text" value="<#if article??>${article.source!""}<#else>本站</#if>" id="field_control_source" class="input normal">
                 <span id="div_source_tip" class="Validform_checktip">非必填，最多50个字符</span>
+            </dd>
+        </dl>
+        
+        <dl>
+            <dt>作者</dt>
+            <dd>
+                <input name="author" type="text" value="<#if article??>${article.author!""}</#if>" id="txtTitle" class="input normal" datatype="*2-100" sucmsg=" ">
+                <span class="Validform_checktip">*最多100个字符</span>
             </dd>
         </dl>
         

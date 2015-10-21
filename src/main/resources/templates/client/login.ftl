@@ -5,11 +5,17 @@
 <meta name="keywords" content="${site.seoKeywords!''}" />
 <meta name="description" content="${site.seoDescription!''}" />
 <meta name="copyright" content="${site.copyright!''}" />
+
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
+
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/mymember.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
+
 <!--<link href="css/member.css" rel="stylesheet" type="text/css" />-->
 <script type="text/javascript" src="/client/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>

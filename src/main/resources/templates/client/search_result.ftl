@@ -7,6 +7,9 @@
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="<#if site??>${site.copyright!''}</#if>" />
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
 <script type="text/javascript" src="/client/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/client/js/common.js"></script>
 <script type="text/javascript" src="/client/js/ljs-v1.01.js"></script>

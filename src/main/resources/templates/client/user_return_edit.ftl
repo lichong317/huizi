@@ -6,6 +6,9 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
@@ -98,7 +101,7 @@ $(function () {
 			    <td> <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
 			            <input type="hidden" name="id" value="${orderId?c}" />
 			            <input type="hidden" name="goodsId" value="${goodsId?c}" />
-			            <input type="hidden" name="telephone" value="${telephone}" />
+			            <input type="hidden" name="telephone" value="${telephone!''}" />
 			            <div style="height:30px;margin-top:30px;">
 			           		  <label style="float:left;margin-left:200px;"><input type="radio" name="isReturn" value="true" <#if has_returned??&&has_returned&&return.isReturn?? && return.isReturn> checked="checked" </#if>/>退货</label>
 			                  <label style="float:left;margin-left:30px;"><input type="radio" datatype="*" name="isReturn" value="false" <#if has_returned??&&has_returned&&return.isReturn?? && !return.isReturn> checked="checked" </#if>/>换货</label>

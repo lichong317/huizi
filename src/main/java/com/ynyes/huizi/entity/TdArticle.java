@@ -82,6 +82,10 @@ public class TdArticle {
     @Column
     private String source;
     
+    // 作者
+    @Column
+    private String author;
+    
     // SEO标题
     @Column
     private String seoTitle;
@@ -134,7 +138,15 @@ public class TdArticle {
         this.callIndex = callIndex;
     }
 
-    public String getTitle() {
+    public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getTitle() {
         return title;
     }
 

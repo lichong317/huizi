@@ -7,6 +7,9 @@
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
 <link href="/client/style/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/master.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/mymember.css" rel="stylesheet" type="text/css" />

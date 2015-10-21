@@ -12,6 +12,10 @@
 <link href="/client/css/gwc.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 
+<!--[if IE]>
+   <script src="/client/js/html5.js"></script>
+<![endif]-->
+
 <!--<link href="/client/css/member.css" rel="stylesheet" type="text/css" />-->
 <script src="/client/js/jquery-1.9.1.min.js"></script>
 <script src="/client/js/common.js"></script>

@@ -169,6 +169,21 @@ public class TdOrderService {
         
         return repository.findByUsernameAndOrderNumberContainingOrderByIdDesc(username, keywords, pageRequest);
     }
+    
+    public Page<TdOrder> findByisComplainedByusernameAndSearch(List<Long> orderids, String keywords, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIdInAndOrderNumberContainingOrderByIdDesc(orderids, keywords, pageRequest);
+    }
+    
+    public Page<TdOrder> findByisComplainedByusername(List<Long> orderids, int page, int size)
+    {
+        PageRequest pageRequest = new PageRequest(page, size);
+        
+        return repository.findByIdInOrderByIdDesc(orderids, pageRequest);
+    }
+    
     public Page<TdOrder> findByUsernameAndStatusIdNotAndSearch(String username, Long StatusId, String keywords, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
