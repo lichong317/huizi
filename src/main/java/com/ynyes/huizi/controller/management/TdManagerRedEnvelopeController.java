@@ -148,7 +148,7 @@ public class TdManagerRedEnvelopeController {
 	     {
 	            if (__EVENTTARGET.equalsIgnoreCase("btnDelete"))
 	            {
-	                btnTypeDelete(listId, listChkId);
+	            	btnDelete(listId, listChkId);
 	                tdManagerLogService.addLog("delete", "删除发放红包记录", req);
 	            }
 //	            else if (__EVENTTARGET.equalsIgnoreCase("btnSave"))

@@ -16,9 +16,13 @@ public class TdRedEnvelope {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private Long id;
 	 
-	 // 奖项类别id
+	 // 红包类别id
 	 @Column
 	 private Long typeId;
+	 
+	 // 红包名称
+	 @Column
+	 private String typeTitle;
 	 	 
 	 //奖品类型  0: 积分  1:优惠券  
 	 @Column
@@ -40,7 +44,16 @@ public class TdRedEnvelope {
 	 @Column
 	 private String username;
 	 
+	 // 是否领取
+	 @Column
+	 private Boolean isGet;
+	 
 	 // 发放日期
+	 @Column
+	 @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	 private Date sendTime;
+	 
+	// 领取日期
 	 @Column
 	 @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	 private Date getTime;
@@ -77,6 +90,14 @@ public class TdRedEnvelope {
 		this.couponTypeId = couponTypeId;
 	}
 
+	public String getTypeTitle() {
+		return typeTitle;
+	}
+
+	public void setTypeTitle(String typeTitle) {
+		this.typeTitle = typeTitle;
+	}
+
 	public String getCouponTitle() {
 		return couponTitle;
 	}
@@ -99,6 +120,22 @@ public class TdRedEnvelope {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Boolean getIsGet() {
+		return isGet;
+	}
+
+	public void setIsGet(Boolean isGet) {
+		this.isGet = isGet;
+	}
+
+	public Date getSendTime() {
+		return sendTime;
+	}
+
+	public void setSendTime(Date sendTime) {
+		this.sendTime = sendTime;
 	}
 
 	public Date getGetTime() {

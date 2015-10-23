@@ -180,6 +180,15 @@ public class TdGoodsService {
         return repository.findByIdAndIsOnSaleTrue(ids);
     }
 
+    //查找新品推荐上架商品按id排序
+    public Page<TdGoods> findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(
+            int page, int size) {
+        PageRequest pageRequest = new PageRequest(page, size);
+
+        return repository
+                .findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(pageRequest);
+    }
+    
     /**
 	 * @author lc
 	 * @注释：后台商品删选

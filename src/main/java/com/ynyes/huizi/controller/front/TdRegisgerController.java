@@ -249,6 +249,7 @@ public class TdRegisgerController {
                 userPoint = tdUserPointService.save(userPoint);
                 
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
+                sharedUser.setRoleId(1L);
                 tdUserService.save(sharedUser);
                 
                 //用户层级关系

@@ -2,6 +2,7 @@ package com.ynyes.huizi.controller.management;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,15 +20,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdUserPoint;
+import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdOrder;
+import com.ynyes.huizi.entity.TdRedEnvelope;
+import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserComplain;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserReturn;
+import com.ynyes.huizi.repository.TdUserPointRepo;
+import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdRedEnvelopeService;
+import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
@@ -84,6 +92,15 @@ public class TdManagerUserController {
     TdManagerLogService tdManagerLogService;
     
     @Autowired
+    TdRedEnvelopeService tdRedEnvelopeService;
+    
+    @Autowired
+    TdRedEnvelopeTypeService tdRedEnvelopeTypeService;
+    
+    @Autowired
+    TdCouponTypeService tdCouponTypeService;
+    
+    @Autowired
     TdOrderService tdOrderService; //zhangji
     
     @RequestMapping(value="/check", method = RequestMethod.POST)
@@ -126,6 +143,7 @@ public class TdManagerUserController {
                           Integer size,
                           String keywords,
                           Long roleId,
+                          Long userLevelId,
                           String __EVENTTARGET,
                           String __EVENTARGUMENT,
                           String __VIEWSTATE,
@@ -172,38 +190,156 @@ public class TdManagerUserController {
         map.addAttribute("size", size);
         map.addAttribute("keywords", keywords);
         map.addAttribute("roleId", roleId);
+        map.addAttribute("userLevelId", userLevelId);
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
 
+        // 等级list
+        map.addAttribute("userLevelId_list", tdUserLevelService.findIsEnableTrue());
+        
+        // 红包类别
+        map.addAttribute("redEnvelopetype_list", tdRedEnvelopeTypeService.findAllOrderBySortId());
+        
         Page<TdUser> userPage = null;
         
         if (null == roleId)
         {
             if (null == keywords || "".equalsIgnoreCase(keywords))
             {
-                userPage = tdUserService.findAllOrderBySortIdAsc(page, size);
+                if (null == userLevelId) 
+                {
+                	userPage = tdUserService.findAllOrderByIdDesc(page, size);
+				}
+                else 
+                {
+                	userPage = tdUserService.findByUserLevelIdOrderByIdDesc(userLevelId, page, size);
+				}
             }
             else
-            {
-                userPage = tdUserService.searchAndOrderByIdDesc(keywords, page, size);
+            {                
+                if (null == userLevelId) 
+                {
+                	userPage = tdUserService.searchAndOrderByIdDesc(keywords, page, size);
+				}
+                else
+                {
+                	userPage = tdUserService.searchAndfindByUserLevelIdOrderByIdDesc(keywords, userLevelId, page, size);
+                }
             }
         }
         else
         {
             if (null == keywords || "".equalsIgnoreCase(keywords))
-            {
-                userPage = tdUserService.findByRoleIdOrderByIdDesc(roleId, page, size);
+            {               
+                if (null == userLevelId) {
+                	userPage = tdUserService.findByRoleIdOrderByIdDesc(roleId, page, size);
+				}
+                else
+                {
+                	userPage = tdUserService.findByRoleIdAndUserLevelIdOrderByIdDesc(roleId, userLevelId, page, size);
+                }
             }
             else
-            {
-                userPage = tdUserService.searchAndFindByRoleIdOrderByIdDesc(keywords, roleId, page, size);
+            {               
+                if (null == userLevelId) {
+                	userPage = tdUserService.searchAndFindByRoleIdOrderByIdDesc(keywords, roleId, page, size);
+				}
+                else
+                {
+                	userPage = tdUserService.searchAndFindByRoleIdAndUserLevelIdOrderByIdDesc(keywords, roleId, userLevelId, page, size);
+                }
             }
         }
         
         map.addAttribute("user_page", userPage);
         
         return "/site_mag/user_list";
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：红包发送
+	 */
+    @RequestMapping(value="/redEnevlope/send", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> sendRedEnvelope(Long typeId,
+    							  String type, String username,
+    							  ModelMap map,
+            					  HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        if (null == typeId) {
+        	res.put("message", "请选择红包类型");
+            return res;
+		}
+        
+        if (null == type) {
+        	res.put("message", "发送失败");
+        	return res;
+		}
+        
+        // 红包类型
+        TdRedEnvelopeType tdRedEnvelopeType = tdRedEnvelopeTypeService.findOne(typeId);
+        
+        if (null != tdRedEnvelopeType) {
+        	if (type.equalsIgnoreCase("sendtoAll")) {
+    			List<TdUser> tdUsers = tdUserService.findAll();
+    			for(TdUser tdUser : tdUsers){
+    				TdRedEnvelope tdRedEnvelope = new TdRedEnvelope();
+    				
+    				tdRedEnvelope.setTypeId(tdRedEnvelopeType.getId());
+    				tdRedEnvelope.setTypeTitle(tdRedEnvelopeType.getTitle());
+    				tdRedEnvelope.setRedEnvelopeType(tdRedEnvelopeType.getRedEnvelopeType());
+    				
+    				if (tdRedEnvelopeType.getRedEnvelopeType().equals(0L) && null != tdRedEnvelopeType.getPrizePoints()) {
+						tdRedEnvelope.setPrizePoints(tdRedEnvelopeType.getPrizePoints());
+					}else if (tdRedEnvelopeType.getRedEnvelopeType().equals(1L) && null != tdRedEnvelopeType.getCouponTypeId()) {
+						tdRedEnvelope.setCouponTypeId(tdRedEnvelopeType.getCouponTypeId());
+						TdCouponType tdCouponType = tdCouponTypeService.findOne(tdRedEnvelopeType.getCouponTypeId());
+						tdRedEnvelope.setCouponTitle(tdCouponType.getTitle());
+					}
+    				
+    				tdRedEnvelope.setUsername(tdUser.getUsername());
+    				tdRedEnvelope.setIsGet(false);
+    				tdRedEnvelope.setSendTime(new Date());
+    				
+    				tdRedEnvelopeService.save(tdRedEnvelope);
+    			}
+    		}
+        	else if (type.equalsIgnoreCase("sendtoOne")) {
+				if (null == username) {
+					res.put("message", "请选择发放用户");
+		            return res;
+				}
+				
+				TdRedEnvelope tdRedEnvelope = new TdRedEnvelope();
+				
+				tdRedEnvelope.setTypeId(tdRedEnvelopeType.getId());
+				tdRedEnvelope.setTypeTitle(tdRedEnvelopeType.getTitle());
+				tdRedEnvelope.setRedEnvelopeType(tdRedEnvelopeType.getRedEnvelopeType());
+				
+				if (tdRedEnvelopeType.getRedEnvelopeType().equals(0L) && null != tdRedEnvelopeType.getPrizePoints()) {
+					tdRedEnvelope.setPrizePoints(tdRedEnvelopeType.getPrizePoints());
+				}else if (tdRedEnvelopeType.getRedEnvelopeType().equals(1L) && null != tdRedEnvelopeType.getCouponTypeId()) {
+					tdRedEnvelope.setCouponTypeId(tdRedEnvelopeType.getCouponTypeId());
+					TdCouponType tdCouponType = tdCouponTypeService.findOne(tdRedEnvelopeType.getCouponTypeId());
+					tdRedEnvelope.setCouponTitle(tdCouponType.getTitle());
+				}
+				
+				tdRedEnvelope.setUsername(username);
+				tdRedEnvelope.setIsGet(false);
+				tdRedEnvelope.setSendTime(new Date());
+				
+				tdRedEnvelopeService.save(tdRedEnvelope);
+			}
+		}
+        
+        res.put("code", 0);
+        
+        return  res;
     }
     
     @RequestMapping(value="/edit")

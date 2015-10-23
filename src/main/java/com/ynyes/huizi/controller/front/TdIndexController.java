@@ -1,6 +1,8 @@
 package com.ynyes.huizi.controller.front;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdArticleCategory;
@@ -48,17 +51,46 @@ public class TdIndexController {
     private TdProductCategoryService tdProductCategoryService;
 
     @Autowired
-    private TdSiteLinkService tdSiteLinkService;
-
-    @Autowired
     private TdAdTypeService tdAdTypeService;
 
     @Autowired
     private TdAdService tdAdService;
 
-    @Autowired
-    private TdBrandService tdBrandService;
-
+    
+    @RequestMapping(value="index/getNewProduct")
+    @ResponseBody
+    public Map<String, Object> getNewProduct(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        res.put("data", tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
+    @RequestMapping(value="index/getPromotion")
+    @ResponseBody
+    public Map<String, Object> getPromotion(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        res.put("groupSalingdata", tdGoodsService.findByGroupSalingOrderByGroupSaleStartTimeAsc(0, ClientConstant.pageSize));
+        
+        res.put("flashSalingdata", tdGoodsService.findByFlashSalingOrderByFlashSaleStartTimeAsc(0, ClientConstant.pageSize));
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
+    
+    
     @RequestMapping
     public String index(HttpServletRequest req, Device device, ModelMap map) {
     	 // 触屏

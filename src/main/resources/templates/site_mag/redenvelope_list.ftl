@@ -63,7 +63,9 @@ function __doPostBack(eventTarget, eventArgument) {
     <th width="8%">选择</th>
     <th align="left">发放用户</th>
     <th align="left" width="17%">奖品</th>
-    <th align="left" width="17%">发放日期</th> 
+    <th align="center" width="17%">发放日期</th> 
+    <th align="left" width="17%">是否领取</th> 
+    <th align="center" width="17%">领取日期</th> 
     <#--><th align="left" width="12%">排序</th>
     <th width="10%">操作</th>-->
   </tr>
@@ -85,6 +87,16 @@ function __doPostBack(eventTarget, eventArgument) {
                 <#elseif item.redEnvelopeType == 2>
                     <td><a href="/Verwalter/goods/edit<#if item.goodsId??>?id=${item.goodId?c}</#if>">${item.goodsTitle!''}</a></td>
                 </#if>               
+                <td align="center"><#if item.sendTime??>${item.sendTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+                <td>
+                    <#if item.isGet??>
+                        <#if item.isGet>
+                                                                                                  已领取
+                        <#else>
+                                                                                                  未领取
+                        </#if>
+                    </#if>
+                </td>
                 <td align="center"><#if item.getTime??>${item.getTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
               </tr>
         </#list>

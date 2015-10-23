@@ -30,6 +30,99 @@ var theForm = document.forms['form1'];
             theForm.submit();
         }
     }
+    
+$(function () {
+      //$("#btnSendtoAll").click(function () { RedEnvelopetoAll(); });   //发送红包给所有用户
+     // $("#btnSendtoOne").click(function () { RedEnvelopetoOne(); });   //发送红包给指定用户
+});    
+
+     //发送红包给所有用户
+     function RedEnvelopetoAll() {
+          var dialog = $.dialog({
+                title: '选择红包类别',
+                content: '<div class="rule-single-select single-select">'
+                            +'<select name="typeId" id="redEnvelopetypeId">'                           
+                               //+'<option value="">选择红包</option>'
+                                +'<#if redEnvelopetype_list??>'
+                                    +'<#list redEnvelopetype_list as item>'
+                                        +'<option  value="${item.id?c}">${item.title!''}</option>'
+                                    +'</#list>'
+                                +'</#if>   '                     
+                            +'</select>'
+                          +'</div>',
+                min: false,
+                max: false,
+                lock: true,
+                ok: function () {
+                    var typeId = $("#redEnvelopetypeId", parent.document).val();
+                    if (typeId == "") {
+                        $.dialog.alert('对不起，请选择红包！', function () { }, dialog);
+                        return false;
+                    }
+                    //var username = $.trim($("#spanOrderNumber").text());
+                    var postData = { "type": "sendtoAll", "typeId": typeId };
+                    //发送AJAX请求
+                    sendAjaxUrl(dialog, postData, "/Verwalter/user/redEnevlope/send");
+                    return false;
+                },
+                cancel: true
+          });
+      }
+    
+     //发送红包给指定用户
+     function RedEnvelopetoOne(username) {
+
+          var dialog = $.dialog({
+                title: '选择红包类别',
+                content: '<div class="rule-single-select single-select">'
+                            +'<select name="typeId" id="redEnvelopetypeId">'                           
+                               //+'<option value="">选择红包</option>'
+                                +'<#if redEnvelopetype_list??>'
+                                    +'<#list redEnvelopetype_list as item>'
+                                        +'<option  value="${item.id?c}">${item.title!''}</option>'
+                                    +'</#list>'
+                                +'</#if>   '                     
+                            +'</select>'
+                          +'</div>',
+                min: false,
+                max: false,
+                lock: true,
+                ok: function () {
+                    var typeId = $("#redEnvelopetypeId", parent.document).val();
+                    if (typeId == "") {
+                        $.dialog.alert('对不起，请选择红包！', function () { }, dialog);
+                        return false;
+                    }
+
+                    var postData = {"username": username, "type": "sendtoOne", "typeId": typeId };
+                    //发送AJAX请求
+                    sendAjaxUrl(dialog, postData, "/Verwalter/user/redEnevlope/send");
+                    return false;
+                },
+                cancel: true
+          });
+      }
+    
+ //发送AJAX请求
+        function sendAjaxUrl(winObj, postData, sendUrl) {
+            $.ajax({
+                type: "post",
+                url: sendUrl,
+                data: postData,
+                dataType: "json",
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.dialog.alert('尝试发送失败，错误信息：' + errorThrown, function () { }, winObj);
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        winObj.close();
+                        $.dialog.tips(data.msg, 2, '32X32/succ.png', function () { location.reload(); }); //刷新页面
+                    } else {
+                        $.dialog.alert('错误提示：' + data.message, function () { }, winObj);
+                    }
+                }
+            });
+        }
 </script>
 <!--导航栏-->
 <div class="location" style="position: static; top: 0px;">
@@ -56,10 +149,23 @@ var theForm = document.forms['form1'];
         <select name="roleId" onchange="javascript:setTimeout(__doPostBack('roleId',''), 0)" style="display: none;">
         	<option <#if !roleId??>selected="selected"</#if> value="">所有用户组</option>
         	<option <#if roleId?? && roleId==0>selected="selected"</#if> value="0">普通会员</option>
-        	<option <#if roleId?? && roleId==1>selected="selected"</#if> value="1">分销商</option>
+        	<option <#if roleId?? && roleId==1>selected="selected"</#if> value="1">分销用户</option>
+        </select>
+        </div>
+        <div class="rule-single-select single-select">
+        <select name="userLevelId" onchange="javascript:setTimeout(__doPostBack('userLevelId',''), 0)" style="display: none;">
+            <option <#if !userLevelId??>selected="selected"</#if> value="">所有用户等级</option>
+            <#if userLevelId_list??>
+                <#list userLevelId_list as item>
+                    <option <#if userLevelId?? && userLevelId==item.levelId>selected="selected"</#if> value="${item.id?c}">${item.title!''}</option>
+                </#list>
+            </#if>                        
         </select>
         </div>
       </div>
+      <ul class="icon-list">
+        <li><a class="folder" href="javascript:RedEnvelopetoAll()" ><i></i><span>发送红包给所有用户</span></a></li>
+      </ul>
     </div>
     <div class="r-list">
       <input name="keywords" type="text" class="keyword" value="${keywords!""}">
@@ -108,6 +214,7 @@ var theForm = document.forms['form1'];
                       <a class="amount" href="/Verwalter/user/point/list?userId=${user.id?c}" title="积分">积分</a>
                       <a class="point" href="/Verwalter/user/collect/list?userId=${user.id?c}" title="关注商品">关注商品</a>
                       <a class="msg" href="/Verwalter/user/recent/list?userId=${user.id?c}" title="浏览历史">浏览历史</a>
+                      <a class="sms" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
                       <#if user.roleId?? && user.roleId==1>
                           <a class="sms" href="/Verwalter/user/reward/list?userId=${user.id?c}" title="返现记录">返现记录</a>
                       </#if>
