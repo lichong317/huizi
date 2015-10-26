@@ -1,5 +1,9 @@
 package com.ynyes.huizi.touch;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,12 +24,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ynyes.huizi.entity.TdCoupon;
+import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdRedEnvelope;
+import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCollect;
@@ -37,10 +45,13 @@ import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdCouponService;
+import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdRedEnvelopeService;
+import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
 import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
@@ -52,6 +63,7 @@ import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.service.TdUserReturnService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
+import com.ynyes.huizi.util.SiteMagConstant;
 
 /**
  * 用户中心
@@ -110,6 +122,15 @@ public class TdTouchUserController {
     @Autowired
     private TdUserComplainService tdUserComplainService;
     
+    @Autowired
+    private TdRedEnvelopeService tdRedEnvelopeService;
+    
+    @Autowired
+    private TdRedEnvelopeTypeService tdRedEnvelopeTypeService;
+    
+    @Autowired
+    private TdCouponTypeService tdCouponTypeService;
+    
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
@@ -142,6 +163,233 @@ public class TdTouchUserController {
         map.addAttribute("recommend_goods_page", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
         
         return "/touch/user_index";
+    }
+    
+    @RequestMapping(value = "/user/center/headImg", method = RequestMethod.POST)
+	public String uploadImg(@RequestParam MultipartFile Filedata, HttpServletRequest req) {
+		String username = (String) req.getSession().getAttribute("username");
+		TdUser user = tdUserService.findByUsername(username);
+		if (null == user) {
+			return "/touch/user/login";
+		}
+
+		String name = Filedata.getOriginalFilename();
+
+		String ext = name.substring(name.lastIndexOf("."));
+
+		try {
+			byte[] bytes = Filedata.getBytes();
+
+			Date dt = new Date(System.currentTimeMillis());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+			String fileName = sdf.format(dt) + ext;
+
+			String uri = SiteMagConstant.imagePath + "/" + fileName;
+
+			File file = new File(uri);
+
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+			stream.write(bytes);
+			stream.close();
+			user.setHeadImageUri("/images/" + fileName);
+			tdUserService.save(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/touch/user";
+
+	}
+    
+    @RequestMapping(value = "/user/redenvelope/list")
+    public String redenvelopeList( Integer statusId, 
+                        Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        if (null == statusId)
+        {
+            statusId = 0;
+        }
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        map.addAttribute("status_id", statusId);
+        
+        Page<TdRedEnvelope> redenvelopePage = null;
+        
+        if (0 == statusId) {
+			redenvelopePage = tdRedEnvelopeService.findByUsername(username, page, ClientConstant.pageSize);
+		}
+        else if (1 == statusId) {
+        	redenvelopePage = tdRedEnvelopeService.findByUsernameAndIsGetFalse(username, page, ClientConstant.pageSize);
+		} 
+        else if (2 == statusId) {
+        	redenvelopePage = tdRedEnvelopeService.findByUsernameAndIsGetTrue(username, page, ClientConstant.pageSize);
+		}
+        
+        map.addAttribute("redenvelope_page", redenvelopePage);       
+        
+        return "/touch/user_redenvelope_list";
+    }
+    
+    @RequestMapping(value = "/user/redenvelope/edit")
+    public String redenvelopeList( Long redenvelopeId,                         
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == redenvelopeId)
+        {
+            return "/touch/error_404";
+        }              
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
+        
+        map.addAttribute("tdRedEnvelope", tdRedEnvelope);
+                
+        return "/touch/user_redenvelope_edit";
+    }
+    
+    @RequestMapping(value="/user/redenvelope/get", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> redEnvelopeGet(Long redenvelopeId,//订单id
+                        ModelMap map,
+                        HttpServletRequest req){
+        
+        Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+		String username = (String) req.getSession().getAttribute("username");
+		        
+		if (null == username)
+		{
+		      res.put("message", "请登录！！");
+		      return res;
+		}
+		
+		tdCommonService.setHeader(map, req);
+		        
+		if(null != redenvelopeId)
+		{
+			TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
+            TdRedEnvelopeType tdRedEnvelopeType = tdRedEnvelopeTypeService.findOne(tdRedEnvelope.getTypeId());
+			
+            if (null != tdRedEnvelope && null != tdRedEnvelopeType) {
+				if (tdRedEnvelopeType.getLeftNumber() > 0) {
+					TdUser tdUser = tdUserService.findByUsername(username);
+					
+					tdRedEnvelope.setIsGet(true);
+					tdRedEnvelopeType.setLeftNumber(tdRedEnvelopeType.getLeftNumber() - 1);
+					
+					//红包奖励
+					if (tdRedEnvelopeType.getRedEnvelopeType().equals(0L)) {
+						if (null != tdRedEnvelopeType.getPrizePoints()) {
+							tdUser.setTotalPoints(tdRedEnvelopeType.getPrizePoints() + tdUser.getTotalPoints());
+							TdUserPoint userPoint = new TdUserPoint();
+
+							userPoint.setIsBackgroundShow(false);
+							userPoint.setTotalPoint(tdRedEnvelopeType.getPrizePoints() + tdUser.getTotalPoints());
+							userPoint.setUsername(tdUser.getUsername());
+							userPoint.setPoint(tdRedEnvelopeType.getPrizePoints());
+							userPoint.setDetail("红包奖励");
+							
+							userPoint = tdUserPointService.save(userPoint);
+						}
+					}
+					else if (tdRedEnvelopeType.getRedEnvelopeType().equals(1L)) {
+						if (null != tdRedEnvelopeType.getCouponTypeId()) {
+							TdCouponType tdCouponType = tdCouponTypeService.findOne(tdRedEnvelopeType.getCouponTypeId());
+							
+							TdCoupon getCoupon = new TdCoupon();
+						    
+
+//						    getCoupon.setDiySiteId(leftCoupon.getDiySiteId());
+//						    getCoupon.setDiySiteTitle(leftCoupon.getDiySiteTitle());
+						    getCoupon.setGetNumber(1L);
+						    getCoupon.setGetTime(new Date());
+						    
+						    if (null != tdCouponType && null != tdCouponType.getTotalDays())
+						    {
+					    	    Calendar ca = Calendar.getInstance();
+					    	    ca.add(Calendar.DATE, tdCouponType.getTotalDays().intValue());
+					    	    getCoupon.setExpireTime(ca.getTime());
+						    }
+						    
+						    getCoupon.setIsDistributted(true);
+						    getCoupon.setIsUsed(false);
+						    if (null != tdUser.getMobile()) {
+						    	getCoupon.setMobile(tdUser.getMobile());
+							}
+						    if (null != tdCouponType.getDescription()) {
+						    	getCoupon.setTypeDescription(tdCouponType.getDescription());
+							}	    
+						    getCoupon.setTypeId(tdCouponType.getId());
+						    if (null != tdCouponType.getPicUri()) {
+						    	getCoupon.setTypePicUri(tdCouponType.getPicUri());
+							}
+						    if (null != tdCouponType.getTitle()) {
+						    	getCoupon.setTypeTitle(tdCouponType.getTitle());
+							}
+						    if (null != tdCouponType.getPrice()) {
+								getCoupon.setPrice(tdCouponType.getPrice());
+							}
+						    
+						    getCoupon.setUsername(username);
+						    
+						    tdCouponService.save(getCoupon);
+						}
+					}
+					
+					tdRedEnvelope.setIsGetPrize(true);
+					
+					tdRedEnvelopeService.save(tdRedEnvelope);
+					tdRedEnvelopeTypeService.save(tdRedEnvelopeType);
+					
+					res.put("isGetPrize", true);
+					res.put("isGet", true);
+				}else {		
+					tdRedEnvelope.setIsGetPrize(false);
+					tdRedEnvelope.setIsGet(true);
+					
+					tdRedEnvelopeService.save(tdRedEnvelope);
+					
+					res.put("isGetPrize", false);
+					res.put("isGet", true);
+				}
+				
+				res.put("code", 0);            
+	            return res;
+			}                        
+		}
+		res.put("message", "参数错误！！");
+		return res;
     }
     
     @RequestMapping(value = "/user/order/list/{statusId}")
@@ -213,6 +461,8 @@ public class TdTouchUserController {
         
         return "/touch/user_order_list";
     }
+   
+    
     
     @RequestMapping(value = "/user/order/list/more/{statusId}")
     public String orderListmore(@PathVariable Integer statusId, 

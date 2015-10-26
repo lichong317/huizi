@@ -2,6 +2,7 @@ package com.ynyes.huizi.touch;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
@@ -86,10 +88,11 @@ public class TdTouchLoginController {
 	            tdUserService.save(user);
 	            
 	            // 检查室友有未领取红包
-	            if (null != tdRedEnvelopeService.findByUsernameAndIsGetFalse(username)) {
-	    			res.put("hasRedenvelope", 1);
-	    		}else {
+	            List<TdRedEnvelope> tdRedEnvelopes = tdRedEnvelopeService.findByUsernameAndIsGetFalse(username);
+	            if (tdRedEnvelopes.isEmpty()) {
 	    			res.put("hasRedenvelope", 0);
+	    		}else {
+	    			res.put("hasRedenvelope", 1);
 	    		}
 	            
 	            request.getSession().setAttribute("username", username);

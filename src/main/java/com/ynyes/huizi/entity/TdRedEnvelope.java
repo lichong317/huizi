@@ -48,6 +48,9 @@ public class TdRedEnvelope {
 	 @Column
 	 private Boolean isGet;
 	 
+	 // 是否获取奖励
+	 private Boolean isGetPrize;
+	 
 	 // 图片
 	 @Column
 	 private String picUri;
@@ -76,6 +79,14 @@ public class TdRedEnvelope {
 
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
+	}
+
+	public Boolean getIsGetPrize() {
+		return isGetPrize;
+	}
+
+	public void setIsGetPrize(Boolean isGetPrize) {
+		this.isGetPrize = isGetPrize;
 	}
 
 	public String getPicUri() {

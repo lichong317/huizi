@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ynyes.huizi.entity.TdCoupon;
+import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
+import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCollect;
@@ -43,11 +45,13 @@ import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdCouponService;
+import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
+import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
 import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
@@ -122,6 +126,12 @@ public class TdUserController {
     @Autowired
     private TdRedEnvelopeService tdRedEnvelopeService;
     
+    @Autowired
+    private TdRedEnvelopeTypeService tdRedEnvelopeTypeService;
+    
+    @Autowired
+    private TdCouponTypeService tdCouponTypeService;
+    
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
@@ -191,8 +201,8 @@ public class TdUserController {
 
 	}
     
-    @RequestMapping(value = "/user/redenvelope/list/{statusId}")
-    public String redenvelopeList(@PathVariable Integer statusId, 
+    @RequestMapping(value = "/user/redenvelope/list")
+    public String redenvelopeList( Integer statusId, 
                         Integer page,
                         HttpServletRequest req, 
                         ModelMap map){
@@ -234,8 +244,157 @@ public class TdUserController {
         
         map.addAttribute("redenvelope_page", redenvelopePage);
         
-        return "/client/redenvelope_list";
+      //猜你喜欢 zhangji
+        getgoodsLike(map, username);
+        
+        return "/client/user_redenvelope_list";
     }
+    
+    @RequestMapping(value = "/user/redenvelope/edit")
+    public String redenvelopeList( Long redenvelopeId,                         
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == redenvelopeId)
+        {
+            return "/client/error_404";
+        }              
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
+        
+        map.addAttribute("tdRedEnvelope", tdRedEnvelope);
+                
+        return "/client/user_redenvelope_edit";
+    }
+    
+    @RequestMapping(value="/user/redenvelope/get", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> redEnvelopeGet(Long redenvelopeId,//订单id
+                        ModelMap map,
+                        HttpServletRequest req){
+        
+        Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+		String username = (String) req.getSession().getAttribute("username");
+		        
+		if (null == username)
+		{
+		      res.put("message", "请登录！！");
+		      return res;
+		}
+		
+		tdCommonService.setHeader(map, req);
+		        
+		if(null != redenvelopeId)
+		{
+			TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
+            TdRedEnvelopeType tdRedEnvelopeType = tdRedEnvelopeTypeService.findOne(tdRedEnvelope.getTypeId());
+			
+            if (null != tdRedEnvelope && null != tdRedEnvelopeType) {
+				if (tdRedEnvelopeType.getLeftNumber() > 0) {
+					TdUser tdUser = tdUserService.findByUsername(username);
+					
+					tdRedEnvelope.setIsGet(true);
+					tdRedEnvelopeType.setLeftNumber(tdRedEnvelopeType.getLeftNumber() - 1);
+					
+					//红包奖励
+					if (tdRedEnvelopeType.getRedEnvelopeType().equals(0L)) {
+						if (null != tdRedEnvelopeType.getPrizePoints()) {
+							tdUser.setTotalPoints(tdRedEnvelopeType.getPrizePoints() + tdUser.getTotalPoints());
+							TdUserPoint userPoint = new TdUserPoint();
+
+							userPoint.setIsBackgroundShow(false);
+							userPoint.setTotalPoint(tdRedEnvelopeType.getPrizePoints() + tdUser.getTotalPoints());
+							userPoint.setUsername(tdUser.getUsername());
+							userPoint.setPoint(tdRedEnvelopeType.getPrizePoints());
+							userPoint.setDetail("红包奖励");
+							
+							userPoint = tdUserPointService.save(userPoint);
+						}
+					}
+					else if (tdRedEnvelopeType.getRedEnvelopeType().equals(1L)) {
+						if (null != tdRedEnvelopeType.getCouponTypeId()) {
+							TdCouponType tdCouponType = tdCouponTypeService.findOne(tdRedEnvelopeType.getCouponTypeId());
+							
+							TdCoupon getCoupon = new TdCoupon();
+						    
+
+//						    getCoupon.setDiySiteId(leftCoupon.getDiySiteId());
+//						    getCoupon.setDiySiteTitle(leftCoupon.getDiySiteTitle());
+						    getCoupon.setGetNumber(1L);
+						    getCoupon.setGetTime(new Date());
+						    
+						    if (null != tdCouponType && null != tdCouponType.getTotalDays())
+						    {
+					    	    Calendar ca = Calendar.getInstance();
+					    	    ca.add(Calendar.DATE, tdCouponType.getTotalDays().intValue());
+					    	    getCoupon.setExpireTime(ca.getTime());
+						    }
+						    
+						    getCoupon.setIsDistributted(true);
+						    getCoupon.setIsUsed(false);
+						    if (null != tdUser.getMobile()) {
+						    	getCoupon.setMobile(tdUser.getMobile());
+							}
+						    if (null != tdCouponType.getDescription()) {
+						    	getCoupon.setTypeDescription(tdCouponType.getDescription());
+							}	    
+						    getCoupon.setTypeId(tdCouponType.getId());
+						    if (null != tdCouponType.getPicUri()) {
+						    	getCoupon.setTypePicUri(tdCouponType.getPicUri());
+							}
+						    if (null != tdCouponType.getTitle()) {
+						    	getCoupon.setTypeTitle(tdCouponType.getTitle());
+							}
+						    if (null != tdCouponType.getPrice()) {
+								getCoupon.setPrice(tdCouponType.getPrice());
+							}
+						    
+						    getCoupon.setUsername(username);
+						    
+						    tdCouponService.save(getCoupon);
+						}
+					}
+					
+					tdRedEnvelope.setIsGetPrize(true);
+					
+					tdRedEnvelopeService.save(tdRedEnvelope);
+					tdRedEnvelopeTypeService.save(tdRedEnvelopeType);
+					
+					res.put("isGetPrize", true);
+					res.put("isGet", true);
+				}else {		
+					tdRedEnvelope.setIsGetPrize(false);
+					tdRedEnvelope.setIsGet(true);
+					
+					tdRedEnvelopeService.save(tdRedEnvelope);
+					
+					res.put("isGetPrize", false);
+					res.put("isGet", true);
+				}
+				
+				res.put("code", 0);            
+	            return res;
+			}                        
+		}
+		res.put("message", "参数错误！！");
+		return res;
+    }
+    
     
     @RequestMapping(value = "/user/order/list/{statusId}")
     public String orderList(@PathVariable Integer statusId, 

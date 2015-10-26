@@ -39,7 +39,7 @@
                             
                         }
                     </script>
-                    <form id="uploadImgForm" enctype="multipart/form-data" action="/user/center/headImg" method="post">
+                    <form id="uploadImgForm" enctype="multipart/form-data" action="/touch/user/center/headImg" method="post">
                         <input style="display:none" name="Filedata" type="file" onchange="getFile();" id="filebutton">
                     </from>
       <p class="white fs08 lh20 ta-c">${user.username!''}</p>
@@ -60,6 +60,7 @@
   <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
 </menu>
 <div class=" tuichu main">
