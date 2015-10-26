@@ -27,7 +27,7 @@
         <div>
             <a href="/user/coupon/list/0">优惠券</a>
             <a href="/user/point/list">积分</a>
-            <a href="/user/point/list">红包</a>
+            <a href="/user/redenvelope/list">红包</a>
         </div>
     </div>
     

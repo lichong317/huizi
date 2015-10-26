@@ -305,6 +305,7 @@ public class TdManagerUserController {
     				tdRedEnvelope.setUsername(tdUser.getUsername());
     				tdRedEnvelope.setIsGet(false);
     				tdRedEnvelope.setSendTime(new Date());
+    				tdRedEnvelope.setPicUri(tdRedEnvelopeType.getPicUri());
     				
     				tdRedEnvelopeService.save(tdRedEnvelope);
     			}
@@ -332,6 +333,7 @@ public class TdManagerUserController {
 				tdRedEnvelope.setUsername(username);
 				tdRedEnvelope.setIsGet(false);
 				tdRedEnvelope.setSendTime(new Date());
+				tdRedEnvelope.setPicUri(tdRedEnvelopeType.getPicUri());
 				
 				tdRedEnvelopeService.save(tdRedEnvelope);
 			}

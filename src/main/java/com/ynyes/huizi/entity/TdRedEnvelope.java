@@ -48,6 +48,10 @@ public class TdRedEnvelope {
 	 @Column
 	 private Boolean isGet;
 	 
+	 // 图片
+	 @Column
+	 private String picUri;
+	 
 	 // 发放日期
 	 @Column
 	 @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -72,6 +76,14 @@ public class TdRedEnvelope {
 
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
+	}
+
+	public String getPicUri() {
+		return picUri;
+	}
+
+	public void setPicUri(String picUri) {
+		this.picUri = picUri;
 	}
 
 	public Long getRedEnvelopeType() {

@@ -31,6 +31,7 @@ import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCollect;
@@ -46,6 +47,7 @@ import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
@@ -117,6 +119,9 @@ public class TdUserController {
     @Autowired
     private TdUserComplainService tdUserComplainService;
     
+    @Autowired
+    private TdRedEnvelopeService tdRedEnvelopeService;
+    
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
@@ -185,6 +190,52 @@ public class TdUserController {
 		return "redirect:/user";
 
 	}
+    
+    @RequestMapping(value = "/user/redenvelope/list/{statusId}")
+    public String redenvelopeList(@PathVariable Integer statusId, 
+                        Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        if (null == statusId)
+        {
+            statusId = 0;
+        }
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        map.addAttribute("status_id", statusId);
+        
+        Page<TdRedEnvelope> redenvelopePage = null;
+        
+        if (0 == statusId) {
+			redenvelopePage = tdRedEnvelopeService.findByUsername(username, page, ClientConstant.pageSize);
+		}
+        else if (1 == statusId) {
+        	redenvelopePage = tdRedEnvelopeService.findByUsernameAndIsGetFalse(username, page, ClientConstant.pageSize);
+		} 
+        else if (2 == statusId) {
+        	redenvelopePage = tdRedEnvelopeService.findByUsernameAndIsGetTrue(username, page, ClientConstant.pageSize);
+		}
+        
+        map.addAttribute("redenvelope_page", redenvelopePage);
+        
+        return "/client/redenvelope_list";
+    }
     
     @RequestMapping(value = "/user/order/list/{statusId}")
     public String orderList(@PathVariable Integer statusId, 
