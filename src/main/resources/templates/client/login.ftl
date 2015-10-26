@@ -80,6 +80,9 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
+                        if (data.hasRedenvelope == 1){
+                            alert("有新红包！请到个人中心领取");
+                        }        
                         var url = document.referrer;
                         if(undefined==url || ""==url){
                             window.location.href="/";

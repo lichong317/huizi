@@ -62,6 +62,7 @@
   </table>
 </section>
     </div>
+    </div>
  <div class="clear"></div>   
     <div class="dl" style="background:url(/client/images/zzz.png) no-repeat;">
 <div class="loginbox">
@@ -92,8 +93,10 @@
         <div class="clear"></div>
 
         <p>
-            <span class="Validform_checktip">请同意协议</span>
-            <label><input name="" type="checkbox" value="" datatype="*"/>&nbsp;我已认真阅读并同意</label>&nbsp;&nbsp;<b class="wj"><a href="#">《惠资生活用户协议》</a></b>
+            <label>
+            <input name="" type="checkbox" value="" datatype="*"/>
+            &nbsp;我已认真阅读并同意</label>
+            &nbsp;&nbsp;<b class="wj"><a href="#">《惠资生活用户协议》</a></b>
         </p>
         <p class="mt15">已有账号<b class="zc"><a href="/login">立即登录</a></b></p>
         
@@ -105,13 +108,21 @@
 </div>
    
 <div class="clear"></div>
+<div class="w1065">
 <div class="h30"></div>
 <div class="w1059 downbq">
+    <ul class="downwenzi">
+          <li><a href="#">公司简介</a>丨</li>
+          <li><a href="#">联系我们</a>丨</li>
+          <li><a href="#">招贤纳士</a>丨</li>
+          <li><a href="#">合作伙伴</a>丨</li>
+          <li><a href="#">广告合作</a></li>
+    </ul>
     <div class="clear"></div>
-    <#if site??>${site.copyright!''}</#if>
+    <#if site??>${site.copyright!''}</#if><br>
     <a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
     <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
-</div>
+
 </div>
     </div>
 </body>

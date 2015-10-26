@@ -2,6 +2,7 @@ package com.ynyes.huizi.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,5 +71,35 @@ public class TdRedEnvelopeService {
 		
 		PageRequest pageRequest = new PageRequest(page, size);
 		return repository.findAll(pageRequest);
+	}
+	
+	public Page<TdRedEnvelope> findByUsername(String username, int page, int size){
+		PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.DESC, "sendTime"));
+		return repository.findByUsername(username, pageRequest);
+	}
+	
+	public List<TdRedEnvelope> findByUsername(String username){
+		return repository.findByUsernameOrderBySendTimeDesc(username);
+	}
+	
+	public Page<TdRedEnvelope> findByUsernameAndIsGetFalse(String username, int page, int size){
+		PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.DESC, "sendTime"));
+		return repository.findByUsernameAndIsGetFalse(username, pageRequest);
+	}
+	
+	public List<TdRedEnvelope> findByUsernameAndIsGetFalse(String username){
+		return repository.findByUsernameAndIsGetFalseOrderBySendTimeDesc(username);
+	}
+	
+	public Page<TdRedEnvelope> findByUsernameAndIsGetTrue(String username, int page, int size){
+		PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.DESC, "sendTime"));
+		return repository.findByUsernameAndIsGetTrue(username, pageRequest);
+	}
+	
+	public List<TdRedEnvelope> findByUsernameAndIsGetTrue(String username){
+		return repository.findByUsernameAndIsGetTrueOrderBySendTimeDesc(username);
 	}
 }

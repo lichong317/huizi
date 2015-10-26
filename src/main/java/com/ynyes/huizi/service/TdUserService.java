@@ -99,6 +99,7 @@ public class TdUserService {
         for (TdUser user : userList)
         {
             user.setPointGetByShareGoods(0L);
+            user.setIsSignin(false);
         }
         
         repository.save(userList);

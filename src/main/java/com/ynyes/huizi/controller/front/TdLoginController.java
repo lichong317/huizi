@@ -19,6 +19,7 @@ import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdAdService;
 import com.ynyes.huizi.service.TdAdTypeService;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.VerifServlet;
@@ -43,6 +44,9 @@ public class TdLoginController {
     
     @Autowired
     private TdAdService tdAdService;
+    
+    @Autowired
+    private TdRedEnvelopeService tdRedEnvelopeService;
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest req, Long shareId, ModelMap map) {
@@ -110,6 +114,13 @@ public class TdLoginController {
         user.setLastLoginTime(new Date());
         
         tdUserService.save(user);
+        
+        // 检查室友有未领取红包
+        if (null != tdRedEnvelopeService.findByUsernameAndIsGetFalse(username)) {
+			res.put("hasRedenvelope", 1);
+		}else {
+			res.put("hasRedenvelope", 0);
+		}
         
         request.getSession().setAttribute("username", username);
         

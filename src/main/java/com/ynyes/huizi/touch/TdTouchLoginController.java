@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
 
@@ -24,7 +25,7 @@ public class TdTouchLoginController {
 	    private TdUserService tdUserService;
 	    
 	    @Autowired
-	    private TdSettingService tdSettingService;
+	    private TdRedEnvelopeService tdRedEnvelopeService;
 	    
 	    @Autowired
 	    private TdCommonService tdCommonService;
@@ -83,7 +84,14 @@ public class TdTouchLoginController {
 	        	user.setLastLoginTime(new Date());
 	             
 	            tdUserService.save(user);
-	             
+	            
+	            // 检查室友有未领取红包
+	            if (null != tdRedEnvelopeService.findByUsernameAndIsGetFalse(username)) {
+	    			res.put("hasRedenvelope", 1);
+	    		}else {
+	    			res.put("hasRedenvelope", 0);
+	    		}
+	            
 	            request.getSession().setAttribute("username", username);
 	            request.getSession().setAttribute("usermobile", user.getMobile());
 	            res.put("code", 0);

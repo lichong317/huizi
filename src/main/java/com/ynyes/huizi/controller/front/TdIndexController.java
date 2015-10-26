@@ -56,7 +56,7 @@ public class TdIndexController {
     @Autowired
     private TdAdService tdAdService;
 
-    
+    // 新品推荐
     @RequestMapping(value="index/getNewProduct")
     @ResponseBody
     public Map<String, Object> getNewProduct(ModelMap map,
@@ -72,6 +72,7 @@ public class TdIndexController {
         return res;
     }
     
+    //团购秒杀
     @RequestMapping(value="index/getPromotion")
     @ResponseBody
     public Map<String, Object> getPromotion(ModelMap map,
@@ -89,7 +90,82 @@ public class TdIndexController {
         return res;
     }
     
+    //广告
+    @RequestMapping(value="index/getAdvertisement")
+    @ResponseBody
+    public Map<String, Object> getAdvertisement(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
+        // 顶部广告
+        res.put("top_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        // 中部竖向广告
+        tdAdType = tdAdTypeService.findByTitle("App首页中部竖向广告");
+        res.put("middle_vertical_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        // 中部横向广告
+        tdAdType = tdAdTypeService.findByTitle("App首页中部横向广告");
+        res.put("middle_horizontal_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        // 两个底部长广告
+        tdAdType = tdAdTypeService.findByTitle("App首页底部长广告");
+        res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        //分类精选广告
+        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
+        res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        res.put("code", 0);
+        
+        return res;
+    }       
+       
+    //分类
+    @RequestMapping(value="index/getCategory")
+    @ResponseBody
+    public Map<String, Object> getCategory(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        // 全部商品分类，取三级
+        List<TdProductCategory> topCatList = tdProductCategoryService
+                .findByParentIdIsNullOrderBySortIdAsc();
+        res.put("top_cat_list", topCatList);
+
+        if (null != topCatList && topCatList.size() > 0) 
+        {
+            for (int i = 0; i < topCatList.size(); i++) 
+            {
+                TdProductCategory topCat = topCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                res.put("second_level_" + i + "_cat_list", secondLevelList);
+
+                if (null != secondLevelList && secondLevelList.size() > 0) 
+                {
+                    for (int j=0; j<secondLevelList.size(); j++)
+                    {
+                        TdProductCategory secondLevelCat = secondLevelList.get(j);
+                        List<TdProductCategory> thirdLevelList = tdProductCategoryService
+                                .findByParentIdOrderBySortIdAsc(secondLevelCat.getId());
+                        res.put("third_level_" + i + j + "_cat_list", thirdLevelList);
+                    }
+                }
+            }
+        }
+        // 分类                              
+        res.put("code", 0);
+        
+        return res;
+    }
     
+    /*******接口结束********/
     
     @RequestMapping
     public String index(HttpServletRequest req, Device device, ModelMap map) {
