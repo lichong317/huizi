@@ -227,7 +227,7 @@ function changeName(p)
                         </div>
                         <script type="text/javascript" >
                         var jiathis_config={
-                            url:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>",
+                            url:"http://192.168.20.114:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>",
                             summary:"",
                             title:"惠资生活##${goods.title!''}",
                             shortUrl:false,

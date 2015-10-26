@@ -28,6 +28,9 @@
             <a href="/user/coupon/list/0">优惠券</a>
             <a href="/user/point/list">积分</a>
             <a href="/user/redenvelope/list">红包</a>
+            <#if user?? && user.roleId?? && user.roleId == 1>
+                <a href="/user/junioruser/list">下级用户</a>
+            </#if>
         </div>
     </div>
     

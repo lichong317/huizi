@@ -96,7 +96,7 @@ public class TdAdService {
     
     public List<TdAd> findByTypeId(Long typeId)
     {
-        return repository.findByTypeId(typeId);
+        return repository.findByTypeIdOrderBySortIdAsc(typeId);
     }
     
     public Page<TdAd> findAllOrderBySortIdAsc(int page, int size)

@@ -85,7 +85,7 @@
         </div>
         
         <div>
-            <span class="Validform_checktip"><#if errCode?? && 1==errCode>验证码错误<#else>请填写验证码</#if></span>
+            <span class="Validform_checktip"><#if errCode?? && 1==errCode><b class="red">验证码错误</b><#else>请填写验证码</#if></span>
             <input type="text" class="login_txt2" name="code" style="width:170px; float:left" datatype="s4-4" errormsg="请填写4位字符"/>
             <img src="/code" onclick="this.src = '/code?date='+Math.random();" id="yzm" />
         

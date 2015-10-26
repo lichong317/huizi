@@ -220,7 +220,7 @@ public class TdRegisgerController {
         {
             TdUser sharedUser = tdUserService.findOne(shareId);
             
-            if (null != sharedUser && sharedUser.getRoleId().equals(0L))
+            if (null != sharedUser )
             {
                 TdSetting setting = tdSettingService.findTopBy();
                 TdUserPoint userPoint = new TdUserPoint();
@@ -250,6 +250,12 @@ public class TdRegisgerController {
                 
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
                 sharedUser.setRoleId(1L);
+                if (null == sharedUser.getTotalLowerUsers()) {
+					sharedUser.setTotalLowerUsers(1L);
+				}else {
+					sharedUser.setTotalLowerUsers(sharedUser.getTotalLowerUsers() + 1);
+				}
+                
                 tdUserService.save(sharedUser);
                 
                 //用户层级关系

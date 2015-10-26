@@ -132,7 +132,7 @@ $(function () {
     </dl>
   <dl>
     
- <#-- <dl>
+ <dl>
     <dt>奖项图片</dt>
     <dd>
         <input id="txtImgUrl" name="picUri" type="text" datatype="*" value="<#if prizeCategory??>${prizeCategory.picUri!""}</#if>" class="input normal upload-path">
@@ -140,7 +140,7 @@ $(function () {
         <div class="photo-list thumb_ImgUrl_show"></div>
         <span class="Validform_checktip"></span>
     </dd>
-  </dl> -->
+  </dl> 
   
   <dl>
     <dt>排序数字</dt>

@@ -214,7 +214,7 @@ $(function () {
                       <a class="amount" href="/Verwalter/user/point/list?userId=${user.id?c}" title="积分">积分</a>
                       <a class="point" href="/Verwalter/user/collect/list?userId=${user.id?c}" title="关注商品">关注商品</a>
                       <a class="msg" href="/Verwalter/user/recent/list?userId=${user.id?c}" title="浏览历史">浏览历史</a>
-                      <a class="sms" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
+                      <a class="redenvelope" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
                       <#if user.roleId?? && user.roleId==1>
                           <a class="sms" href="/Verwalter/user/reward/list?userId=${user.id?c}" title="返现记录">返现记录</a>
                       </#if>

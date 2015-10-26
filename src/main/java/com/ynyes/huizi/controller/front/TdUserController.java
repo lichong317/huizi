@@ -395,6 +395,39 @@ public class TdUserController {
 		return res;
     }
     
+    @RequestMapping(value = "/user/junioruser/list")
+    public String junioruserList(Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }              
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        Page<TdUser> userPage = null;
+               
+        userPage = tdUserService.findByUpperUsernameAndIsEnabled(username, page, ClientConstant.pageSize);
+        map.addAttribute("junioruser_page", userPage);
+        
+        //猜你喜欢 zhangji
+        getgoodsLike(map, username);
+        
+        return "/client/user_junioruser_list";
+    }
+    
     
     @RequestMapping(value = "/user/order/list/{statusId}")
     public String orderList(@PathVariable Integer statusId, 
