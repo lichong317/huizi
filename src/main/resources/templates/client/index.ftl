@@ -29,6 +29,8 @@
 	navDownList("navdown","li",".nav_showbox");
 	//menuDownList("mainnavdown","#navdown",".a2","sel");
 	
+	indexBanner("box","sum",300,5000,"num");
+	indexBannerShow("box",_bname,"sum",_nname,_hover,_speed);
 	chooseMoreShow();
 		
 });
@@ -225,8 +227,7 @@ function delItem(id)
                     <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1920px;height:450px;"></a>
                </#list>
         </#if>
-</div>
-    
+    </div>   
 
 	<div class="main">
 		<menu class="index_zx">

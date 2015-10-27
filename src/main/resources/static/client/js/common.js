@@ -145,6 +145,7 @@ function indexBannerShow(boxid,_bname,numid,_nname,_hover,_speed){
 		},_speed);
 			});
 }
+
 //首页专用选项卡 - 本效果由昆明天度网络IRIS原创制作
 function indexBoxShow(menuid,_mname,sumid,_sname,_hover){
 	var _menu = $("#"+menuid);
