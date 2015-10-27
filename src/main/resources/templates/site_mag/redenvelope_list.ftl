@@ -62,6 +62,7 @@ function __doPostBack(eventTarget, eventArgument) {
   <tr class="odd_bg">
     <th width="8%">选择</th>
     <th align="left">发放用户</th>
+    <th align="left">红包名称</th>
     <th align="left" width="17%">奖品</th>
     <th align="center" width="17%">发放日期</th> 
     <th align="left" width="17%">是否领取</th> 
@@ -80,6 +81,7 @@ function __doPostBack(eventTarget, eventArgument) {
                     <input type="hidden" name="listId" id="listId" value="${item.id?c}">
                 </td>
                 <td>${item.username!''}</td>
+                <td>${item.typeTitle!''}</td>
                 <#if item.redEnvelopeType == 0>
                     <td>奖励积分${item.prizePoints!''}</td>
                 <#elseif item.redEnvelopeType == 1>

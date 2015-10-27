@@ -309,6 +309,7 @@ public class TdUserController {
 					TdUser tdUser = tdUserService.findByUsername(username);
 					
 					tdRedEnvelope.setIsGet(true);
+					tdRedEnvelope.setGetTime(new Date());
 					tdRedEnvelopeType.setLeftNumber(tdRedEnvelopeType.getLeftNumber() - 1);
 					
 					//红包奖励
@@ -380,7 +381,7 @@ public class TdUserController {
 				}else {		
 					tdRedEnvelope.setIsGetPrize(false);
 					tdRedEnvelope.setIsGet(true);
-					
+					tdRedEnvelope.setGetTime(new Date());
 					tdRedEnvelopeService.save(tdRedEnvelope);
 					
 					res.put("isGetPrize", false);
