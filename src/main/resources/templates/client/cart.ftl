@@ -58,7 +58,7 @@ function goNext(goodsNum)
     <div class="main mt10">
         <div class="weizhi"> 
             <span>您现在的位置：</span>
-            <a href="#">首页</a>&gt;<a href="#">手机产品</a>&gt;<a href="#">手机筛选</a> 
+            <a href="/">首页</a>&gt;<a href="/cart">购物车</a>
         </div>
         <div class="s_gwc1 mt10">
             <span id="colorfff">1、我的购物车</span><span>2、我的订单信息</span><span>3、支付成功</span>

@@ -64,7 +64,7 @@
     </div>
     </div>
  <div class="clear"></div>   
-    <div class="dl" style="background:url(/client/images/zzz.png) no-repeat;">
+    <#--><div class="dl" style="background:url(/client/images/zzz.png) no-repeat;"> -->
 <div class="loginbox">
   <div class="login_r"> 
     <form id="form1" method="post" action="/reg">
@@ -105,7 +105,7 @@
     </form>
   </div>
 </div>
-</div>
+<!--</div> -->
    
 <div class="clear"></div>
 <div class="w1065">

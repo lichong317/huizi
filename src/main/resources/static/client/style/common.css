@@ -548,6 +548,7 @@ a.white:hover { color:#ff7d43;}
 	padding:0 20px;
 	width:174px;
 	height:450px;
+	z-index:99999999999999999999;
 	top:40px;
 	border:2px solid #fd3e3e;
 	}
@@ -823,13 +824,13 @@ margin:0 2px;}
 	text-align:center;
 	border-radius:50%;
 	overflow:hidden;
-	border:1px solid #ff8800;
-	color:#ff8800;
+	border:1px solid #fd3e3e;
+	color:#fd3e3e;
 	line-height:30px;
 	font-size:16px;
 	margin-right:5px;}
 .page-orange a:hover,.page-orange a.sel {
-	background:#ff8800; color:#fff;}
+	background:#fd3e3e; color:#fff;}
 /* 登录与注册 */
 .login_top {
 	padding:15px 0;}

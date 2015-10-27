@@ -21,6 +21,8 @@ import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdDiySite;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayType;
+import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.service.TdArticleService;
 import com.ynyes.huizi.service.TdDeliveryTypeService;
 import com.ynyes.huizi.service.TdDiySiteService;
@@ -580,6 +582,19 @@ public class TdManagerOrderController {
                 {
                     order.setStatusId(3L);
                     order.setPayTime(new Date());
+                    
+//                    TdUser tdUser = tdUserService.findByUsername(order.getUsername());
+//                    if (null != tdUser && null != tdUser.getUpperUsername()) {
+//                    	TdUserCashReward tdUserCashReward = new TdUserCashReward();
+//                        
+//                        tdUserCashReward.setLowerUsername(order.getUsername());
+//                    	tdUserCashReward.setUsername(tdUser.getUpperUsername());
+//                    	tdUserCashReward.setRewardTime(new Date());
+//                    	
+//					}
+                    
+                    
+                   
                 }
             }
             // 货到付款确认付款

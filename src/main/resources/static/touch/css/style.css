@@ -708,9 +708,9 @@ font-size: 0.7em;
 
 
 
-.se1{ color:#00638e; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.se1bg{background:#00638e; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
-.se1bg span{width:50%; overflow:hidden; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
+.se0{ color:#00638e; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se0bg{background:#00638e; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
+.se0bg span{width:50%; overflow:hidden; padding:5%;line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
 .se2{ color:#6a3906; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
 .se2bg{background:#6a3906; color:#FFF; margin-top:5%; width:70%;height:1.2em;}
 .se2bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em;font-size:0.8em;overflow:hidden;}
@@ -720,9 +720,9 @@ font-size: 0.7em;
 .se4{ color:#978de6; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
 .se4bg{background:#978de6; color:#FFF; margin-top:5%; width:80%;height:1.2em;;}
 .se4bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; font-size:0.8em; overflow:hidden;}
-.se5{ color:#f779a9; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
-.se5bg{background:#f779a9; color:#FFF; margin-top:5%; width:80%; height:1.2em;}
-.se5bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; overflow:hidden; font-size:0.8em;}
+.se1{ color:#f779a9; font-size:0.8em; margin-top:5%; width:100%; height:1.5em; overflow:hidden;}
+.se1bg{background:#f779a9; color:#FFF; margin-top:5%; width:80%; height:1.2em;}
+.se1bg span{width:50%; overflow:hidden; padding:5%; line-height:1.5em; height:1.5em; overflow:hidden; font-size:0.8em;}
 
 .fenleiwenzi{position:absolute; z-index:999999; width:60%; overflow:hidden;}
 .fenleiwenzi p{width:60%; overflow:hidden; height:1.5em;}
@@ -873,4 +873,25 @@ menu.protext a.a2 span { background-size: auto 19px; }
 .address_list a.sel{background:url(../images/true.png) no-repeat 95% center #e6e4e5;background-size: 22px;}
 
 .jifen td{ width:20%; text-align:center; line-height:40px; border:solid 1px #ccc; font-size:0.9em;
+}
+
+/**红包开始**/
+.redback{ position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);}
+.redbackWrap{ position:absolute; left:50%; top:50%; width:300px; height:359px; margin-left:-150px; margin-top:-180px; background:url(../images/redbackbg.png) no-repeat center; background-size:100% 100%;}
+.RBheader{ position:absolute; left:50%; top:109px; margin-left:-36px; width:70px; height:70px; overflow:hidden;  border-radius:50%; -webkit-border-radius:50%; -moz-border-radius:50%; -ms-border-radius:50%; -o-border-radius:50%;}
+.RBheader img{ display:block; width:102%; height:102%; margin-left:-1px; margin-top:-1px;}
+.RBno{ position:absolute; left:50%; top:200px; margin-left:-95px; width:190px; overflow:hidden; text-align:center;}
+.RBno p{ color:#fceb54; display:block; width:100%; height:auto; overflow:hidden;}
+.RBtitle{ line-height:24px; font-size:12px;}
+.RBtitle a{ color:#8c1c21;}
+.RBinfo{ font-size:14px; line-height:40px;}
+.RBinfo span{ font-size:20px; color:#fceb54;}
+.RBopen{ position:relative; display:block; width:100%; height:44px; overflow:hidden; margin-top:20px;}
+.RBopen span{ position:absolute; z-index:2; left:0; top:0; width:100%; height:40px; line-height:40px; text-align:center; font-size:16px; color:#666; background-color:#fceb54;}
+.RBopen i{ position:absolute; z-index:1; left:0; top:0; width:100%; height:100%; overflow:hidden; background-color:#dc0033;}
+
+@media screen and (min-width:340px){
+	.redbackWrap{ width:350px; height:419px; margin-left:-175px; margin-top:-210px;}
+	.RBheader{ width:81px; height:81px; margin-left:-42px; background-color:#eee; top:129px;}
+	.RBno{ width:220px; margin-left:-110px; top:240px;}
 }

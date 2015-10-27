@@ -110,7 +110,7 @@
       <b></b>
       <span class="fl">热卖推荐</span>
       <p class="clear"></p>
-      <a class="a1" href="/list/1">更多+</a>
+      <a class="a1" href="/touch/list/1">更多+</a>
     </h3>
     
     <table class="index_list">    
@@ -121,7 +121,7 @@
             <td>
               <a href="/touch/goods/${item.id?c}">
                 <p class="ta-c"><img src="${item.coverImageUri!''}" width="90" height="90" /></p>
-                <p>${item.name!''}</p>
+                <p style=" height: 40px;overflow: hidden;">${item.name!''}</p>
                 <span class="red">¥：<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span>
               </a>
             </td>
@@ -183,7 +183,7 @@
     </h3>
     
     <table class="index_list">
-    <#if top_cat_list??>
+<#-->    <#if top_cat_list??>
         <#list top_cat_list as item>
             <#if item_index % 2 == 0>
                 <tr>
@@ -209,7 +209,34 @@
                 </tr>
             </#if>
         </#list>
-    </#if>       
+    </#if>   -->  
+    <#if selection_ad_list??>
+        <#list selection_ad_list as item>
+            <#if item_index % 2 == 0>
+                <tr>
+                    <td>
+                      <a href="${item.linkUri!''}">
+                        <div class="fenleiwenzi"><h4 style=" height: 17px;overflow: hidden;">${item.title!''}</h4>
+                        <p style=" height: 20px;overflow: hidden;">${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+            <#else>
+                    <td>
+                      <a href="${item.linkUri!''}">
+                        <div class="fenleiwenzi"><h4 style=" height: 17px;overflow: hidden;">${item.title!''}</h4>
+                        <p style=" height: 20px;overflow: hidden;">${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+                </tr>
+            </#if>
+        </#list>
+    </#if>  
   </table>
     
   </section>
@@ -230,7 +257,7 @@
             <td>
               <a href="/touch/goods/${item.id?c}">
                 <p class="ta-c"><img src="${item.coverImageUri!''}" width="90" height="90"  /></p>
-                <p>${item.name!''}</p>
+                <p style=" height: 40px;overflow: hidden;">${item.name!''}</p>
                 <span class="red">¥：<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span>
               </a>
             </td>

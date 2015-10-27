@@ -368,6 +368,8 @@ a.white:hover { color:#ff7d43;}
 	z-index:9;
 	width:169px;
 	float:right;
+	_float:right;
+	*float:right;
 	margin:44px 25px 0 0;
 	border:2px solid #e5e5e5;}
 .shopping_box a.a1 {
