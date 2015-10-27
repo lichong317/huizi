@@ -84,7 +84,7 @@ function checkTime(i)
 }
 </script>
             <a class="phone_list" href="/touch/goods/${item.id?c!''}?qiang=1">
-                <b><img src="${item.coverImageUri!''}" width="90" height="90"/></b>
+                <b><img src="${item.groupSaleImage!''}" width="90" height="90"/></b>
                 <p class="p1">${item.title!''}</p>
                 <p>${item.subTitle!''}</p>
                 <p class="fl">累计评价：<span class="red">${item.totalComments!'0'}条</span></p>

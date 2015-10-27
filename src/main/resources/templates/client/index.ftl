@@ -83,7 +83,7 @@ function move()
 
 <div class="main top1 pb20">
 <div class="clear"></div>
-<div class="logo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>" border="0" /></a></div>
+<div class="logo"><a href="/" title="惠之店网上商城"><img src="<#if site??>${site.logoUri!''}</#if>" alt="惠之店网上商城" /></a></div>
 <div class="ssbox">
     <div class="clear"></div>
     <form action="/search" method="get">

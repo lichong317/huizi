@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.front;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.ynyes.huizi.entity.TdPrize;
 import com.ynyes.huizi.entity.TdPrizeCategory;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserLevel;
+import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
@@ -28,6 +30,7 @@ import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdPrizeCategoryService;
 import com.ynyes.huizi.service.TdPrizeService;
 import com.ynyes.huizi.service.TdUserLevelService;
+import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 
 @Controller
@@ -53,6 +56,12 @@ public class TdLotteryController {
 	
 	@Autowired
 	private TdGoodsService tdGoodsService;
+	
+	@Autowired  
+    private TdCouponService tdCouponService;
+	
+	@Autowired
+	private TdUserPointService tdUserPointService;
 	
 	@RequestMapping("/lottery")
 	public String lottery(ModelMap map, HttpServletRequest req){
@@ -170,11 +179,57 @@ public class TdLotteryController {
 				tdPrize.setPrizeType(tdPrizeCategory.getPrizeType());
 				if (tdPrizeCategory.getPrizeType().equals(0L) && null != tdPrizeCategory.getPrizePoints()) {					
 					tdPrize.setPrizePoints(tdPrizeCategory.getPrizePoints());
+					
+					tdUser.setTotalPoints(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					TdUserPoint userPoint = new TdUserPoint();
+
+					userPoint.setIsBackgroundShow(false);
+					userPoint.setTotalPoint(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					userPoint.setUsername(tdUser.getUsername());
+					userPoint.setPoint(tdPrizeCategory.getPrizePoints());
+					userPoint.setDetail("抽奖奖励");
+					
+					userPoint = tdUserPointService.save(userPoint);
 				}
 				else if (tdPrizeCategory.getPrizeType().equals(1L) && null != tdPrizeCategory.getCouponTypeId()) {
 					tdPrize.setCouponTypeId(tdPrizeCategory.getCouponTypeId());
 					TdCouponType tdCouponType = tdCouponTypeService.findOne(tdPrizeCategory.getCouponTypeId());
-					tdPrize.setCouponTitle(tdCouponType.getTitle());
+					tdPrize.setCouponTitle(tdCouponType.getTitle());										
+					
+					TdCoupon getCoupon = new TdCoupon();				    
+
+				    getCoupon.setGetNumber(1L);
+				    getCoupon.setGetTime(new Date());
+				    
+				    if (null != tdCouponType && null != tdCouponType.getTotalDays())
+				    {
+			    	    Calendar ca = Calendar.getInstance();
+			    	    ca.add(Calendar.DATE, tdCouponType.getTotalDays().intValue());
+			    	    getCoupon.setExpireTime(ca.getTime());
+				    }
+				    
+				    getCoupon.setIsDistributted(true);
+				    getCoupon.setIsUsed(false);
+				    if (null != tdUser.getMobile()) {
+				    	getCoupon.setMobile(tdUser.getMobile());
+					}
+				    if (null != tdCouponType.getDescription()) {
+				    	getCoupon.setTypeDescription(tdCouponType.getDescription());
+					}	    
+				    getCoupon.setTypeId(tdCouponType.getId());
+				    if (null != tdCouponType.getPicUri()) {
+				    	getCoupon.setTypePicUri(tdCouponType.getPicUri());
+					}
+				    if (null != tdCouponType.getTitle()) {
+				    	getCoupon.setTypeTitle(tdCouponType.getTitle());
+					}
+				    if (null != tdCouponType.getPrice()) {
+						getCoupon.setPrice(tdCouponType.getPrice());
+					}
+				    
+				    getCoupon.setUsername(username);
+				    
+				    tdCouponService.save(getCoupon);
 				}
 				else if (tdPrizeCategory.getPrizeType().equals(2L) && null != tdPrizeCategory.getPrizeGoodsId()) {
 					tdPrize.setGoodsId(tdPrizeCategory.getPrizeGoodsId());
@@ -183,6 +238,7 @@ public class TdLotteryController {
 				}
 			}
 			
+			tdUserService.save(tdUser);
 			tdPrizeService.save(tdPrize);
 			tdPrizeCategory.setLeftNumber(tdPrizeCategory.getLeftNumber()-1);
 			tdPrizeCategoryService.save(tdPrizeCategory);

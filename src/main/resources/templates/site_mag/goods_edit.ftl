@@ -673,7 +673,7 @@ function del_goods_comb(obj) {
             </dd>
         </dl>
         <dl>
-            <dt>团购展示图片</dt>
+            <dt>闪购团购展示图片</dt>
             <dd>
                 <input id="groupSaleImage" name="groupSaleImage" type="text" value="<#if goods??>${goods.groupSaleImage!""}</#if>" class="input normal upload-path">
                 <div class="upload-box upload-img"></div>
