@@ -147,7 +147,19 @@ function hideDialog()
                         <#if ("distributed_coupon_" + item.id + "_list")?eval?? >
                             <#list ("distributed_coupon_" + item.id + "_list")?eval as distributedCoupon>
                                 <#if distributedCoupon_index < 10>
-                                <li><span class="red"><#if distributedCoupon.mobile??>${distributedCoupon.mobile?substring(0, 7)}****</#if></span><span class="fr"><#if distributedCoupon.getTime??>${distributedCoupon.getTime?string("yyyy.MM.dd")}</#if></span></li>
+                                <li><span class="red">
+                                    <#if distributedCoupon.mobile??>
+                                        <#if distributedCoupon.mobile?length gt 8>
+                                            ${distributedCoupon.mobile[0..6]?default("")}****
+                                        </#if>
+                                    </#if>
+                                    </span>
+                                    <span class="fr">
+                                    <#if distributedCoupon.getTime??>
+                                        ${distributedCoupon.getTime?string("yyyy.MM.dd")}
+                                    </#if>
+                                    </span>
+                                </li>
                                 </#if>
                             </#list>
                         </#if> 

@@ -29,10 +29,24 @@
 	navDownList("navdown","li",".nav_showbox");
 	//menuDownList("mainnavdown","#navdown",".a2","sel");
 	
-	indexBanner("box","sum",300,5000,"num");
-	indexBannerShow("box",_bname,"sum",_nname,_hover,_speed);
 	chooseMoreShow();
-		
+	
+	//左右滚动幻灯片广告
+    var the_three = {
+             "boxid":"threebox",//最外层id
+             "sumid":"threesum",//列表id
+             "li01":"threeli01",//li标签id
+             "li02":"threeli02",//重复li二号id
+             "stylename":"threepart",//内部滚动的标签class
+             "numid":"threenum",//数字id
+             "boxwidth":1920,//宽度
+             "boxheight":450,//高度
+             "preid":"threepre",//上一个id
+             "nextid":"threenext",//下一个id
+             "speed":5000,// 切换速度
+             "gospeed":500//轮换速度
+          };
+    $.ljs_adcartoon.arrowNum(the_three);	
 });
 
 function move()
@@ -224,10 +238,27 @@ function delItem(id)
 	<div class="banner">
 		<#if banner_ad_list??>
                <#list banner_ad_list as item>
-                    <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1920px;height:450px;"></a>
+                    <#if item_index < 1>
+                        <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1920px;height:450px; "></a>
+                    </#if>
                </#list>
         </#if>
     </div>   
+
+  <#--  <div id="threebox" class="banner">
+      <ul id="threesum">
+        <li id="threeli01" style="width: 100% !important;height: 452px;overflow: hidden;text-align: center;">
+          <#if banner_ad_list??>
+               <#list banner_ad_list as item>                    
+                    <a class="threepart" href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="1920" height="450" style=" width: 1920px; left: 0px; top: 0px;"/></a>
+                    
+               </#list>
+          </#if>          
+        </li>
+        <li id="threeli02"></li>
+      </ul>
+      <div style="clear:both;"></div>
+    </div> -->
 
 	<div class="main">
 		<menu class="index_zx">
