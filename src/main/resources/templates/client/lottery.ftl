@@ -13,12 +13,14 @@
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
 
+
 <script type="text/javascript" src="/client/js/jQueryRotate.2.2cj.js"></script>
 <script type="text/javascript" src="/client/js/script_cj.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.compatibility.js"></script>
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
@@ -37,6 +39,25 @@
     chooseMoreShow();
         
 });
+
+function signin(){
+    
+    var username = $("#username").text();
+     $.ajax({
+                type: "post",
+                url: "/lottery/signin",
+                data: { "username": username },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 0) {
+                       window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+    });
+}
+
 </script>
 
 <style type="text/css">
@@ -57,7 +78,7 @@
     <div class="inner">
       <div class="firstScreen_left">
       <#if user??>
-        <div class="c_info"> <img class="e_head" src="${user.headImageUri!''}" alt="头像">
+        <div class="c_info"> <img class="e_head" src="${user.headImageUri!''}" width="66" height="66" alt="头像">
           <h4><b id="username">${user.username!''}</b></h4>
           <span> <a href="#" target="_blank"> <b>${user.userLevelTitle!''}</b> </a> </span> </div>
         <div class="c_grow"> <span>
@@ -75,12 +96,12 @@
              <#if user.isSignin?? && user.isSignin>
                 <a class="e_receive J_receive S_gray" href="javascript:;">今日已签到</a>
              <#else>
-                <a class="e_receive J_receive S_red" href="javascript:;">马上签到</a>
+                <a class="e_receive J_receive S_red" href="javascript:signin();">马上签到</a>
              </#if>
         </div>
       </#if>
         <div class="c_getAidou J_getAidou">
-          <div class="g_btns"> <a href="#" target="_blank">签到赚积分</a> <a href="3" target="_blank">查看积分规则</a> </div>
+          <div class="g_btns"> <a href="#" target="_blank">签到赚积分</a> <a href="#" target="_blank">查看积分规则</a> </div>
           <#--<div class="l_mobile"> <a href="javascript:;"> <span class="g_text"> <b>手机每天也可以签到领取积分</b> <i></i> </span> <span class="g_code"> <img src="/client/images/erweima.jpg" alt="" width="150" height="150"> <em>扫一扫手机签到更方便</em> </span> </a> </div>-->
           <div class="l_mobile"> <a href="javascript:;"> <span class="g_text"> <b>赶快参与抽奖吧>></i> </span></a> </div>
         </div>

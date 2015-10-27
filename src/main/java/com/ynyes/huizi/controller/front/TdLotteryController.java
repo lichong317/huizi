@@ -92,6 +92,28 @@ public class TdLotteryController {
 		
 	}
 	
+	@RequestMapping(value="/lottery/signin",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> signin(String username,
+	                HttpServletRequest request) {
+	     Map<String, Object> res = new HashMap<String, Object>();
+	        
+	     res.put("code", 1);
+	     
+	     if (null == username) {
+			res.put("msg", "用户名不存在！");
+			return res;
+		 }
+	     
+	     TdUser tdUser = tdUserService.findByUsername(username);
+	     tdUser.setIsSignin(true);
+	     tdUserService.save(tdUser);	     	     
+	     
+	     res.put("code", 0);
+	     
+	     return res;
+	}
+	
 	@RequestMapping(value="/lottery/getPrizeType",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getPrizeType(
