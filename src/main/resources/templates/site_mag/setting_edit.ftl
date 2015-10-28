@@ -316,6 +316,14 @@ $(function () {
             <span class="Validform_checktip">同一天通过商品分享获得的积分超过该值将不再奖励积分</span>
         </dd>
     </dl>
+    
+    <dl>
+            <dt>分销商返利比例</dt>
+            <dd>
+                <input name="ReturnRation" type="text" value="<#if setting??>${setting.ReturnRation!"0"}<#else>0</#if>" class="input normal" datatype="n" sucmsg=" ">
+                <span class="Validform_checktip">分销商返利比例(返利计算为订单总金额*返利比例)</span>
+            </dd>
+        </dl>
 </div>    
 <div class="tab-content" style="display: none;">
     <dl>

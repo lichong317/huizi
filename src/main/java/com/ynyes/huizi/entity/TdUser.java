@@ -172,7 +172,15 @@ public class TdUser {
     
     // 返现总笔数
     @Column
+    private Long totalCashRewardsNumber;
+    
+    // 返现总数
+    @Column
     private Long totalCashRewards;
+    
+    // 返现给上级用户总数
+    @Column
+    private Long totalCashRewardsToUpuser;
     
     // 分销商银行卡号
     @Column
@@ -226,7 +234,23 @@ public class TdUser {
         this.headImageUri = headImageUri;
     }
 
-    public Boolean getIsSignin() {
+    public Long getTotalCashRewardsToUpuser() {
+		return totalCashRewardsToUpuser;
+	}
+
+	public void setTotalCashRewardsToUpuser(Long totalCashRewardsToUpuser) {
+		this.totalCashRewardsToUpuser = totalCashRewardsToUpuser;
+	}
+
+	public Long getTotalCashRewardsNumber() {
+		return totalCashRewardsNumber;
+	}
+
+	public void setTotalCashRewardsNumber(Long totalCashRewardsNumber) {
+		this.totalCashRewardsNumber = totalCashRewardsNumber;
+	}
+
+	public Boolean getIsSignin() {
 		return isSignin;
 	}
 

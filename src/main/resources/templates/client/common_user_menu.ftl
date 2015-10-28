@@ -30,6 +30,7 @@
             <a href="/user/redenvelope/list">红包</a>
             <#if user?? && user.roleId?? && user.roleId == 1>
                 <a href="/user/junioruser/list">下级用户</a>
+                <a href="#">账户设置</a>
             </#if>
         </div>
     </div>

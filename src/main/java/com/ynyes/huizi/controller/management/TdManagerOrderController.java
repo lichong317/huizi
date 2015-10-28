@@ -21,6 +21,7 @@ import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdDiySite;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayType;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.service.TdArticleService;
@@ -31,6 +32,8 @@ import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdPayTypeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.SiteMagConstant;
 
@@ -71,6 +74,11 @@ public class TdManagerOrderController {
     @Autowired
     TdManagerLogService tdManagerLogService;
     
+    @Autowired
+    TdSettingService tdSettingService;
+    
+    @Autowired
+    TdUserCashRewardService tdUserCashRewardService;
     // 订单设置
     @RequestMapping(value="/setting/{type}/list")
     public String setting(@PathVariable String type, 
@@ -583,15 +591,56 @@ public class TdManagerOrderController {
                     order.setStatusId(3L);
                     order.setPayTime(new Date());
                     
-//                    TdUser tdUser = tdUserService.findByUsername(order.getUsername());
-//                    if (null != tdUser && null != tdUser.getUpperUsername()) {
-//                    	TdUserCashReward tdUserCashReward = new TdUserCashReward();
-//                        
-//                        tdUserCashReward.setLowerUsername(order.getUsername());
-//                    	tdUserCashReward.setUsername(tdUser.getUpperUsername());
-//                    	tdUserCashReward.setRewardTime(new Date());
-//                    	
-//					}
+                    TdUser tdUser = tdUserService.findByUsername(order.getUsername());
+                    if (null != tdUser && null != tdUser.getUpperUsername()) {
+                    	
+                    	
+                    	TdSetting tdSetting = tdSettingService.findTopBy();
+                    	
+                    	TdUserCashReward tdUserCashReward = new TdUserCashReward();
+                        
+                        tdUserCashReward.setLowerUsername(order.getUsername());
+                    	tdUserCashReward.setUsername(tdUser.getUpperUsername());
+                    	tdUserCashReward.setRewardTime(new Date());
+                    	tdUserCashReward.setCashReward(order.getTotalPrice()*tdSetting.getReturnRation());
+                    	if (null != tdUser.getTotalCashRewards()) {
+                    		tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards() + order.getTotalPrice()*tdSetting.getReturnRation()));
+						}else {
+							tdUserCashReward.setTotalCashReward((long) (order.getTotalPrice()*tdSetting.getReturnRation()));
+						}
+                    	tdUserCashReward.setOrderNumber(order.getOrderNumber());
+                    	
+                    	if (null != tdUser.getBankTitle()) {
+							tdUserCashReward.setBankName(tdUser.getBankTitle());
+						}
+                    	if (null != tdUser.getBankCardCode()) {
+							tdUserCashReward.setBankCardNumber(tdUser.getBankCardCode());
+						}
+                    	
+                    	tdUserCashReward.setOrderPrice(order.getTotalPrice());
+                    	tdUserCashReward.setSortId(99L);
+                    	
+                    	tdUserCashRewardService.save(tdUserCashReward);
+                    	
+                    	TdUser tdUpuser = tdUserService.findByUsername(tdUser.getUpperUsername());
+                    	if (null != tdUpuser.getTotalCashRewardsNumber()) {
+							tdUpuser.setTotalCashRewardsNumber(tdUpuser.getTotalCashRewardsNumber() + 1);
+						}else {
+							tdUpuser.setTotalCashRewardsNumber(1L);
+						}
+                    	if (null != tdUpuser.getTotalCashRewards()) {
+							tdUpuser.setTotalCashRewards((long) (order.getTotalPrice()*tdSetting.getReturnRation()) + tdUpuser.getTotalCashRewards());
+						}else {
+							tdUpuser.setTotalCashRewards((long) (order.getTotalPrice()*tdSetting.getReturnRation()));
+						}
+                    	tdUserService.save(tdUpuser);
+                    	
+                    	if (null != tdUser.getTotalCashRewardsToUpuser()) {
+                    		tdUser.setTotalCashRewardsToUpuser((long) (order.getTotalPrice()*tdSetting.getReturnRation()) + tdUser.getTotalCashRewardsToUpuser());
+						}else {
+							tdUser.setTotalCashRewardsToUpuser((long) (order.getTotalPrice()*tdSetting.getReturnRation()));
+						}
+					}
                     
                     
                    

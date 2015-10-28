@@ -113,6 +113,10 @@ public class TdSetting {
     @Column
     private Long goodsShareLimits;
     
+    // 分销用户返现比例
+    @Column(scale=2)
+    private Double ReturnRation;
+    
     // 微信二维码
     @Column
     private String wxQrCode;
@@ -141,7 +145,15 @@ public class TdSetting {
         this.title = title;
     }
 
-    public String getDomainName() {
+    public Double getReturnRation() {
+		return ReturnRation;
+	}
+
+	public void setReturnRation(Double returnRation) {
+		ReturnRation = returnRation;
+	}
+
+	public String getDomainName() {
         return domainName;
     }
 

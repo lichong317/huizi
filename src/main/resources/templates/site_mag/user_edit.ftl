@@ -132,9 +132,9 @@ $(function () {
       <ul>
         <li><a href="javascript:;" onclick="tabs(this);" class="selected">基本资料</a></li>
         <li><a href="javascript:;" onclick="tabs(this);">安全设置</a></li>
-        <#--
+        
         <li><a href="javascript:;" onclick="tabs(this);">账户信息</a></li>
-        -->
+        
       </ul>
     </div>
   </div>
@@ -298,30 +298,43 @@ $(function () {
   </dl>
 </div>
 <!--/安全设置-->
-<#--
+
 <div class="tab-content" style="display:none;">
   <dl>
     <dt>下级用户总数</dt>
-    <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value=""> <span class="Validform_checktip">*平台内支付的密码，至少6位</span></dd>
+    <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user??>${user.totalLowerUsers!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>用户返现总数</dt>
-    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value=""> <span class="Validform_checktip">*平台内支付的密码，至少6位</span></dd>
+    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user??>${user.totalCashRewards!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>银行卡号</dt>
-    <dd><input name="bankCardCode" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value=""> <span class="Validform_checktip">*平台内支付的密码，至少6位</span></dd>
+    <dd><input name="bankCardCode" type="text" id="txtPay_Password" class="input normal"  sucmsg=" " value="<#if user??>${user.bankCardCode!""}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>银行名称</dt>
-    <dd><input name="bankTitle" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value=""> <span class="Validform_checktip">*平台内支付的密码，至少6位</span></dd>
+    <dd><input name="bankTitle" type="text" id="txtPay_Password" class="input normal"  sucmsg=" " value="<#if user??>${user.bankTitle!""}</#if>"> <span class="Validform_checktip"></span></dd>
+  </dl>
+ <#-- <dl>
+    <dt>银行卡已验证</dt>
+    <dd><input name="txtPay_Password" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value="<#if user??>${user.totalReturns!""}</#if>"> <span class="Validform_checktip"></span></dd>
+  </dl>-->
+  <dl>
+    <dt>银行卡验证</dt>
+    <dd>
+      <div class="rule-multi-radio multi-radio">
+        <span>
+            <input type="radio" name="isBankCardVerified" value="1"  <#if user?? && user.isBankCardVerified?? && user.isBankCardVerified==1>checked="checked"</#if>><label>已验证</label>
+            <input type="radio" name="isBankCardVerified" value="0"  <#if user?? && user.isBankCardVerified?? && user.isBankCardVerified==0>checked="checked"</#if>><label>未验证</label>
+        </span>
+      </div>
+      <span class="Validform_checktip"></span>
+    </dd>
   </dl>
   <dl>
-    <dt>银行卡已验证</dt>
-    <dd><input name="txtPay_Password" type="text" id="txtPay_Password" class="input normal" nullmsg="请设置支付密码" errormsg="支付密码范围在6-20位之间" sucmsg=" " value=""> <span class="Validform_checktip">*平台内支付的密码，至少6位</span></dd>
-  </dl>
 </div>
--->
+
 <!--/账户信息-->
 
 
