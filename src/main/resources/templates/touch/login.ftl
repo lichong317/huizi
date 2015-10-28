@@ -64,7 +64,7 @@
                     if (data.code == 0) {
                         var url = document.referrer;
                         if(undefined==url || ""==url){
-                            window.location.href="/";
+                            window.location.href="/touch/user";
                         }else{
                             window.location.href = url; 
                         }
