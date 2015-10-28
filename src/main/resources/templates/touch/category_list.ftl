@@ -46,7 +46,7 @@
             <#if ("second_level_"+item_index+"_cat_list")?eval??>
                 <table id="table${item_index}" class="comtab menu_tab" style="display:none">
                     <tr>
-                        <td><a href="/touch/list/${item.id?c}">${item.title!''}</a></td>
+                        <td><a href="/touch/list/${item.id?c}">全部</a></td>
                     <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
                         <#if secondLevelItem_index ==0>
                              <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
