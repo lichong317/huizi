@@ -342,7 +342,7 @@
 .pro_choose .sub01:hover { background:#222222; color:#fff;}
 .proinfo_right .sys {position:absolute;right:0;bottom:0;width:124px; padding:9px; text-align:center; line-height:16px;}
 .proinfo_right .sys i { position:absolute;left:-12px;top:50px;}
-#proshowimg { width:396px;height:396px;}
+#proshowimg { width:396px;height:396px; border:solid 1px #f0f0f0;}
 #proshowimg li { width:100%; position:absolute;left:0;top:0; height:396px; overflow:hidden;}
 #proshowimg li img { width:100%;}
 #proshowmenu { width:100%; text-align:center;}
@@ -583,10 +583,10 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .saoyisao a:hover{color:#fd3e3e;}
 
 .mendian{width:140px; float:left; text-align:center;margin-left:65px;}
-.mendian h3{width:138px; height:29px; border-radius:10px;  line-height:29px; background:#fd3e3e url(../images/hzd_60.png) no-repeat 7px center;; text-align:center; margin-top:19px;s}
+.mendian h3{width:138px; height:29px; border-radius:10px;  line-height:29px; background:#fd3e3e url(../images/hzd_60.png) no-repeat 7px center; text-align:center; margin-top:19px;}
 .mendian a{color:#FFF;}
 .mendian a:hover{color:#222222;}
-.dizhi{width:200px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
+.dizhi{width:310px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
 
 .downwenzi li{ float:left; width:80px; color:#FFF;  display: block;}
 .down3{line-height:30px;}

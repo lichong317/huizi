@@ -9,9 +9,11 @@ a{color:#333;text-decoration: none;}
 a:hover{text-decoration:underline;}
 a img{border:none;}
 /** 浮动 **/
-.fl{float:left;}
+.fl{float:left;_float:left; *float:left;}
 .clear{ clear:both;}
-.fr{float:right;}
+.fr{float:right;_float:right; *float:right;}
+.fll{float:left;_float:left; *float:left;}
+.flr{float:right;_float:right; *float:right;}
 .top1 { width:1200px; float:left; height:31px; display:block}
 .wt1200 { width:1200px;}
 #main{width:1200px;margin-left:auto;margin-right:auto;}

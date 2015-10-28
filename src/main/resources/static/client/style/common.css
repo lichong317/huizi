@@ -545,14 +545,13 @@ a.white:hover { color:#ff7d43;}
 	display:block;
 	position:absolute;
 	background:#fff;
-	padding:0 11px;
-	width:174px;
+	width:196px;
 	height:450px;
 	z-index:99999999999999999999;
 	top:40px;
 	border:2px solid #fd3e3e;
 	}
-.navlistout li { width:100%;}
+.navlistout li { width:174px; padding:0 11px;}
 .navlistout h3 {
 	font-size:16px;
 	line-height:48px;
@@ -573,12 +572,10 @@ a.white:hover { color:#ff7d43;}
 	display:none;
 	position:absolute;
 	left:184px;
-	border-left:none;
 	top:-1px;
 	width:951px;
 	padding:15px;
 	min-height:85px;
-	border:1px solid #fd3e3e;
 	background:white;}
 .nav_showbox .bg {
 	display:block;
