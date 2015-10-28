@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ynyes.huizi.entity.TdAdType;
@@ -97,5 +98,14 @@ public class TdTouchIndexController {
                 
         
         return "/touch/index";
+    }
+    
+    @RequestMapping("/category/list")
+    public String product(
+            ModelMap map, HttpServletRequest req) {
+
+        tdCommonService.setHeader(map, req);
+        
+        return "/touch/category_list";
     }
 }
