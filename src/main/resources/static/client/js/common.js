@@ -63,18 +63,37 @@ function phoneListMore(){
 			});
 }
 
-function navDownList(boxid,_sumname,_showname){
-	var _box = $("#"+boxid);
-	var _arr = _box.find(_sumname);
-	var _hover = _box.find(_showname);
+function navDownList(boxid, _sumname, _showname) {
+	$("#mainnavdown").append("<div id='mainnavdownbg'></div>");
+	var _mybg = $("#mainnavdownbg");
+	
+    var _box = $("#" + boxid);
+    var _arr = _box.find(_sumname);
+    var _hover = _box.find(_showname);
+    _arr.hover(function () {
+        if (_hover.is(":animated")) { _hover.stop(true, true); }
+        var _height = $(this).height() + 0;
+        $(this).find(".bg").height(_height);
+        $(this).find(_showname).css("display","block");
+
+        var _index = $(this).index();
+        var _top = 0;
+        for (var i = 0; i < _index; i++) {
+            _top = _top - _arr.eq(i).height() - 0;
+        }
+        $(this).find(_showname).css("top", _top + "px");
+        _top = -_top - 8;
+
+
+    }, function () {
+        if (_hover.is(":animated")) { _hover.stop(true, true); }
+        _hover.css("display","none");
+    });
+	
 	_arr.hover(function(){
-		if(_hover.is(":animated")){_hover.stop(true,true);}
-		var _height = $(this).height() + 5;
-		$(this).find(".bg").height(_height);
-		$(this).find(_showname).fadeIn(100);
+		_mybg.css("display","block");
 		},function(){
-			if(_hover.is(":animated")){_hover.stop(true,true);}
-			_hover.fadeOut(100);
+			_mybg.css("display","none");
 			});
 }
 //选项卡 - 本效果由昆明天度网络IRIS原创制作

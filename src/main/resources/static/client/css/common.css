@@ -824,10 +824,9 @@ margin:0 2px;}
 	text-align:right;}
 .page-orange a {
 	display:inline-block;
-	width:30px;
+	width:65px;
 	height:30px;
 	text-align:center;
-	border-radius:50%;
 	overflow:hidden;
 	border:1px solid #ff8800;
 	color:#ff8800;

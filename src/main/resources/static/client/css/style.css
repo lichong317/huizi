@@ -481,7 +481,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .ssbox p a:hover{color: #e8323d;}
 
 
-.daohang{ border-bottom:solid; border-bottom-color:#fd3e3e; border-bottom-width:4px; height:40px;}
+.daohang{ border-bottom:solid; border-bottom-color:#fd3e3e; border-bottom-width:3px; height:40px;}
 .daohang2 li{width:100px; float:left; line-height:40px; }
 
 .num1 { width: 18px; height: 21px; background:url(../images/hzd_23.png) no-repeat; position: absolute; left: 0; top: 0; color: #fff; text-align: left; padding-left: 3px; line-height: 14px; font-family: Arial, Helvetica, sans-serif; font-size: 10px; -webkit-text-size-adjust: none; font-weight: bold; }
@@ -509,7 +509,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .mendian h3{width:138px; height:29px; border-radius:10px;  line-height:29px; background:#fd3e3e url(../images/hzd_60.png) no-repeat 7px center;; text-align:center; margin-top:19px;s}
 .mendian a{color:#FFF;}
 .mendian a:hover{color:#222222;}
-.dizhi{width:180px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
+.dizhi{width:200px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
 
 .downwenzi li{width:80px; float:left; color:#FFF;}
 .down3{line-height:30px;}

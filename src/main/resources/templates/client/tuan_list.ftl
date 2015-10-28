@@ -152,7 +152,7 @@ function checkTime(i)
                                                                  <#if item_index < 4 > 
                                                                         <img src="${item.logo!''}" width="38" height="38" style="vertical-align:middle">                                                                  
                                                                         <a href="javascript:;" style="height: 38px;
-                                                                        display: inline-block;line-height: 40px;color:#333333;font-size: 14px;">${item.title!''}</a>                                                                    
+                                                                        display: inline-block;line-height: 40px;color:#333333;font-size: 14px;margin-right: 40px;">${item.title!''}</a>                                                                    
                                                                  </#if>
                                                             </#list>                                                            
                                                       </#if>                                                  

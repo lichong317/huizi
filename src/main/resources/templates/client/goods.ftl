@@ -534,8 +534,8 @@ function checkTime(i)
           <#if GoodsService_item_list??>                                                       
             <#list GoodsService_item_list as item>      
               <#if item_index < 4 >             
-                <img src="${item.logo!''}" width="26" height="26" style="vertical-align:middle">                                                                  
-                <div style="height: 26px;display: inline-block;line-height: 30px;color:#333333;">${item.title!''}</div>                                 
+                <img src="${item.logo!''}" width="26" height="26" style="vertical-align:middle;float: left;">                                                                  
+                <div style="height: 26px;display: inline-block;line-height: 30px;color:#333333;float: left;margin-right: 40px;margin-left: 10px;">${item.title!''}</div>                                 
               </#if>
             </#list>
           </#if>
@@ -612,7 +612,7 @@ function checkTime(i)
       <li style="display: none;">
         <div class="part">
           <a href="/goods/${goods.id?c}"><img src="${goods.coverImageUri!''}" width="140" height="140" /></a>
-          <p style="height: 37px; overflow: hidden;">${goods.title!''}</p>
+          <p style="height: 30px; overflow: hidden;">${goods.title!''}</p>
           <p class="p1"><span>￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span></p>
         </div>
         <p class="part"><img src="/client/images/images/spxq_36.png" /></p>
@@ -623,7 +623,7 @@ function checkTime(i)
                       <#if item_index < 4 >
                         <div class="part">
                             <a href="/goods/${item.goodsId?c}"><img src="${item.coverImageUri!''}" width="140" height="140"/></a>
-                            <p style="height: 37px; overflow: hidden;">${item.goodsTitle!''}</p>
+                            <p style="height: 30px; overflow: hidden;">${item.goodsTitle!''}</p>
                             <p class="p2"><del>￥${item.goodsPrice?string("0.00")}</del></p>
                             <p class="p1">
                                 <input type="checkbox" class="comboCheckBox" zpid="${item.id?c}" onclick="javascript:combSelect(this, ${item.currentPrice?string("0.00")}, ${item.goodsPrice?string("0.00")});"/>

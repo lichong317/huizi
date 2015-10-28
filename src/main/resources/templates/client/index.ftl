@@ -239,7 +239,7 @@ function delItem(id)
 		<#if banner_ad_list??>
                <#list banner_ad_list as item>
                     <#if item_index < 1>
-                        <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1920px;height:450px; "></a>
+                        <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1200px;height:450px; "></a>
                     </#if>
                </#list>
         </#if>

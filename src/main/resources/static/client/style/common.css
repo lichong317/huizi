@@ -360,7 +360,7 @@ a.white:hover { color:#ff7d43;}
 	line-height:16px;
 	border-right:1px solid #eee;}
 .shopping_box {
-	z-index:9;
+	z-index:11;
 	width:169px;
 	float:right;
 	margin:44px 0 0 0;
@@ -398,7 +398,7 @@ a.white:hover { color:#ff7d43;}
 	display:none;
 	box-shadow:1px 2px 3px #999;
 	position:absolute;
-	top:38px;
+	top:45px;
 	right:-2px;
 	z-index:9;
 	background:#fff;
@@ -529,7 +529,7 @@ a.white:hover { color:#ff7d43;}
 .navbox a.a1:hover { background:#ff4040; color:#FFF;}
 .navlist {
 	margin-right:10px;
-	width:218px;
+	width:200px;
 	float:left;
 	background:#e83928;}
 .navlist a.a2 {
@@ -545,7 +545,7 @@ a.white:hover { color:#ff7d43;}
 	display:block;
 	position:absolute;
 	background:#fff;
-	padding:0 20px;
+	padding:0 11px;
 	width:174px;
 	height:450px;
 	z-index:99999999999999999999;
@@ -572,8 +572,9 @@ a.white:hover { color:#ff7d43;}
 .nav_showbox {
 	display:none;
 	position:absolute;
-	left:195px;
-	top:-8px;
+	left:184px;
+	border-left:none;
+	top:-1px;
 	width:951px;
 	padding:15px;
 	min-height:85px;
@@ -819,10 +820,9 @@ margin:0 2px;}
 	text-align:right;}
 .page-orange a {
 	display:inline-block;
-	width:30px;
+	width:65px;
 	height:30px;
 	text-align:center;
-	border-radius:50%;
 	overflow:hidden;
 	border:1px solid #fd3e3e;
 	color:#fd3e3e;
