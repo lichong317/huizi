@@ -194,6 +194,32 @@ public class TdIndexController {
     	
         res.put("flash",FlashList);
         
+     // 全部商品分类，取三级
+        List<TdProductCategory> topCatList = tdProductCategoryService
+                .findByParentIdIsNullOrderBySortIdAsc();
+        res.put("top_cat_list", topCatList);
+
+        if (null != topCatList && topCatList.size() > 0) 
+        {
+            for (int i = 0; i < topCatList.size(); i++) 
+            {
+                TdProductCategory topCat = topCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());
+                res.put("second_level_" + i + "_cat_list", secondLevelList);
+
+                if (null != secondLevelList && secondLevelList.size() > 0) 
+                {
+                    for (int j=0; j<secondLevelList.size(); j++)
+                    {
+                        TdProductCategory secondLevelCat = secondLevelList.get(j);
+                        List<TdProductCategory> thirdLevelList = tdProductCategoryService
+                                .findByParentIdOrderBySortIdAsc(secondLevelCat.getId());
+                        res.put("third_level_" + i + j + "_cat_list", thirdLevelList);
+                    }
+                }
+            }
+        }
         
 //        //广告
 //        TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
