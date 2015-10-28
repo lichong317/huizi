@@ -72,7 +72,7 @@
                         </td>
                         <td>${item.userLevelTitle!''}</td>
                         <td>${item.totalSpendCash!'0'}</td>
-                        <td>0</td>
+                        <td>${item.totalCashRewardsToUpuser!'0'}</td>
                     </tr>
                 </#list>
             </#if>   
