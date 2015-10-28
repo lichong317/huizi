@@ -48,14 +48,11 @@
                     <tr>
                         <td><a href="/touch/list/${item.id?c}">${item.title!''}</a></td>
                     <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
-                        <#if secondLevelItem_index%3 ==2>
-                             <tr>
-                                <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
-                        <#elseif secondLevelItem_index%3 ==0>
+                        <#if secondLevelItem_index ==0>
                              <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
-                        <#elseif secondLevelItem_index%3 ==1>
-                                <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
-                             </tr>
+                        <#else>
+                             <tr>
+                                <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>                       
                         </#if>
                         <#if ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval?? >
                                <#list ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval as thirdLevelItem>
