@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.startup.HomesUserDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdArticleCategory;
+import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.service.TdAdService;
 import com.ynyes.huizi.service.TdAdTypeService;
@@ -163,6 +166,60 @@ public class TdIndexController {
         res.put("code", 0);
         
         return res;
+    }
+    /**
+     * ios 接口
+     * @return
+     */
+    @RequestMapping("api/get")
+    @ResponseBody
+    public Map<String, Object>HomeData()
+    {
+    	Map<String, Object> res = new HashMap<String, Object>();
+    	
+    	res.put("code", 1);
+        
+    	Page<TdGoods> goodsPage = tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, 4);
+    	List<TdGoods> goodsList = goodsPage.getContent();
+    	// 新品推荐
+        res.put("good", goodsList);
+        
+        // 团购
+        Page<TdGoods> GroupPage = tdGoodsService.findByGroupSalingOrderByGroupSaleStartTimeAsc(0, 3);
+    	List<TdGoods> groupList = GroupPage.getContent();
+        res.put("group", groupList);
+        // 秒杀
+        Page<TdGoods> FlashPage = tdGoodsService.findByFlashSalingOrderByFlashSaleStartTimeAsc(0, 3);
+    	List<TdGoods> FlashList = FlashPage.getContent();
+    	
+        res.put("flash",FlashList);
+        
+        
+//        //广告
+//        TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
+//        
+//        // 顶部广告
+//        res.put("top_ad", tdAdService.findByTypeId(tdAdType.getId()));
+//        
+//        // 中部竖向广告
+//        tdAdType = tdAdTypeService.findByTitle("App首页中部竖向广告");
+//        res.put("middle_vertical_ad", tdAdService.findByTypeId(tdAdType.getId()));
+//        
+//        // 中部横向广告
+//        tdAdType = tdAdTypeService.findByTitle("App首页中部横向广告");
+//        res.put("middle_horizontal_ad", tdAdService.findByTypeId(tdAdType.getId()));
+//        
+//        // 两个底部长广告
+//        tdAdType = tdAdTypeService.findByTitle("App首页底部长广告");
+//        res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
+//        
+//        //分类精选广告
+//        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
+//        res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        
+        res.put("code", 0);
+    	
+    	return res;
     }
     
     /*******接口结束********/
