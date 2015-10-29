@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.neo4j.cypher.internal.compiler.v2_1.docbuilders.internalDocBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,10 @@ import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.entity.TdUserCollect;
 import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserComplain;
@@ -43,6 +46,7 @@ import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.entity.TdUserReturn;
+import com.ynyes.huizi.entity.TdUserWithdraw;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
@@ -52,6 +56,7 @@ import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
+import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
@@ -62,10 +67,12 @@ import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.service.TdUserReturnService;
 import com.ynyes.huizi.service.TdUserService;
+import com.ynyes.huizi.service.TdUserWithdrawService;
 import com.ynyes.huizi.util.ClientConstant;
 import com.ynyes.huizi.util.SiteMagConstant;
 
 import scala.collection.GenTraversableLike;
+import scala.collection.generic.BitOperations.Int;
 
 /**
  * 用户中心
@@ -131,6 +138,12 @@ public class TdUserController {
     
     @Autowired
     private TdCouponTypeService tdCouponTypeService;
+    
+    @Autowired
+    private TdSettingService tdSettingService;
+    
+    @Autowired
+    private TdUserWithdrawService tdUserWithdrawService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
@@ -427,6 +440,105 @@ public class TdUserController {
         getgoodsLike(map, username);
         
         return "/client/user_junioruser_list";
+    }
+    
+    @RequestMapping(value = "/user/lowerusers/order/list")
+    public String lowerUsersOrderList(Integer page,String lowerusername,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        if (null == lowerusername) {
+			return "/client/error_404";
+		}
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        map.addAttribute("order_page", tdOrderService.findByUsername(lowerusername, page, ClientConstant.pageSize));
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        map.addAttribute("setting", tdSetting);
+        return "/client/loweruser_order_list";
+    }
+    
+    @RequestMapping(value = "/user/account/info")
+    public String accountInfo(Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        if (null == page) {
+			page = 0;
+		}
+        
+        tdCommonService.setHeader(map, req);
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+       
+        map.addAttribute("withdraw_page", tdUserWithdrawService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
+        
+        return "/client/user_account_info";
+    }
+    
+    @RequestMapping(value = "/user/withdraw/request",method = RequestMethod.POST)
+    public String cashreward(Double withdraw,String realName,
+    						 String bankTitle,String bankCardCode,
+    						 String mobile,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+       
+        if (null != withdraw && null != realName && null != bankTitle && null != bankCardCode && null != mobile) {
+			if ( null != tdUser.getTotalCashRewards() ) {
+				if (withdraw > tdUser.getTotalCashRewards()) {
+					withdraw = tdUser.getTotalCashRewards().doubleValue();
+				}else if (withdraw < 0) {
+					withdraw = 0.0;
+				}
+				
+				TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+				
+				tdUserWithdraw.setUsername(username);
+				tdUserWithdraw.setRealName(realName);
+				tdUserWithdraw.setWithdrawTime(new Date());
+				tdUserWithdraw.setTotalWithdraw(withdraw);
+				tdUserWithdraw.setBankName(bankTitle);
+				tdUserWithdraw.setBankCardNumber(bankCardCode);
+				tdUserWithdraw.setMobile(mobile);
+				tdUserWithdraw.setSortId(99L);
+				tdUserWithdraw.setSortId(0L);
+				tdUserWithdrawService.save(tdUserWithdraw);
+				
+//				tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
+//				tdUserService.save(tdUser);
+			}
+		}
+        return "redirect:/user/account/info";
     }
     
     
@@ -2484,6 +2596,8 @@ public class TdUserController {
                         String sex,
                         String email,
                         String mobile,
+                        String bankTitle,
+                        String bankCardCode,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2500,6 +2614,10 @@ public class TdUserController {
             user.setSex(sex);
             user.setEmail(email);
             user.setMobile(mobile);
+            if (null != bankCardCode && null != bankTitle) {
+				user.setBankCardCode(bankCardCode);
+				user.setBankTitle(bankTitle);
+			}
             user = tdUserService.save(user);
         }
         

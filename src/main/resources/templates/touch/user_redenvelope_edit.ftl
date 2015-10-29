@@ -44,7 +44,7 @@ function redEnvelopeGet(){
 <section class="redback">
     <div class="redbackWrap">
         <p class="RBheader">
-            <img src="<#if user??>${user.headImageUri!''}</#if>" />
+            <img src="<#if user??>${user.headImageUri!''}</#if>" width="83" height="83"/>
         </p>
         <input id="redenvelopeId" style="display:none" value="<#if tdRedEnvelope??>${tdRedEnvelope.id?c}</#if>">
         <input id="username" style="display:none" value="<#if user??>${user.username}</#if>">

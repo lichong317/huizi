@@ -110,7 +110,7 @@
       <b></b>
       <span class="fl">热卖推荐</span>
       <p class="clear"></p>
-      <a class="a1" href="/touch/list/1">更多+</a>
+      <a class="a1" href="/touch/category/list">更多+</a>
     </h3>
     
     <table class="index_list">    
@@ -179,7 +179,7 @@
     <h3 class="index_tit">
       <b></b>
       精选分类
-      <a class="a1" href="/touch/list/1">更多+</a>
+      <a class="a1" href="/touch/category/list">更多+</a>
     </h3>
     
     <table class="index_list">
@@ -246,7 +246,7 @@
       <b></b>
       <span class="fl">热卖排行</span>
       <p class="clear"></p>
-      <a class="a1" href="/touch/list/1">更多+</a>
+      <a class="a1" href="/touch/category/list">更多+</a>
     </h3>
     
     <table class="index_list">

@@ -607,3 +607,12 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .mianfeilingqu_right li{line-height:30px;}
 .mianfeilingqutanchu{background:url(../images/darkbg.png) repeat; width:100%; height:100%; z-index:999999999; position:fixed;}
 .mianfeilingqutanchu_dl{ margin-top:10%;}
+
+.mianfeilingqutanchu{background:url(../images/images/darkbg.png) repeat; width:100%; height:100%; z-index:999999999; position:absolute;overflow: hidden;}  
+.mianfeilingqutanchu2{background:url(../images/images/darkbg.png) repeat; width:950px; height:460px; z-index:999999999; position:absolute;overflow: hidden;}  
+
+
+/***************************/
+.mianfeilingqutanchu_dl{ margin-top:3%;}
+.mianfeilingqutanchu_dl2{ margin-top:6px;margin-left:4px;}
+/***************************/

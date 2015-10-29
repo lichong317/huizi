@@ -68,7 +68,7 @@ function redEnvelopeGet(){
         <section class="redback">
             <div class="redbackWrap">
                 <p class="RBheader">
-                    <img src="<#if user??>${user.headImageUri!''}</#if>" />
+                    <img src="<#if user??>${user.headImageUri!''}</#if>" width="83" height="83"/>
                 </p>
                 <!--领取 -->
                 <#if tdRedEnvelope?? && !tdRedEnvelope.isGet>

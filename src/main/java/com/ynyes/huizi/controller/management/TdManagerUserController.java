@@ -24,12 +24,14 @@ import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserComplain;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserReturn;
+import com.ynyes.huizi.entity.TdUserWithdraw;
 import com.ynyes.huizi.repository.TdUserPointRepo;
 import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdManagerLogService;
@@ -46,6 +48,8 @@ import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.service.TdUserReturnService;
 import com.ynyes.huizi.service.TdUserService;
+import com.ynyes.huizi.service.TdUserWithdrawService;
+import com.ynyes.huizi.util.ClientConstant;
 import com.ynyes.huizi.util.SiteMagConstant;
 
 /**
@@ -101,6 +105,9 @@ public class TdManagerUserController {
     TdCouponTypeService tdCouponTypeService;
     
     @Autowired
+    TdUserWithdrawService tdUserWithdrawService;
+    
+    @Autowired
     TdOrderService tdOrderService; //zhangji
     
     @RequestMapping(value="/check", method = RequestMethod.POST)
@@ -136,6 +143,110 @@ public class TdManagerUserController {
         res.put("status", "y");
         
         return res;
+    }
+    
+    @RequestMapping(value = "/withdraw/list")
+    public String withdrawList(Integer page,Integer size,
+    					String __EVENTTARGET,
+			            String __EVENTARGUMENT,
+			            String __VIEWSTATE,
+			            Long[] listId,
+			            Integer[] listChkId,
+                        HttpServletRequest req, 
+                        ModelMap map){
+    	String username = (String) req.getSession().getAttribute("manager");
+        if (null == username) {
+            return "redirect:/Verwalter/login";
+        }
+                             
+        if (null != __EVENTTARGET)
+        {
+            if (__EVENTTARGET.equalsIgnoreCase("btnPage"))
+            {
+                if (null != __EVENTARGUMENT)
+                {
+                    page = Integer.parseInt(__EVENTARGUMENT);
+                } 
+            }
+            else if (__EVENTTARGET.equalsIgnoreCase("btnDelete"))
+            {
+                btnDelete("withdraw", listId, listChkId);
+                tdManagerLogService.addLog("delete", "删除提现记录", req);
+            }
+        }
+        
+        if (null == page || page < 0)
+        {
+            page = 0;
+        }
+        
+        if (null == size || size <= 0)
+        {
+            size = SiteMagConstant.pageSize;;
+        }
+        
+        map.addAttribute("withdraw_page", tdUserWithdrawService.findAllOrderBySortIdAsc( page, ClientConstant.pageSize));
+
+        return "/site_mag/user_withdraw_list";
+    }
+    
+    @RequestMapping(value="/withdraw/edit")
+    public String withdrawEdit(Long id,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        if (null != id)
+        {
+            map.addAttribute("userWithdrawId", id);
+            map.addAttribute("user_withdraw", tdUserWithdrawService.findOne(id));
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        
+        return "/site_mag/user_withdraw_edit";
+    }
+    
+    @RequestMapping(value="/withdraw/save")
+    public String withdrawSave(TdUserWithdraw tdUserWithdraw,
+                        String __VIEWSTATE,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+                       
+        if (null == tdUserWithdraw.getId())
+        {
+            tdManagerLogService.addLog("add", "修改用户提现", req);
+        }
+        else
+        {
+            tdManagerLogService.addLog("edit", "修改用户提现", req);
+        }
+        
+        //提现
+        if (null != tdUserWithdraw.getStatusId() && tdUserWithdraw.getStatusId().equals(1L)) {
+			TdUser tdUser = tdUserService.findByUsername(tdUserWithdraw.getUsername());
+			
+			if (null != tdUser.getTotalCashRewards()) {
+				tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()));
+				tdUserService.save(tdUser);
+			}
+		}
+        
+        tdUserWithdrawService.save(tdUserWithdraw);
+        
+        return "redirect:/Verwalter/user/withdraw/list";
     }
     
     @RequestMapping(value="/list")
@@ -1020,6 +1131,7 @@ public class TdManagerUserController {
                     @RequestParam(value = "userCommentId", required = false) Long userCommentId,
                     @RequestParam(value = "userReturnId", required = false) Long userReturnId,
                     @RequestParam(value = "userComplainId", required = false) Long userComplainId,
+                    @RequestParam(value = "userWithdrawId", required = false) Long userWithdrawId,
                         Model model) {
         if (null != userId) {
             model.addAttribute("tdUser", tdUserService.findOne(userId));
@@ -1043,6 +1155,9 @@ public class TdManagerUserController {
         
         if (null != userComplainId) {
             model.addAttribute("tdUserComplain", tdUserComplainService.findOne(userComplainId));
+        }
+        if (null != userWithdrawId) {
+            model.addAttribute("tdUserWithdraw", tdUserWithdrawService.findOne(userWithdrawId));
         }
     }
     
@@ -1324,6 +1439,10 @@ public class TdManagerUserController {
                 else if (type.equalsIgnoreCase("return")) // 退换货
                 {
                     tdUserReturnService.delete(id);
+                }
+                else if (type.equalsIgnoreCase("withdraw")) // 退换货
+                {
+                    tdUserWithdrawService.delete(id);
                 }
             }
         }

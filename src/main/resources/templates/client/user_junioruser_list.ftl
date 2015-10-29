@@ -52,7 +52,7 @@
   
     <div class="mymember_mainbox">
       <div class="mymember_info mymember_info02">
-        <div class="mymember_order_search"> 下级用户 
+        <div class="mymember_order_search"> 下级用户 (<#if user?? && user.totalLowerUsers??>${user.totalLowerUsers}</#if>)人
             <div class="clear"></div>
         </div>
         <table class="tb-void">
@@ -62,17 +62,19 @@
                 <td>用户级别</td>
                 <td>消费总额</td>
                 <td>返利总额</td>
+                <td>操作</td>
             </tr>
             <#if junioruser_page??>
                 <#list junioruser_page.content as item>
                     <tr>
-                        <td><span class="ftx03">${item_index}</span></td>
+                        <td><span class="ftx03">${item_index+1}</span></td>
                         <td>
-                            <span class="ftx-02">${item.username}</span> 
+                            <a href="/user/lowerusers/order/list?lowerusername=${item.username}"><span class="ftx-02">${item.username}</span> </a>
                         </td>
                         <td>${item.userLevelTitle!''}</td>
                         <td>${item.totalSpendCash!'0'}</td>
                         <td>${item.totalCashRewardsToUpuser!'0'}</td>
+                        <td> <a href="/user/lowerusers/order/list?lowerusername=${item.username}">查看订单</a></td>
                     </tr>
                 </#list>
             </#if>   

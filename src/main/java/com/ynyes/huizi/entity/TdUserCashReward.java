@@ -66,7 +66,11 @@ public class TdUserCashReward {
     @Column
     private Double orderPrice;
     
-    // 排序号
+ // 手机号码
+ 	@Column
+ 	private String mobile;       
+
+	// 排序号
     @Column
     private Long sortId;
 
@@ -85,7 +89,15 @@ public class TdUserCashReward {
     public void setUsername(String username) {
         this.username = username;
     }
+    
+    public String getMobile() {
+		return mobile;
+	}
 
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	
     public String getLowerUsername() {
         return lowerUsername;
     }

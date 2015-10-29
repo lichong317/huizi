@@ -115,7 +115,7 @@ public class TdSetting {
     
     // 分销用户返现比例
     @Column(scale=2)
-    private Double ReturnRation;
+    private Double returnRation;
     
     // 微信二维码
     @Column
@@ -143,14 +143,14 @@ public class TdSetting {
 
     public void setTitle(String title) {
         this.title = title;
-    }
+    }  
 
-    public Double getReturnRation() {
-		return ReturnRation;
+	public Double getReturnRation() {
+		return returnRation;
 	}
 
 	public void setReturnRation(Double returnRation) {
-		ReturnRation = returnRation;
+		this.returnRation = returnRation;
 	}
 
 	public String getDomainName() {

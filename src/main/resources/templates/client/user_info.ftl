@@ -53,9 +53,9 @@
       <div class="mymember_info mymember_info02">
             <div class="usermain04">
                 <div class="separationInfo sepBasic">
-                 <h5>
+                 <h4>
                      基本信息<span id="TellToUser"></span>
-                 </h5>
+                 </h4>
                 </div>
                 <form id="form1" action="/user/info" method="post">
                 <div class="zhanghao_dlxx main2">
@@ -85,6 +85,18 @@
                         <input type="text" name="mobile" datatype="m" class="xxinp" id="textfield" value="${user.mobile!''}"/>
                         <span class="Validform_checktip">*手机号码</span>
                       </li>
+                      <#if user?? && user.roleId?? && user.roleId == 1>
+                      <li class="title">银行卡号：</li>
+	                      <li class="xxlr">
+	                        <input type="text" name="bankCardCode" datatype="n" class="xxinp" id="textfield" value="${user.bankCardCode!''}"/>
+	                        <span class="Validform_checktip">*银行卡号</span>
+	                      </li>
+	                  <li class="title">开户行：</li>
+	                      <li class="xxlr">
+	                        <input type="text" name="bankTitle" datatype="*" class="xxinp" id="textfield" value="${user.bankTitle!''}"/>
+	                        <span class="Validform_checktip">*开户行名称</span>
+	                      </li>
+                      </#if>
                       <li class="title2 gray">注册时间：</li>
                       <li class="xxlr2 gray">${user.registerTime!''}</li>
                       <li class="title2 gray">最后登录时间：</li>

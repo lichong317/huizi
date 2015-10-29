@@ -213,7 +213,7 @@ $(function () {
     <dl>
         <dt>首页标题(SEO)</dt>
         <dd>
-            <textarea name="titleSeo" rows="2" cols="20" class="input" datatype="*1-255" sucmsg=" "><#if setting??>${setting.titleSeo!""}</#if></textarea>
+            <textarea name="titleSeo" rows="2" cols="20" class="input" datatype="*0-255" sucmsg=" "><#if setting??>${setting.titleSeo!""}</#if></textarea>
             <span class="Validform_checktip">*自定义的首页标题</span>
         </dd>
     </dl>
@@ -320,8 +320,8 @@ $(function () {
     <dl>
             <dt>分销商返利比例</dt>
             <dd>
-                <input name="ReturnRation" type="text" value="<#if setting??>${setting.ReturnRation!"0"}<#else>0</#if>" class="input normal" datatype="n" sucmsg=" ">
-                <span class="Validform_checktip">分销商返利比例(返利计算为订单总金额*返利比例)</span>
+                <input name="returnRation" type="text" value="<#if setting??>${setting.returnRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
+                <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例)</span>
             </dd>
         </dl>
 </div>    
