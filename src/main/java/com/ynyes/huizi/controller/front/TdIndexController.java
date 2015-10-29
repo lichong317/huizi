@@ -221,8 +221,8 @@ public class TdIndexController {
             }
         }
         
-//        //广告
-//        TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
+        //广告
+        TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
 //        
 //        // 顶部广告
 //        res.put("top_ad", tdAdService.findByTypeId(tdAdType.getId()));
@@ -239,9 +239,9 @@ public class TdIndexController {
 //        tdAdType = tdAdTypeService.findByTitle("App首页底部长广告");
 //        res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
 //        
-//        //分类精选广告
-//        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
-//        res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
+        //分类精选广告
+        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
+        res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
         
         res.put("code", 0);
     	
