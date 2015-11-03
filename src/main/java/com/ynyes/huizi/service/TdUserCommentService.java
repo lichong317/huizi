@@ -93,6 +93,10 @@ public class TdUserCommentService {
     	return (List<TdUserComment>) repository.findAll();
     }
     
+    public Long countAll(){
+    	return repository.count();
+    }
+    
     public List<TdUserComment> findByUsername(String username)
     {
         return repository.findByUsernameOrderByIdDesc(username);

@@ -154,7 +154,7 @@ function showMap(longitude,latitude)
             <#list shop_list.content as item>
                 <div class="phone_list">
                     <b><img src="${item.imageUri!''}" width="91" height="91"/></b>
-                    <p class="p1">${item.title!''}</p>
+                    <p class="p1">${item.title!''}<#if item.isFlagShip?? && item.isFlagShip><span class="red">(旗舰店)</span></#if></p>
                     <p>地址：<span>${item.address!''}</span></p>
                     <p class="fl">客服QQ：<span>${item.qq!''}</span></p>
                     <p class="fl">联系电话：<span>${item.serviceTele!''}</span></p>

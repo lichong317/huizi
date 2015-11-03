@@ -64,44 +64,49 @@
     </div>
     </div>
  <div class="clear"></div>   
-    <#--><div class="dl" style="background:url(/client/images/zzz.png) no-repeat;"> -->
-<div class="loginbox">
+    <div class="dl" style="background:url(/client/images/zzz.png) no-repeat;"> 
+<div class="loginbox" style="
+    -webkit-box-shadow: 3px 3px 3px;    -moz-box-shadow: 3px 3px 3px;    
+    box-shadow: 8px 8px 8px;    height: 543px;
+    border: solid 4px;
+    background: #FFF;
+">
   <div class="login_r"> 
     <form id="form1" method="post" action="/reg">
-    <input name="shareId" type="hidden" value="${share_id!''}">
+    <input name="shareId" type="hidden" value="">
         <div>
             <span class="Validform_checktip">请输入用户名/邮箱/手机号码</span>
-            <input type="text" name="username" class="login_txt1" datatype="s6-20" ajaxurl="/reg/check/username" value = "${username!''}"/>
+            <input type="text" name="username" class="login_txt1" datatype="s6-20" ajaxurl="/reg/check/username" value="">
         </div>
         
         <div>
             <span class="Validform_checktip">请输入密码</span>
-            <input type="password" name="password" class="login_txt2" datatype="s6-20"/>
+            <input type="password" name="password" class="login_txt2" datatype="s6-20">
         </div>
         
         <div>
             <span class="Validform_checktip">请确认密码</span>
-            <input type="password" class="login_txt2" datatype="*" recheck="password"/>
+            <input type="password" class="login_txt2" datatype="*" recheck="password">
         </div>
         
         <div>
-            <span class="Validform_checktip"><#if errCode?? && 1==errCode><b class="red">验证码错误</b><#else>请填写验证码</#if></span>
-            <input type="text" class="login_txt2" name="code" style="width:170px; float:left" datatype="s4-4" errormsg="请填写4位字符"/>
-            <img src="/code" onclick="this.src = '/code?date='+Math.random();" id="yzm" />
+            <span class="Validform_checktip">请填写验证码</span>
+            <input type="text" class="login_txt2" name="code" style="width:170px; float:left" datatype="s4-4" errormsg="请填写4位字符">
+            <img src="/code" onclick="this.src = '/code?date='+Math.random();" id="yzm">
         
         </div>
         <div class="clear"></div>
 
         <p>
             <label>
-            <input name="" type="checkbox" value="" datatype="*"/>
-            &nbsp;我已认真阅读并同意</label>
+            <input name="" type="checkbox" value="" datatype="*">
+            &nbsp;我已认真阅读并同意<span class="Validform_checktip"></span></label>
             &nbsp;&nbsp;<b class="wj"><a href="#">《惠资生活用户协议》</a></b>
         </p>
         <p class="mt15">已有账号<b class="zc"><a href="/login">立即登录</a></b></p>
         
          
-        <input type="submit" class="login_btn" value="立即注册"/>
+        <input type="submit" class="login_btn" value="立即注册">
     </form>
   </div>
 </div>

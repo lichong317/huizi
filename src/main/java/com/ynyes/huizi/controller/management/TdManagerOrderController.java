@@ -22,6 +22,7 @@ import com.ynyes.huizi.entity.TdDiySite;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayType;
 import com.ynyes.huizi.entity.TdSetting;
+import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.service.TdArticleService;
@@ -33,6 +34,7 @@ import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdPayTypeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.SiteMagConstant;
@@ -79,6 +81,9 @@ public class TdManagerOrderController {
     
     @Autowired
     TdUserCashRewardService tdUserCashRewardService;
+    
+    @Autowired
+    TdShippingAddressService tdShippingAddressService;
     // 订单设置
     @RequestMapping(value="/setting/{type}/list")
     public String setting(@PathVariable String type, 
@@ -114,7 +119,11 @@ public class TdManagerOrderController {
                 }
                 else if (type.equalsIgnoreCase("diysite"))
                 {
-                    tdManagerLogService.addLog("delete", "删除自提点", req);
+                    tdManagerLogService.addLog("delete", "删除门店", req);
+                }
+                else if (type.equalsIgnoreCase("codDistrict"))
+                {
+                    tdManagerLogService.addLog("delete", "删除货到付款地区", req);
                 }
             }
             else if (__EVENTTARGET.equalsIgnoreCase("btnSave"))
@@ -131,7 +140,11 @@ public class TdManagerOrderController {
                 }
                 else if (type.equalsIgnoreCase("diysite"))
                 {
-                    tdManagerLogService.addLog("edit", "修改自提点", req);
+                    tdManagerLogService.addLog("edit", "修改门店", req);
+                }
+                else if (type.equalsIgnoreCase("codDistrict"))
+                {
+                    tdManagerLogService.addLog("edit", "修改货到付款地区", req);
                 }
             }
             else if (__EVENTTARGET.equalsIgnoreCase("btnPage"))
@@ -192,7 +205,7 @@ public class TdManagerOrderController {
                 
                 return "/site_mag/delivery_type_list";
             }
-            else if (type.equalsIgnoreCase("diysite")) // 配送方式
+            else if (type.equalsIgnoreCase("diysite")) // 门店
             {
                 if (null == keywords)
                 {
@@ -206,6 +219,21 @@ public class TdManagerOrderController {
                 }
                 
                 return "/site_mag/diy_site_list";
+            }
+            else if (type.equalsIgnoreCase("codDistrict")) // 货到付款地区
+            {
+                if (null == keywords)
+                {
+                    map.addAttribute("cod_district_page", 
+                            tdShippingAddressService.findByIsCod(page, size));
+                }
+                else
+                {
+                    map.addAttribute("cod_district_page", 
+                    		tdShippingAddressService.searchBykeywords(keywords, page, size));
+                }
+                
+                return "/site_mag/cod_district_list";
             }
         }
         
@@ -247,14 +275,23 @@ public class TdManagerOrderController {
                 
                 return "/site_mag/delivery_type_edit";
             }
-            else if (type.equalsIgnoreCase("diysite")) // 自提点
+            else if (type.equalsIgnoreCase("diysite")) // 门店
             {
                 if (null != id)
                 {
-                    map.addAttribute("diy_site", tdDiySiteService.findOne(id));
+                    map.addAttribute("diy_site", tdDiySiteService.findOne(id));                    
                 }
                 
                 return "/site_mag/diy_site_edit";
+            }
+            else if (type.equalsIgnoreCase("codDistrict")) // 货到付款地区
+            {
+                if (null != id)
+                {
+                    map.addAttribute("cod_district", tdShippingAddressService.findOne(id));                    
+                }
+                
+                return "/site_mag/cod_district_edit";
             }
         }
         
@@ -405,6 +442,52 @@ public class TdManagerOrderController {
         return "redirect:/Verwalter/order/setting/pay/list";
     }
     
+    @RequestMapping(value="/setting/codDistrict/save", method = RequestMethod.POST)
+    public String codDistrictsave(String province, String city, String disctrict, Long codDistrictId,
+                        ModelMap map,
+                        HttpServletRequest req){
+        String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            return "redirect:/Verwalter/login";
+        }
+        
+        if (null == codDistrictId)
+        {
+            tdManagerLogService.addLog("add", "新增货到付款地区", req);
+            TdShippingAddress tdShippingAddress = new TdShippingAddress();
+            if(null != province){
+            	tdShippingAddress.setProvince(province);
+            }
+            if (null != city) {
+				tdShippingAddress.setCity(city);
+			}
+            if (null != disctrict) {
+				tdShippingAddress.setDisctrict(disctrict);
+			}
+            tdShippingAddress.setIsCod(true);
+            tdShippingAddressService.save(tdShippingAddress);
+        }
+        else{
+            tdManagerLogService.addLog("edit", "修改货到付款地区", req);
+            
+            TdShippingAddress tdShippingAddress = tdShippingAddressService.findOne(codDistrictId);
+            if(null != province){
+            	tdShippingAddress.setProvince(province);
+            }
+            if (null != city) {
+				tdShippingAddress.setCity(city);
+			}
+            if (null != disctrict) {
+				tdShippingAddress.setDisctrict(disctrict);
+			}
+
+            tdShippingAddressService.save(tdShippingAddress);
+        }
+              
+        return "redirect:/Verwalter/order/setting/codDistrict/list";
+    }
+    
     @RequestMapping(value="/setting/delivery/save", method = RequestMethod.POST)
     public String save(TdDeliveryType tdDeliveryType,
                         ModelMap map,
@@ -446,11 +529,11 @@ public class TdManagerOrderController {
         
         if (null == tdDiySite.getId())
         {
-            tdManagerLogService.addLog("add", "新增自提点", req);
+            tdManagerLogService.addLog("add", "新增门店", req);
         }
         else
         {
-            tdManagerLogService.addLog("edit", "修改自提点", req);
+            tdManagerLogService.addLog("edit", "修改门店", req);
         }
         
         tdDiySiteService.save(tdDiySite);
@@ -784,6 +867,19 @@ public class TdManagerOrderController {
                     }
                 }
             }
+            else if (type.equalsIgnoreCase("codDistrict"))
+            {
+                TdShippingAddress e = tdShippingAddressService.findOne(id);
+                
+                if (null != e)
+                {
+                    if (sortIds.length > i)
+                    {
+                        e.setSortId(sortIds[i]);
+                        tdShippingAddressService.save(e);
+                    }
+                }
+            }
         }
     }
     
@@ -817,6 +913,10 @@ public class TdManagerOrderController {
                 else if (type.equalsIgnoreCase("diysite"))
                 {
                     tdDiySiteService.delete(id);
+                }
+                else if (type.equalsIgnoreCase("codDistrict"))
+                {
+                    tdShippingAddressService.delete(id);
                 }
             }
         }

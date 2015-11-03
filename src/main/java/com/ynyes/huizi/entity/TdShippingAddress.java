@@ -72,6 +72,10 @@ public class TdShippingAddress {
 	@Column
 	private Boolean isDefaultAddress;
 	
+	// 是否为货到付款地区
+	@Column
+	private Boolean isCod;
+	
 	// 排序号
     @Column
     private Long sortId;
@@ -92,7 +96,15 @@ public class TdShippingAddress {
         this.country = country;
     }
 
-    public String getProvince() {
+    public Boolean getIsCod() {
+		return isCod;
+	}
+
+	public void setIsCod(Boolean isCod) {
+		this.isCod = isCod;
+	}
+
+	public String getProvince() {
         return province;
     }
 

@@ -269,6 +269,10 @@ public class TdOrderService {
     public List<TdOrder> findByStatusId(Long statusId){
     	return repository.findByStatusId(statusId);
     }
+    
+    public Long countByStatusId(Long statusId){
+    	return repository.countByStatusId(statusId);
+    }
     /**
      * 保存
      * 

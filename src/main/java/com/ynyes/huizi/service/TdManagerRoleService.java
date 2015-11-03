@@ -124,7 +124,7 @@ public class TdManagerRoleService {
         else
         {
             e.setTotalPermission(0);
-        }
+        }       
         
         tdManagerPermissionService.save(e.getPermissionList());
 

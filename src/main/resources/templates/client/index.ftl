@@ -12,10 +12,10 @@
 <script src="/client/js/jquery-1.9.1.min.js"></script>
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
+<script src="/client/js/float_window.js"></script>
 
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />    
-<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
@@ -56,6 +56,47 @@ function move()
 </script>
 </head>
 <body>
+<!--浮动窗口  -->
+<div class="float_layer" id="miaov_float_layer">
+     <h2>
+     <strong>今日推荐</strong>
+     <a id="btn_min" href="javascript:;" class="min"></a>
+     <a id="btn_close" href="javascript:;" class="close"></a>
+     </h2>
+     <div class="content">
+        <div class="wrap">
+            <div style="width:141px; height:130px; float:left;" class="fdgg1">
+                <#if float_window_list?? && float_window_list?size gt 0>
+                     <a href="${float_window_list[0].linkUri!''}" >                        
+                            <img src="${float_window_list[0].fileUri!''}" width="141px" height="130px">                        
+                     </a>
+                 </#if>
+              </div>
+         
+              <div style="width:141px; height:130px; float:right; " class="fdgg1">
+                   <#if float_window_list?? && float_window_list?size gt 1>
+                        <a href="${float_window_list[1].linkUri!''}">                       
+                            <img src="${float_window_list[1].fileUri!''}"  width="141px" height="130px">                      
+                        </a>
+                   </#if> 
+              </div>
+              <div style="width:141px; height:130px; float:left;  margin-top:2px" class="fdgg1">
+                    <#if float_window_list?? && float_window_list?size gt 2>
+                        <a href="${float_window_list[2].linkUri!''}">                        
+                            <img src="${float_window_list[2].fileUri!''}"  width="141px" height="130px">                       
+                        </a>
+                    </#if> 
+              </div>
+              <div style="width:141px; height:130px; float:right;  margin-top:2px" class="fdgg1">
+                    <#if float_window_list?? && float_window_list?size gt 3>
+                        <a href="${float_window_list[3].linkUri!''}">                        
+                            <img src="${float_window_list[3].fileUri!''}"  width="141px" height="130px">                       
+                        </a> 
+                    </#if>
+              </div>  
+          </div>
+     </div>
+</div>
 <div class="maintop">
 <section class="main">
     <h1>亲，欢迎来到惠之店网上商城</h1>
