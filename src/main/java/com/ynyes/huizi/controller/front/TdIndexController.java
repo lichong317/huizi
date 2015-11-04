@@ -240,7 +240,8 @@ public class TdIndexController {
 //        res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
 //        
         //分类精选广告
-        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
+//        tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
+        tdAdType = tdAdTypeService.findByTitle("触屏精选分类广告");
         res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
         
         res.put("code", 0);
