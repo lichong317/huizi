@@ -100,6 +100,10 @@ public class TdUserReturnService {
     	return (List<TdUserReturn>) repository.findAll();
     }
 
+    public Long countAll(){
+    	return repository.count();
+    }
+    
     public List<TdUserReturn> findByUsername(String username)
     {
         return repository.findByUsernameOrderByIdDesc(username);

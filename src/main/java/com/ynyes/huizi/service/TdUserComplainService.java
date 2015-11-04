@@ -2,6 +2,7 @@ package com.ynyes.huizi.service;
 
 import java.util.List;
 
+import org.parboiled.parserunners.ReportingParseRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,6 +94,9 @@ public class TdUserComplainService {
     	return (List<TdUserComplain>) repository.findAll();
     }
     
+    public Long countAll(){
+    	return repository.count();
+    }
     /**
      * 查找
      * 

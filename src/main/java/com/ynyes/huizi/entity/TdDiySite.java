@@ -103,6 +103,10 @@ public class TdDiySite {
     @Column
     private String qq;
     
+    // 是否为旗舰店
+    @Column
+    private Boolean isFlagShip;
+    
     public Long getId() {
         return id;
     }
@@ -119,7 +123,15 @@ public class TdDiySite {
         this.title = title;
     }
 
-    public String getQq() {
+	public Boolean getIsFlagShip() {
+		return isFlagShip;
+	}
+
+	public void setIsFlagShip(Boolean isFlagShip) {
+		this.isFlagShip = isFlagShip;
+	}
+
+	public String getQq() {
 		return qq;
 	}
 

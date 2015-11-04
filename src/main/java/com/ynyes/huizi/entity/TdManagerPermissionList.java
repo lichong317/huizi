@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-@Entity
+
 public class TdManagerPermissionList {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

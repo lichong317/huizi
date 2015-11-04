@@ -81,6 +81,10 @@ public class TdUserConsultService {
     	return (List<TdUserConsult>) repository.findAll();
     }
     
+    public Long countAll(){
+    	return repository.count();
+    }
+    
     /**
      * 查找
      * 

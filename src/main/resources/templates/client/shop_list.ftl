@@ -44,11 +44,11 @@
     topTitFloat("detail_tit",1250,"detail_tit_sel");
     
      <#if shop_list?? && shop_list?size gt 0>
-        loadMap(${shop_list.content[0].longitude!'102.718072'}, ${shop_list.content[0].latitude!'25.048034'});
+        loadMap(${shop_list.content[0].longitude!'102.718072'}, ${shop_list.content[0].latitude!'25.048034'},<#if shop_list.content[0].isFlagShip?? && shop_list.content[0].isFlagShip>1<#else>0</#if>);
      </#if>
 });
 
-function loadMap(x, y)
+function loadMap(x, y, z)
 {
     // 百度地图API功能
     /*
@@ -67,6 +67,9 @@ function loadMap(x, y)
     map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
     var marker = new BMap.Marker(new BMap.Point(x, y)); // 创建点
     map.addOverlay(marker);
+    if(z == 1){
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    }
 }
 </script>
 </head>
@@ -90,10 +93,10 @@ function loadMap(x, y)
             <li>
                <div class="mendiantupian"><a href="/shop/${item.id?c}"><img src="${item.imageUri!''}" width="137" height="104" /></a></div>
                <div class="mendianditu_rt">
-                   <h4><a href="/shop/${item.id?c}">${item.title!''}</a></h4>
+                   <h4><a href="/shop/${item.id?c}">${item.title!''}<#if item.isFlagShip?? && item.isFlagShip><span class="red">(旗舰店)</span></#if></a></h4>
                    <p>${item.address!''}</p>
                    <p>服务电话：<span>${item.serviceTele!''}</span><p>
-                   <p class="dianouweizhi"><a href="javascript:;" onclick="loadMap(<#if item.longitude??>${item.longitude?string("0.000000")}<#else>110</#if>, <#if item.latitude??>${item.latitude?string("0.000000")}<#else>39</#if>);">店铺位置</a></p>
+                   <p class="dianouweizhi"><a href="javascript:;" onclick="loadMap(<#if item.longitude??>${item.longitude?string("0.000000")}<#else>110</#if>, <#if item.latitude??>${item.latitude?string("0.000000")}<#else>39</#if>,<#if item.isFlagShip?? && item.isFlagShip>1<#else>0</#if>);">店铺位置</a></p>
                </div>
            </li>
        </#list>

@@ -1190,3 +1190,14 @@ height: 104px;}
 	.RBno{ width:220px; margin-left:-110px; top:240px;}
 }
 
+/**index float window**/
+.float_layer { width: 300px;  border: 1px solid #EE0A3B; display:none; background: #fff; z-index:999; }
+.float_layer h2 { height: 25px; line-height: 25px; padding-left: 10px; font-size: 14px; color: #333; background: url(/client/images/title_bg.gif) repeat-x; border-bottom: 1px solid #aaaaaa; position: relative; }
+.float_layer .min { width: 21px; height: 20px; background: url(/client/images/min.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 25px; }
+.float_layer .min:hover { background: url(/client/images/min.gif) no-repeat 0 0; }
+.float_layer .max { width: 21px; height: 20px; background: url(/client/images/max.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 25px; }
+.float_layer .max:hover { background: url(/client/images/max.gif) no-repeat 0 0; }
+.float_layer .close { width: 21px; height: 20px; background: url(/client/images/close.gif) no-repeat 0 bottom; position: absolute; top: 2px; right: 3px; }
+.float_layer .close:hover { background: url(/client/images/close.gif) no-repeat 0 0; }
+.float_layer .content { height: 275px; overflow: hidden; font-size: 14px; line-height: 18px; color: #666; /*text-indent: 28px;*/ }
+.float_layer .wrap { padding: 3px; }

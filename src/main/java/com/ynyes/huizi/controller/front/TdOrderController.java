@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdGoodsCombination;
 import com.ynyes.huizi.entity.TdGoodsDto;
@@ -25,11 +28,13 @@ import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdGoods;
@@ -99,6 +104,41 @@ public class TdOrderController {
     
     @Autowired
     private TdProductCategoryService tdProductCategoryService;
+    
+    @Autowired
+    private TdShippingAddressService tdShippingAddressService;
+    
+    @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> login(String province, String city, String disctrict,
+                HttpServletRequest request) {
+        Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        if (null == province || null == city) {
+			res.put("msg", "地址不存在");
+			return res;
+		}
+        
+        List<TdShippingAddress> tdShippingAddresses = tdShippingAddressService.findByIsCod();
+        if (null !=tdShippingAddresses && tdShippingAddresses.size() > 0) {
+			for(TdShippingAddress tdShippingAddress : tdShippingAddresses){
+				if (null != tdShippingAddress.getDisctrict()) {
+					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) && tdShippingAddress.getDisctrict().equals(disctrict)) {
+						 res.put("code", 0);
+					}
+				}else {
+					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) ) {
+						 res.put("code", 0);
+					}
+				}
+			}
+		}
+        res.put("msg", "已选收货地址不支持货到付款");      
+        return res;
+    }
+    
     /**
      * 立即购买
      * 

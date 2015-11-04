@@ -361,61 +361,30 @@ public class TdManagerIndexController {
         }
         
         //新待确认订单数量查询
-        List<TdOrder> tdOrdersnew = tdOrderService.findByStatusId(1L);
-        if (null != tdOrdersnew) {
-        	res.put("ordernumberconfirmed", tdOrdersnew.size());
-		}else{
-			res.put("ordernumberconfirmed", 0);
-		}        
+        res.put("ordernumberconfirmed", tdOrderService.countByStatusId(1L));
+		       
         
-        //新立即购买订单数量查询
-        List<TdOrder> tdOrdersnewbuy = tdOrderService.findByStatusId(2L);
-        if (null != tdOrdersnew) {
-        	res.put("ordernumberbuy", tdOrdersnewbuy.size());
-		}else{
-			res.put("ordernumberbuy", 0);
-		} 
-        
+        //新待支付订单数量查询
+        res.put("ordernumberbuy", tdOrderService.countByStatusId(2L));
+		       
         //支付订单数量查询
-        List<TdOrder> tdOrderspay = tdOrderService.findByStatusId(3L);
-        //List<TdOrder> tdOrderspayleft = tdOrderService.findByStatusId(4L);
-        if (null != tdOrderspay ) {
-        	res.put("ordernumberpay", tdOrderspay.size());
-		}else{
-			res.put("ordernumberpay", 0);
-		} 
-               
+        res.put("ordernumberpay", tdOrderService.countByStatusId(3L));
+	               
         //咨询查询
-        List<TdUserConsult> tdUserConsults = tdUserConsultService.findAll();
-        if (null != tdUserConsults) {
-			res.put("consults", tdUserConsults.size());
-		}else{
-			res.put("consults", 0);
-		}
+		res.put("consults", tdUserConsultService.countAll());
+
         
         //评论查询
-        List<TdUserComment> tdUserComments = tdUserCommentService.findAll();
-        if (null != tdUserComments) {
-			res.put("comments", tdUserComments.size());
-		}else{
-			res.put("comments", 0);
-		}
+		res.put("comments", tdUserCommentService.countAll());
+
         
         //退换货申请查询
-        List<TdUserReturn> tdUserReturns = tdUserReturnService.findAll();
-        if (null != tdUserReturns) {
-			res.put("Returns", tdUserReturns.size());
-		}else{
-			res.put("Returns", 0);
-		}
+		res.put("Returns", tdUserReturnService.countAll());
+
         
         //投诉查询
-        List<TdUserComplain> tUserComplains = tdUserComplainService.findAll();
-        if (null != tUserComplains) {
-			res.put("complains", tUserComplains.size());
-		}else{
-			res.put("complains", 0);
-		}
+		res.put("complains", tdUserComplainService.countAll());
+
         res.put("code", 0);
 		return res;
 	}

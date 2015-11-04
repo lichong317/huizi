@@ -282,6 +282,14 @@ public class TdIndexController {
                     tdAdService.findByTypeId(tdAdType.getId()));
         }
         
+        // 首页浮动窗口广告
+        tdAdType = tdAdTypeService.findByTitle("首页浮动窗口广告");
+        
+        if (null != tdAdType) {
+            map.addAttribute("float_window_list",
+                    tdAdService.findByTypeId(tdAdType.getId()));
+        }
+        
         /**
 		 * @author lc
 		 * @注释：首页楼层顶楼广告

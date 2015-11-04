@@ -62,5 +62,7 @@ public interface TdOrderRepo extends
     
     List<TdOrder> findByStatusId(Long statusId);
     
+    Long countByStatusId(Long statusId);
+    
     TdOrder findByOrderNumber(String orderNumber);
 }

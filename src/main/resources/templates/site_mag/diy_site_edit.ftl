@@ -97,10 +97,10 @@
 
 <div class="tab-content">
   <dl>
-    <dt>自提点名称</dt>
+    <dt>门店名称</dt>
     <dd>
         <input name="title" type="text" value="<#if diy_site??>${diy_site.title!""}</#if>" class="input normal" datatype="*2-100" sucmsg=" "> 
-        <span class="Validform_checktip">*自提点名称</span>
+        <span class="Validform_checktip">*门店名称</span>
     </dd>
   </dl>
   <dl>
@@ -114,6 +114,19 @@
             <label>否</label>
       </div>
       <span class="Validform_checktip">*不启用则不显示</span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>是否旗舰店</dt>
+    <dd>
+      <div class="rule-multi-radio multi-radio">
+        <span  style="display: none;">
+            <input type="radio" name="isFlagShip" value="1" <#if diy_site?? && diy_site.isFlagShip?? && diy_site.isFlagShip>checked="checked"</#if>>
+            <label>是</label>
+            <input type="radio" name="isFlagShip" value="0" <#if !diy_site?? || !diy_site.isFlagShip?? || !diy_site.isFlagShip>checked="checked"</#if>>
+            <label>否</label>
+      </div>
+      <span class="Validform_checktip">*如果是旗舰店则地图显示不同</span>
     </dd>
   </dl>
   <dl>
