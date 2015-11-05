@@ -116,7 +116,7 @@ var theForm = document.forms['form1'];
                     </#if>
                 </td>
                 <td align="center">
-                    <a href="/Verwalter/user/return/edit?id=${return.id?c}&statusId=${statusId!""}">配置</a>
+                    <a href="/Verwalter/user/return/edit?id=${return.id?c}&statusId=${statusId!""}">审核</a>
                 </td>
             </tr>
         </#list>

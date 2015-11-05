@@ -99,7 +99,7 @@
 
         <p>
             <label>
-            <input name="" type="checkbox" value="" datatype="*">
+            <input name="" type="checkbox" value="" datatype="*" nullmsg="请阅读协议！">
             &nbsp;我已认真阅读并同意<span class="Validform_checktip"></span></label>
             &nbsp;&nbsp;<b class="wj"><a href="#">《惠资生活用户协议》</a></b>
         </p>
