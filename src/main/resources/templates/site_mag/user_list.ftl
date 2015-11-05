@@ -103,6 +103,40 @@ $(function () {
           });
       }
     
+    //指定用户抽奖
+     function RedEnvelopetoOne(username) {
+
+          var dialog = $.dialog({
+                title: '选择奖项类别',
+                content: '<div class="rule-single-select single-select">'
+                            +'<select name="typeId" id="prizetypeId">'                           
+                               //+'<option value="">选择奖项</option>'
+                                +'<#if prizetype_list??>'
+                                    +'<#list prizetype_list as item>'
+                                        +'<option  value="${item.id?c}">${item.title!''}</option>'
+                                    +'</#list>'
+                                +'</#if>   '                     
+                            +'</select>'
+                          +'</div>',
+                min: false,
+                max: false,
+                lock: true,
+                ok: function () {
+                    var typeId = $("#prizetypeId", parent.document).val();
+                    if (typeId == "") {
+                        $.dialog.alert('对不起，请选择奖项！', function () { }, dialog);
+                        return false;
+                    }
+
+                    var postData = {"username": username, "typeId": typeId };
+                    //发送AJAX请求
+                    sendAjaxUrl(dialog, postData, "/Verwalter/user/lottery/appoint");
+                    return false;
+                },
+                cancel: true
+          });
+      }
+    
  //发送AJAX请求
         function sendAjaxUrl(winObj, postData, sendUrl) {
             $.ajax({
@@ -215,6 +249,7 @@ $(function () {
                       <a class="point" href="/Verwalter/user/collect/list?userId=${user.id?c}" title="关注商品">关注商品</a>
                       <a class="msg" href="/Verwalter/user/recent/list?userId=${user.id?c}" title="浏览历史">浏览历史</a>
                       <a class="redenvelope" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
+                      <a class="lottery" href="javascript:RedEnvelopetoOne('${user.username}');" title="指定抽奖">发送红包</a>
                       <#if user.roleId?? && user.roleId==1>
                           <a class="sms" href="/Verwalter/user/reward/list?userId=${user.id?c}" title="返现记录">返现记录</a>
                       </#if>

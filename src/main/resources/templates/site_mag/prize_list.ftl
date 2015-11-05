@@ -30,6 +30,7 @@ function __doPostBack(eventTarget, eventArgument) {
         theForm.submit();
     }
 }
+
 </script>
 <!--导航栏-->
 <div class="location">
@@ -48,7 +49,7 @@ function __doPostBack(eventTarget, eventArgument) {
         <#--><li><a class="add" href="/Verwalter/prizecategory/edit"><i></i><span>新增</span></a></li> -->
         <li><a class="all" href="javascript:;" onclick="checkAll(this);"><i></i><span>全选</span></a></li>
         <#--><li><a id="btnSave" class="save" href="javascript:__doPostBack('btnSave','')"><i></i><span>保存</span></a></li> -->
-        <li><a onclick="return ExePostBack('btnDelete');" id="btnDelete" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除</span></a></li>
+        <li><a onclick="return ExePostBack('btnDelete');" id="btnDelete" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除</span></a></li>       
       </ul>
     </div>
   </div>
@@ -85,7 +86,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <#elseif item.prizeType == 1>
                     <td><a href="/Verwalter/coupon/type/edit<#if item.couponTypeId??>?id=${item.couponTypeId?c}</#if>">${item.couponTitle!''}</a></td>
                 <#elseif item.prizeType == 2>
-                    <td><a href="/Verwalter/goods/edit<#if item.goodsId??>?id=${item.goodId?c}</#if>">${item.goodsTitle!''}</a></td>
+                    <td><a href="/Verwalter/goods/edit<#if item.goodsId??>?id=${item.goodsId?c}</#if>">${item.goodsTitle!''}</a></td>
                 </#if>               
                 <td align="center"><#if item.getTime??>${item.getTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
               </tr>

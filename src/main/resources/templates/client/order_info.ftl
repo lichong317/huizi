@@ -190,10 +190,10 @@ var forPaymentFllow = true;
                     <th>地区*：</th>
                     <td>
                       <div id="address">
-                      <select id="prov" class="prov" style="width: 100px;"></select>
-                      <select id="city" class="city" style="width: 100px;"></select>
-                      <select id="dist" class="dist" style="width: 150px;" onchange="javascript:checkaddress()"></select>
-                      <lable id = "notcodaddress" style="display: none ">不支持货到付款</lable>
+                      <select id="prov" class="prov" style="width: 100px; float:left;margin-right:5px;"></select>
+                      <select id="city" class="city" style="width: 100px;float:left;margin-right:5px;"></select>
+                      <select id="dist" class="dist" style="width: 150px;float:left;" onchange="javascript:checkaddress()"></select>
+                      <lable id = "notcodaddress" style="display: none;float:left;margin-left:5px;color:#ef0000;">不支持货到付款</lable>
                       <script>
                          function checkaddress(){
                              var province = $("#prov").val();

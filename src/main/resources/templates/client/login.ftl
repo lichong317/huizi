@@ -156,8 +156,23 @@ function saveUserInfo() {
             <input id="rmbUser" type="checkbox" />
             &nbsp;记住密码</label>
           &nbsp;&nbsp;<b class="wj"><a href="#">忘记密码？</a></b></p>
-        <p class="mt15">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
-        <input type="submit"  class="login_btn" id="btn_login" value="立即登录"/>
+      <#-->  <p class="mt15">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
+        <input type="submit"  class="login_btn" id="btn_login" value="立即登录"/> -->
+        <p style="width:170px; float:right;">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
+        <div class="clear"></div>
+        <p style="margin-top:2px;">合作账号登录</p>
+        <p >
+            <span style="float:left; margin-right:20px;">
+                <a href="#" title="QQ登录"><img src="/client/images/20150619110939448_easyicon_net_72.png" width="30" height="30" />
+                </a>
+            </span>
+            <span class="ml20">
+                <a href="#" title="支付宝登录"><img src="/client/images/20150619110924540_easyicon_net_72.png" width="30" height="30" />
+                </a></span>
+        </p>
+        <input type="submit" class="login_btn" id="btn_login" value="立即登录"/>               
+
+
       </div>
     </div>
     </div>
@@ -166,12 +181,23 @@ function saveUserInfo() {
         <div class="clear"></div>
         <div class="h30"></div>
 <div class="w1059 downbq">
-    <div class="clear"></div>
+   <#--> <div class="clear"></div>
     <#if site??>${site.copyright!''}</#if>
     <a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-    <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
-</div>
-</div>
+    <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span> -->
+    <ul class="downwenzi">
+          <li><a href="#">公司简介</a>丨</li>
+          <li><a href="#">联系我们</a>丨</li>
+          <li><a href="#">招贤纳士</a>丨</li>
+          <li><a href="#">合作伙伴</a>丨</li>
+          <li><a href="#">广告合作</a></li>
+          </ul>
+    <div class="clear"></div>
+    <#if site??>${site.copyright!''}</#if><a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
+          <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
+    </div>
+    </div>
+    </div>
     </div>
 </body>
 </html>

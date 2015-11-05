@@ -763,7 +763,15 @@ a.white:hover { color:#ff7d43;}
 
 .floatbox a {display:block;width:42px;height:42px;margin-bottom:2px;filter:alpha(Opacity=50);-moz-opacity:0.5;opacity: 0.5;}
 
-.floatbox span {position:absolute;right:45px;top:0;display:none;}
+.floatbox span {position: absolute;
+  right: 45px;
+  top: 0;
+  display: none;
+  background: #ff4454;
+  width: 100px;
+  text-align: center;
+  line-height: 42px;
+  color: #FFF;}
 
 .floatbox a:hover {filter:alpha(Opacity=100);-moz-opacity:1;opacity:1;}
 

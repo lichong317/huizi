@@ -245,6 +245,7 @@ textarea.inputw400_h100{ width:445px; height:100px; }
 		.ltable td .user-box span a.msg{ background-position:-305px -109px;}
 		.ltable td .user-box span a.sms{ background-position:-443px -110px;}
 		.ltable td .user-box span a.redenvelope{ background-position:2px -109px;}
+		.ltable td .user-box span a.lottery{ background-position:-53px -109px;}
 		
 	.ltable td.comment{ padding:10px; line-height:1em; }
 		.ltable td.comment .title{ margin-bottom:5px; line-height:180%; font-weight:bold; }

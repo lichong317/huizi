@@ -206,13 +206,10 @@ function delItem(id)
 </div>
 
 <aside class="floatbox">
-  <a href="#" title="微信客服"><img src="/client/images/float_ico01.png" width="42" height="42" alt="微信客服" /><span><img src="${site.wxQrCode!''}"width="84" height="84" /></span></a>
-  <a href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线咨询"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /></a>
-  <a href="#" title="新浪微博"><img src="/client/images/float_ico03.png" width="42" height="42" alt="新浪微博" /> 
-        <span>
-            <img src="${site.weiboQrCode!''}" width="84" height="84"/>
-        </span></a>
-  <a href="#" title="${site.telephone!''}"><img src="/client/images/float_ico04.png" width="42" height="42" alt="服务热线" /></a>
+  <a href="/cart" title="购物车"><img src="/client/images/float_ico01.png" width="42" height="42" alt="购物车" /><span>购物车</span></a>
+  <a href="/user/collect/list" title="我的关注"><img src="/client/images/float_ico03.png" width="42" height="42" alt="我的关注" /><span>我的关注</span></a>
+  <a href="/user/recent/list" title="我的足迹"><img src="/client/images/float_ico04.png" width="42" height="42" alt="我的足迹" /><span>我的足迹</span></a>        
+  <a href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线客服"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /><span>在线客服</span></a>
   <a href="javascript:move();" title="到顶部"><img src="/client/images/float_ico05.png" width="42" height="42" alt="到顶部" /></a>
 </aside>
 

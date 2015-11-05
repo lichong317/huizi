@@ -45,8 +45,8 @@ $(document).ready(function(){
 
     $("#address").citySelect({
         nodata:"none",
-        <#if address?? && address.province??>prov: "${address.province!''}",</#if>
-        <#if address?? && address.city??>city: "${address.city!''}",</#if>
+        prov: "云南",
+        city: "昆明",
         <#if address?? && address.disctrict??>dist: "${address.disctrict!''}",</#if>
         required:false
     }); 
@@ -94,7 +94,9 @@ $(document).ready(function(){
                                 <div class="s_gwc2_1_b">
                                     <a class="selAddress" href="javascript:void(0);" aid="${address.id?c}">
                                         <p>收货人：${address.receiverName!''}</p>
-                                        <p>收货地址：${address.province!''}${address.city!''}${address.disctrict!''}${address.detailAddress!''}</p>
+                                        <p>收货地址：<span id="addressprovince">${address.province!''}</span>
+                                                 <span id="addresscity">${address.city!''}</span>
+                                                 <span id="addressdisctrict">${address.disctrict!''}</span>${address.detailAddress!''}</p>
                                         <p>联系方式：${address.receiverMobile!''}</p>
                                     </a>
                                 </div>
@@ -119,9 +121,31 @@ $(document).ready(function(){
                     <th>地区*：</th>
                     <td>
                       <div id="address">
-                      <select id="prov" class="prov" style="width: 100px;"></select>
-                      <select id="city" class="city" style="width: 100px;"></select>
-                      <select id="dist" class="dist" style="width: 100px;"></select>
+                      <select id="prov" class="prov" style="width: 100px; float:left;margin-right:5px;"></select>
+                      <select id="city" class="city" style="width: 100px;float:left;margin-right:5px;"></select>
+                      <select id="dist" class="dist" style="width: 150px;float:left;" onchange="javascript:checkaddress()"></select>
+                      <lable id = "notcodaddress" style="display: none;float:left;margin-left:5px;color:#ef0000;">不支持货到付款</lable>
+                      <script>
+                         function checkaddress(){
+                             var province = $("#prov").val();
+                             var city = $("#city").val();
+                             var disctrict = $("#dist").val(); 
+                             
+                             $.ajax({
+                                      type: "post",
+                                      url: "/order/codDistrict",
+                                      data: { "province": province, "city": city, "disctrict": disctrict},
+                                      dataType: "json",
+                                      success: function (data) {
+                                              if (data.code == 0) {
+                                                   $("#notcodaddress").css("display", "none");       
+                                              } else {
+                                                   $("#notcodaddress").css("display", "block");
+                                              }
+                                       }
+                             });
+                         }
+                      </script>
                       </div>
                     </td>
                   </tr>
@@ -163,10 +187,38 @@ $(document).ready(function(){
                             <#if pay_type_list??>
                                 <#list pay_type_list as pay_type>
                                     <li>
-                                        <input name="payTypeId" class="input-pay-type" type="radio" datatype="n" value="${pay_type.id?c!''}" nullmsg="请选择支付方式!">
+                                        <input onclick="changepaytype(this)" tn="${pay_type.title!''}" name="payTypeId" class="input-pay-type" type="radio" datatype="n" value="${pay_type.id?c!''}" nullmsg="请选择支付方式!">
                                         <span>${pay_type.title!''}</span>
                                     </li>
                                 </#list>
+                                <script>
+                                    function changepaytype(paytype){
+                                        //alert(paytype.getAttribute("tn"));
+                                       if(paytype.getAttribute("tn") == "货到付款"){                                      
+                                           var province = $("#addressprovince").text();
+                                           var city = $("#addresscity").text();
+                                           var disctrict = $("#addressdisctrict").text();
+
+                                           if('' != province){
+                                               $.ajax({
+                                                    type: "post",
+                                                    url: "/order/codDistrict",
+                                                    data: { "province": province, "city": city, "disctrict": disctrict},
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        if (data.code == 0) {
+                                                          
+                                                        } else {
+                                                            alert(data.msg);
+                                                        }
+                                                    }
+                                                });
+                                           }else{
+                                               alert("请选择收货地址！");
+                                           }
+                                       }
+                                    }
+                                </script>
                             </#if>
                         </ul>
                     </div>

@@ -5,15 +5,19 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdKeywords;
+import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdKeywordsService;
+import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.util.ClientConstant;
 
 /**
@@ -32,6 +36,7 @@ public class TdSearchController {
     
     @Autowired
     private TdKeywordsService tdKeywordsService;
+
     
     @RequestMapping(value="/search", method = RequestMethod.GET)
     public String list(String keywords, Integer page, HttpServletRequest req, ModelMap map){
@@ -77,7 +82,14 @@ public class TdSearchController {
         
         // 新品推荐
         map.addAttribute("newest_list", tdGoodsService.findByIsOnSaleTrueOrderByOnSaleTimeDesc( 0, 10).getContent());  
-        
-        return "/client/search_result";
+
+        return "/client/search_result";      
     }
+     
+    // 去掉名字重复的商品
+//    public Page<TdGoods> EliminatingRedundancy(Page<TdGoods> goodspage){
+//    	if (null != goodspage) {
+//			
+//		}
+//    }
 }

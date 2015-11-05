@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.management;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdUserPoint;
+import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
+import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
+import com.ynyes.huizi.entity.TdPrize;
+import com.ynyes.huizi.entity.TdPrizeCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdSetting;
@@ -33,9 +38,13 @@ import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.entity.TdUserWithdraw;
 import com.ynyes.huizi.repository.TdUserPointRepo;
+import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
+import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdPrizeCategoryService;
+import com.ynyes.huizi.service.TdPrizeService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
@@ -108,7 +117,19 @@ public class TdManagerUserController {
     TdUserWithdrawService tdUserWithdrawService;
     
     @Autowired
+    TdPrizeCategoryService tdPrizeCategoryService;
+    
+    @Autowired
     TdOrderService tdOrderService; //zhangji
+    
+    @Autowired
+    TdCouponService tdCouponService;
+    
+    @Autowired
+    TdPrizeService tdPrizeService;
+    
+    @Autowired
+    TdGoodsService tdGoodsService;
     
     @RequestMapping(value="/check", method = RequestMethod.POST)
     @ResponseBody
@@ -312,6 +333,9 @@ public class TdManagerUserController {
         // 红包类别
         map.addAttribute("redEnvelopetype_list", tdRedEnvelopeTypeService.findAllOrderBySortId());
         
+        // 奖项类别
+        map.addAttribute("prizetype_list", tdPrizeCategoryService.findAllOrderBySortId());
+        
         Page<TdUser> userPage = null;
         
         if (null == roleId)
@@ -367,6 +391,124 @@ public class TdManagerUserController {
         
         return "/site_mag/user_list";
     }
+    
+    /**
+	 * @author lc
+	 * @注释：指定用户获取奖项
+	 */
+    @RequestMapping(value="/lottery/appoint", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> lotteryAppoint(Long typeId,
+    							  String username,
+    							  ModelMap map,
+            					  HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        if (null == typeId) {
+        	res.put("message", "请选择奖项类型");
+            return res;
+		}
+                             	
+		if (null == username) {
+			res.put("message", "请选择获奖用户");
+            return res;
+		}
+        
+		TdPrizeCategory tdPrizeCategory = tdPrizeCategoryService.findOne(typeId);
+		
+		TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+	     
+	     if (null != tdPrizeCategory && null != tdUser) {
+			if (tdPrizeCategory.getLeftNumber().equals(0L)) {
+				 res.put("message", "奖品已抽完！");
+		    	 return res;
+			}
+			
+			TdPrize tdPrize = new TdPrize();
+			
+			tdPrize.setGetTime(new Date());
+			tdPrize.setUsername(username);
+			tdPrize.setTypeId(tdPrizeCategory.getId());
+			if (null != tdPrizeCategory.getTitle()) {
+				tdPrize.setTypeTitle(tdPrizeCategory.getTitle());
+			}			
+			
+			if (null != tdPrizeCategory.getPrizeType()) {
+				tdPrize.setPrizeType(tdPrizeCategory.getPrizeType());
+				if (tdPrizeCategory.getPrizeType().equals(0L) && null != tdPrizeCategory.getPrizePoints()) {					
+					tdPrize.setPrizePoints(tdPrizeCategory.getPrizePoints());
+					
+					tdUser.setTotalPoints(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					TdUserPoint userPoint = new TdUserPoint();
+
+					userPoint.setIsBackgroundShow(false);
+					userPoint.setTotalPoint(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					userPoint.setUsername(tdUser.getUsername());
+					userPoint.setPoint(tdPrizeCategory.getPrizePoints());
+					userPoint.setDetail("抽奖奖励");
+					
+					userPoint = tdUserPointService.save(userPoint);
+				}
+				else if (tdPrizeCategory.getPrizeType().equals(1L) && null != tdPrizeCategory.getCouponTypeId()) {
+					tdPrize.setCouponTypeId(tdPrizeCategory.getCouponTypeId());
+					TdCouponType tdCouponType = tdCouponTypeService.findOne(tdPrizeCategory.getCouponTypeId());
+					tdPrize.setCouponTitle(tdCouponType.getTitle());										
+					
+					TdCoupon getCoupon = new TdCoupon();				    
+
+				    getCoupon.setGetNumber(1L);
+				    getCoupon.setGetTime(new Date());
+				    
+				    if (null != tdCouponType && null != tdCouponType.getTotalDays())
+				    {
+			    	    Calendar ca = Calendar.getInstance();
+			    	    ca.add(Calendar.DATE, tdCouponType.getTotalDays().intValue());
+			    	    getCoupon.setExpireTime(ca.getTime());
+				    }
+				    
+				    getCoupon.setIsDistributted(true);
+				    getCoupon.setIsUsed(false);
+				    if (null != tdUser.getMobile()) {
+				    	getCoupon.setMobile(tdUser.getMobile());
+					}
+				    if (null != tdCouponType.getDescription()) {
+				    	getCoupon.setTypeDescription(tdCouponType.getDescription());
+					}	    
+				    getCoupon.setTypeId(tdCouponType.getId());
+				    if (null != tdCouponType.getPicUri()) {
+				    	getCoupon.setTypePicUri(tdCouponType.getPicUri());
+					}
+				    if (null != tdCouponType.getTitle()) {
+				    	getCoupon.setTypeTitle(tdCouponType.getTitle());
+					}
+				    if (null != tdCouponType.getPrice()) {
+						getCoupon.setPrice(tdCouponType.getPrice());
+					}
+				    
+				    getCoupon.setUsername(username);
+				    
+				    tdCouponService.save(getCoupon);
+				}
+				else if (tdPrizeCategory.getPrizeType().equals(2L) && null != tdPrizeCategory.getPrizeGoodsId()) {
+					tdPrize.setGoodsId(tdPrizeCategory.getPrizeGoodsId());
+					TdGoods tdGoods = tdGoodsService.findOne(tdPrizeCategory.getPrizeGoodsId());
+					tdPrize.setGoodsTitle(tdGoods.getTitle());
+				}
+			}
+			
+			tdUserService.save(tdUser);
+			tdPrizeService.save(tdPrize);
+			tdPrizeCategory.setLeftNumber(tdPrizeCategory.getLeftNumber()-1);
+			tdPrizeCategoryService.save(tdPrizeCategory);
+	     }
+		
+        res.put("code", 0);
+        
+        return  res;
+    }
+    
     
     /**
 	 * @author lc

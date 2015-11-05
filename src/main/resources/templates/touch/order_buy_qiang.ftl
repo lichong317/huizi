@@ -30,8 +30,8 @@ $(document).ready(function(){
 
     $("#address").citySelect({
         nodata:"none",
-        <#if address?? && address.province??>prov: "${address.province!''}",</#if>
-        <#if address?? && address.city??>city: "${address.city!''}",</#if>
+        prov: "云南",
+        city: "昆明",
         <#if address?? && address.disctrict??>dist: "${address.disctrict!''}",</#if>
         required:false
     }); 
@@ -66,7 +66,9 @@ function formsubmit(){
                 <a href="javascript:;" class="selAddress" aid="${address.id?c}">
                 <p>姓名：${address.receiverName!''}<span>邮编：${address.postcode!''}</span></p>
                 <p>手机号码：${address.receiverMobile!''}</p>
-                <p>省市：${address.province!''}${address.city!''}${address.disctrict!''}</p>
+                <p>省市：<span id="addressprovince">${address.province!''}</span>
+                       <span id="addresscity">${address.city!''}</span>
+                       <span id="addressdisctrict">${address.disctrict!''}</span></p>
                 <p>详细地址：${address.detailAddress!''}</p>
                 </a> 
             </#list>
@@ -85,7 +87,29 @@ function formsubmit(){
           <select id="prov" class="prov fl"></select>
           <select id="city" class="city fr"></select>
           <div class="clear"></div>
-          <select id="dist" class="dist" style="width:100%;"></select>
+          <select id="dist" class="dist" style="width:100%;" onchange="javascript:checkaddress()"></select>
+          <lable id = "notcodaddress" style="display: none ">不支持货到付款</lable>
+                      <script>
+                         function checkaddress(){
+                             var province = $("#prov").val();
+                             var city = $("#city").val();
+                             var disctrict = $("#dist").val(); 
+                             
+                             $.ajax({
+                                      type: "post",
+                                      url: "/order/codDistrict",
+                                      data: { "province": province, "city": city, "disctrict": disctrict},
+                                      dataType: "json",
+                                      success: function (data) {
+                                              if (data.code == 0) {
+                                                   $("#notcodaddress").css("display", "none");       
+                                              } else {
+                                                   $("#notcodaddress").css("display", "block");
+                                              }
+                                       }
+                             });
+                         }
+                      </script>
           <textarea id="detailAdd" ></textarea>
       </div>
         
@@ -103,8 +127,36 @@ function formsubmit(){
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li><input type="radio" name="payTypeId" datatype="n" value="${pay_type.id?c}" nullmsg="请选择支付方式!" /><span><img src="${pay_type.coverImageUri!''}" height="30" /></span></li>
+            <li><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="n" value="${pay_type.id?c}" nullmsg="请选择支付方式!" /><span><img src="${pay_type.coverImageUri!''}" height="30" /></span></li>
         </#list>
+        <script>
+                                    function changepaytype(paytype){
+                                        //alert(paytype.getAttribute("tn"));
+                                       if(paytype.getAttribute("tn") == "货到付款"){                                      
+                                           var province = $("#addressprovince").text();
+                                           var city = $("#addresscity").text();
+                                           var disctrict = $("#addressdisctrict").text();
+
+                                           if('' != province){
+                                               $.ajax({
+                                                    type: "post",
+                                                    url: "/order/codDistrict",
+                                                    data: { "province": province, "city": city, "disctrict": disctrict},
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        if (data.code == 0) {
+                                                          
+                                                        } else {
+                                                            alert(data.msg);
+                                                        }
+                                                    }
+                                                });
+                                           }else{
+                                               alert("请选择收货地址！");
+                                           }
+                                       }
+                                    }
+                                </script>
     </#if>
   </ul>
   

@@ -1387,6 +1387,8 @@ public class TdGoodsService {
             return null;
         }
 
+        keywords = keywords.replace(" ", "%");
+        
         PageRequest pageRequest = new PageRequest(page, size, new Sort(
                 Direction.DESC, "id"));
 
