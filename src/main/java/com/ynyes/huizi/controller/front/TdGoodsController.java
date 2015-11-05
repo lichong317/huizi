@@ -542,22 +542,53 @@ public class TdGoodsController {
 
         String username = (String) req.getSession().getAttribute("username");
 
+        // 是否已登录
+        boolean isLoggedIn = true;
         if (null == username) {
+        	isLoggedIn = false;
             username = req.getSession().getId();
         }
 
-        TdContrastGoods tdContrastGoods = tdContrastGoodsService.findByGoodsId(goodsId);
-        
-        if (null == tdContrastGoods) {
-        	 List<TdContrastGoods> tdContrastGoodslist = tdContrastGoodsService
-                     .findByUsernameAndCategoryId(username, categoryId);
-		}
-       
-        
-       
+        if (null != goodsId && null != categoryId) {
+        	TdContrastGoods tdContrastGoods = tdContrastGoodsService.findByGoodsId(goodsId);
+            
+            if (null == tdContrastGoods) {           	
+            	 TdGoods tdGoods = tdGoodsService.findOne(goodsId);
+            	 if (null != tdGoods) {
+    				TdContrastGoods contrastGoods = new TdContrastGoods();
+    				
+    				contrastGoods.setUsername(username);
+    				contrastGoods.setGoodsId(goodsId);
+    				
+    				if (null != tdGoods.getTitle()) {
+    					contrastGoods.setGoodsTitle(tdGoods.getTitle());
+					}   				
+    				if (null != tdGoods.getCoverImageUri()) {
+    					contrastGoods.setGoodsCoverImageUri(tdGoods.getCoverImageUri());
+					}    				
+    				if (null != tdGoods.getSalePrice()) {
+    					contrastGoods.setPrice(tdGoods.getSalePrice());
+					} 
+    				
+    				contrastGoods.setCategoryId(categoryId);
+    				
+    				if (null != tdGoods.getCategoryTitle()) {
+    					contrastGoods.setCategoryTitle(tdGoods.getCategoryTitle());
+					}    				
+    				if (null != tdGoods.getCategoryIdTree()) {
+    					contrastGoods.setCategoryIdTree(tdGoods.getCategoryIdTree());
+					}
+    				
+    				contrastGoods.setIsLoggedIn(isLoggedIn);
+    				
+    				tdContrastGoodsService.save(contrastGoods);
+    			}
+    		}
+		}        
+                     
 
-  //      map.addAttribute("contrast_goods_list", tdContrastGoodslist);
+        map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId));
 
-        return "/client/cart_goods";
+        return "/client/contrast_goods";
     }
 }
