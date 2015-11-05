@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdUserService;
 
 @Configuration
@@ -27,6 +28,9 @@ import com.ynyes.huizi.service.TdUserService;
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
     @Autowired
     private TdUserService tdUserService;
+    
+    @Autowired
+    private TdCommonService tdCommonService;
     
 	@Bean
 	public CharacterEncodingFilter encodingFilter() {
@@ -65,7 +69,11 @@ public class Application extends SpringBootServletInitializer implements Command
 	    TimerTask task = new TimerTask() {
             @Override
             public void run() {
+            	//清楚计数器
                 tdUserService.resetCount();
+                //删除无效购物车商品和对比商品
+                tdCommonService.deletecartgoods();
+                tdCommonService.deletecontrastgoods();
             }
         };
         

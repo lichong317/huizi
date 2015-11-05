@@ -27,4 +27,6 @@ public interface TdCartGoodsRepo extends
     List<TdCartGoods> findByUsername(String username);
     
     List<TdCartGoods> findByUsernameAndIsSelectedTrue(String username);
+    
+    List<TdCartGoods> findByIsLoggedInFalse();
 }

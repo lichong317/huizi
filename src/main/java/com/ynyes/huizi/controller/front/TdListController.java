@@ -22,6 +22,7 @@ import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.service.TdArticleService;
 import com.ynyes.huizi.service.TdBrandService;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdContrastGoodsService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdParameterService;
 import com.ynyes.huizi.service.TdProductCategoryService;
@@ -47,6 +48,9 @@ public class TdListController {
     
     @Autowired
     private TdParameterService tdParameterService;
+    
+    @Autowired
+    private TdContrastGoodsService tdContrastGoodsService;
     
     // 组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[页号]_[价格低值]-[价格高值]
     //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[评价]-[页号]_[价格低值]-[价格高值]
@@ -424,6 +428,14 @@ public class TdListController {
 
         
         map.addAttribute("goods_page", goodsPage);   
+        
+        
+        // 查询对比商品
+        String username = (String) req.getSession().getAttribute("username");
+        if (null == username) {
+            username = req.getSession().getId();
+        }
+        map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId));
         
         return "/client/goods_list";
     }

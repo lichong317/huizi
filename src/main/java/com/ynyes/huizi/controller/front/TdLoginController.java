@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdAdType;
+import com.ynyes.huizi.entity.TdCartGoods;
+import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdAdService;
 import com.ynyes.huizi.service.TdAdTypeService;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdContrastGoodsService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
@@ -46,6 +49,9 @@ public class TdLoginController {
     
     @Autowired
     private TdAdService tdAdService;
+    
+    @Autowired
+    private TdContrastGoodsService tdContrastGoodsService;
     
     @Autowired
     private TdRedEnvelopeService tdRedEnvelopeService;
@@ -117,7 +123,7 @@ public class TdLoginController {
         
         tdUserService.save(user);
         
-        // 检查室友有未领取红包
+        // 检查是否有未领取红包
         List<TdRedEnvelope> tdRedEnvelopes = tdRedEnvelopeService.findByUsernameAndIsGetFalse(username);
         if (tdRedEnvelopes.isEmpty()) {
 			res.put("hasRedenvelope", 0);
@@ -128,6 +134,31 @@ public class TdLoginController {
         request.getSession().setAttribute("username", username);
         
         res.put("code", 0);
+        
+        // 将对比商品转入该用户名下
+        List<TdContrastGoods> contrastSessionGoodsList = tdContrastGoodsService
+                .findByUsername(request.getSession().getId());
+        
+        // 合并商品
+        List<TdContrastGoods> contrastUserGoodsList = tdContrastGoodsService
+                .findByUsername(username);
+
+        for (TdContrastGoods contrastGoods : contrastSessionGoodsList) {
+        	contrastGoods.setUsername(username);
+        	contrastUserGoodsList.add(contrastGoods);
+        }
+
+        tdContrastGoodsService.save(contrastUserGoodsList);
+
+        for (TdContrastGoods cg1 : contrastUserGoodsList) {
+            List<TdContrastGoods> findList = tdContrastGoodsService
+                    .findByGoodsIdAndPriceAndUsername(cg1.getGoodsId(), cg1.getPrice(), username);
+
+            if (findList.size() > 1) {
+            	tdContrastGoodsService.delete(findList.subList(1,
+                        findList.size()));
+            }
+        }
         
         return res;
     }

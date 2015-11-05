@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import com.ynyes.huizi.entity.TdAdType;
 //import com.sun.mail.handlers.image_gif;
 import com.ynyes.huizi.entity.TdArticleCategory;
+import com.ynyes.huizi.entity.TdCartGoods;
+import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
 
 @Service
@@ -51,6 +53,25 @@ public class TdCommonService {
     
     @Autowired
     private TdAdService tdAdService;
+    
+    @Autowired
+    private TdContrastGoodsService tdContrastGoodsService;
+    
+    public Boolean deletecartgoods(){
+    	List<TdCartGoods> tdCartGoods = tdCartGoodsService.findByisLoggedInFalse();
+    	if (null != tdCartGoods) {
+			tdCartGoodsService.delete(tdCartGoods);
+		}
+    	return true;
+    }
+    
+    public Boolean deletecontrastgoods(){
+    	List<TdContrastGoods> tdContrastGoods = tdContrastGoodsService.findByisLoggedInFalse();
+    	if (null != tdContrastGoods) {
+    		tdContrastGoodsService.delete(tdContrastGoods);
+		}
+    	return true;
+    }
     
     public void setHeader(ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");

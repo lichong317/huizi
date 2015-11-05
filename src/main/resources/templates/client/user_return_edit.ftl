@@ -110,11 +110,11 @@ $(function () {
 			             	<b><font>* </font>数量：</b>
 			                <input type="text" name="returnNumber" datatype="*" nullmsg="请填写退换货的数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"</#if> />
 			            </div>
-			            <div style="height:30px;margin-top:30px;">
-			            <b><font>* </font>问题类型：</b>
-                              <label style="float:left;margin-left:200px;"><input type="radio" name="isReturn" value="true" />不喜欢</label>
-                              <label style="float:left;margin-left:30px;"><input type="radio" datatype="*" name="isReturn" value="false" />产品质量有问题</label>
-                        </div>
+			        <#-->    <div class="mymember_eva_div">
+			            <b ><font>* </font>问题类型：</b>
+                              <label style="margin-left:10px;"><input type="radio" name="isReturn" value="true" />不喜欢</label>
+                              <label style="left;margin-left:30px;"><input type="radio" datatype="*" name="isReturn" value="false" />产品质量有问题</label>
+                        </div> -->
 			            <div class="mymember_eva_div">
 			              <b><font>* </font>问题描述：</b>
 			              <#if has_returned?? &&has_returned>

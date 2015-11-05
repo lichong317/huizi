@@ -116,7 +116,9 @@ public class TdCartGoodsService {
         return repository.findByUsernameAndIsSelectedTrue(username);
     }
     
-    
+    public List<TdCartGoods> findByisLoggedInFalse(){
+    	return repository.findByIsLoggedInFalse();
+    }
       
     /**
      * 保存

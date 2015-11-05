@@ -167,9 +167,15 @@ function changeName(p)
     return temp;
 }
 </script>
+
 </head>
 
 <body>
+<!-- 商品对比 -->
+<div id ="contrastGoods">
+    <#include "/client/contrast_goods.ftl" />
+</div>
+
 <#include "/client/common_header.ftl" />
 
 <div class="clear h20"></div>

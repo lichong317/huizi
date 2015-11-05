@@ -13,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ynyes.huizi.entity.TdCartGoods;
+import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
@@ -23,6 +26,7 @@ import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdContrastGoodsService;
 import com.ynyes.huizi.service.TdDiySiteService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
@@ -70,19 +74,16 @@ public class TdGoodsController {
     private TdUserRecentVisitService tdUserRecentVisitService;
 
     @Autowired
-    private TdSettingService tdSettingService;
-
-    @Autowired
     private TdUserService tdUserService;
 
     @Autowired
     private TdProductService tdProductService;
     
     @Autowired
-    private TdUserPointService tdUserPointService;
+    private TdDiySiteService tdDiySiteService;
     
     @Autowired
-    private TdDiySiteService tdDiySiteService;
+    private TdContrastGoodsService tdContrastGoodsService;
 
     @RequestMapping("/goods/{goodsId}")
     public String product(@PathVariable Long goodsId, Long shareId, Integer qiang,
@@ -91,7 +92,7 @@ public class TdGoodsController {
         tdCommonService.setHeader(map, req);
 
         String username = (String) req.getSession().getAttribute("username");
-
+                             
         // 添加浏览记录
         if (null != username) {
         	 TdUserRecentVisit recentVisit = tdUserRecentVisitService.findByUsernameAndGoodsId(username,goodsId);
@@ -132,6 +133,7 @@ public class TdGoodsController {
 	            	 tdUserRecentVisitService.save(recentVisit);
 	             }
         }
+                             
         /**
 		 * @author lc
 		 * @注释：促销
@@ -150,14 +152,14 @@ public class TdGoodsController {
         }
         
         if (null == goodsId) {
-            return "error_404";
+            return "/client/error_404";
         }
 
         TdGoods goods = tdGoodsService.findOne(goodsId);
         
         if (null == goods)
         {
-            return "error_404";
+            return "/client/error_404";
         }
 
         Page<TdUserConsult> consultPage = tdUserConsultService
@@ -443,6 +445,12 @@ public class TdGoodsController {
         map.addAttribute("server_ip", req.getLocalName());
         map.addAttribute("server_port", req.getLocalPort());
 
+        // 查询对比商品
+        if (null == username) {
+            username = req.getSession().getId();
+        }
+        map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, goods.getCategoryId()));
+        
         return "/client/goods";
     }
 
@@ -454,7 +462,7 @@ public class TdGoodsController {
         
         if (null == goodsId)
         {
-            return "error_404";
+            return "/client/error_404";
         }
         
         if (null == page)
@@ -510,7 +518,7 @@ public class TdGoodsController {
         
         if (null == goodsId)
         {
-            return "error_404";
+            return "/client/error_404";
         }
         
         if (null == page)
@@ -527,5 +535,29 @@ public class TdGoodsController {
         map.addAttribute("goodsId", goodsId);
         
         return "/client/goods_consult";
+    }
+    
+    @RequestMapping(value = "/contrast/goods/add", method = RequestMethod.POST)
+    public String cartToggle(Long goodsId, Long categoryId, HttpServletRequest req, ModelMap map) {
+
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+            username = req.getSession().getId();
+        }
+
+        TdContrastGoods tdContrastGoods = tdContrastGoodsService.findByGoodsId(goodsId);
+        
+        if (null == tdContrastGoods) {
+        	 List<TdContrastGoods> tdContrastGoodslist = tdContrastGoodsService
+                     .findByUsernameAndCategoryId(username, categoryId);
+		}
+       
+        
+       
+
+  //      map.addAttribute("contrast_goods_list", tdContrastGoodslist);
+
+        return "/client/cart_goods";
     }
 }

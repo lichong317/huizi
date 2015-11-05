@@ -58,7 +58,7 @@ DD_belatedPNG.fix('.,img,background');
 <section class="full404" data-minHeight="640">
     <article class="page404 mid">
         <p class="Ptitle">对不起，您访问的页面不存在！</p>
-        <a class="Pback" href="" title="">返回到您之前浏览的页面</a>
+        <a class="Pback" href="/" title="">返回到您之前浏览的页面</a>
         <p class="Pother">
             <i></i>
         </p>
