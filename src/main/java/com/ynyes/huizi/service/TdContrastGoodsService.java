@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.repository.TdContrastGoodsRepo;
 
+import scala.xml.dtd.PublicID;
+
 @Service
 @Transactional
 public class TdContrastGoodsService {
@@ -24,8 +26,12 @@ public class TdContrastGoodsService {
 		return (List<TdContrastGoods>) repository.findAll();
 	}	
 	
-	public TdContrastGoods findByGoodsId(Long goodsId){
+	public TdContrastGoods findTopByGoodsI(Long goodsId){
 		return repository.findTopByGoodsId(goodsId);
+	}
+	
+	public List<TdContrastGoods> findByGoodsIdAndUsernameAndCategoryId(Long goodsId, String username, Long categoryId){
+		return repository.findByGoodsIdAndUsernameAndCategoryId(goodsId, username, categoryId);
 	}
 	
 	public List<TdContrastGoods> findByUsernameAndCategoryId(String username, Long categoryId)

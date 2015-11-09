@@ -15,6 +15,8 @@ public interface TdContrastGoodsRepo extends
 	
 	TdContrastGoods findTopByGoodsId(Long goodsId);
 	
+	List<TdContrastGoods> findByGoodsIdAndUsernameAndCategoryId(Long goodsId, String username, Long categoryId);
+	
 	List<TdContrastGoods> findByIsLoggedInFalse();
 	
 	List<TdContrastGoods> findByUsername(String username);

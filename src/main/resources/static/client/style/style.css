@@ -288,8 +288,9 @@
 .column_sum li a.a1 { width:210px; height:210px; display:block; overflow:hidden; margin-bottom:10px;}
 .column_sum li div { background:#eeeeee; height:34px; width:100%; text-align:left; margin-top:5px; border-radius:5%;}
 .column_sum li div a { display:inline-block; line-height:34px;}
-.column_sum li a.a2 { width:47%; text-align:center;border-right:1px solid #fff;}
-.column_sum li a.a3 { width:50%; text-align:center;}
+.column_sum li a.a2 { width:37%; text-align:center;border-right:1px solid #fff;}
+.column_sum li a.a3 { width:30%; text-align:center;}
+.column_sum li a.a4{text-align:center; width:27%;}
 .column_sum li:hover { border:1px solid #eee; box-shadow:0px 2px 0px #ccc;}
 
 /** 鍟嗗搧璇︾粏椤� **/

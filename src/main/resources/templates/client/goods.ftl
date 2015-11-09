@@ -166,6 +166,34 @@ function changeName(p)
     }
     return temp;
 }
+
+function addContrastgoods(id){
+	var goodsId= id;
+	var categoryId = $("#goodscategoryId").val();
+	
+	$.ajax({
+            type:"post",
+            url:"/contrast/goods/add",
+            data:{"goodsId":goodsId, "categoryId":categoryId},
+            success:function(data){
+                $("#contrastGoods").html(data);
+            }
+     });
+}
+
+function deleteContrastgoods(id){
+	var goodsId= id;
+	var categoryId = $("#goodscategoryId").val();
+	
+	$.ajax({
+            type:"post",
+            url:"/contrast/goods/delete",
+            data:{"id":goodsId, "categoryId":categoryId},
+            success:function(data){
+                $("#contrastGoods").html(data);
+            }
+     });
+}
 </script>
 
 </head>
@@ -252,6 +280,15 @@ function changeName(p)
     
     <section class="proinfo_right">
       <h3>${goods.title!''}</h3>
+ <#-->     <input type="button" value="对比" onclick="addContrastgoods('${goods.id?c}')"> -->
+      <a href="javascript:;" onclick="addContrastgoods('${goods.id?c}')" style="
+                        position: absolute;
+                        right: 0;
+                        background: #f0f0f0;
+                        border: solid 1px#ccc;
+                        padding: 4px 10px;
+                        z-index: 2;">对比</a>
+      <input type="hidden" id="goodscategoryId" value="${goods.categoryId!''}">
       <h4 class="red">${goods.subTitle!''}</h4>
      <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>
 <script>

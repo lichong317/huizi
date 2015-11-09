@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.entity.TdParameter;
 import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdSetting;
@@ -30,6 +31,7 @@ import com.ynyes.huizi.service.TdContrastGoodsService;
 import com.ynyes.huizi.service.TdDiySiteService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
+import com.ynyes.huizi.service.TdParameterService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdProductService;
 import com.ynyes.huizi.service.TdSettingService;
@@ -64,6 +66,9 @@ public class TdGoodsController {
     @Autowired
     private TdProductCategoryService tdProductCategoryService;
 
+    @Autowired
+    private TdParameterService tdParameterService;
+    
     @Autowired
     private TdCommonService tdCommonService;
 
@@ -537,8 +542,50 @@ public class TdGoodsController {
         return "/client/goods_consult";
     }
     
+    @RequestMapping("/contrast/goods/detail")
+    public String contrastgoodsdetail(Long categoryId, 
+                            ModelMap map, 
+                            HttpServletRequest req) {
+    	tdCommonService.setHeader(map, req);
+    	
+    	String username = (String) req.getSession().getAttribute("username");
+    	  // 查询对比商品
+        if (null == username) {
+            username = req.getSession().getId();
+        }
+        if (null != categoryId) {
+        	List<TdContrastGoods> tdContrastGoodslist = tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId);
+        	
+        	List<TdGoods> tdGoodslist = new ArrayList<>();
+        	
+        	for(TdContrastGoods tdcg : tdContrastGoodslist){
+        		if (null != tdcg.getGoodsId()) {
+        			TdGoods tdGoods = tdGoodsService.findOne(tdcg.getGoodsId());
+        			if (null != tdGoods) {
+						tdGoodslist.add(tdGoods);
+					}
+				}       		
+        	}
+        	map.addAttribute("goods_list", tdGoodslist);
+        	
+        	TdProductCategory tdProductCategory = tdProductCategoryService.findOne(categoryId);
+            
+            if (null != tdProductCategory){
+            	Long paramCategoryId = tdProductCategory.getParamCategoryId();
+                
+                List<TdParameter> paramList = tdParameterService.findByCategoryTreeContainingOrderBySortIdAsc(paramCategoryId);
+                
+                map.addAttribute("tdProductCategory", tdProductCategory);
+                map.addAttribute("paramList", paramList);
+            }
+
+		}
+                
+        return "/client/contrast_goods_detail";
+    }
+    
     @RequestMapping(value = "/contrast/goods/add", method = RequestMethod.POST)
-    public String cartToggle(Long goodsId, Long categoryId, HttpServletRequest req, ModelMap map) {
+    public String contrastGoodsadd(Long goodsId, Long categoryId, HttpServletRequest req, ModelMap map) {
 
         String username = (String) req.getSession().getAttribute("username");
 
@@ -550,45 +597,70 @@ public class TdGoodsController {
         }
 
         if (null != goodsId && null != categoryId) {
-        	TdContrastGoods tdContrastGoods = tdContrastGoodsService.findByGoodsId(goodsId);
-            
-            if (null == tdContrastGoods) {           	
-            	 TdGoods tdGoods = tdGoodsService.findOne(goodsId);
-            	 if (null != tdGoods) {
-    				TdContrastGoods contrastGoods = new TdContrastGoods();
-    				
-    				contrastGoods.setUsername(username);
-    				contrastGoods.setGoodsId(goodsId);
-    				
-    				if (null != tdGoods.getTitle()) {
-    					contrastGoods.setGoodsTitle(tdGoods.getTitle());
-					}   				
-    				if (null != tdGoods.getCoverImageUri()) {
-    					contrastGoods.setGoodsCoverImageUri(tdGoods.getCoverImageUri());
-					}    				
-    				if (null != tdGoods.getSalePrice()) {
-    					contrastGoods.setPrice(tdGoods.getSalePrice());
-					} 
-    				
-    				contrastGoods.setCategoryId(categoryId);
-    				
-    				if (null != tdGoods.getCategoryTitle()) {
-    					contrastGoods.setCategoryTitle(tdGoods.getCategoryTitle());
-					}    				
-    				if (null != tdGoods.getCategoryIdTree()) {
-    					contrastGoods.setCategoryIdTree(tdGoods.getCategoryIdTree());
-					}
-    				
-    				contrastGoods.setIsLoggedIn(isLoggedIn);
-    				
-    				tdContrastGoodsService.save(contrastGoods);
-    			}
-    		}
+        	List<TdContrastGoods> tdContrastGoodslist = tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId);
+        	if (null != tdContrastGoodslist && tdContrastGoodslist.size() > 3) {
+				
+			}else {
+	            List<TdContrastGoods> tdContrastGoodslist1 = tdContrastGoodsService.findByGoodsIdAndUsernameAndCategoryId(goodsId, username, categoryId);
+	            if ( tdContrastGoodslist1.size() == 0) {           	
+	            	 TdGoods tdGoods = tdGoodsService.findOne(goodsId);
+	            	 if (null != tdGoods) {
+	    				TdContrastGoods contrastGoods = new TdContrastGoods();
+	    				
+	    				contrastGoods.setUsername(username);
+	    				contrastGoods.setGoodsId(goodsId);
+	    				
+	    				if (null != tdGoods.getTitle()) {
+	    					contrastGoods.setGoodsTitle(tdGoods.getTitle());
+						}   				
+	    				if (null != tdGoods.getCoverImageUri()) {
+	    					contrastGoods.setGoodsCoverImageUri(tdGoods.getCoverImageUri());
+						}    				
+	    				if (null != tdGoods.getSalePrice()) {
+	    					contrastGoods.setPrice(tdGoods.getSalePrice());
+						} 
+	    				
+	    				contrastGoods.setCategoryId(categoryId);
+	    				
+	    				if (null != tdGoods.getCategoryTitle()) {
+	    					contrastGoods.setCategoryTitle(tdGoods.getCategoryTitle());
+						}    				
+	    				if (null != tdGoods.getCategoryIdTree()) {
+	    					contrastGoods.setCategoryIdTree(tdGoods.getCategoryIdTree());
+						}
+	    				
+	    				contrastGoods.setIsLoggedIn(isLoggedIn);
+	    				
+	    				tdContrastGoodsService.save(contrastGoods);
+	    			}
+	    		}
+			}       	
 		}        
                      
 
         map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId));
 
         return "/client/contrast_goods";
+    }
+    
+    @RequestMapping(value = "/contrast/goods/delete", method = RequestMethod.POST)
+    public String contrastGoodsdelete(Long id, Long categoryId, HttpServletRequest req, ModelMap map) {
+    	String username = (String) req.getSession().getAttribute("username");
+        if (null == username) {
+            username = req.getSession().getId();
+        }
+    	 
+    	if (null != id) {
+			tdContrastGoodsService.delete(id);
+		}else {
+			if (null != categoryId) {
+				List<TdContrastGoods> tdContrastGoodslist = tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId);
+				tdContrastGoodsService.delete(tdContrastGoodslist);
+			}
+		}
+    	if (null != categoryId) {
+    		map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId));
+		}
+    	return "/client/contrast_goods";
     }
 }

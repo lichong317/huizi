@@ -52,10 +52,44 @@ function btnPageSubmit()
     + (page - 1)
     + "-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string('#.##')}-${priceHigh?string('#.##')}</#if>";
 }
+
+function addContrastgoods(id){
+    var goodsId= id;
+    var categoryId = $("#goodscategoryId").val();
+    
+    $.ajax({
+            type:"post",
+            url:"/contrast/goods/add",
+            data:{"goodsId":goodsId, "categoryId":categoryId},
+            success:function(data){
+                $("#contrastGoods").html(data);
+            }
+     });
+}
+
+function deleteContrastgoods(id){
+    var goodsId= id;
+    var categoryId = $("#goodscategoryId").val();
+    
+    $.ajax({
+            type:"post",
+            url:"/contrast/goods/delete",
+            data:{"id":goodsId, "categoryId":categoryId},
+            success:function(data){
+                $("#contrastGoods").html(data);
+            }
+     });
+}
 </script>
 </head>
 
 <body>
+<!-- 对比商品 -->
+<div id ="contrastGoods">
+    <#include "/client/contrast_goods.ftl" />
+</div>
+<input type="hidden" id="goodscategoryId" value="${categoryId!'1'}">
+
 <#include "/client/common_header.ftl" />
 
 <div class="clear h20"></div>
@@ -133,7 +167,7 @@ function btnPageSubmit()
         <#if param_list??>
             <#list param_list as param>
                 <menu>
-                    <h4>${param.title!""}：</h4>
+                    <h4 style="height:20px;overflow:hidden">${param.title!""}：</h4>
                     <a href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex><#if param_index==pindex_index>-0<#else>-${pindex!'0'}</#if></#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>" <#if param_index_list[param_index]==0>class="sel"</#if>>全部</a>
                     <#if param.valueList??>
                         <#list param.valueList?split(",") as value>
@@ -200,6 +234,7 @@ function btnPageSubmit()
                     <div>
                       <a class="a2" href="/cart/init?id=${goods.id?c}" target="_blank">加入购物车</a>
                       <a class="a3" href="javascript:addCollect(${goods.id?c});">收藏</a>
+                      <a class="a4" href="javascript:;" onclick="addContrastgoods('${goods.id?c}')">对比</a>                     
                       <p class="clear"></p>
                     </div>
                 </li>

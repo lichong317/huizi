@@ -35,4 +35,6 @@ public interface TdParameterRepo extends
     Page<TdParameter> findByTitleContainingOrderBySortIdAsc(String keywords, Pageable page);
     
     Page<TdParameter> findByCategoryTreeContainingOrderBySortIdAsc(String catId, Pageable page);
+    
+    List<TdParameter> findByCategoryTreeContainingOrderBySortIdAsc(String catId);
 }
