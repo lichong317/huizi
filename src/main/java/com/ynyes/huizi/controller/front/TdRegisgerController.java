@@ -66,7 +66,7 @@ public class TdRegisgerController {
         	
         	if (null != user)
         	{
-        		res.put("info", "该用户已经存在");
+        		res.put("info", "用户名已存在");
                 return res;
         	}
         }

@@ -72,6 +72,13 @@
     background: #FFF;
 ">
   <div class="login_r"> 
+        <span style="color: #F00"><#if errCode??>
+            <#if errCode==1>
+                验证码错误
+            <#elseif errCode==4>
+                短信验证码错误
+            </#if>
+        </#if></span>
     <form id="form1" method="post" action="/reg">
     <input name="shareId" type="hidden" value="">
         <div>
