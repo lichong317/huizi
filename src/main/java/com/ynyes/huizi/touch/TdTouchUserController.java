@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.service.TdUserReturnService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
+import com.ynyes.huizi.util.QRCodeUtils;
 import com.ynyes.huizi.util.SiteMagConstant;
 
 /**
@@ -170,7 +172,7 @@ public class TdTouchUserController {
 		String username = (String) req.getSession().getAttribute("username");
 		TdUser user = tdUserService.findByUsername(username);
 		if (null == user) {
-			return "/touch/user/login";
+			return "redirect:/touch/login";
 		}
 
 		String name = Filedata.getOriginalFilename();
@@ -200,6 +202,43 @@ public class TdTouchUserController {
 		return "redirect:/touch/user";
 
 	}
+    
+    @RequestMapping(value = "/user/center/qrcode", method = RequestMethod.GET)
+   	public String getqrcode( HttpServletRequest req, ModelMap map) {
+   		String username = (String) req.getSession().getAttribute("username");
+   		if (null == username) {
+   			return "redirect:/touch/login";
+   		}
+   		tdCommonService.setHeader(map, req);
+   		TdUser user = tdUserService.findByUsername(username);
+   		
+   		if (null == user.getQrCodeUri()) {
+   			try {
+
+   	   			Date dt = new Date(System.currentTimeMillis());
+   	   			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+   	   			String fileName = sdf.format(dt) + ".png";
+
+   	   			String uri = SiteMagConstant.imagePath + "/" + fileName;
+
+   	   			File file = new File(uri);
+
+   	   			QRCodeUtils qr = new QRCodeUtils();
+   	   			qr.getQRCodeForsharer("http://116.55.230.207:8008/reg?shareId="+user.getId(), 300, file);
+   	   			
+//   	   			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+//   	   			stream.write(bytes);
+//   	   			stream.close();
+   	   			user.setQrCodeUri("/images/" + fileName);
+   	   			tdUserService.save(user);
+   	   		} catch (Exception e) {
+   	   			e.printStackTrace();
+   	   		}
+		}
+   	
+   		return "/touch/user_qrcode";
+
+   	}
     
     @RequestMapping(value = "/user/redenvelope/list")
     public String redenvelopeList( Integer statusId, 

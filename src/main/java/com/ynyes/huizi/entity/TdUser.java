@@ -194,6 +194,10 @@ public class TdUser {
     @Column
     private Boolean isBankCardVerified;
     
+    // 分销商二维码
+ 	@Column
+ 	private String qrCodeUri;
+    
     // 累计消费额度
     @Column(scale=2)
     private Double totalSpendCash;
@@ -234,7 +238,15 @@ public class TdUser {
         this.headImageUri = headImageUri;
     }
 
-    public Long getTotalCashRewardsToUpuser() {
+    public String getQrCodeUri() {
+		return qrCodeUri;
+	}
+
+	public void setQrCodeUri(String qrCodeUri) {
+		this.qrCodeUri = qrCodeUri;
+	}
+
+	public Long getTotalCashRewardsToUpuser() {
 		return totalCashRewardsToUpuser;
 	}
 

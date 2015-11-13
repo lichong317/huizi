@@ -201,7 +201,10 @@
 .column_sum li a.a2 { width:47%; text-align:center;border-right:1px solid #fff;}
 .column_sum li a.a3 { width:50%; text-align:center;}
 .column_sum li:hover { border:1px solid #eee; box-shadow:0px 2px 0px #ccc;}
-
+.column_px .fr { width:180px; padding-right:10px;}
+.zy { width:13px; height:13px; margin-top:14px; float:left; /*margin-left:12px ;*/ background:url(../images/pic.png) no-repeat -731px -204px; border:none}
+.zyon { width:13px; height:13px; margin-top:14px; float:left; /*margin-left:12px;*/ background:url(../images/pic.png) no-repeat -744px -220px; border:none}
+.dd { line-height:42px; float:left; padding-left:7px;}
 /** 鍟嗗搧璇︾粏椤� **/
 .pro_info { width:100%; min-width:1200px; margin:0 auto; background:#d9d9d9;}
 .pro_tit { font-weight:400; padding:20px 0 20px;}

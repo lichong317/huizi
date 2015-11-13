@@ -181,10 +181,11 @@ public class TdUserController {
     @RequestMapping(value = "/user/center/headImg", method = RequestMethod.POST)
 	public String uploadImg(@RequestParam MultipartFile Filedata, HttpServletRequest req) {
 		String username = (String) req.getSession().getAttribute("username");
-		TdUser user = tdUserService.findByUsername(username);
-		if (null == user) {
-			return "/user/login";
+		if (null == username) {
+			return "redirect:/login";
 		}
+		TdUser user = tdUserService.findByUsername(username);
+		
 
 		String name = Filedata.getOriginalFilename();
 

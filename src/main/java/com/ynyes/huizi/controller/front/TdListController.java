@@ -38,9 +38,6 @@ public class TdListController {
     private TdProductCategoryService tdProductCategoryService;
     
     @Autowired
-    private TdArticleService tdArticleService;
-    
-    @Autowired
     private TdCommonService tdCommonService;
     
     @Autowired

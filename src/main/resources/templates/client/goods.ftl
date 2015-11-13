@@ -18,7 +18,6 @@
 <script src="/client/js/goods_comment_consult.js"></script>
 
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 
@@ -232,26 +231,9 @@ function deleteContrastgoods(id){
                  <menu id="proshowmenu"></menu>
               <div class="clear h20"></div>
               
-              <div class="pro_share">
-                 <#-->   <span>分享：</span>
-                    <a href="#"><img src="/client/images/content/share01.png" /></a>
-                    <a href="#"><img src="/client/images/content/share02.png" /></a>
-                    <a href="#"><img src="/client/images/content/share03.png" /></a>
-                    <a href="#"><img src="/client/images/content/share04.png" /></a>
-                    <a href="#"><img src="/client/images/content/share05.png" /></a>
-                   -->
-                    <!-- JiaThis Button BEGIN -->
-                <#--    <div class="jiathis_style">
-                        <a class="jiathis_button_qzone"></a>
-                        <a class="jiathis_button_tsina"></a>
-                        <a class="jiathis_button_tqq"></a>
-                        <a class="jiathis_button_weixin"></a>
-                        <a class="jiathis_button_renren"></a>
-                        <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-                    </div>
-                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>  -->
-                    <!-- JiaThis Button BEGIN -->
-                        <div class="jiathis_style">
+              <div class="pro_share">              
+                   <!-- JiaThis Button BEGIN -->
+                   <#-->      <div class="jiathis_style">
                         <a class="jiathis_button_qzone"></a>
                         <a class="jiathis_button_tsina"></a>
                         <a class="jiathis_button_tqq"></a>
@@ -271,9 +253,24 @@ function deleteContrastgoods(id){
                         <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
                     <!-- JiaThis Button END -->
                     
-                  <!-- JiaThis Button END -->
-                    <span class="ml10">商品编码：${goods.code!''}</span>
-                    <a class="a1" href="javascript:addCollect(${goods.id?c});">关注该商品</a>
+                  <div class="bdsharebuttonbox" style="float:left;">
+                    <a href="#" class="bds_more" data-cmd="more"></a>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">
+                    </a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                  </div>
+<script>
+                window._bd_share_config={
+                "common":{
+                    "bdSnsKey":{},
+                    "bdText":"惠资生活##${goods.title!''}", bdUrl:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>", "bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},
+                    "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+                   
+                    <span class="ml10" style="line-height:30px;">商品编码：${goods.code!''}</span> 
+                    <a class="a1" href="javascript:addCollect(${goods.id?c});" style="line-height:30px;">关注该商品</a>
                     <div class="clear"></div>
               </div>
         </section><!--proinfo_left END-->

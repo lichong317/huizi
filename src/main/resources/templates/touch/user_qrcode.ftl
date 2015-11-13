@@ -20,7 +20,7 @@
 <div class="maintop_bg"></div>
 <header class="maintop">
   <div class="main">
-    <p>会员中心</p>
+    <p>我的二维码</p>
     <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
     <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
   </div>
@@ -48,26 +48,15 @@
 
 <section class="main membertop mt10 mb10" >
   <menu>
-    <a href="/touch/user/order/list/2"><img src="/touch/images/huiyuan_05.png" height="48" /><p>待付款（<#if total_unpayed??>${total_unpayed!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/4"><img src="/touch/images/huiyuan_07.png" height="48" /><p>待收货（<#if total_unreceived??>${total_unreceived!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/5"><img src="/touch/images/huiyuan_09.png" height="48" /><p>待评价（<#if total_uncommented??>${total_uncommented!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/6"><img src="/touch/images/huiyuan_11.png" height="48" /><p>维修/售后（<#if total_finished??>${total_finished!''}</#if>）</p></a>
+       
   </menu>
 </section>
 
-<menu class="main memberlist">
-  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <#if user?? && user.roleId?? && user.roleId == 1>
-    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  </#if>
+<menu class="main memberlist" style="text-align:center;">
+    <img src="${user.qrCodeUri!''}" >
 </menu>
 <div class=" tuichu main">
-<a href="/touch/logout">退出</a> </div>
+
 
 <!--main END-->
 
@@ -81,3 +70,4 @@
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
 </body>
 </html>
+s
