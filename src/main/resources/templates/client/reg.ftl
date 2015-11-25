@@ -21,6 +21,9 @@
 <script type="text/javascript" src="/client/js/mymember.js"></script>
 
 <script type="text/javascript">
+var seed=60;    //60秒  
+var t1=null; 
+
   $(document).ready(function(){
 	menuDownList("top_phone","#top_phonelist",".a1","sel");
 	phoneListMore();//单独下拉
@@ -37,7 +40,64 @@
     $("#form1").Validform({
         tiptype: 3
     });
+    
+     $("#smsCodeBtn").bind("click", function() {  
+        
+        var mob = $('#mobileNumber').val();
+        
+        var re = /^1\d{10}$/;
+        
+        if (!re.test(mob)) {
+            alert("请输入正确的手机号");
+            return;
+        }
+        
+        $("#smsCodeBtn").attr("disabled","disabled"); 
+        
+        $.ajax({  
+            url : "/reg/smscode",  
+            async : true,  
+            type : 'GET',  
+            data : {"mobile": mob},  
+            success : function(data) {  
+                
+                if(data.statusCode == '000000')
+                {  
+                    t1 = setInterval(tip, 1000);  
+                }
+                else
+                {
+                    $("#smsCodeBtn").removeAttr("disabled");
+                }
+            },  
+            error : function(XMLHttpRequest, textStatus,  
+                    errorThrown) {  
+                alert("error");
+            }  
+  
+        });
+        
+      }); 
 });
+
+function enableBtn()
+{  
+    $("#smsCodeBtn").removeAttr("disabled");   
+} 
+
+function tip() 
+{  
+    seed--;  
+    if (seed < 1) 
+    {  
+        enableBtn();  
+        seed = 60;  
+        $("#smsCodeBtn").val('点击获取短信验证码');  
+        var t2 = clearInterval(t1);  
+    } else {  
+        $("#smsCodeBtn").val(seed + "秒后重新获取");  
+    }  
+} 
 </script>
 </head>
 <body>
@@ -67,7 +127,7 @@
     <div class="dl" style="background:url(/client/images/zzz.png) no-repeat;"> 
 <div class="loginbox" style="
     -webkit-box-shadow: 3px 3px 3px;    -moz-box-shadow: 3px 3px 3px;    
-    box-shadow: 8px 8px 8px;    height: 543px;
+    box-shadow: 8px 8px 8px;    height: 578px;
     border: solid 4px;
     background: #FFF;
 ">
@@ -82,24 +142,29 @@
     <form id="form1" method="post" action="/reg">
     <input name="shareId" type="hidden" value="">
         <div>
-            <span class="Validform_checktip">请输入用户名/邮箱/手机号码</span>
+            <span class="Validform_checktip"><b style="color: #FF0000;">*</b>请输入用户名</span>
             <input type="text" name="username" class="login_txt1" datatype="s6-20" ajaxurl="/reg/check/username" value="">
         </div>
         
         <div>
-            <span class="Validform_checktip">请输入密码</span>
+            <span class="Validform_checktip"><b style="color: #FF0000;">*</b>请输入密码</span>
             <input type="password" name="password" class="login_txt2" datatype="s6-20">
         </div>
         
         <div>
-            <span class="Validform_checktip">请确认密码</span>
+            <span class="Validform_checktip"><b style="color: #FF0000;">*</b>请确认密码</span>
             <input type="password" class="login_txt2" datatype="*" recheck="password">
         </div>
         
         <div>
-            <span class="Validform_checktip">请填写验证码</span>
-            <input type="text" class="login_txt2" name="code" style="width:170px; float:left" datatype="s4-4" errormsg="请填写4位字符">
-            <img src="/code" onclick="this.src = '/code?date='+Math.random();" id="yzm">
+            <span class="Validform_checktip"><b style="color: #FF0000;">*</b>请输入手机号</span>
+            <input id="mobileNumber" type="text" name="mobile" class="login_txt1" datatype="m" ajaxurl="/reg/check/mobile" value="">
+        </div>
+        
+        <div>
+            <span class="Validform_checktip"><b style="color: #FF0000;">*</b>短信验证码</span>
+            <input type="text" class="login_txt2" name="smsCode" style="width:170px; float:left" datatype="s4-4" errormsg="请填写4位字符">
+            <input id="smsCodeBtn" onclick="javascript:;" readOnly="true" class="sub" style="text-align:center;width: 45%; border-radius: 3px; margin-left:15px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" value="点击获取短信验证码" />
         
         </div>
         <div class="clear"></div>

@@ -62,9 +62,9 @@
   <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <#if user?? && user.roleId?? && user.roleId == 1>
+<#--  <#if user?? && user.roleId?? && user.roleId == 1> -->
     <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  </#if>
+
 </menu>
 <div class=" tuichu main">
 <a href="/touch/logout">退出</a> </div>

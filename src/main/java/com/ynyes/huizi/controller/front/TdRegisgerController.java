@@ -2,9 +2,11 @@ package com.ynyes.huizi.controller.front;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.util.SMSUtil;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserPoint;
@@ -77,22 +80,22 @@ public class TdRegisgerController {
          * 	判断手机号是已否注册
          * @author libiao
          */
-//        if (type.equalsIgnoreCase("mobile"))		
-//        {
-//        	if (null == param || param.isEmpty())
-//        	{
-//                res.put("info", "用户名不能为空");
-//                return res;
-//            }
-//        	
-//        	TdUser user = tdUserService.findByMobile(param);		
-//        	
-//        	if (null != user)	
-//         	{
-//        		res.put("info", "该手机已经注册");
-//                return res;
-//        	}
-//        }
+        if (type.equalsIgnoreCase("mobile"))		
+        {
+        	if (null == param || param.isEmpty())
+        	{
+                res.put("info", "手机号不能为空");
+                return res;
+            }
+        	
+        	TdUser user = tdUserService.findByMobileAndIsEnabled(param);		
+        	
+        	if (null != user)	
+         	{
+        		res.put("info", "该手机已经注册");
+                return res;
+        	}
+        }
 
         res.put("status", "y");
 
@@ -159,9 +162,9 @@ public class TdRegisgerController {
                 String code,
                 Long shareId,
                 HttpServletRequest request){
-        String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
-        
-        if (null == codeBack)
+        //String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+        String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
+        if (null == smsCodeSave)
         {
             if (null == shareId)
             {
@@ -173,7 +176,7 @@ public class TdRegisgerController {
             }
         }
         
-        if (!codeBack.equalsIgnoreCase(code))
+        if (!smsCodeSave.equalsIgnoreCase(code))
         {
             if (null == shareId)
             {
@@ -291,6 +294,20 @@ public class TdRegisgerController {
         response.setDateHeader("Expire", 0);
         VerifServlet randomValidateCode = new VerifServlet();
         randomValidateCode.getRandcode(request, response);
+    }
+    
+    @RequestMapping(value = "/reg/smscode",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> smsCode(String mobile, HttpServletResponse response, HttpServletRequest request) {
+        Random random = new Random();
+        
+        String smscode = String.format("%04d", random.nextInt(9999));
+        
+        HttpSession session = request.getSession();
+        
+        session.setAttribute("SMSCODE", smscode);
+       
+        return SMSUtil.send(mobile, "15612" ,new String[]{smscode});
     }
     
 }
