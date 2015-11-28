@@ -100,6 +100,149 @@ function tip()
 } 
 </script>
 </head>
+
+<style>
+.thickbox {
+    position: absolute;
+    z-index: 10000002;
+    overflow: hidden;
+    padding: 0;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.thicktitle {
+    height: 27px;
+    padding: 0 10px;
+    border: solid #C4C4C4;
+    border-width: 1px 1px 0;
+    background: #F3F3F3;
+    line-height: 27px;
+    font-family: arial, "\5b8b\4f53";
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+.thickcon {
+    overflow: auto;
+    background: #fff;
+    border: solid #C4C4C4;
+    border-width: 1px;
+    padding: 10px;
+}
+.regist-2013 .btnt .btn-img {
+    width: 322px;
+    height: 34px;
+    line-heiht: 34px;
+    background: #e4393c;
+    color: #FFF;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-family: "微软雅黑";
+    font-size: 16px;
+    font-weight: 800;
+}
+.regist-2013 .btnt {
+    width: 322px;
+    margin: 20px auto 0;
+}
+.thickclose:link, .thickclose:visited {
+    display: block;
+    position: absolute;
+    z-index: 100000;
+    top: 7px;
+    right: 12px;
+    overflow: hidden;
+    width: 15px;
+    height: 15px;
+    background: url(/client/images/bg_thickbox.gif) no-repeat 0 -18px;
+    font-size: 0;
+    line-height: 100px;
+}
+#protocol-con {
+    height: 356px;
+    overflow: auto;
+    padding: 10px 20px 0 10px;
+}
+.btn-img {
+    cursor: pointer;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-align: center;
+}
+.thickframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000000;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border: 0;
+    filter: alpha(opacity = 0);
+    opacity: 0;
+}
+.thickdiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000001;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border: 0;
+    filter: alpha(opacity = 15);
+    opacity: .15;
+}
+</style>
+
+<script>
+                       // 弹出窗口
+function checkwindowshow()
+{
+    
+    $("#tanchuang").css("display", "block");
+    $("#tanchuangbackgroud").addClass("thickdiv"); 
+    
+    //$('html,body').animate({scrollTop:0},500);
+}
+
+// 窗口隐藏
+function checkwindowhide()
+{
+
+    $("#tanchuang").css("display", "none");
+    $("#tanchuangbackgroud").removeClass("thickdiv"); 
+    
+}
+
+
+</script>
+
+<iframe class="thickframe" id="" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" style="display:none"></iframe>
+<div  id="tanchuangbackgroud"></div>
+<div class="thickbox" id="tanchuang" style="width: 924px; height: 500px; left: 485.5px; top: 88px; display:none">
+    <div class="thicktitle" id="" style="width:922"><span>惠资生活注册协议</span></div>
+    <div class="thickcon" id="" style="width: 922px; height: 450px; padding-left: 0px; padding-right: 0px; border-left-width: 1px; border-right-width: 1px;">
+        <div class=" regist-2013">
+            <div class="regist-bor">
+                <div class="mc">
+                    <div id="protocol-con">
+                        <#if site??>${site.registerNego!''}</#if>
+                    </div>
+                    <div class="btnt">
+                        <input class="btn-img" type="submit" value="同意并继续" onclick="checkwindowhide();"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="javascript:checkwindowhide();" id="closeBox" class="thickclose">×</a></div>
+
 <body>
     <div class="w1065">
     <div class="denglutop">
@@ -173,7 +316,7 @@ function tip()
             <label>
             <input name="" type="checkbox" value="" datatype="*" nullmsg="请阅读协议！">
             &nbsp;我已认真阅读并同意<span class="Validform_checktip"></span></label>
-            &nbsp;&nbsp;<b class="wj"><a href="#">《惠资生活用户协议》</a></b>
+            &nbsp;&nbsp;<b class="wj"><a href="javascript:checkwindowshow();">《惠资生活用户协议》</a></b>
         </p>
         <p class="mt15">已有账号<b class="zc"><a href="/login">立即登录</a></b></p>
         
