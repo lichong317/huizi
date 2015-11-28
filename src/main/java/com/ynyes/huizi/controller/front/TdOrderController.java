@@ -435,6 +435,9 @@ public class TdOrderController {
 
         // 商品总价
         Double totalGoodsPrice = 0.0;
+        
+        // 总运费
+        Double totalFeePrice = 0.0;
 
         // 商品总尾款
         Double totalLeftPrice = 0.0;
@@ -492,6 +495,13 @@ public class TdOrderController {
                         totalGoodsPrice += buyGoods.getPrice();
                     }
 
+                    // 是否免邮
+                   if(!goods.getIsFeeNot())
+                   {
+                	   // 邮费
+                	   totalFeePrice += goods.getPostage();
+                   }
+                    
                     // 数量
                     orderGoods.setQuantity(1L);
 
@@ -572,6 +582,13 @@ public class TdOrderController {
                     // 商品总价
                     totalGoodsPrice += flashSalePrice;
 
+                    // 是否免邮
+                    if(!goods.getIsFeeNot())
+                    {
+                 	   // 邮费
+                 	   totalFeePrice += goods.getPostage();
+                    }
+                    
                     // 数量
                     orderGoods.setQuantity(1L);
 
@@ -633,6 +650,13 @@ public class TdOrderController {
 
                     // 商品总价
                     totalGoodsPrice += goods.getGroupSalePrice();
+                    
+                    // 是否免邮
+                    if(!goods.getIsFeeNot())
+                    {
+                 	   // 邮费
+                 	   totalFeePrice += goods.getPostage();
+                    }
 
                     // 尾款
 //                    totalLeftPrice = goods.getGroupSaleTenPrice()
@@ -795,7 +819,7 @@ public class TdOrderController {
 //        }
 
     	// 总价
-        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee);
+        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalFeePrice);
         
         // 待付款
         tdOrder.setStatusId(2L);
@@ -1110,6 +1134,9 @@ public class TdOrderController {
                 .findByUsernameAndIsSelectedTrue(username);
         List<TdOrderGoods> orderGoodsList = new ArrayList<TdOrderGoods>();
 
+        // 邮费
+        Double totalFeePrice = 0.0;
+        
         Double totalPrice = 0.0;
         Long totalSharePoints = 0L;
         if (null != cartGoodsList) {
@@ -1197,6 +1224,17 @@ public class TdOrderController {
 
                     totalPrice += cartGoods.getPrice()
                             * cartGoods.getQuantity();
+                    
+                    // 是否免邮
+                    if(!goods.getIsFeeNot())
+                    {
+                    	// 是否达到满额免邮标准
+                 	   if(null == goods.getMaxPostage() || goods.getMaxPostage() < cartGoods.getPrice()*cartGoods.getQuantity())
+                 	   {
+                 		   // 邮费
+                 		   totalFeePrice += goods.getPostage();
+                 	   }
+                    }
 
                     orderGoodsList.add(orderGoods);
                     tdGoodsService.save(goods, username);

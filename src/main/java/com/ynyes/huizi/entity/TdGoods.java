@@ -358,7 +358,42 @@ public class TdGoods {
     @Column
     private String code;
     
-    public Long getId() {
+    // 是否免邮
+    private Boolean isFeeNot;
+    
+    // 邮费
+    private Double postage;
+    
+    // 满额免邮
+    private Double maxPostage;
+    
+    
+    
+    public Boolean getIsFeeNot() {
+		return isFeeNot;
+	}
+
+	public void setIsFeeNot(Boolean isFeeNot) {
+		this.isFeeNot = isFeeNot;
+	}
+
+	public Double getPostage() {
+		return postage;
+	}
+
+	public void setPostage(Double postage) {
+		this.postage = postage;
+	}
+
+	public Double getMaxPostage() {
+		return maxPostage;
+	}
+
+	public void setMaxPostage(Double maxPostage) {
+		this.maxPostage = maxPostage;
+	}
+
+	public Long getId() {
         return id;
     }
 
