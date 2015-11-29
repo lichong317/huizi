@@ -130,6 +130,14 @@ public class TdUserCollectService {
     }
     
     /**
+     * 查询某一商品所有关注
+     */
+    public List<TdUserCollect> findByGoodsId(Long goodsId)
+    {
+    	return repository.findByGoodsId(goodsId);
+    }
+    
+    /**
      * 保存
      * 
      * @param e

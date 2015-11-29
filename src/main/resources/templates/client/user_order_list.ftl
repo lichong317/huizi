@@ -60,7 +60,7 @@ function orderReceive(id)
                 if (0 == res.code)
                 {
                 	alert(res.message);
-                    window.location.reload();
+                    window.location.href= "/user/comment/list";
                 }
                 else
                 {

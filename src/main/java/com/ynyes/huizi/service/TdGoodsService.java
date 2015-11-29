@@ -20,8 +20,11 @@ import com.ynyes.huizi.entity.TdGoodsGift;
 import com.ynyes.huizi.entity.TdGoodsParameter;
 import com.ynyes.huizi.entity.TdPriceChangeLog;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCollect;
 import com.ynyes.huizi.entity.TdWarehouse;
 import com.ynyes.huizi.repository.TdGoodsRepo;
+import com.ynyes.huizi.util.SMSUtil;
 
 /**
  * TdGoods 服务类
@@ -63,6 +66,11 @@ public class TdGoodsService {
     @Autowired
     TdPriceChangeLogService tdPriceChangeLogService;
 
+    @Autowired
+    TdUserCollectService tdUserCollectService;
+    
+    @Autowired
+    TdUserService tdUserService;
     
     /**
      * 搜索商品
@@ -2291,6 +2299,17 @@ public class TdGoodsService {
             newPriceLog.setSortId(99L);
 
             tdPriceChangeLogService.save(newPriceLog);
+            
+            // 改价后向关注用户发送短信   libiao
+            List<TdUserCollect> list = tdUserCollectService.findByGoodsId(e.getId());
+            for (TdUserCollect collect : list) {
+				TdUser user = tdUserService.findByUsernameAndIsEnabled(collect.getUsername());
+				if(null != user.getMobile())
+				{
+					SMSUtil.send(user.getMobile(), "15612",
+							new String[] {e.getTitle()});
+				}
+			}
         }
         
         return e;
