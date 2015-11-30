@@ -112,32 +112,34 @@ function hideDialog()
                  </h4>
                 </div>
                <#if user??> 
-               		<p style="padding-top:10px">累计返现:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></b></p>
-               		<HR style="BORDER-RIGHT: 1px dashed; BORDER-TOP: 1px dashed; BORDER-LEFT: 1px dashed; WIDTH: 590px; BORDER-BOTTOM: 1px dashed" color=#ffffff SIZE=3 align=center>
-               		<p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;${user.bankCardCode!''}</p>           
-	                <p style="padding-top:10px">默认开户行名称:&nbsp;&nbsp;${user.bankTitle!''}</p>
-	                <a style="width:120px; margin:10px 20%; height:30px; text-align:center;padding-top:3px;
-				              background:#13b5b1; color:#FFF; border-radius:20px; 
-				              display:block; *float:left;"  href="javascript:showDialog()">申请提现</a>
-				    
+                    <p style="padding-top:10px">虚拟币余额:&nbsp;&nbsp;￥<b class="red"><#if user.virtualCurrency??>${user.virtualCurrency?string("0.00")}</#if></b></p>
+                    <p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.frozenCapital??>${user.frozenCapital?string("0.00")}</#if></b></p>
+                    <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.virtualCurrency?? &&  user.frozenCapital??>${(user.virtualCurrency - user.frozenCapital)?string("0.00")}</#if></b></p>
+                    <HR style="BORDER-RIGHT: 1px dashed; BORDER-TOP: 1px dashed; BORDER-LEFT: 1px dashed; WIDTH: 590px; BORDER-BOTTOM: 1px dashed" color=#ffffff SIZE=3 align=center>
+                    <p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;${user.bankCardCode!''}</p>           
+                    <p style="padding-top:10px">默认开户行名称:&nbsp;&nbsp;${user.bankTitle!''}</p>
+                    <a style="width:120px; margin:10px 20%; height:30px; text-align:center;padding-top:3px;
+                              background:#13b5b1; color:#FFF; border-radius:20px; 
+                              display:block; *float:left;"  href="javascript:showDialog()">申请提现</a>
+                    
                 <div class="separationInfo sepBasic">
                  <h4>
                      提现记录<span id="TellToUser"></span>
                  </h4>
                 </div>
                  <table>
-	                <tr class="mymember_infotab_tit01">
-	                    <th width="60">序号</th>
-	                    <th width="100">用户名</th>
-	                    <th width="100">真实姓名</th>
-	                    <th width="80">提现金额</th>
-	                    <th width="80">提现时间</th>
-	                    <th width="80">开户行</th>
-	                    <th width="90">银行卡号</th>
-	                    <th width="90">手机号码</th>
-	                    <th width="90">是否审核</th>                                
-	                </tr>
-	               <#if withdraw_page??>
+                    <tr class="mymember_infotab_tit01">
+                        <th width="60">序号</th>
+                        <th width="100">用户名</th>
+                        <th width="100">真实姓名</th>
+                        <th width="80">提现金额</th>
+                        <th width="80">提现时间</th>
+                        <th width="80">开户行</th>
+                        <th width="90">银行卡号</th>
+                        <th width="90">手机号码</th>
+                        <th width="90">是否审核</th>                                
+                    </tr>
+                   <#if withdraw_page??>
         <#list withdraw_page.content as withdraw>
             <tr>
                 <td align="center">
@@ -161,8 +163,8 @@ function hideDialog()
             </tr>
         </#list>
     </#if>
-	            </table>
-	            <div class="myclear" style="height:10px;"></div>
+                </table>
+                <div class="myclear" style="height:10px;"></div>
             <div class="mymember_page">
                 <#if withdraw_page??>
                     <#assign continueEnter=false>

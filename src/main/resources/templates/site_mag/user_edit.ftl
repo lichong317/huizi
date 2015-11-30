@@ -149,6 +149,7 @@ $(function () {
         <span>
             <input type="radio" name="roleId" value="0" datatype="n" <#if user?? && user.roleId?? && user.roleId==0>checked="checked"</#if>><label>普通用户</label>
             <input type="radio" name="roleId" value="1" datatype="n" <#if user?? && user.roleId?? && user.roleId==1>checked="checked"</#if>><label>分销商</label>
+            <input type="radio" name="roleId" value="2" datatype="n" <#if user?? && user.roleId?? && user.roleId==2>checked="checked"</#if>><label>商城会员</label>
         </span>
       </div>
       <span class="Validform_checktip"></span>
@@ -331,6 +332,14 @@ $(function () {
       </div>
       <span class="Validform_checktip"></span>
     </dd>
+  </dl>
+  <dl>
+    <dt>虚拟币余额</dt>
+    <dd><input name="virtualCurrency" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.virtualCurrency!""}</#if>"> <span class="Validform_checktip"></span></dd>
+  </dl>
+  <dl>
+    <dt>冻结金额</dt>
+    <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.frozenCapital!""}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
 </div>

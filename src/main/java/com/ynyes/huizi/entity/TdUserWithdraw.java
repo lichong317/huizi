@@ -21,7 +21,7 @@ public class TdUserWithdraw {
     @Column
     private String username;
     
- // 真实姓名
+    // 真实姓名
  	@Column
  	private String realName;
     
@@ -34,7 +34,7 @@ public class TdUserWithdraw {
     @Column
     private Double totalWithdraw;
     
- // 银行名
+    // 银行名
     @Column
     private String bankName;
     
@@ -46,13 +46,17 @@ public class TdUserWithdraw {
     @Column
     private String detail;
     
- // 手机号码
+    // 手机号码
   	@Column
   	private String mobile;
   	
- // 排序号
+  	// 排序号
     @Column
     private Long sortId;
+    
+    // 用户类型Id: 0-普通用户 1-分销商
+    @Column
+    private Long roleId;
     
     // 是否已回复
     @Column
@@ -156,6 +160,14 @@ public class TdUserWithdraw {
 
 	public void setIsReplied(Boolean isReplied) {
 		this.isReplied = isReplied;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
     
     

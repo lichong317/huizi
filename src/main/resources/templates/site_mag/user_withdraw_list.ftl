@@ -76,6 +76,7 @@ var theForm = document.forms['form1'];
   <tr class="odd_bg">
     <th width="8%">选择</th>
     <th align="center">用户名</th>
+    <th align="center">用户类型</th>
     <th align="center" width="10%">真实姓名</th>
     <th align="center" width="6%">提现金额</th>
     <th align="center" width="5%">提现时间</th>
@@ -95,6 +96,11 @@ var theForm = document.forms['form1'];
                     <input type="hidden" name="listId" id="listId" value="${withdraw.id?c}">
                 </td>
                 <td align="center">${withdraw.username!""}</td>
+                <#if withdraw.roleId == 1>
+                    <td align="center">分销会员</td>
+                <#elseif withdraw.roleId == 2>
+                    <td align="center">商城会员</td>
+                </#if>
                 <td align="center">${withdraw.realName!""}</td>
                 <td align="center">${withdraw.totalWithdraw?string("0.00")}</td>
                 <td align="center">${withdraw.withdrawTime!""}</td>

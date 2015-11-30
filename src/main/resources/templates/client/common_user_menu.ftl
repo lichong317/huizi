@@ -32,6 +32,9 @@
                 <a href="/user/junioruser/list">下级用户</a>
                 <a href="/user/account/info">账户信息</a>
             </#if>
+            <#if user?? && user.roleId?? && user.roleId == 2>
+                <a href="/user/mall/account/info">账户信息</a>
+            </#if>
         </div>
     </div>
     

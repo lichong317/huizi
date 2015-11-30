@@ -214,6 +214,14 @@ public class TdUser {
     @Column
     private Boolean isSignin;
     
+    // 虚拟货币
+    @Column
+    private Double virtualCurrency;
+    
+    // 冻结金额
+    @Column
+    private Double frozenCapital;
+    
     public Long getId() {
         return id;
     }
@@ -581,4 +589,22 @@ public class TdUser {
     public void setPointGetByShareGoods(Long pointGetByShareGoods) {
         this.pointGetByShareGoods = pointGetByShareGoods;
     }
+
+	public Double getVirtualCurrency() {
+		return virtualCurrency;
+	}
+
+	public void setVirtualCurrency(Double virtualCurrency) {
+		this.virtualCurrency = virtualCurrency;
+	}
+
+	public Double getFrozenCapital() {
+		return frozenCapital;
+	}
+
+	public void setFrozenCapital(Double frozenCapital) {
+		this.frozenCapital = frozenCapital;
+	}
+
+    
 }

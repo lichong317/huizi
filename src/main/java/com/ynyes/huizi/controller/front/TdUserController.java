@@ -496,6 +496,31 @@ public class TdUserController {
         return "/client/user_account_info";
     }
     
+    @RequestMapping(value = "/user/mall/account/info")
+    public String accountinfo(Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        if (null == page) {
+			page = 0;
+		}
+        
+        tdCommonService.setHeader(map, req);
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+       
+        map.addAttribute("withdraw_page", tdUserWithdrawService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
+        
+        return "/client/user_mall_account_info";
+    }
+    
     @RequestMapping(value = "/user/withdraw/request",method = RequestMethod.POST)
     public String cashreward(Double withdraw,String realName,
     						 String bankTitle,String bankCardCode,
@@ -515,29 +540,72 @@ public class TdUserController {
         map.addAttribute("user", tdUser);
        
         if (null != withdraw && null != realName && null != bankTitle && null != bankCardCode && null != mobile) {
-			if ( null != tdUser.getTotalCashRewards() ) {
-				if (withdraw > tdUser.getTotalCashRewards()) {
-					withdraw = tdUser.getTotalCashRewards().doubleValue();
-				}else if (withdraw < 0) {
-					withdraw = 0.0;
+        	
+        	// 根据用户角色不同来判断提现内容    用户提现角色分为  分销用户提现和 商城会员提现
+        	if (null != tdUser.getRoleId()) {
+				if (tdUser.getRoleId().equals(1L)) { // 分销用户提现
+					if ( null != tdUser.getTotalCashRewards() ) {
+						if (withdraw > tdUser.getTotalCashRewards()) {
+							withdraw = tdUser.getTotalCashRewards().doubleValue();
+						}else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(1L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						return "redirect:/user/account/info";
+//						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
+//						tdUserService.save(tdUser);
+					}
 				}
-				
-				TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
-				
-				tdUserWithdraw.setUsername(username);
-				tdUserWithdraw.setRealName(realName);
-				tdUserWithdraw.setWithdrawTime(new Date());
-				tdUserWithdraw.setTotalWithdraw(withdraw);
-				tdUserWithdraw.setBankName(bankTitle);
-				tdUserWithdraw.setBankCardNumber(bankCardCode);
-				tdUserWithdraw.setMobile(mobile);
-				tdUserWithdraw.setSortId(99L);
-				tdUserWithdraw.setSortId(0L);
-				tdUserWithdrawService.save(tdUserWithdraw);
-				
-//				tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
-//				tdUserService.save(tdUser);
+				else if (tdUser.getRoleId().equals(2L)) { // 商城用户提现
+					if (null != tdUser.getFrozenCapital() && null != tdUser.getVirtualCurrency()) {
+						// 提现金额
+						Double canWithdraw = 0.0;
+						canWithdraw = tdUser.getVirtualCurrency() - tdUser.getFrozenCapital();
+						if (canWithdraw < 0) {
+							canWithdraw = 0.0;
+						}
+						
+						if (withdraw > canWithdraw) {
+							withdraw = canWithdraw;
+						}
+						else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(2L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						
+						return "redirect:/user/mall/account/info";
+					}
+				}
 			}
+			
 		}
         return "redirect:/user/account/info";
     }

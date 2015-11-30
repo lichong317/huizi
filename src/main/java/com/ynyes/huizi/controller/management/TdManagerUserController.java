@@ -259,10 +259,21 @@ public class TdManagerUserController {
         if (null != tdUserWithdraw.getStatusId() && tdUserWithdraw.getStatusId().equals(1L)) {
 			TdUser tdUser = tdUserService.findByUsername(tdUserWithdraw.getUsername());
 			
-			if (null != tdUser.getTotalCashRewards()) {
-				tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()));
-				tdUserService.save(tdUser);
+			if (null != tdUser.getRoleId()) {
+				if (tdUser.getRoleId().equals(1L)) {
+					if (null != tdUser.getTotalCashRewards()) {
+						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()));
+						tdUserService.save(tdUser);
+					}
+				}
+				else if (tdUser.getRoleId().equals(2L)) {
+					if (null != tdUser.getVirtualCurrency()) {
+						tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdUserWithdraw.getTotalWithdraw());
+						tdUserService.save(tdUser);
+					}
+				}
 			}
+			
 		}
         
         tdUserWithdrawService.save(tdUserWithdraw);
