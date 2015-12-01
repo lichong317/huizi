@@ -95,7 +95,7 @@ $(function () {
             file_size_limit: p.filesize, //文件大小
             file_types: p.filetypes, //文件类型
             file_types_description: "JPG Images",
-            file_upload_limit: "0", //一次能上传的文件数量
+            file_upload_limit: "3", //一次能上传的文件数量
 
             file_queue_error_handler: fileQueueError,
             file_dialog_complete_handler: fileDialogComplete,
