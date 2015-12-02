@@ -964,6 +964,27 @@ public class TdTouchOrderController {
                 map.addAttribute("total_point_limit", totalPointLimited);
             }
         }
+        
+        // 邮费计算
+        Double totalPostage = 0.0;      
+        TdGoods tdGoods = null;
+        for(TdCartGoods tdCartGoods : selectedGoodsList){
+        	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
+        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
+				if (null != tdGoods.getPostage()) {
+					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+				}
+        		
+			}
+        }
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMaxPostage()) {
+			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostage = 0.0;
+			}
+		}
+        map.addAttribute("totalPostage", totalPostage);
+        
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
         map.addAttribute("delivery_type_list",
                 tdDeliveryTypeService.findByIsEnableTrue());
@@ -988,7 +1009,7 @@ public class TdTouchOrderController {
         // 把所有的购物车项转到该登陆用户下
         List<TdCartGoods> cgList = tdCartGoodsService
                 .findByUsernameAndIsSelectedTrue(username);
-
+        Double totalPrice = 0.0; // 购物总额
         if (null != cgList && null != type && null != gid) {
             for (TdCartGoods cg : cgList) {
                 if (gid.equals(cg.getGoodsId())) {
@@ -1025,18 +1046,41 @@ public class TdTouchOrderController {
                     }
 				  
                 }
+                
+             // 总价
+                totalPrice += cg.getPrice() * cg.getQuantity();
             }
         }
 //        
 //        List<TdCartGoods> selectedGoodsList = tdCartGoodsService.findByUsernameAndIsSelectedTrue(username);
 //        map.addAttribute("selected_goods_list", selectedGoodsList);
-
+        
+     // 运费计算
+        Double totalPostage = 0.0;      
+        TdGoods tdGoods = null;
+        for(TdCartGoods tdCartGoods : cgList){
+        	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
+        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
+				if (null != tdGoods.getPostage()) {
+					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+				}
+        		
+			}
+        }
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMaxPostage()) {
+			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostage = 0.0;
+			}
+		}
+        map.addAttribute("totalPostage", totalPostage);
+        
         return "redirect:/touch/order/info";
     }
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submit(Long addressId, Long payTypeId, Long deliveryTypeId,Long couponId,
-            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,
+            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,Double virtualCurrency,Double totalPostage,
             HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -1044,7 +1088,7 @@ public class TdTouchOrderController {
             return "redirect:/touch/login";
         }
 
-        if (null == addressId || null == payTypeId || null == deliveryTypeId
+        if (null == addressId || null == payTypeId 
                 || null == isNeedInvoice) {
             return "redirect:/touch/order/info";
         }
@@ -1052,13 +1096,22 @@ public class TdTouchOrderController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         TdPayType payType = tdPayTypeService.findOne(payTypeId);
         TdDeliveryType deliveryType = tdDeliveryTypeService
-                .findOne(deliveryTypeId);
+                .findOne(1L);
         TdShippingAddress address = null;
 
         if (null == pointUse) {
             pointUse = 0L;
         }
 
+        if (null == virtualCurrency) {
+        	virtualCurrency = 0.0;
+		}
+        
+     // 邮费
+        if (null == totalPostage) {
+			totalPostage = 0.0;
+		}
+        
         if (pointUse.compareTo(user.getTotalPoints()) >= 0) {
             pointUse = user.getTotalPoints();
         }
@@ -1183,7 +1236,7 @@ public class TdTouchOrderController {
             tdOrder.setStatusId(1L); // 待确认
         }
         
-        tdOrder.setOrderNumber("P" + curStr + random.nextInt(999));
+        tdOrder.setOrderNumber("T" + curStr + random.nextInt(999));
 
         // 收货地址
         tdOrder.setPostalCode(address.getPostcode());
@@ -1201,7 +1254,7 @@ public class TdTouchOrderController {
         // 配送方式
         tdOrder.setDeliverTypeId(deliveryType.getId());
         tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
-        tdOrder.setDeliverTypeFee(deliveryType.getFee());
+        tdOrder.setDeliverTypeFee(totalPostage);
 
         // 发票
         tdOrder.setIsNeedInvoice(isNeedInvoice);
@@ -1221,16 +1274,16 @@ public class TdTouchOrderController {
 			tdOrder.setCouponTitle(tdCoupon.getTypeTitle());
 			if (null != tdCoupon.getPrice()) {
 				tdOrder.setCouponUse(tdCoupon.getPrice());
-				if (totalPrice + deliveryType.getFee() > pointUse + tdCoupon.getPrice()) {
-					tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse - tdCoupon.getPrice());
+				if (totalPrice + totalPostage > pointUse + tdCoupon.getPrice() + virtualCurrency) {
+					tdOrder.setTotalPrice(totalPrice + totalPostage - pointUse - tdCoupon.getPrice() - virtualCurrency);
 				}else{
 					tdOrder.setTotalPrice(0.0);
 				}				
 			}
 		}else{
 			//订单总价
-			if (totalPrice + deliveryType.getFee() > pointUse) {
-				tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse);
+			if (totalPrice + totalPostage > pointUse + virtualCurrency) {
+				tdOrder.setTotalPrice(totalPrice + totalPostage - pointUse - virtualCurrency);
 			}
 			else {
 				tdOrder.setTotalPrice(0.0);

@@ -324,6 +324,14 @@ $(function () {
                 <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例)</span>
             </dd>
         </dl>
+    
+     <dl>
+            <dt>满额免邮</dt>
+            <dd>
+                <input name="maxPostage" type="text" value="<#if setting??>${setting.maxPostage!""}<#else>200</#if>" id="maxPostage" class="input txt100" datatype="n" sucmsg=" ">
+                <span class="Validform_checktip">*购满一定金额免邮</span>
+            </dd>
+     </dl> 
 </div>    
 <div class="tab-content" style="display: none;">
     <dl>

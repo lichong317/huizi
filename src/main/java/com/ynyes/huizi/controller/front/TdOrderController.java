@@ -55,6 +55,8 @@ import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
 
+import scala.math.Numeric.DoubleAsIfIntegral;
+
 /**
  * 订单
  *
@@ -1025,6 +1027,28 @@ public class TdOrderController {
             }
         }
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
+        
+        // 邮费计算
+        Double totalPostage = 0.0;      
+        TdGoods tdGoods = null;
+        for(TdCartGoods tdCartGoods : selectedGoodsList){
+        	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
+        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
+				if (null != tdGoods.getPostage()) {
+					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+				}
+        		
+			}
+        }
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMaxPostage()) {
+			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostage = 0.0;
+			}
+		}
+        map.addAttribute("totalPostage", totalPostage);
+        
+        
         map.addAttribute("delivery_type_list",
                 tdDeliveryTypeService.findByIsEnableTrue());
         map.addAttribute("selected_goods_list", selectedGoodsList);
@@ -1047,6 +1071,7 @@ public class TdOrderController {
         List<TdCartGoods> cgList = tdCartGoodsService
                 .findByUsernameAndIsSelectedTrue(username);
 
+        Double totalPrice = 0.0; // 购物总额
         if (null != cgList && null != type && null != gid) {
             for (TdCartGoods cg : cgList) {
                 if (gid.equals(cg.getGoodsId())) {
@@ -1083,8 +1108,30 @@ public class TdOrderController {
                     }
 				  
                 }
+                // 总价
+                totalPrice += cg.getPrice() * cg.getQuantity();
             }
         }
+        
+        // 运费计算
+        Double totalPostage = 0.0;      
+        TdGoods tdGoods = null;
+        for(TdCartGoods tdCartGoods : cgList){
+        	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
+        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
+				if (null != tdGoods.getPostage()) {
+					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+				}
+        		
+			}
+        }
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMaxPostage()) {
+			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostage = 0.0;
+			}
+		}
+        map.addAttribute("totalPostage", totalPostage);
 //        
 //        List<TdCartGoods> selectedGoodsList = tdCartGoodsService.findByUsernameAndIsSelectedTrue(username);
 //        map.addAttribute("selected_goods_list", selectedGoodsList);
@@ -1094,7 +1141,7 @@ public class TdOrderController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submit(Long addressId, Long payTypeId, Long deliveryTypeId, Long couponId,
-            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,String userRemarkInfo,
+            Long pointUse, Boolean isNeedInvoice, String invoiceTitle,String userRemarkInfo, Double virtualCurrency, Double totalPostage,
             HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -1102,7 +1149,7 @@ public class TdOrderController {
             return "redirect:/login";
         }
 
-        if (null == addressId || null == payTypeId || null == deliveryTypeId
+        if (null == addressId || null == payTypeId 
                 || null == isNeedInvoice) {
             return "redirect:/order/info";
         }
@@ -1110,13 +1157,22 @@ public class TdOrderController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         TdPayType payType = tdPayTypeService.findOne(payTypeId);
         TdDeliveryType deliveryType = tdDeliveryTypeService
-                .findOne(deliveryTypeId);
+                .findOne(1L);
         TdShippingAddress address = null;
 
         if (null == pointUse) {
             pointUse = 0L;
         }
 
+        if (null == virtualCurrency) {
+        	virtualCurrency = 0.0;
+		}
+        
+        // 邮费
+        if (null == totalPostage) {
+			totalPostage = 0.0;
+		}
+        
         if (pointUse.compareTo(user.getTotalPoints()) >= 0) {
             pointUse = user.getTotalPoints();
         }
@@ -1134,8 +1190,7 @@ public class TdOrderController {
                 .findByUsernameAndIsSelectedTrue(username);
         List<TdOrderGoods> orderGoodsList = new ArrayList<TdOrderGoods>();
 
-        // 邮费
-        Double totalFeePrice = 0.0;
+       
         
         Double totalPrice = 0.0;
         Long totalSharePoints = 0L;
@@ -1224,18 +1279,7 @@ public class TdOrderController {
 
                     totalPrice += cartGoods.getPrice()
                             * cartGoods.getQuantity();
-                    
-                    // 是否免邮
-                    if(!goods.getIsFeeNot())
-                    {
-                    	// 是否达到满额免邮标准
-                 	   if(null == goods.getMaxPostage() || goods.getMaxPostage() < cartGoods.getPrice()*cartGoods.getQuantity())
-                 	   {
-                 		   // 邮费
-                 		   totalFeePrice += goods.getPostage();
-                 	   }
-                    }
-
+                                            
                     orderGoodsList.add(orderGoods);
                     tdGoodsService.save(goods, username);
                 }
@@ -1280,7 +1324,7 @@ public class TdOrderController {
         // 配送方式
         tdOrder.setDeliverTypeId(deliveryType.getId());
         tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
-        tdOrder.setDeliverTypeFee(deliveryType.getFee());
+        tdOrder.setDeliverTypeFee(totalPostage);
 
         // 发票
         tdOrder.setIsNeedInvoice(isNeedInvoice);
@@ -1300,16 +1344,16 @@ public class TdOrderController {
 			tdOrder.setCouponTitle(tdCoupon.getTypeTitle());
 			if (null != tdCoupon.getPrice()) {
 				tdOrder.setCouponUse(tdCoupon.getPrice());
-				if (totalPrice + deliveryType.getFee() > pointUse + tdCoupon.getPrice()) {
-					tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse - tdCoupon.getPrice());
+				if (totalPrice + totalPostage > pointUse + tdCoupon.getPrice() + virtualCurrency) {
+					tdOrder.setTotalPrice(totalPrice + totalPostage - pointUse - tdCoupon.getPrice() - virtualCurrency);
 				}else{
 					tdOrder.setTotalPrice(0.0);
 				}				
 			}
 		}else{
 			//订单总价
-			if (totalPrice + deliveryType.getFee() > pointUse) {
-				tdOrder.setTotalPrice(totalPrice + deliveryType.getFee() - pointUse);
+			if (totalPrice + totalPostage > pointUse + virtualCurrency) {
+				tdOrder.setTotalPrice(totalPrice + totalPostage - pointUse - virtualCurrency);
 			}
 			else {
 				tdOrder.setTotalPrice(0.0);
@@ -1326,6 +1370,9 @@ public class TdOrderController {
         
         //保存分享商品用户可获取积分
         tdOrder.setTotalSharePoints(totalSharePoints);
+        
+        // 虚拟币使用
+        tdOrder.setVirtualCurrencyUse(virtualCurrency);
         
         // 保存订单
         tdOrderGoodsService.save(orderGoodsList);

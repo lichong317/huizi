@@ -316,6 +316,11 @@ public class TdManagerOrderController {
         {
             map.addAttribute("order", tdOrderService.findOne(id));
         }
+        
+        //配送方式
+        map.addAttribute("delivery_type_list",
+                tdDeliveryTypeService.findByIsEnableTrue());
+        
         return "/site_mag/order_edit";
     }
     
@@ -642,6 +647,7 @@ public class TdManagerOrderController {
                 order.setDeliverTypeFee(deliveryPrice);
                 order.setTotalPrice(deliveryPrice + order.getPayTypeFee() + order.getTotalGoodsPrice());
             }
+                       
             // 修改支付手续费
             else if (type.equalsIgnoreCase("editPayPrice"))
             {
@@ -746,6 +752,11 @@ public class TdManagerOrderController {
                 {
                     order.setDeliverTypeId(deliverTypeId);
                     order.setExpressNumber(expressNumber);
+                    
+                    TdDeliveryType tdDeliveryType = tdDeliveryTypeService.findOne(deliverTypeId);
+                    if (null != tdDeliveryType.getTitle()) {
+                    	order.setDeliverTypeTitle(tdDeliveryType.getTitle());
+					}                   
                     order.setStatusId(4L);
                     order.setSendTime(new Date());
                 }
@@ -780,7 +791,7 @@ public class TdManagerOrderController {
                     order.setCancelTime(new Date());
                 }
             }
-            
+           
             tdOrderService.save(order);
             tdManagerLogService.addLog("edit", "修改订单", req);
             

@@ -364,8 +364,8 @@ public class TdGoods {
     // 邮费
     private Double postage;
     
-    // 满额免邮
-    private Double maxPostage;
+//    // 满额免邮
+//    private Double maxPostage;
     
     
     
@@ -383,14 +383,6 @@ public class TdGoods {
 
 	public void setPostage(Double postage) {
 		this.postage = postage;
-	}
-
-	public Double getMaxPostage() {
-		return maxPostage;
-	}
-
-	public void setMaxPostage(Double maxPostage) {
-		this.maxPostage = maxPostage;
 	}
 
 	public Long getId() {

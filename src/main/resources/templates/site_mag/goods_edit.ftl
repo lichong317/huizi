@@ -347,8 +347,20 @@ function del_goods_comb(obj) {
                         <label for="cblItem_3">新品</label>
                         <input id="cblItem_4" type="checkbox" name="isSpecialPrice" <#if goods?? && goods.isSpecialPrice?? && goods.isSpecialPrice==true>checked="checked"</#if>>
                         <label for="cblItem_4">特价</label>
-                        <input id="cblItem_5" type="checkbox" name="isFeeNot" <#if goods?? && goods.isFeeNot?? && goods.isFeeNot==true>checked="checked"</#if>>
-                        <label for="cblItem_4">免邮</label>
+                        
+                    </span>
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dt>是否免邮</dt>
+            <dd>
+                <div class="rule-multi-radio multi-radio">
+                    <span>                                               
+                        <input type="radio" name="isFeeNot" value="1" <#if goods??==false || goods?? && goods.isFeeNot?? && goods.isFeeNot==true>checked="checked"</#if>>
+                        <label for="cblItem_4">是</label>
+                        <input type="radio" name="isFeeNot" value="0" <#if goods?? && goods.isFeeNot?? && goods.isFeeNot==false>checked="checked"</#if>>
+                        <label for="cblItem_4">否</label>
                     </span>
                 </div>
             </dd>
@@ -360,13 +372,13 @@ function del_goods_comb(obj) {
                 <span class="Validform_checktip">*免邮商品不计算邮费</span>
             </dd>
         </dl>
-        <dl>
+ <#--       <dl>
             <dt>满额免邮</dt>
             <dd>
                 <input name="maxPostage" type="text" value="<#if goods??>${goods.maxPostage!""}<#else>200</#if>" id="maxPostage" class="input txt100" datatype="n" sucmsg=" ">
                 <span class="Validform_checktip">*购满一定金额免邮</span>
             </dd>
-        </dl>
+        </dl> -->
         <dl>
             <dt>排序数字</dt>
             <dd>

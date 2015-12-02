@@ -232,6 +232,10 @@ public class TdOrder {
     @Column
     private Long points;
     
+    // 使用虚拟货币
+    @Column
+    private Double virtualCurrencyUse;
+    
     // 使用优惠券抵用额度
     @Column
     private Double couponUse;
@@ -371,7 +375,15 @@ public class TdOrder {
         this.shippingPhone = shippingPhone;
     }
 
-    public Long getPayTypeId() {
+    public Double getVirtualCurrencyUse() {
+		return virtualCurrencyUse;
+	}
+
+	public void setVirtualCurrencyUse(Double virtualCurrencyUse) {
+		this.virtualCurrencyUse = virtualCurrencyUse;
+	}
+
+	public Long getPayTypeId() {
         return payTypeId;
     }
 

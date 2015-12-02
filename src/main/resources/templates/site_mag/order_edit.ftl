@@ -27,6 +27,7 @@
             $("#btnEditRealAmount").click(function () { EditRealAmount(); }); //修改商品总金额
             $("#btnEditExpressFee").click(function () { EditExpressFee(); }); //修改配送费用
             $("#btnEditPaymentFee").click(function () { EditPaymentFee(); }); //修改支付手续费
+          
         });
 
         //确认收货
@@ -265,6 +266,8 @@
             $.trim($("#spanPaymentFeeValue").text())
         );
         }
+
+      
 
         //=================================工具类的JS函数====================================
         //检查是否货币格式
@@ -884,8 +887,13 @@
                     <tr>
                         <th>
                             配送方式
-                        </th>
-                        <td>${order.deliverTypeTitle!""}</td>
+                        </th>                      
+                        <td>
+                            <div class="position">
+                                    <div>${order.deliverTypeTitle!""}</div>
+                                    
+                            </div>
+                        </td>
                     </tr>
                     
                     <tr>

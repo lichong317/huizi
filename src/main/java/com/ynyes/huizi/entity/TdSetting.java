@@ -129,6 +129,9 @@ public class TdSetting {
     @Column
     private String androidQrCode;
 
+    // 满额免邮
+    private Double maxPostage;
+    
     public Long getId() {
         return id;
     }
@@ -137,7 +140,15 @@ public class TdSetting {
         this.id = id;
     }
 
-    public String getTitle() {
+    public Double getMaxPostage() {
+		return maxPostage;
+	}
+
+	public void setMaxPostage(Double maxPostage) {
+		this.maxPostage = maxPostage;
+	}
+
+	public String getTitle() {
         return title;
     }
 
