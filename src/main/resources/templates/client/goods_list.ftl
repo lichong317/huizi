@@ -95,7 +95,48 @@ function deleteContrastgoods(id){
 <div class="clear h20"></div>
 
 <div class="main">
+
+<menu class="column_qg main border-df" style="background:none; border: solid 1px #dfdfdf;">
+    <#if hot_sale_list??>
+        <#list hot_sale_list as item>
+            <#if item_index < 3>
+                <a class="list" href="/goods/${item.id?c}" style="margin-left:54px;">
+                    <img src="${item.coverImageUri!''}" height="120" width="120" >
+                    <p class="pt10 pb10 h30 overflow" style="overflow:hidden;">${item.title!''}</p>
+                    <p class="red fs16">￥<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></p>
+                    <span style="padding: 4px 0px;width: 120px;text-indent: 23px;background:#ff4454;">加入购物车</span>    
+                </a>
+            </#if>
+        </#list>
+    </#if>
+    <div class="nygg" style="width: 218px;float: right;height: 111px;overflow: hidden;">
+        <div class="bt mt15"><a href="#">促销公告</a></div>
+        <ul style="width: 200px;float: right;line-height: 24px;margin-right: 25px;">
+            <#if promotion_notice??>
+                <#list promotion_notice.content as item>
+                    <#if item_index < 3>
+                        <li style="height:25px; overflow: hidden;"><a style="padding-left:10px" href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title!''}</a></li>
+                    </#if>
+                </#list>
+            </#if>
+            
+        
+        </ul>
+    </div>  
+</menu>
+<div class="clear20"></div>
+
 <div class="weizhi">
+<style>
+    .weizhi{ position:relative; z-index:2;}
+    .weizhi span{ position:relative; z-index:3;}
+    .weizhi span a{ position:relative; z-index:4; padding:4px 10px; line-height:28px; border:1px solid #eee;}
+    .weizhi span:hover a{ border:1px solid #fd3e3e ; border-bottom:1px solid #fff;}
+    .weizhi span p{ position:absolute; z-index:2; display:none; left:0px; top:24px; border:1px solid #fd3e3e ; background-color:#fff; font-size:12px; white-space:nowrap; line-height:28px;}
+    .weizhi span:hover p{ display:inline-block;}
+    .weizhi span p a{ padding:10px; border:none;}
+    .weizhi span:hover p a{ border:none;}
+</style>
     <span><a href="/">首页</a></span>
     <#if category_tree_list??>
         <#list category_tree_list as category>

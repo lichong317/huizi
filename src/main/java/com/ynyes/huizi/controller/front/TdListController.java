@@ -49,6 +49,9 @@ public class TdListController {
     @Autowired
     private TdContrastGoodsService tdContrastGoodsService;
     
+    @Autowired
+    private TdArticleService tdArticleService;
+    
     // 组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[页号]_[价格低值]-[价格高值]
     //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[评价]-[页号]_[价格低值]-[价格高值]
     @RequestMapping("/list/{listStr}")
@@ -206,7 +209,7 @@ public class TdListController {
         
         map.addAttribute("orderId", orderId);
         
-     // 排序字段
+        // 排序字段
         int[] sortIds = new int[totalSorts];
         
         //  排序字段0标志位，0：降序，1：升序
@@ -433,6 +436,9 @@ public class TdListController {
             username = req.getSession().getId();
         }
         map.addAttribute("contrast_goods_list", tdContrastGoodsService.findByUsernameAndCategoryId(username, categoryId));
+        
+        // 促销公告
+        map.addAttribute("promotion_notice", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(10L, 17L, 0, ClientConstant.pageSize));
         
         return "/client/goods_list";
     }
