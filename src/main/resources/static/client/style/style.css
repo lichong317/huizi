@@ -240,7 +240,7 @@
 .column_left a.greybox { display:inline-block; margin:0 5px 5px 0; background:#f1f1f1; padding:0 10px; font-size:12px;}
 .column_left a.greybox:hover { background:#ff8800; color:#fff;}
 .column_left a.abox { display:inline-block; margin:0 7px 7px 0;font-size:12px;}
-.column_right { float:right; width:980px; margin-top:20px;}
+.column_right { float:right; width:980px; /*margin-top:20px;*/}
 .screen_clear { font-weight:400; background: url(../images/content/part_tit02.png) no-repeat left center; height:42px; color:#fff; width:100%; text-indent:35px; line-height:42px; margin-bottom:10px;}
 .screen_clear a.a1 { display:inline-block; background:url(../images/content/clear.png) no-repeat left center; padding:0 0 0 20px; text-indent:0; font-size:12px; position:absolute; right:15px;top:0;}
 .screen_tab { width:100%; border-collapse:collapse; table-layout:fixed;margin-bottom:10px;}
@@ -695,7 +695,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
     text-indent:25px;
     line-height:35px;
     font-weight:400;
-    background:#eeeeef;}
+    background:#dddddd;}
 .help_menu a {
     display:block;
     font-size:14px;
@@ -1204,7 +1204,13 @@ height: 104px;}
 .float_layer .wrap { padding: 3px; }
 
 /***contrast goods***/
-.duibilan{position:fixed; bottom:0; right:0;  height:100px; background:#f9f9f9; width:1200px; z-index:999;}
+/*.duibilan{position:fixed; bottom:0; right:0;  height:100px; background:#f9f9f9; width:1200px; z-index:999;}*/
+.duibilan{position:fixed; bottom:0; right:0; height:100px; background:#f9f9f9; width:1200px; z-index:999;
+position:fixed; bottom:0px; 
+_position:absolute; _bottom:0px;
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight- this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||0)));
+ height:30px; line-height:30px; border:1px solid #ccc;
+}
 .duibilan td{border:solid 1px #ccc; padding:0 10px 0 10px;}
 .duibilan td img{width:75px; height:75px; float:left; margin-right:15px; margin-left:15px;}
 .duibilan p{width:100px; overflow:hidden; margin-left:15px; height:52px; line-height:24px;}

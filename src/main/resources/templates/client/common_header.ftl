@@ -122,7 +122,7 @@ function delItem(id)
     <ul class="navlistout" id="navdown" style="display:none;">
         <#if top_cat_list??>
             <#list top_cat_list as item>
-            <#if item_index < 9>
+            <#if item_index < 4>
             <li>
                 <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id?c}">${item.title!''}</a></h3>
                     <div class="nav_showbox">

@@ -54,7 +54,7 @@ public class TdUserWithdraw {
     @Column
     private Long sortId;
     
-    // 用户类型Id: 0-普通用户 1-分销商
+    // 用户类型Id: 0-普通用户 1-分销商 2-商城用户
     @Column
     private Long roleId;
     

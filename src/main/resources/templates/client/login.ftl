@@ -148,9 +148,9 @@ function saveUserInfo() {
     <div class="loginbox">
       <div class="login_r"> 
         <span>请输入用户名/邮箱/手机号码</span>
-        <input id="txt_loginId" type="text" class="login_txt1" />
+        <input id="txt_loginId" type="text" class="login_txt1" style="line-height:37px;"/>
         <span>请输入密码</span>
-        <input id="txt_loginPwd" type="password" class="login_txt2" />
+        <input id="txt_loginPwd" type="password" class="login_txt2" style="line-height:37px;"/>
         <p>
           <label>
             <input id="rmbUser" type="checkbox" />

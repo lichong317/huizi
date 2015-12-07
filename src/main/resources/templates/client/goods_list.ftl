@@ -143,40 +143,9 @@ function deleteContrastgoods(id){
             > <span><a href="/list/${category.id}">${category.title!""}</a></span>
         </#list>
     </#if>
+    <p style="width: 200px;float: right;text-align: right;">总计<#if goods_page??>${goods_page.totalElements}</#if>件商品</p>
 </div>
-<section class="column_left mt20">
-    <h3 class="tit">热卖排行</h3>
-    <menu class="border-df">
-        <#if most_sold_list??>
-            <#list most_sold_list as item>
-                <#if item_index < 5>
-                    <a class="scan" href="/goods/${item.id?c}">
-                        <img src="${item.coverImageUri!''}" height="80" width="80"  title="${item.title!''} ${item.subTitle!''}"/>
-                        <div class="num1">${item_index+1}</div>
-                        <p style="overflow: hidden;height: 60px;">${item.title!""} </p>
-                        <p class="red">￥${item.salePrice?string("0.00")}</p>
-                    </a>
-                </#if>
-            </#list>
-        </#if>
-    </menu>
-    <h3 class="tit">新品推荐</h3>
-    <menu class="border-df">
-        <#if newest_list??>
-            <#list newest_list as item>
-              <#if item_index < 4>
-                <li>
-                    <a href="/goods/${item.id?c}"><img src="${item.coverImageUri!''}" height="177" width="177" title="${item.title!''} ${item.subTitle!''}"/></a>
-                    <a href="/goods/${item.id?c}" style="overflow: hidden;height: 60px;">${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</a>
-                    <p class="fs18 red ta-c">￥${item.salePrice?string("0.00")}</p>
-                </li>
-              </#if>
-            </#list>
-        </#if>
-    </menu>
-</section><!--column_left END-->
-  
-  <div class="column_right mt20">
+
     <h3 class="screen_clear">
       商品筛选
       <a class="a1" href="${categoryId!'0'}-0<#list param_index_list as pindex>-0</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-0">清空筛选条件</a>
@@ -226,6 +195,41 @@ function deleteContrastgoods(id){
             <div class="choose_more"><a href="javascript:chooseMoreDown();">下拉，更多选项<img src="/client/images/content/arrow01.png" /></a></div>
         </#if>
     </section><!--choose_box-->
+
+<section class="column_left mt20">
+    <h3 class="tit">热卖排行</h3>
+    <menu class="border-df">
+        <#if most_sold_list??>
+            <#list most_sold_list as item>
+                <#if item_index < 5>
+                    <a class="scan" href="/goods/${item.id?c}">
+                        <img src="${item.coverImageUri!''}" height="80" width="80"  title="${item.title!''} ${item.subTitle!''}"/>
+                        <div class="num1">${item_index+1}</div>
+                        <p style="overflow: hidden;height: 60px;">${item.title!""} </p>
+                        <p class="red">￥${item.salePrice?string("0.00")}</p>
+                    </a>
+                </#if>
+            </#list>
+        </#if>
+    </menu>
+    <h3 class="tit">新品推荐</h3>
+    <menu class="border-df">
+        <#if newest_list??>
+            <#list newest_list as item>
+              <#if item_index < 4>
+                <li>
+                    <a href="/goods/${item.id?c}"><img src="${item.coverImageUri!''}" height="177" width="177" title="${item.title!''} ${item.subTitle!''}"/></a>
+                    <a href="/goods/${item.id?c}" style="overflow: hidden;height: 60px;">${item.title!""} ${item.version!""} ${item.color!""} ${item.capacity!""}</a>
+                    <p class="fs18 red ta-c">￥${item.salePrice?string("0.00")}</p>
+                </li>
+              </#if>
+            </#list>
+        </#if>
+    </menu>
+</section><!--column_left END-->
+  
+  <div class="column_right">
+
     <div class="clear h20"></div>
     
     <section class="column_px">

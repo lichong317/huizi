@@ -301,14 +301,16 @@ $(function () {
 <!--/安全设置-->
 
 <div class="tab-content" style="display:none;">
+  <#if !user?? || user?? && user.roleId?? && user.roleId == 1>
   <dl>
     <dt>下级用户总数</dt>
     <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user??>${user.totalLowerUsers!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
-    <dt>用户返现总数</dt>
+    <dt>用户返现金额</dt>
     <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user??>${user.totalCashRewards!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
+  </#if>
   <dl>
     <dt>银行卡号</dt>
     <dd><input name="bankCardCode" type="text" id="txtPay_Password" class="input normal"  sucmsg=" " value="<#if user??>${user.bankCardCode!""}</#if>"> <span class="Validform_checktip"></span></dd>
@@ -333,6 +335,7 @@ $(function () {
       <span class="Validform_checktip"></span>
     </dd>
   </dl>
+  <#if !user?? || user?? && user.roleId?? && user.roleId == 2>
   <dl>
     <dt>虚拟币余额</dt>
     <dd><input name="virtualCurrency" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.virtualCurrency!""}</#if>"> <span class="Validform_checktip"></span></dd>
@@ -342,6 +345,7 @@ $(function () {
     <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.frozenCapital!""}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
+  </#if>
 </div>
 
 <!--/账户信息-->

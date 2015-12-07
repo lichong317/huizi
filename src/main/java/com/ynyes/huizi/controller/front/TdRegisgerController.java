@@ -252,7 +252,12 @@ public class TdRegisgerController {
                 userPoint = tdUserPointService.save(userPoint);
                 
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
-                sharedUser.setRoleId(1L);
+                
+                // 角色变换限制
+                if (!sharedUser.getRoleId().equals(2L)) {
+                	sharedUser.setRoleId(1L);
+				}
+                                
                 if (null == sharedUser.getTotalLowerUsers()) {
 					sharedUser.setTotalLowerUsers(1L);
 				}else {

@@ -775,7 +775,7 @@ public class TdGoodsService {
                 .findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(pageRequest);
     }
 
-    public Page<TdGoods> findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
+    public Page<TdGoods> findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderBySortIdAsc(
             Long catId, int page, int size) {
         if (null == catId) {
             return null;
@@ -786,7 +786,7 @@ public class TdGoodsService {
         String catStr = "[" + catId + "]";
 
         return repository
-                .findByCategoryIdTreeContainingAndIsRecommendIndexTrueAndIsOnSaleTrueOrderByIdDesc(
+                .findByCategoryIdTreeContainingAndIsRecommendIndexTrueAndIsOnSaleTrueOrderBySortIdAsc(
                         catStr, pageRequest);
     }
 
@@ -1891,6 +1891,22 @@ public class TdGoodsService {
                 .findByIsFlashSaleTrueAndIsOnSaleTrueOrderByFlashSaleStartTimeAsc(pageRequest);
     }
     
+    /**
+	 * @author lc
+	 * @注释：限定类别的秒杀商品
+	 */
+    public Page<TdGoods> findByCategoryAndFlashSaleOrderByFlashSaleStartTimeAsc(Long catId, int page, int size){
+    	if (null == catId) {
+            return null;
+        }
+
+        PageRequest pageRequest = new PageRequest(page, size);
+
+        String catStr = "[" + catId + "]";
+        
+        return repository.findByIsFlashSaleTrueAndIsOnSaleTrueAndCategoryIdTreeContainingAndFlashSaleStopTimeAfterAndFlashSaleStartTimeBeforeOrderByFlashSaleStartTimeAsc(catStr, new Date(), new Date(), pageRequest);
+    }
+   
     /**
      * 所有团购
      * 

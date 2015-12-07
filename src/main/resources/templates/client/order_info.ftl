@@ -103,8 +103,12 @@ $(document).ready(function(){
         var virtualCurrency  = $.trim($(this).val());
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
-        <#if user?? && user.virtualCurrency??>
-            <#assign virtual_limit = user.virtualCurrency />
+        <#if user?? &&  user.roleId??>
+            <#if user.roleId == 1>
+                <#assign virtual_limit = user.totalCashRewards />
+            <#else>
+                <#assign virtual_limit = user.virtualCurrency />
+            </#if>
         </#if>
         
         var deliPrice =  parseFloat($("#deliveryFee").html());
@@ -113,7 +117,7 @@ $(document).ready(function(){
         
         var pointFee = parseFloat($("#idPointUse").val());
         
-        if(virtualCurrency > ${virtual_limit!'0'}){
+        if(virtualCurrency > ${virtual_limit?c}){
             alert("账户余额不足！");
             $(this).val(0);
             $("#virtualCurrencyfee").html(0);
@@ -441,6 +445,22 @@ var forPaymentFllow = true;
                             <input type="text" id="virtualCurrency" name="virtualCurrency" value="" >
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="orange">可用余额：￥<b id="">${user.virtualCurrency!''}</b>元</span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </#if>
+             <#if user?? &&user.roleId?? && user.roleId == 1>
+                <div class="main mt15">
+                    <div class="s_gwc3_1">
+                        <div class="s_gwc3_1_a">
+                            <p><span>使用返现金额</span></p>
+                        </div>
+                        <div class="invoice">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" id="virtualCurrency" name="virtualCurrency" value="" >
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="orange">可用余额：￥<b id="">${user.totalCashRewards!''}</b>元</span>
                             
                         </div>
                     </div>

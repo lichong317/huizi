@@ -84,8 +84,12 @@ $(document).ready(function(){
         var virtualCurrency  = $.trim($(this).val());
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
-        <#if user?? && user.virtualCurrency??>
-            <#assign virtual_limit = user.virtualCurrency />
+        <#if user?? &&  user.roleId??>
+            <#if user.roleId == 1>
+                <#assign virtual_limit = user.totalCashRewards />
+            <#else>
+                <#assign virtual_limit = user.virtualCurrency />
+            </#if>
         </#if>
         
         var deliPrice =  parseFloat($("#deliveryFee").html());
@@ -94,7 +98,7 @@ $(document).ready(function(){
         
         var pointFee = parseFloat($("#idPointUse").val());
         
-        if(virtualCurrency > ${virtual_limit!'0'}){
+        if(virtualCurrency > ${virtual_limit?c}){
             alert("账户余额不足！");
             $(this).val(0);
             $("#virtualCurrencyfee").html(0);

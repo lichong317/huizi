@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.spring4.expression.Themes;
 
 import com.ynyes.huizi.entity.TdBrand;
 import com.ynyes.huizi.entity.TdGoods;
@@ -51,6 +52,65 @@ public class TdListController {
     
     @Autowired
     private TdArticleService tdArticleService;
+    
+    // 分类专题页面
+    @RequestMapping(value="/themes")
+    public String themes(Long categoryId, ModelMap map, HttpServletRequest req){
+    	tdCommonService.setHeader(map, req);
+    	
+    	if (null == categoryId) {
+			categoryId = 7L;
+		}
+    	
+    	// 查询分类子类别
+    	map.addAttribute("categoryId", categoryId);
+    	TdProductCategory topCat = tdProductCategoryService.findOne(categoryId);
+    	map.addAttribute("top_cat", topCat);
+    	
+        List<TdProductCategory> secondLevelList = tdProductCategoryService
+                 .findByParentIdOrderBySortIdAsc(topCat.getId());
+        map.addAttribute("second_level_cat_list", secondLevelList);
+        
+        if (null != secondLevelList && secondLevelList.size() > 0) 
+        {
+             for (int j=0; j<secondLevelList.size(); j++)
+             {
+                 TdProductCategory secondLevelCat = secondLevelList.get(j);
+                 List<TdProductCategory> thirdLevelList = tdProductCategoryService
+                         .findByParentIdOrderBySortIdAsc(secondLevelCat.getId());
+                 map.addAttribute("third_level_" + j + "_cat_list", thirdLevelList);
+                 
+                 // 分类推荐商品
+                 map.addAttribute("second_level"+ j +"_hot_list", tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(secondLevelCat.getId(), 0, 10).getContent());
+                 
+                 // 分类销量排行
+                 map.addAttribute("second_level"+ j +"_sale_list", tdGoodsService.findByCategoryIdAndIsOnSaleTrueOrderBySoldNumberDesc(secondLevelCat.getId(), 0, 10).getContent());
+             }
+        }
+        
+        // 分类首页推荐商品
+        map.addAttribute("index_sale_list", tdGoodsService.findByCategoryIdAndIsRecommendIndexTrueAndIsOnSaleTrueOrderBySortIdAsc(categoryId, 0, 10).getContent());
+        
+        
+        
+        // 品牌列表
+        List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+        
+        map.addAttribute("brand_list", brandList);
+    	
+        // 通知公告
+        map.addAttribute("latest_news_page", tdArticleService
+                .findByMenuIdAndIsEnableOrderByIdDesc(10L, 0,
+                        ClientConstant.pageSize));
+        
+        // 限时抢购
+        map.addAttribute("miao_goods_page", tdGoodsService
+                .findByCategoryAndFlashSaleOrderByFlashSaleStartTimeAsc(categoryId, 0,
+                        ClientConstant.pageSize));
+        
+    	return "/client/themes_index";
+    }
+    
     
     // 组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[页号]_[价格低值]-[价格高值]
     //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[评价]-[页号]_[价格低值]-[价格高值]
