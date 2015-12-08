@@ -176,6 +176,7 @@ public class TdListController {
          
          res.put("goods_page", goodsPage);
          
+         res.put("code", 0);
          return res;
     }
     

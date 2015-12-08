@@ -43,7 +43,7 @@ public class TdSearchController {
     // app 接口
     @RequestMapping(value="/appsearch",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> appsearch(String keywords, Integer page, HttpServletRequest req, ModelMap map){
+    public Map<String, Object> appsearch(String keywords, Integer page, HttpServletRequest req){
         
     	Map<String, Object> res = new HashMap<String, Object>();
         
@@ -77,9 +77,9 @@ public class TdSearchController {
             res.put("goods_page", tdGoodsService.searchGoods(keywords.trim(), page, ClientConstant.pageSize));
         }
         
-        map.addAttribute("pageId", page);
-        map.addAttribute("keywords", keywords);
-               
+        res.put("pageId", page);
+        res.put("keywords", keywords);
+        res.put("code", 0);       
         return res;      
     }
     
