@@ -751,6 +751,18 @@ public class TdGoodsService {
         return repository.findByCategoryIdTreeContainingAndIsOnSaleTrue(catStr,
                 pageRequest);
     }
+    
+    public Page<TdGoods> findByCategoryIdAndIsOnSaleTrue(Long catId, Pageable pageRequest) {
+        if (null == catId) {
+            return null;
+        }
+
+        String catStr = "[" + catId + "]";
+
+        return repository.findByCategoryIdTreeContainingAndIsOnSaleTrue(catStr,
+                pageRequest);
+    }
+    
 
     public Page<TdGoods> findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(
             Long catId, int page, int size) {

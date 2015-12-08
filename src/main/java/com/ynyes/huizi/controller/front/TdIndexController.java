@@ -574,7 +574,7 @@ public class TdIndexController {
 
         // 最新资讯
         map.addAttribute("latest_news_page", tdArticleService
-                .findByMenuIdAndIsEnableOrderByIdDesc(newsId, 0,
+                .findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(newsId, 1L, 0,
                         ClientConstant.pageSize));
 
         // 通知公告

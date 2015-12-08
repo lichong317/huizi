@@ -124,7 +124,7 @@ function delItem(id)
             <#list top_cat_list as item>
             <#if item_index < 4>
             <li>
-                <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id?c}">${item.title!''}</a></h3>
+                <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/themes?categoryId=${item.id?c}">${item.title!''}</a></h3>
                     <div class="nav_showbox">
                     <i class="bg"></i>
                     <div class="clear"></div>

@@ -62,8 +62,9 @@ function checkTime(i)
                                     <div class="con">
                                         <#if ("third_level_" + secondcat_index + "_cat_list")?eval??>
                                             <#list ("third_level_" + secondcat_index + "_cat_list")?eval as thirdcat>
-                                                <a href="/list/${thirdcat.id?c}" title="${thirdcat.title!''}">${thirdcat.title!''}</a> 
-                                                
+                                                <#if thirdcat_index < 4>
+                                                    <a href="/list/${thirdcat.id?c}" title="${thirdcat.title!''}">${thirdcat.title!''}</a> 
+                                                </#if>
                                             </#list>
                                         </#if>                                        
                                         
@@ -314,95 +315,96 @@ function timer${item_index}()
             </#list>            
         </#if>
         
+        <#if categoryId?? && categoryId == 7>
         <div class="clear30"></div>
         <div class="flsxk">
             <h4>厨卫电器</h4>
             <div class="flsxkkk">
                 <ul>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
+                    <a href="/list/299">
+                    <img src="/client/images/themes/cat_04.jpg" width="100" height="100" />
                     <p>热水器</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/298">
+                    <img src="/client/images/themes/cat_02.jpg" width="100" height="100" />
+                    <p>烟灶</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/294">
+                    <img src="/client/images/themes/cat_05.jpg" width="100" height="100" />
+                    <p>洗衣机</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="flsxk">
-        <h4>厨卫电器</h4>
-            <div class="flsxkkk">
-                <ul>
-                    <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/301">
+                    <img src="/client/images/themes/cat_03.jpg" width="100" height="100" />
+                    <p>冰箱</p>
                     </a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="flsxk">
-            <h4>厨卫电器</h4>
+        <h4>家装精选</h4>
             <div class="flsxkkk">
                 <ul>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/292">
+                    <img src="/client/images/themes/hzd_28.png" width="100" height="100" />
+                    <p>电视</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/293">
+                    <img src="/client/images/themes/cat_01.jpg" width="100" height="100" />
+                    <p>空调</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/35">
+                    <img src="/client/images/themes/cat_10.jpg" width="100" height="100" />
+                    <p>配件</p>
                     </a>
                     </li>
                     <li>
-                    <a href="#">
-                    <img src="images/55c32104N3816b3d1.jpg" width="100" height="100" />
-                    <p>电饭煲什么的</p>
+                    <a href="/list/295">
+                    <img src="/client/images/themes/cat_06.jpg" width="100" height="100" />
+                    <p>家庭影院</p>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flsxk">
+            <h4>智能生活</h4>
+            <div class="flsxkkk">
+                <ul>
+                    <li>
+                    <a href="/list/307">
+                    <img src="/client/images/themes/cat_11.png" width="100" height="100" />
+                    <p>扫地机器人</p>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/list/297">
+                    <img src="/client/images/themes/cat_08.jpg" width="100" height="100" />
+                    <p>音响</p>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/list/296">
+                    <img src="/client/images/themes/cat_09.jpg" width="100" height="100" />
+                    <p>DVD播放机</p>
+                    </a>
+                    </li>
+                    <li>
+                    <a href="/list/300">
+                    <img src="/client/images/themes/cat_07.jpg" width="100" height="100" />
+                    <p>消毒柜</p>
                     </a>
                     </li>
                 </ul>
@@ -411,69 +413,24 @@ function timer${item_index}()
         <div class="zxzs">
             <h4>装修馆知识</h4>
                 <ul>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#">
-                    <p>电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的电饭煲什么的</p>
-                    </a>
-                    </li>
+                	<#if fitment_page??>
+                		<#list fitment_page.content as item>
+                			<#if item_index < 9>
+                				<li>
+			                    <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">
+			                    <p>${item.title!''}</p>
+			                    </a>
+			                    </li>
+                			</#if>
+                		</#list>
+                	</#if>
+                   
                 </ul>
         </div>
+        </#if>
         <div class="clear30"></div>
+        
+    <#-->
         <div class="fljpsd">
         <h4>精品晒单</h4>
         <ul>
@@ -515,9 +472,9 @@ function timer${item_index}()
         </li>
         </ul>
         </div>
-        <div class="clear"></div>
+        <div class="clear"></div>-->
                     </div>
-    <div class="clear h40"></div>
+    <div class="clear h40"></div> 
     <#include "/client/common_footer.ftl" />
 </boby>
 </html>
