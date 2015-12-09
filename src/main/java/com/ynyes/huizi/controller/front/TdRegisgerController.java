@@ -120,13 +120,16 @@ public class TdRegisgerController {
             {
                 if (errCode.equals(1))
                 {
-                    map.addAttribute("error", "验证码错误");
+                    map.addAttribute("error", "短信验证码错误");
                 }
                 else if (errCode.equals(2))
                 {
                     map.addAttribute("error", "用户名已存在");
                 }
-                
+                else if (errCode.equals(3))
+                {
+                    map.addAttribute("error", "用户名已存在");
+                }
                 map.addAttribute("errCode", errCode);
             }
             return "/client/reg";
@@ -160,34 +163,66 @@ public class TdRegisgerController {
                 String password,
                 String email,
                 String code,
+                String smscode,
                 Long shareId,
                 HttpServletRequest request){
-        //String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+        String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
-        if (null == smsCodeSave)
-        {
-            if (null == shareId)
-            {
-                return "redirect:/reg";
-            }
-            else
-            {
-                return "redirect:/reg?shareId=" + shareId;
-            }
-        }
         
-        if (!smsCodeSave.equalsIgnoreCase(code))
-        {
-            if (null == shareId)
+        if (null == username) {
+        	 if (null == smsCodeSave)
+             {
+                 if (null == shareId)
+                 {
+                     return "redirect:/reg";
+                 }
+                 else
+                 {
+                     return "redirect:/reg?shareId=" + shareId;
+                 }
+             }
+             
+             if (!smsCodeSave.equalsIgnoreCase(smscode))
+             {
+                 if (null == shareId)
+                 {
+                     return "redirect:/reg?errCode=1";
+                 }
+                 else
+                 {
+                     return "redirect:/reg?errCode=1&shareId=" + shareId;
+                 }
+             }
+             //将手机号作为用户名
+             username = mobile;
+             
+		}else {
+			if (null == code)
             {
-                return "redirect:/reg?errCode=1";
+                if (null == shareId)
+                {
+                    return "redirect:/reg";
+                }
+                else
+                {
+                    return "redirect:/reg?shareId=" + shareId;
+                }
             }
-            else
+            
+            if (!codeBack.equalsIgnoreCase(code))
             {
-                return "redirect:/reg?errCode=1&shareId=" + shareId;
+                if (null == shareId)
+                {
+                    return "redirect:/reg?errCode=3";
+                }
+                else
+                {
+                    return "redirect:/reg?errCode=3&shareId=" + shareId;
+                }
             }
-        }
-        
+		}
+       
+          
         TdUser user = tdUserService.findByUsername(username);
         
         if (null != user)
@@ -291,6 +326,7 @@ public class TdRegisgerController {
         return "redirect:/user?shareId=" + shareId;
     }
     
+        
     @RequestMapping(value = "/code",method = RequestMethod.GET)
     public void verify(HttpServletResponse response, HttpServletRequest request) {
         response.setContentType("image/jpeg");

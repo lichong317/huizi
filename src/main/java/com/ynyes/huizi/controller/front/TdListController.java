@@ -60,10 +60,49 @@ public class TdListController {
     @Autowired
     private TdArticleService tdArticleService;
     
+    // app 获取顶级类别接口
+    @RequestMapping(value="/app/getTopcategory",method = RequestMethod.GET)
+    @ResponseBody
+    public  Map<String, Object> getTopcategory(){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        List<TdProductCategory> topCatList = tdProductCategoryService
+                .findByParentIdIsNullOrderBySortIdAsc();
+        res.put("data", topCatList);
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
+    // app 通过类别id获取子类别
+    @RequestMapping(value="/app/getCategorybyId",method = RequestMethod.GET)
+    @ResponseBody
+    public  Map<String, Object> getCategorybyId(Long catId){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        if (null == catId) {
+			res.put("message", "类别id不存在");
+			return res;
+		}
+        
+        List<TdProductCategory> secondLevelList = tdProductCategoryService
+                .findByParentIdOrderBySortIdAsc(catId);
+        res.put("data", secondLevelList);
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
     // app 接口
     @RequestMapping(value="/applist/{listStr}",method = RequestMethod.GET)
     @ResponseBody
-    // 筛选排序组成： 商品类别-[排序字段取值]-{排序字段}
+    // 筛选排序组成： 商品类别-[排序字段取值]-{排序字段}-[页数]
     public  Map<String, Object> applist(@PathVariable String listStr, HttpServletRequest req){
     	 Map<String, Object> res = new HashMap<String, Object>();
          
@@ -75,7 +114,7 @@ public class TdListController {
 		 }
          
          // 排序字段个数
-         int totalSorts = 5;
+         int totalSorts = 4;
          
          // 4个排序字段 综合-人气-价格-评价
          String[] sortName = {"sortId", "soldNumber", "salePrice", "totalComments"}; 
@@ -153,10 +192,23 @@ public class TdListController {
          
          res.put("sort_id_list", sortIds);
          
-         PageRequest pageRequest;
-         
+         // 页号
          Integer pageId = 0;
          
+         if (numberGroup.length >= 7)
+         {
+             String pageIdStr = numberGroup[6];
+             
+             if (null != pageIdStr)
+             {
+                 pageId = Integer.parseInt(pageIdStr);
+             }
+         }
+         
+         res.put("pageId", pageId);
+         
+         PageRequest pageRequest;
+                 
          // 0: 降序 1: 升序
          if (0 == sortIds[orderId])
          {

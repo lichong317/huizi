@@ -38,7 +38,16 @@ var t1=null;
 	
 	//初始化表单验证
     $("#form1").Validform({
+        //btnSubmit:"#regbut"
         tiptype: 3
+        
+    });
+    
+    //初始化表单验证
+    $("#form2").Validform({
+        //btnSubmit:"#regbut2"
+        tiptype: 3
+        
     });
     
      $("#smsCodeBtn").bind("click", function() {  
@@ -221,6 +230,7 @@ function checkwindowhide()
 }
 
 
+
 </script>
 
 <iframe class="thickframe" id="" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" style="display:none"></iframe>
@@ -383,24 +393,38 @@ div {
 						}
 					});	
 				});
+				
+							
 			</script>
             <div class="regtip right">已有惠资生活网上商城账号？现在就<a href="/login.aspx">登录</a></div>
+            
             <div class="xxknr" id="xxknr">
+                <form id = "form1" method="post" action="/reg">
+                        <span style="color: #F00"><#if errCode??>
+                        <#if errCode==1>
+                            验证码错误
+                        <#elseif errCode==4>
+                            短信验证码错误
+                        </#if>
+                    </#if></span>
+                    <input name="shareId" type="hidden" value="${share_id!''}">
                 <div class="reg tableLoginreg" style="display: block;">
                     <dl>
                         <dt><i>*</i>手机号码</dt>
                         <dd>
-                            <input type="text" id="usermobile"><em>手机号码非常重要，找回密码及购物都会用到</em></dd>
+                            <input type="text" name="mobile" id="usermobile" datatype="m" ajaxurl="/reg/check/mobile" value="">
+                            <span class="Validform_checktip">手机号码非常重要，找回密码及购物都会用到</span>
+                        </dd>
                     </dl>
                      <dl id="codedl">
                         <dt><i>*</i>验证码</dt>
                         <dd>
-                            <input type="text" id="yzmcode" style="width: 120px;"><img id="vCodeImg" src="/ImgCode.aspx?t=64.54859382938594" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = '/ImgCode.aspx?t=' + Math.random() * 100 "><a>看不清楚？换一张</a></dd>
+                            <input type="text"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/ImgCode.aspx?t=64.54859382938594" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = '/ImgCode.aspx?t=' + Math.random() * 100 "><a>看不清楚？换一张</a></dd>
                     </dl>
                     <dl>
                         <dt><i>*</i>短信验证码</dt>
                         <dd>
-                            <input type="text" id="phonecode" style="width: 120px;"><a class="btn" id="getCode" href="">
+                            <input type="text" id="phonecode" name="smscode" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><a class="btn" id="getCode" href="">
                                 <span id="dyMobileButton">获取短信验证码</span></a>
                             </dd>
                     </dl>
@@ -415,55 +439,74 @@ div {
                     <dl>
                         <dt></dt>
                         <dd>
-                            <button onclick="Register()" id="regbut">提交注册</button></dd>
+                            <button  id="regbut" type="submit">提交注册</button></dd>
                     </dl>
                 </div>
-                <div class="reg tableLoginreg" style="display: none;">
-                    <dl>
-                        <dt><i>*</i>用户名</dt>
-                        <dd>
-                            <input type="text" autofocus="autofocus" id="userUID" onblur=" CheckUser() "><em>4-20位字母、数字或汉字，请不要输入特殊字符！</em></dd>
-                    </dl>
-                    <dl>
-                        <dt><i>*</i>密码</dt>
-                        <dd>
-                            <input type="password" id="userpwd3"><em>6个字符以上的字母或数字</em></dd>
-                    </dl>
-                    <dl>
-                        <dt><i>*</i>重复密码</dt>
-                        <dd>
-                            <input type="password" id="userpwd4"><em>请重复输入密码确认不会输错</em></dd>
-                    </dl>
-
-                    <dl>
-                        <dt><i>*</i>手机号码</dt>
-                        <dd>
-                            <input type="text" id="usermobile2"><em>手机号码非常重要，找回密码及购物都会用到</em></dd>
-                    </dl>
-                    <dl>
-                        <dt>邮箱地址</dt>
-                        <dd>
-                            <input type="text" id="usermail"><em>请填写邮箱，用于找回密码</em></dd>
-                    </dl>
-                    <dl>
-                        <dt>验证码</dt>
-                        <dd>
-                            <input type="text" id="yzmcode2" style="width: 120px;"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
-                    </dl>
-                    <dl>
-                        <dt></dt>
-                        <dd>
-                            <input name="" id="mmprovision2"  datatype="*" nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                            <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠资生活用户协议》</a></label></dd>
-                    </dl>
-                    <dl>
-                        <dt></dt>
-                        <dd>
-                            <button onclick=" Register2() " id="regbut2">提交注册</button></dd>
-                    </dl>
-                </div>
+                </form>
+                
+                <form id = "form2" method="post" action="/reg">
+                        <span style="color: #F00"><#if errCode??>
+                        <#if errCode==3>
+                            短信验证码错误
+                        </#if>
+                    </#if></span>
+                    <input name="shareId" type="hidden" value="${share_id!''}">
+                    <div class="reg tableLoginreg" style="display: none;">
+                        <dl>
+                            <dt><i>*</i>用户名</dt>
+                            <dd>
+                                <input type="text" name="username" autofocus="autofocus" id="userUID" datatype="s6-20" ajaxurl="/reg/check/username" value="" >                       
+                                <span class="Validform_checktip">6-20位字母、数字或汉字，请不要输入特殊字符！</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i>*</i>密码</dt>
+                            <dd>
+                                <input type="password" id="userpwd3" name="password" datatype="s6-20">
+                                <span class="Validform_checktip">6个字符以上的字母或数字</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i>*</i>重复密码</dt>
+                            <dd>
+                                <input type="password" id="userpwd4" datatype="*" recheck="password">
+                                <span class="Validform_checktip">请重复输入密码确认不会输错</span>
+                            </dd>
+                        </dl>
+    
+                        <dl>
+                            <dt><i>*</i>手机号码</dt>
+                            <dd>
+                                <input type="text" name="mobile" id="usermobile2" datatype="m" ajaxurl="/reg/check/mobile" value="">
+                                <span class="Validform_checktip">手机号码非常重要，找回密码及购物都会用到</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>邮箱地址</dt>
+                            <dd>
+                                <input type="text" id="usermail" name="email">
+                                <span class="Validform_checktip">请填写邮箱，用于找回密码</span>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>验证码</dt>
+                            <dd>
+                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                        </dl>
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <input name="" id="mmprovision2"  datatype="*" nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                                <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠资生活用户协议》</a></label></dd>
+                        </dl>
+                        <dl>
+                            <dt></dt>
+                            <dd>
+                                <button id="regbut2" type="submit">提交注册</button></dd>
+                        </dl>
+                    </div>
+                </form>
             </div>
-
         </div>			
 	</div>
 <!--</div> -->
