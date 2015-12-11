@@ -77,7 +77,7 @@ function hideDialog()
             <a class="fr" style="z-index:999999999; /* margin-top:50px; */ margin-left: 410px;position: absolute;" href="javascript:hideDialog();"><img src="/client/images/20150407114113116_easyicon_net_71.8756476684.png" width="25" height="25"></a>
             <form id="form1" action="/user/withdraw/request" method="post">
                 <span class="Validform_checktip">请填写提现信息</span>               
-                <p><b style="color: #FF0000;">*</b> 提现金额</p>
+                <p><b style="color: #FF0000;">*</b> 提现金额(提现金额必须大于 <#if site?? && site.minWithdraw??>${site.minWithdraw?c}</#if> 才能通过审核)</p>
                 <input class="text" name="withdraw" value="" type="text" datatype="n"  nullmsg="请输入金额"/>
                 <p><b style="color: #FF0000;">*</b> 真实姓名</p>
                 <input class="text" name="realName" value="<#if user??>${user.realName!''}</#if>" type="text" datatype="*"  nullmsg="请输入姓名"/>

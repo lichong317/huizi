@@ -1287,7 +1287,8 @@ public class TdManagerUserController {
                     @RequestParam(value = "userWithdrawId", required = false) Long userWithdrawId,
                         Model model) {
         if (null != userId) {
-            model.addAttribute("tdUser", tdUserService.findOne(userId));
+        	TdUser tdUser = tdUserService.findOne(userId);
+            model.addAttribute("tdUser", tdUser);
         }
         
         if (null != userLevelId) {

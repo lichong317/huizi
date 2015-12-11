@@ -184,6 +184,15 @@ public class TdGoodsService {
     	return repository.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(categoryId,pageRequest);
     }
     
+    public Page<TdGoods> findByCategoryTreeAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(Long categoryId,int page,int size){
+    	PageRequest pageRequest = new PageRequest(page, size);
+    	
+    	String catIdStr = "[" + categoryId + "]";
+    	
+    	return repository.findByCategoryIdTreeContainingAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(catIdStr, pageRequest);
+    	
+    }
+    
     public List<TdGoods> findByIdAndIsOnSaleTrue(Iterable<Long> ids) {
         return repository.findByIdAndIsOnSaleTrue(ids);
     }

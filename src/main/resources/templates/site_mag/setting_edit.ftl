@@ -328,8 +328,16 @@ $(function () {
      <dl>
             <dt>满额免邮</dt>
             <dd>
-                <input name="maxPostage" type="text" value="<#if setting??>${setting.maxPostage!""}<#else>200</#if>" id="maxPostage" class="input txt100" datatype="n" sucmsg=" ">
+                <input name="maxPostage" type="text" value="<#if setting?? && setting.maxPostage??>${setting.maxPostage?c}<#else>200</#if>" id="maxPostage" class="input txt100" datatype="n" sucmsg=" ">
                 <span class="Validform_checktip">*购满一定金额免邮</span>
+            </dd>
+     </dl> 
+     
+      <dl>
+            <dt>最低提现金额</dt>
+            <dd>
+                <input name="minWithdraw" type="text" value="<#if setting?? && setting.minWithdraw??>${setting.minWithdraw?c}<#else>100</#if>" id="minWithdraw" class="input txt100" datatype="n" sucmsg=" ">
+                <span class="Validform_checktip">*提现最低金额</span>
             </dd>
      </dl> 
 </div>    

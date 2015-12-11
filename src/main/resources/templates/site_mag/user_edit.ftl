@@ -304,11 +304,15 @@ $(function () {
   <#if !user?? || user?? && user.roleId?? && user.roleId == 1>
   <dl>
     <dt>下级用户总数</dt>
-    <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user??>${user.totalLowerUsers!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user?? && user.totalLowerUsers??>${user.totalLowerUsers?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>用户返现金额</dt>
-    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user??>${user.totalCashRewards!"0"}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?c}</#if>"> <span class="Validform_checktip"></span></dd>
+  </dl>
+  <dl>
+    <dt>提现冻结金额</dt>
+    <dd><input name="cashRewardsFrozen" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.cashRewardsFrozen??>${user.cashRewardsFrozen?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   </#if>
   <dl>

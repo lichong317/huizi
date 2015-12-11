@@ -178,6 +178,10 @@ public class TdUser {
     @Column
     private Long totalCashRewards;
     
+    // 分销商冻结金额
+    @Column
+    private Long cashRewardsFrozen;
+    
     // 返现给上级用户总数
     @Column
     private Long totalCashRewardsToUpuser;
@@ -604,6 +608,14 @@ public class TdUser {
 
 	public void setFrozenCapital(Double frozenCapital) {
 		this.frozenCapital = frozenCapital;
+	}
+
+	public Long getCashRewardsFrozen() {
+		return cashRewardsFrozen;
+	}
+
+	public void setCashRewardsFrozen(Long cashRewardsFrozen) {
+		this.cashRewardsFrozen = cashRewardsFrozen;
 	}
 
     

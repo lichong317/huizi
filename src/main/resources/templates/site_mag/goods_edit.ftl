@@ -96,6 +96,27 @@ $(function () {
         }
     });
     
+     //（闪购缩略图）
+    var flashPic = $("#flashSaleImage").val();
+    if (flashPic == "" || groupPic == null) {
+        $("#thumb_ImgUrl_show3").hide();
+    }
+    else {
+        $("#thumb_ImgUrl_show3").html("<ul><li><div class='img-box1'><img src='" + flashPic + "' bigsrc='" + flashPic + "' /></div></li></ul>");
+        $("#thumb_ImgUrl_show3").show();
+    }
+
+    $("#flashSaleImage").blur(function () {
+        var flashPic = $("#flashSaleImage").val();
+        if (flashPic == "" || flashPic == null) {
+            $("#thumb_ImgUrl_show3").hide();
+        }
+        else {
+            $("#thumb_ImgUrl_show3").html("<ul><li><div class='img-box1'><img src='" + flashPic + "' bigsrc='" + flashPic + "' /></div></li></ul>");
+            $("#thumb_ImgUrl_show3").show();
+        }
+    });
+    
     //设置封面图片的样式
     $(".photo-list ul li .img-box img").each(function () {
         if ($(this).attr("src") == $("#hidFocusPhoto").val()) {
@@ -618,7 +639,15 @@ function del_goods_comb(obj) {
                 </div>
             </dd>
         </dl>
-        
+         <dl>
+            <dt>闪购展示图片</dt>
+            <dd>
+                <input id="flashSaleImage" name="flashSaleImage" type="text" value="<#if goods??>${goods.flashSaleImage!""}</#if>" class="input normal upload-path">
+                <div class="upload-box upload-img"></div>
+                <div id="thumb_ImgUrl_show3" class="photo-list thumb_ImgUrl_show">
+                </div>
+            </dd>
+        </dl>
         <dl>
             <dt>开始时间</dt>
             <dd>

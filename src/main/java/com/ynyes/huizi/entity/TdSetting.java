@@ -132,6 +132,9 @@ public class TdSetting {
     // 满额免邮
     private Double maxPostage;
     
+    // 提现最低金额
+    private Double minWithdraw;
+    
     public Long getId() {
         return id;
     }
@@ -363,4 +366,13 @@ public class TdSetting {
     public void setAndroidQrCode(String androidQrCode) {
         this.androidQrCode = androidQrCode;
     }
+
+	public Double getMinWithdraw() {
+		return minWithdraw;
+	}
+
+	public void setMinWithdraw(Double minWithdraw) {
+		this.minWithdraw = minWithdraw;
+	}
+    
 }

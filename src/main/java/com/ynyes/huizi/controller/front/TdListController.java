@@ -261,7 +261,7 @@ public class TdListController {
                  map.addAttribute("third_level_" + j + "_cat_list", thirdLevelList);
                  
                  // 分类推荐商品
-                 map.addAttribute("second_level"+ j +"_hot_list", tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(secondLevelCat.getId(), 0, 10).getContent());
+                 map.addAttribute("second_level"+ j +"_hot_list", tdGoodsService.findByCategoryTreeAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(secondLevelCat.getId(), 0, 10).getContent());
                  
                  // 分类销量排行
                  map.addAttribute("second_level"+ j +"_sale_list", tdGoodsService.findByCategoryIdAndIsOnSaleTrueOrderBySoldNumberDesc(secondLevelCat.getId(), 0, 10).getContent());

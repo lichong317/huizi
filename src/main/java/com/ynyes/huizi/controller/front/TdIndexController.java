@@ -68,7 +68,7 @@ public class TdIndexController {
         
         res.put("code", 1);
         
-        res.put("data", tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
+        res.put("data", tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, 4));
         
         res.put("code", 0);
         
@@ -84,9 +84,9 @@ public class TdIndexController {
         
         res.put("code", 1);
         
-        res.put("groupSalingdata", tdGoodsService.findByGroupSalingOrderByGroupSaleStartTimeAsc(0, ClientConstant.pageSize));
+        res.put("groupSalingdata", tdGoodsService.findByGroupSalingOrderByGroupSaleStartTimeAsc(0, 3));
         
-        res.put("flashSalingdata", tdGoodsService.findByFlashSalingOrderByFlashSaleStartTimeAsc(0, ClientConstant.pageSize));
+        res.put("flashSalingdata", tdGoodsService.findByFlashSalingOrderByFlashSaleStartTimeAsc(0, 3));
         
         res.put("code", 0);
         
@@ -104,24 +104,34 @@ public class TdIndexController {
         
         TdAdType tdAdType = tdAdTypeService.findByTitle("App首页顶部广告");
         // 顶部广告
-        res.put("top_ad", tdAdService.findByTypeId(tdAdType.getId()));
-        
+        if (null != tdAdType) {
+        	res.put("top_ad", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+               
         // 中部竖向广告
         tdAdType = tdAdTypeService.findByTitle("App首页中部竖向广告");
-        res.put("middle_vertical_ad", tdAdService.findByTypeId(tdAdType.getId()));
-        
+        if (null != tdAdType) {
+        	 res.put("middle_vertical_ad", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+             
         // 中部横向广告
         tdAdType = tdAdTypeService.findByTitle("App首页中部横向广告");
-        res.put("middle_horizontal_ad", tdAdService.findByTypeId(tdAdType.getId()));
-        
+        if (null != tdAdType) {
+        	 res.put("middle_horizontal_ad", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+               
         // 两个底部长广告
         tdAdType = tdAdTypeService.findByTitle("App首页底部长广告");
-        res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
-        
+        if (null != tdAdType) {
+        	 res.put("bottom_ad", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+               
         //分类精选广告
         tdAdType = tdAdTypeService.findByTitle("App首页分类精选广告");
-        res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
-        
+        if (null != tdAdType) {
+        	res.put("category_ad", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+                
         res.put("code", 0);
         
         return res;

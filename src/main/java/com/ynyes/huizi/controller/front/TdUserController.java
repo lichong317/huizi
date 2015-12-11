@@ -490,7 +490,7 @@ public class TdUserController {
         TdUser tdUser = tdUserService.findByUsername(username);
         
         map.addAttribute("user", tdUser);
-       
+        
         map.addAttribute("withdraw_page", tdUserWithdrawService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
         
         return "/client/user_account_info";
