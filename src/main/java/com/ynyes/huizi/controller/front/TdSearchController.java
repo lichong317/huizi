@@ -41,7 +41,7 @@ public class TdSearchController {
     private TdKeywordsService tdKeywordsService;
 
     // app 接口
-    @RequestMapping(value="/appsearch",method = RequestMethod.GET)
+    @RequestMapping(value="/index/appSearch",method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> appsearch(String keywords, Integer page, HttpServletRequest req){
         
@@ -74,7 +74,7 @@ public class TdSearchController {
                 tdKeywordsService.save(key);
             }
             
-            res.put("goods_page", tdGoodsService.searchGoods(keywords.trim(), page, ClientConstant.pageSize));
+            res.put("data", tdGoodsService.searchGoods(keywords.trim(), page, ClientConstant.pageSize));
         }
         
         res.put("pageId", page);

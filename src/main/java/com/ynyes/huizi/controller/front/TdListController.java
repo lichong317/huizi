@@ -226,7 +226,7 @@ public class TdListController {
          
          goodsPage = tdGoodsService.findByCategoryIdAndIsOnSaleTrue(categoryId, pageRequest);
          
-         res.put("goods_page", goodsPage);
+         res.put("data", goodsPage);
          
          res.put("code", 0);
          return res;
