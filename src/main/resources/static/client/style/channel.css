@@ -12,7 +12,7 @@
 	border-bottom-color:#009f96;
 }
 
-/*publish time:2013-05-16 18：48 cf*/
+/*publish time:2013-05-16 18锛�48 cf*/
 .left{float:left;width:210px;margin-right:10px;}
 .middle{float:left;width:550px;}
 .right{float:right;width:240px;}
@@ -20,7 +20,7 @@
 .pi{right:10px;text-align:center;}
 .p-price strong{color:#e4393c;font-family:verdana;}
 /*sortlist*/
-#sortlist{width:206px;height:576px;border:2px solid #00c3b8;position:relative;z-index:2;}
+#sortlist{width:206px;height:576px;border:2px solid #00c3b8;position:relative;z-index:10;}
 #sortlist .mt{position:relative;width:206px;height:36px;background:#00c3b8;line-height:36px;}
 #sortlist h2{height:36px;padding-left:15px;font-size:17px;font-weight:normal;color:#fff;}
 #sortlist,#sortlist .mc{overflow:visible;}

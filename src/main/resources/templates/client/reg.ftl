@@ -354,7 +354,7 @@ function checkwindowhide()
   margin-left: 10px;
 }
 #codedl {
-  display: none;
+  display: block;
 }
 .regtip {
   margin-top: 10px;
@@ -419,7 +419,7 @@ div {
                      <dl id="codedl">
                         <dt><i>*</i>验证码</dt>
                         <dd>
-                            <input type="text"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/ImgCode.aspx?t=64.54859382938594" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = '/ImgCode.aspx?t=' + Math.random() * 100 "><a>看不清楚？换一张</a></dd>
+                            <input type="text"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
                     </dl>
                     <dl>
                         <dt><i>*</i>短信验证码</dt>

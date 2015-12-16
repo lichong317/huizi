@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.applyOptional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -130,6 +131,10 @@ public class TdRegisgerController {
                 {
                     map.addAttribute("error", "用户名已存在");
                 }
+                else if (errCode.equals(4))
+                {
+                    map.addAttribute("error", "验证码错误");
+                }
                 map.addAttribute("errCode", errCode);
             }
             return "/client/reg";
@@ -213,11 +218,11 @@ public class TdRegisgerController {
             {
                 if (null == shareId)
                 {
-                    return "redirect:/reg?errCode=3";
+                    return "redirect:/reg?errCode=4";
                 }
                 else
                 {
-                    return "redirect:/reg?errCode=3&shareId=" + shareId;
+                    return "redirect:/reg?errCode=4&shareId=" + shareId;
                 }
             }
 		}
@@ -324,6 +329,58 @@ public class TdRegisgerController {
         }
         
         return "redirect:/user?shareId=" + shareId;
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：app注册接口
+	 */
+    @RequestMapping(value = "/app/register", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> appreg(String mobile, String password, String smscode,  HttpServletResponse response, HttpServletRequest request){
+    	Map<String, Object> res = new HashMap<String, Object>();
+
+        res.put("code", 1);    	
+    	
+    	if (null == mobile) {
+    		res.put("message", "电话号码为空");
+    		return res;
+		}
+    	
+    	if (null == password) {
+    		res.put("message", "密码为空");
+    		return res;
+		}
+    	
+    	if (null == smscode) {
+    		res.put("message", "验证码为空");
+    		return res;
+		}
+    	
+    	String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
+    	if (!smsCodeSave.equalsIgnoreCase(smscode)) {
+    		res.put("code", 2); 
+    		res.put("message", "验证码错误");
+    		return res;
+		}
+    	
+    	TdUser tdUser = tdUserService.findByUsername(mobile);
+    	if (null != tdUser) {
+    		res.put("code", 3); 
+    		res.put("message", "该手机号已被注册");
+    		return res;
+		}
+    	
+    	tdUser = tdUserService.addNewUser(null, mobile, password, mobile, null);
+    	
+    	if (null == tdUser) {
+    		res.put("code", 3); 
+    		res.put("message", "该手机号已被注册");
+    		return res;
+		}
+    	
+    	res.put("code", 0);
+    	return res;
     }
     
         

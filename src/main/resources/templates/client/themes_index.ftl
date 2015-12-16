@@ -42,17 +42,17 @@ function checkTime(i)
 </head>
 <boby>
     <!--最顶部-->
-    <#include "/client/common_header.ftl" />
+    <#include "/client/themes_header.ftl" />
     
     <div class="clear h20"></div>
     
     <!--liebiaoye-->
     <div class="main">
-        <div class="left">
+        <div class="left" style="margin-top:-24px;">
             <div id="sortlist" class="m">
-                <div class="mt">
+            <#-->    <div class="mt">
                     <h2><#if top_cat??>${top_cat.title!''}</#if></h2>
-                </div>
+                </div>  -->
                 <div class="mc">
                     <#if second_level_cat_list??>
                         <#list second_level_cat_list as secondcat>
