@@ -49,6 +49,10 @@ public class TdOrder {
     @Column
     private String shippingPhone;
     
+    // 收货备用电话
+    @Column
+    private String spareShippingPhone;
+    
     // 邮政编码
     @Column
     private String postalCode;
@@ -694,6 +698,14 @@ public class TdOrder {
 
 	public void setRefundTime(Date refundTime) {
 		this.refundTime = refundTime;
+	}
+
+	public String getSpareShippingPhone() {
+		return spareShippingPhone;
+	}
+
+	public void setSpareShippingPhone(String spareShippingPhone) {
+		this.spareShippingPhone = spareShippingPhone;
 	}
 
 }

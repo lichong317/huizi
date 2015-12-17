@@ -64,7 +64,7 @@ public class TdShippingAddress {
     @Column
     private String receiverTeleAreaCode;
 	
-	// 收货人电话号码
+	// 收货人电话号码(备用)
 	@Column
 	private String receiverTelephone;
 	

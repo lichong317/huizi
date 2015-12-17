@@ -68,7 +68,8 @@ function timer${item_index}()
     mm = checkTime(mm);
     ss = checkTime(ss);
     
-    $("#lday${item_index}").html(dd);
+    hh = hh + dd*24;
+   // $("#lday${item_index}").html(dd);
     $("#lhour${item_index}").html(hh);
     $("#lmin${item_index}").html(mm);
     $("#lsec${item_index}").html(ss);
@@ -84,13 +85,13 @@ function checkTime(i)
 }
 </script>
             <a class="phone_list" href="/touch/goods/${item.id?c!''}?qiang=1">
-                <b><img src="${item.groupSaleImage!''}" width="90" height="90"/></b>
+                <b><img src="${item.flashSaleImage!''}" width="90" height="90"/></b>
                 <p class="p1">${item.title!''}</p>
                 <p>${item.subTitle!''}</p>
                 <p class="fl">累计评价：<span class="red">${item.totalComments!'0'}条</span></p>
           <#--      <p class="daojishi" id="timeLeft${item_index}"></p> -->
-                <p class="daojishi"><span class="sp1" id="lday${item_index}">0</span><span class="fl" style="padding-top:5px">天</span><span class="sp1" id="lhour${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lmin${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lsec${item_index}">0</b><span class="fl"> : </span></span>
-                <p class="p2 ta-r mt20">抢拍价￥<#if item.flashSalePrice??>${item.flashSalePrice?string("0.00")}</#if></p>
+                <p class="daojishi"><span class="sp1" id="lhour${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lmin${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lsec${item_index}">0</b><span class="fl"> : </span></span>
+                <p class="p2 ta-r mt20" >￥<#if item.flashSalePrice??>${item.flashSalePrice?string("0.00")}</#if></p>
                 <div class="clear"></div>
             </a>
         </#list>

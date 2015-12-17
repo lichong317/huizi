@@ -112,33 +112,59 @@ public class TdOrderController {
     
     @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> login(String province, String city, String disctrict,
+    public Map<String, Object> login(String province, String city, String disctrict, Long addressId,
                 HttpServletRequest request) {
         Map<String, Object> res = new HashMap<String, Object>();
         
         res.put("code", 1);
         
-        if (null == province || null == city) {
-			res.put("msg", "地址不存在");
-			return res;
+        if (null == addressId) {
+        	if (null == province || null == city) {
+    			res.put("msg", "地址不存在");
+    			return res;
+    		}
+            
+            List<TdShippingAddress> tdShippingAddresses = tdShippingAddressService.findByIsCod();
+            if (null !=tdShippingAddresses && tdShippingAddresses.size() > 0) {
+    			for(TdShippingAddress tdShippingAddress : tdShippingAddresses){
+    				if (null != tdShippingAddress.getDisctrict()) {
+    					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) && tdShippingAddress.getDisctrict().equals(disctrict)) {
+    						 res.put("code", 0);
+    						 return res;
+    					}
+    				}else {
+    					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) ) {
+    						 res.put("code", 0);
+    						 return res;
+    					}
+    				}
+    			}
+    		}
+            res.put("msg", "已选收货地址不支持货到付款");      
+            return res;
+		}else {
+			TdShippingAddress tdShippingAdd = tdShippingAddressService.findOne(addressId);
+			
+			List<TdShippingAddress> tdShippingAddresses = tdShippingAddressService.findByIsCod();
+            if (null !=tdShippingAddresses && tdShippingAddresses.size() > 0) {
+    			for(TdShippingAddress tdShippingAddress : tdShippingAddresses){
+    				if (null != tdShippingAddress.getDisctrict()) {
+    					if (tdShippingAddress.getProvince().equals(tdShippingAdd.getProvince()) && tdShippingAddress.getCity().equals(tdShippingAdd.getCity()) && tdShippingAddress.getDisctrict().equals(tdShippingAdd.getDisctrict())) {
+    						 res.put("code", 0);
+    						 return res;
+    					}
+    				}else {
+    					if (tdShippingAddress.getProvince().equals(tdShippingAdd.getProvince()) && tdShippingAddress.getCity().equals(tdShippingAdd.getCity()) ) {
+    						 res.put("code", 0);
+    						 return res;
+    					}
+    				}
+    			}
+    		}
+            res.put("msg", "已选收货地址不支持货到付款");      
+            return res;
 		}
         
-        List<TdShippingAddress> tdShippingAddresses = tdShippingAddressService.findByIsCod();
-        if (null !=tdShippingAddresses && tdShippingAddresses.size() > 0) {
-			for(TdShippingAddress tdShippingAddress : tdShippingAddresses){
-				if (null != tdShippingAddress.getDisctrict()) {
-					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) && tdShippingAddress.getDisctrict().equals(disctrict)) {
-						 res.put("code", 0);
-					}
-				}else {
-					if (tdShippingAddress.getProvince().equals(province) && tdShippingAddress.getCity().equals(city) ) {
-						 res.put("code", 0);
-					}
-				}
-			}
-		}
-        res.put("msg", "已选收货地址不支持货到付款");      
-        return res;
     }
     
     /**
@@ -1029,26 +1055,36 @@ public class TdOrderController {
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
         
         // 邮费计算
-        Double totalPostage = 0.0;      
+        Double totalPostage = 0.0; 
+        Double totalPostagefeenot = 0.0; //免邮计算
         TdGoods tdGoods = null;
         for(TdCartGoods tdCartGoods : selectedGoodsList){
         	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
-        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
-				if (null != tdGoods.getPostage()) {
-					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+        	if (null != tdGoods.getIsFeeNot()) {
+        		if (!tdGoods.getIsFeeNot()) {
+        			if (null != tdGoods.getPostage()) {
+    					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+    				}
+				}else {
+					if (null != tdGoods.getPostage()) {
+						totalPostagefeenot += tdGoods.getPostage() * tdCartGoods.getQuantity();
+    				}
 				}
-        		
+				        		
 			}
         }
         TdSetting tdSetting = tdSettingService.findTopBy();
         if (null != tdSetting.getMaxPostage()) {
 			if (totalPrice > tdSetting.getMaxPostage()) {
-				totalPostage = 0.0;
+				totalPostagefeenot = totalPostage;
+				totalPostage = 0.0;				
 			}
 		}
         map.addAttribute("totalPostage", totalPostage);
-        
-        
+        if (totalPostage == 0) {
+        	 map.addAttribute("totalPostagefeenot", totalPostagefeenot);
+		}
+               
         map.addAttribute("delivery_type_list",
                 tdDeliveryTypeService.findByIsEnableTrue());
         map.addAttribute("selected_goods_list", selectedGoodsList);

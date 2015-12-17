@@ -856,6 +856,12 @@
                     </tr>
                     <tr>
                         <th>
+                            备用号码
+                        </th>
+                        <td><span id="spareMobile">${order.spareShippingPhone!""}</span></td>
+                    </tr>
+                    <tr>
+                        <th>
                             是否索要发票
                         </th>
                         

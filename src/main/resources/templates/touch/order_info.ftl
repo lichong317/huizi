@@ -12,7 +12,7 @@
 <script src="/touch/js/common.js"></script>
 <script src="/touch/js/jquery.cityselect.js"></script>
 <script src="/touch/js/order_info.js"></script>
-<script src="/client/js/Validform_v5.3.2_min.js"></script>
+<script src="/touch/js/Validform_v5.3.2_min.js"></script>
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
@@ -25,7 +25,7 @@ $(document).ready(function(){
     
     $("#form1").Validform({
         btnSubmit:"#btn_sub",
-        tiptype:4
+        tiptype:1
     });
 
     $("#address").citySelect({
@@ -176,6 +176,7 @@ function formsubmit(){
                 <a href="javascript:;" class="selAddress" aid="${address.id?c}">
                 <p>姓名：${address.receiverName!''}<span>邮编：${address.postcode!''}</span></p>
                 <p>手机号码：${address.receiverMobile!''}</p>
+                <p>备用号码：${address.receiverTelephone!''}</p>
                 <p>省市：<span id="addressprovince">${address.province!''}</span>
                        <span id="addresscity">${address.city!''}</span>
                        <span id="addressdisctrict">${address.disctrict!''}</span></p>
@@ -198,7 +199,7 @@ function formsubmit(){
           <select id="city" name="city" class="city fr"></select>
           <div class="clear"></div>
           <select id="dist" name="disctrict" class="dist" style="width:100%;" onchange="javascript:checkaddress()"></select>
-          <lable id = "notcodaddress" style="display: none ">不支持货到付款</lable>
+          <lable id = "notcodaddress" style="display: none ;color:red">不支持货到付款</lable>
                       <script>
                          function checkaddress(){
                              var province = $("#prov").val();
@@ -244,11 +245,14 @@ function formsubmit(){
   <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
   <input type="text" name="invoiceTitle"  class="address" value="" placeholder="发票抬头"/>
   
-  <p class="address">选择支付方式：</p>
+  <p class="address">选择支付方式：  <span id = "notcodaddress1" style="display: none;margin-left:10px;color:#ef0000;">不支持货到付款</span></p>
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="n" value="${pay_type.id?c}" nullmsg="请选择支付方式!" /><span><img src="${pay_type.coverImageUri!''}" height="30" /></span> </li>
+            <li><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="*" value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
+            <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
+            <span>${pay_type.title!''}</span>
+            </li>
         </#list>
         <script>
                                     function changepaytype(paytype){
@@ -257,23 +261,28 @@ function formsubmit(){
                                            var province = $("#addressprovince").text();
                                            var city = $("#addresscity").text();
                                            var disctrict = $("#addressdisctrict").text();
-
-                                           if('' != province){
+                                           
+                                           var addressId = $("#input-address-id").val();
+                                           
+                                           var $browsers = $("input[name=payTypeId]");
+                                           if('' != addressId){
                                                $.ajax({
                                                     type: "post",
                                                     url: "/order/codDistrict",
-                                                    data: { "province": province, "city": city, "disctrict": disctrict},
+                                                    data: {"addressId": addressId},
                                                     dataType: "json",
                                                     success: function (data) {
                                                         if (data.code == 0) {
-                                                          
+                                                           
                                                         } else {
+                                                            $browsers.attr("checked",false); 
                                                             alert(data.msg);
                                                         }
                                                     }
                                                 });
                                            }else{
                                                alert("请选择收货地址！");
+                                               $browsers.attr("checked",false);
                                            }
                                        }
                                     }
@@ -325,7 +334,7 @@ function formsubmit(){
     <#--><h3>合计：<span class="sc">￥${totalPrice?string("0.00")}</span>（共<span>${totalQuantity!'0'}</span>件商品）</h3>-->
     <h3 style="font-size:0.75em; float:left;width:100%;font-weight:400;">共${totalQuantity!'0'}件商品，
               商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
-    + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span>）
+    + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
     - 优惠券抵扣（<span>¥<b id="couponFeee">0</b></span>）
     - 积分抵扣（<span>¥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）    
     = 总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+totalPostage)?string("0.00")}</b></span>

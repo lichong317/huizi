@@ -215,6 +215,7 @@ var forPaymentFllow = true;
                                                  <span id="addresscity">${address.city!''}</span>
                                                  <span id="addressdisctrict">${address.disctrict!''}</span>${address.detailAddress!''}</p>
                                         <p>联系方式：${address.receiverMobile!''}</p>
+                                        <p>备用号码：${address.receiverTelephone!''}</p>
                                     </a>
                                 </div>
                             </#list>
@@ -285,6 +286,12 @@ var forPaymentFllow = true;
                     </td>
                   </tr>
                   <tr>
+                    <th>备用号码*：</th>
+                    <td>
+                        <input class="mytext" id="spareMobile" value="" type="text">
+                    </td>
+                  </tr>
+                  <tr>
                     <th></th>
                     <td><input id="addAddressSubmit" class="mysub" type="button" value="保存"></td>
                   </tr>
@@ -292,7 +299,7 @@ var forPaymentFllow = true;
                 </table>
             </div>
     
-  
+            <lable id = "notcodaddress1" style="display: none;margin-left:350px;color:#ef0000; margin-top:10px">不支持货到付款</lable>
             <div class="main mt15">
                 <div class="s_gwc3_1">
                     <div class="s_gwc3_1_a">
@@ -311,28 +318,31 @@ var forPaymentFllow = true;
                                 <script>
                                     function changepaytype(paytype){
                                         //alert(paytype.getAttribute("tn"));
-                                       if(paytype.getAttribute("tn") == "货到付款"){                                      
-                                           var province = $("#addressprovince").text();
-                                           var city = $("#addresscity").text();
-                                           var disctrict = $("#addressdisctrict").text();
-
-                                           if('' != province){
+                                       if(paytype.getAttribute("tn") == "货到付款"){  
+                                                                           
+                                          var addressId = $("#input-address-id").val();
+                                           var $browsers = $("input[name=payTypeId]");
+                                           if(''!= addressId){
                                                $.ajax({
                                                     type: "post",
                                                     url: "/order/codDistrict",
-                                                    data: { "province": province, "city": city, "disctrict": disctrict},
+                                                    data: { "addressId": addressId},
                                                     dataType: "json",
                                                     success: function (data) {
                                                         if (data.code == 0) {
-                                                          
+                                                            
                                                         } else {
-                                                            alert(data.msg);
+                                                           $browsers.attr("checked",false);
+                                                           alert(data.msg);
                                                         }
                                                     }
                                                 });
                                            }else{
                                                alert("请选择收货地址！");
+                                              $browsers.attr("checked",false);
                                            }
+                                       }else{
+                                           // $(".input_zy").attr("disabled", false);
                                        }
                                     }
                                 </script>
@@ -485,7 +495,7 @@ var forPaymentFllow = true;
                 <div class="s_gwc1zj flr">
                     <input id="idTotalPriceSteady" type="hidden" value="${(totalPrice)?string("#.##")}" />
                     <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
-                     + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span>）
+                     + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
                      - 积分抵扣（<span>￥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
                      = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+delivery_fee!0)?string("0.00")}</b></span> </p>
                 </div>

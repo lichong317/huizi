@@ -328,24 +328,24 @@ function delItem(id)
 				<tbody>
 					<tr>
 						<td>
-							<a href="#"><img src="client/images/hzd_66.png"><p>话费充值</p></a>
+							<a href="http://chongzhi.jd.com/"><img src="client/images/hzd_66.png"><p>话费充值</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="client/images/hzd_67.png"><p>电影票</p></a>
+							<a href="http://movie.jd.com/index.html"><img src="client/images/hzd_67.png"><p>电影票</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="client/images/hzd_68.png"><p>彩票</p></a>
+							<a href="http://caipiao.jd.com/"><img src="client/images/hzd_68.png"><p>彩票</p></a>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<a href="#"><img src="client/images/hzd_69.png"><p>水电缴费</p></a>
+							<a href="http://chongzhi.jd.com/index.action?bussType=3"><img src="client/images/hzd_69.png"><p>水电缴费</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="client/images/hzd_70.png"><p>宽带</p></a>
+							<a href="http://chongzhi.jd.com/index.action?bussType=3"><img src="client/images/hzd_70.png"><p>宽带</p></a>
 						</td>
 						<td>
-							<a href="#"><img src="client/images/hzd_71.png"><p>门票</p></a>
+							<a href="http://tuan.jd.com/channel/virtual-kunming-2315-0-0-0-0-0-1-0-1.html?jdr=homevirtual-202"><img src="client/images/hzd_71.png"><p>门票</p></a>
 						</td>
 					</tr>
 				</tbody>

@@ -68,7 +68,8 @@ function timer${item_index}()
     mm = checkTime(mm);
     ss = checkTime(ss);
     
-    $("#lday${item_index}").html(dd);
+    hh = hh + dd*24;
+   // $("#lday${item_index}").html(dd);
     $("#lhour${item_index}").html(hh);
     $("#lmin${item_index}").html(mm);
     $("#lsec${item_index}").html(ss);
@@ -89,8 +90,8 @@ function checkTime(i)
                 <p>${item.subTitle!''}</p>
                 <p class="fl">累计评价：<span class="red">${item.totalComments!'0'}条</span></p>
           <#--      <p class="daojishi" id="timeLeft${item_index}"></p> -->
-                <p class="daojishi"><span class="sp1" id="lday${item_index}">0</span><span class="fl" style="padding-top:5px">天</span><span class="sp1" id="lhour${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lmin${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lsec${item_index}">0</b><span class="fl"> : </span></span>
-                <p class="p2 ta-r mt20">团购价￥<#if item.groupSalePrice??>${item.groupSalePrice?string("0.00")}</#if></p>
+                <p class="daojishi"><span class="sp1" id="lhour${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lmin${item_index}">0</span><span class="fl"> : </span><span class="sp1" id="lsec${item_index}">0</b><span class="fl"> : </span></span>
+                <p class="p2 ta-r mt20">￥<#if item.groupSalePrice??>${item.groupSalePrice?string("0.00")}</#if></p>
                 <div class="clear"></div>
             </a>
         </#list>

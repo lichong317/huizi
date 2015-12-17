@@ -2401,6 +2401,7 @@ public class TdUserController {
                                     String detail,
                                     String postcode,
                                     String mobile,
+                                    String spareMobile,
                                     HttpServletRequest req) {
         Map<String, Object> res = new HashMap<String, Object>();
         
@@ -2431,6 +2432,7 @@ public class TdUserController {
         address.setDetailAddress(detail);
         address.setPostcode(postcode);
         address.setReceiverMobile(mobile);
+        address.setReceiverTelephone(spareMobile);
         
         user.getShippingAddressList().add(address);
         

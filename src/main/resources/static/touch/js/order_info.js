@@ -5,6 +5,22 @@ $(document).ready(function(){
         $(this).parent().siblings().children("a").removeClass("sel");
         $(this).addClass("sel");
         $("#input-address-id").val($(this).attr("aid"));
+        
+      //判断是否支持货到付款
+        var addressId = $(this).attr("aid");
+        $.ajax({
+            type: "post",
+            url: "/order/codDistrict",
+            data: { "addressId": addressId},
+            dataType: "json",
+            success: function (data) {
+                    if (data.code == 0) {
+                         $("#notcodaddress1").css("display", "none");       
+                    } else {
+                         $("#notcodaddress1").css("display", "block");
+                    }
+             }
+        });
     }
     
     // 选择地址

@@ -201,6 +201,12 @@ $(document).ready(function(){
                     </td>
                   </tr>
                   <tr>
+                    <th>备用号码*：</th>
+                    <td>
+                        <input class="mytext" id="spareMobile" value="" type="text">
+                    </td>
+                  </tr>
+                  <tr>
                     <th></th>
                     <td><input id="addAddressSubmit" class="mysub" type="button" value="保存"></td>
                   </tr>

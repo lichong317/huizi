@@ -966,24 +966,35 @@ public class TdTouchOrderController {
         }
         
         // 邮费计算
-        Double totalPostage = 0.0;      
+        Double totalPostage = 0.0;  
+        Double totalPostagefeenot = 0.0; //免邮计算
         TdGoods tdGoods = null;
         for(TdCartGoods tdCartGoods : selectedGoodsList){
         	tdGoods = tdGoodsService.findOne(tdCartGoods.getGoodsId());
-        	if (null != tdGoods.getIsFeeNot() && !tdGoods.getIsFeeNot()) {
-				if (null != tdGoods.getPostage()) {
-					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+        	if (null != tdGoods.getIsFeeNot()) {
+        		if (!tdGoods.getIsFeeNot()) {
+        			if (null != tdGoods.getPostage()) {
+    					totalPostage += tdGoods.getPostage() * tdCartGoods.getQuantity();
+    				}
+				}else {
+					if (null != tdGoods.getPostage()) {
+						totalPostagefeenot += tdGoods.getPostage() * tdCartGoods.getQuantity();
+    				}
 				}
-        		
+				        		
 			}
         }
         TdSetting tdSetting = tdSettingService.findTopBy();
         if (null != tdSetting.getMaxPostage()) {
 			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostagefeenot = totalPostage;
 				totalPostage = 0.0;
 			}
 		}
         map.addAttribute("totalPostage", totalPostage);
+        if (totalPostage == 0) {
+       	 map.addAttribute("totalPostagefeenot", totalPostagefeenot);
+		}
         
         map.addAttribute("pay_type_list", tdPayTypeService.findByIsEnableTrue());
         map.addAttribute("delivery_type_list",

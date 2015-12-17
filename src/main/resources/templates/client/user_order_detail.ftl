@@ -175,7 +175,7 @@ $(document).ready(function(){
         </tr>
         <tr>
           <th>联系方式</th>
-          <td>联系人：<#if order??>${order.shippingName!''}</#if> &nbsp;&nbsp;&nbsp;&nbsp; 联系电话：${order.shippingPhone!''}</td>
+          <td>联系人：<#if order??>${order.shippingName!''}</#if> &nbsp;&nbsp;&nbsp;&nbsp; 联系电话：${order.shippingPhone!''}&nbsp;&nbsp;&nbsp;&nbsp; 备用号码：${order.spareShippingPhone!''}</td>
         </tr>
       </tbody></table>
     </div><!--mymember_info END-->

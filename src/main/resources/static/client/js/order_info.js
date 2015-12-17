@@ -5,6 +5,22 @@ $(document).ready(function(){
         $(this).parent().siblings().children("a").removeClass("dzxz");
         $(this).addClass("dzxz");
         $("#input-address-id").val($(this).attr("aid"));
+        
+        //判断是否支持货到付款
+        var addressId = $(this).attr("aid");
+        $.ajax({
+            type: "post",
+            url: "/order/codDistrict",
+            data: { "addressId": addressId},
+            dataType: "json",
+            success: function (data) {
+                    if (data.code == 0) {
+                         $("#notcodaddress1").css("display", "none");       
+                    } else {
+                         $("#notcodaddress1").css("display", "block");
+                    }
+             }
+        });
     }
     
     // 选择地址
@@ -37,6 +53,7 @@ $(document).ready(function(){
         var detail = $("#detailAdd").val();
         var postcode = $("#postcode").val();
         var mobile = $("#mobile").val();
+        var spareMobile = $("#spareMobile").val();
         
         if (undefined == receiverName || "" == receiverName)
         {
@@ -83,7 +100,8 @@ $(document).ready(function(){
                 "dist": dist,
                 "detail": detail,
                 "postcode": postcode,
-                "mobile": mobile 
+                "mobile": mobile, 
+                "spareMobile": spareMobile
             },
             
             success:function(res) {

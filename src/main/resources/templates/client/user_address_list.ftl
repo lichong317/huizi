@@ -75,6 +75,7 @@ $(function () {
             <th>地区</th>
             <th>邮政编码</th>
             <th>联系电话</th>
+            <th>备用号码</th>
             <th>详细地址</th>
             <th>操作</th>
           </tr>
@@ -86,6 +87,7 @@ $(function () {
                     <td>${address.province!''}${address.city!''}${address.disctrict!''}</td>
                     <td>${address.postcode!''}</td>
                     <td>${address.receiverMobile!''}</td>
+                    <td>${address.receiverTelephone!''}</td>
                     <td>${address.detailAddress!''}</td>
                     <td>
                       <p><a href="/user/address/update?id=${address.id?c}">修改</a></p>
@@ -129,7 +131,7 @@ $(function () {
       <tr>
         <th>邮政编码：</th>
         <td>
-            <input class="mytext" name="postcode" datatype="p" errormsg="邮政编码为6位数字！" value="<#if address??>${address.postcode}</#if>" type="text">
+            <input class="mytext" name="postcode"  errormsg="邮政编码为6位数字！" value="<#if address??>${address.postcode}</#if>" type="text">
             <span class="Validform_checktip">*邮政编码</span>
         </td>
       </tr>
@@ -138,6 +140,13 @@ $(function () {
         <td>
             <input class="mytext" name="receiverMobile" datatype="n8-12" errormsg="请输入正确的电话号码格式！" value="<#if address??>${address.receiverMobile}</#if>" type="text">
             <span class="Validform_checktip">*电话号码</span>
+        </td>
+      </tr>
+       <tr>
+        <th>备用电话：</th>
+        <td>
+            <input class="mytext" name="receiverTelephone"  errormsg="请输入正确的电话号码格式！" value="<#if address??>${address.receiverTelephone}</#if>" type="text">
+            <span class="Validform_checktip">*备用号码</span>
         </td>
       </tr>
       <tr>
