@@ -113,6 +113,8 @@ function hideDialog()
                 </div>
                <#if user??> 
                		<p style="padding-top:10px">累计返现:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></b></p>
+               		<p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.cashRewardsFrozen??>${user.cashRewardsFrozen?string("0.00")}</#if></b></p>
+                    <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards?? &&  user.cashRewardsFrozen??>${(user.totalCashRewards - user.cashRewardsFrozen)?string("0.00")}</#if></b></p>
                		<HR style="BORDER-RIGHT: 1px dashed; BORDER-TOP: 1px dashed; BORDER-LEFT: 1px dashed; WIDTH: 590px; BORDER-BOTTOM: 1px dashed" color=#ffffff SIZE=3 align=center>
                		<p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;${user.bankCardCode!''}</p>           
 	                <p style="padding-top:10px">默认开户行名称:&nbsp;&nbsp;${user.bankTitle!''}</p>
