@@ -274,7 +274,7 @@ var forPaymentFllow = true;
                     </td>
                   </tr>
                   <tr>
-                    <th>邮政编码*：</th>
+                    <th>邮政编码：</th>
                     <td>
                         <input class="mytext" id="postcode" value="" type="text">
                     </td>
@@ -286,7 +286,7 @@ var forPaymentFllow = true;
                     </td>
                   </tr>
                   <tr>
-                    <th>备用号码*：</th>
+                    <th>备用号码：</th>
                     <td>
                         <input class="mytext" id="spareMobile" value="" type="text">
                     </td>
