@@ -394,6 +394,39 @@ public class TdOrderController {
         
         tdCommonService.setHeader(map, req);
 
+        // 邮费计算
+        Double totalPostage = 0.0; 
+        Double totalPostagefeenot = 0.0; //免邮计算
+        Double totalPrice = 0.0; // 购物总额
+        TdGoods tdGoods = null;
+        for(TdGoodsDto tdGoodsDto : tdGoodsList){
+        	tdGoods = tdGoodsService.findOne(tdGoodsDto.getGoodsId());
+        	if (null != tdGoods.getIsFeeNot()) {
+        		if (!tdGoods.getIsFeeNot()) {
+        			if (null != tdGoods.getPostage()) {
+    					totalPostage += tdGoods.getPostage() * tdGoodsDto.getQuantity();
+    				}
+				}else {
+					if (null != tdGoods.getPostage()) {
+						totalPostagefeenot += tdGoods.getPostage() * tdGoodsDto.getQuantity();
+    				}
+				}
+				        		
+			}
+        	totalPrice += tdGoodsDto.getPrice() * tdGoodsDto.getQuantity();
+        }
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMaxPostage()) {
+			if (totalPrice > tdSetting.getMaxPostage()) {
+				totalPostagefeenot += totalPostage;
+				totalPostage = 0.0;				
+			}
+		}
+        map.addAttribute("totalPostage", totalPostage);
+        if (totalPostage == 0) {
+        	 map.addAttribute("totalPostagefeenot", totalPostagefeenot);
+		}
+        
         if (type.equalsIgnoreCase("comb"))
         {
             return "/client/order_buy_zh";
