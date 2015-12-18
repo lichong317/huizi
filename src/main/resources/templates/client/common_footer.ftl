@@ -1,4 +1,4 @@
-
+<div class="gogo" style="float:left;width:100%">
 <div class="down1">
    <section class="index_center">
         <table>
@@ -96,4 +96,5 @@
               <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
           </p>
     </div>
+</div>
 </div>

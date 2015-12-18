@@ -33,6 +33,25 @@
     checkBoxShow("assort_menu","a","assort_sum","li","sel");
     topTitFloat("detail_tit",1250,"detail_tit_sel");
 });
+
+function sendAddress(){
+    var id = <#if shop??>"${shop.id?c}"</#if>;
+    $.ajax({
+                type: "post",
+                url: "/shop/sendAddress",
+                data: { "id": id},
+                dataType: "json",
+                success: function (data) { 
+                    if (data.code == 0) {
+                       alert("发送成功！请注意查收");
+                       $("#sendAddress").removeAttr("href");
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+}
+
 </script>
 </head>
 
@@ -86,7 +105,7 @@
         <tr>
           <td colspan="2">
             <!--<input type="submit" class="sub" value="立即购买" />-->
-            <a class="sub" style="text-align:center;">地址发送到手机</a>
+            <a id="sendAddress" href="javascript:sendAddress();" class="sub" style="text-align:center;">地址发送到手机</a>
             <div class="clear"></div>
           </td>
         </tr>

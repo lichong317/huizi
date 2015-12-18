@@ -33,7 +33,7 @@
                             <a href="/goods/${cg.goodsId?c}"><img src="${cg.goodsCoverImageUri!''}" width="76" height="76"></a>
                          </#if>
                         </span>
-                        <p><a href="goods/${cg.goodsId?c}"><p>${cg.goodsTitle!''}</p></a></td>
+                        <p><a href="goods/${cg.goodsId?c}">${cg.goodsTitle!''}</a></p></td>
                     <td class="gwc1_lm2_b"><span>￥${cg.price?string("0.00")}</span></td>
                     <td class="gwc1_lm2_c">
                         <div class="ds content_nr_3_jg2">

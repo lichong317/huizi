@@ -400,7 +400,7 @@ a.white:hover { color:#ff7d43;}
 	position:absolute;
 	top:45px;
 	right:-2px;
-	z-index:9;
+	z-index:999999;
 	background:#fff;
 	width:370px;
 	border:2px solid #e5e5e5;}

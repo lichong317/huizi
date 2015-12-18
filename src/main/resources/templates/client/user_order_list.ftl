@@ -87,7 +87,7 @@ function orderReceive(id)
   <#-- 左侧菜单 -->
   <#include "/client/common_user_menu.ftl" />
   <#-- 左侧菜单结束 -->
-  <form name="form1" action="/user/order/list/${status_id}" method="POST">
+  <form name="form1" action="/user/order/list/${status_id}" method="POST" style="float:left;width:82%;">
 <script type="text/javascript">
     var theForm = document.forms['form1'];
     if (!theForm) {
@@ -99,9 +99,9 @@ function orderReceive(id)
         }
     }
 </script>
-  <div class="mymember_mainbox">
+  <div class="mymember_mainbox" style="float:left;width:100%">
     <div class="mymember_info mymember_info02">
-      <div class="mymember_order_search">
+      <div class="mymember_order_search" style="*+overflow:hidden;">
         <a class="a001" href="/user/order/list/${status_id?c}">
             <#if status_id==0>
                 全部订单

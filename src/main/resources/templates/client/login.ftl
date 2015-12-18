@@ -155,7 +155,7 @@ function saveUserInfo() {
           <label>
             <input id="rmbUser" type="checkbox" />
             &nbsp;记住密码</label>
-          &nbsp;&nbsp;<b class="wj"><a href="#">忘记密码？</a></b></p>
+          &nbsp;&nbsp;<b class="wj"><a href="/login/password_retrieve">忘记密码？</a></b></p>
       <#-->  <p class="mt15">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
         <input type="submit"  class="login_btn" id="btn_login" value="立即登录"/> -->
         <p style="width:170px; float:right;">还不是会员？<b class="zc"><a href="/reg<#if shareId??>?shareId=${shareId}"</#if>">免费注册</a></b></p>
@@ -194,7 +194,7 @@ function saveUserInfo() {
           </ul>
     <div class="clear"></div>
     <#if site??>${site.copyright!''}</#if><a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-          <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
+          <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
     </div>
     </div>
     </div>

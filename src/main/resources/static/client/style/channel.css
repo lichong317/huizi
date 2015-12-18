@@ -203,7 +203,7 @@
   padding: 0px 25px;
   border-right: 1px dotted #ccc;
   border-bottom: 1px dotted #ccc;}
-  .fllclert li p{text-align:left; line-height:24px; height:60px; overflow:hidden;}
+  .fllclert li p{text-align:left; line-height:24px; height:52px; overflow:hidden;}
   .fllclert li span{font-size:19px; float:left;}
     .fllclert li a{	-webkit-transition: all 0.2s ease-in-out 0.01s;
     -moz-transition: all 0.2s ease-in-out 0.01s;

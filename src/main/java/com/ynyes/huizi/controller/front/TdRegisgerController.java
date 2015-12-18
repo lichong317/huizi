@@ -226,6 +226,7 @@ public class TdRegisgerController {
                 String mobile,
                 String password,
                 String email,
+                String yzmcode,
                 String code,
                 String smscode,
                 Long shareId,
@@ -234,7 +235,7 @@ public class TdRegisgerController {
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
         
         if (null == username) {
-        	 if (null == smsCodeSave)
+        	 if ( null == yzmcode)
              {
                  if (null == shareId)
                  {
@@ -246,6 +247,18 @@ public class TdRegisgerController {
                  }
              }
              
+        	 if (!codeBack.equalsIgnoreCase(yzmcode))
+             {
+                 if (null == shareId)
+                 {
+                     return "redirect:/reg?errCode=4";
+                 }
+                 else
+                 {
+                     return "redirect:/reg?errCode=4&shareId=" + shareId;
+                 }
+             }
+        	 
              if (!smsCodeSave.equalsIgnoreCase(smscode))
              {
                  if (null == shareId)

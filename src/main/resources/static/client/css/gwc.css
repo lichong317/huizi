@@ -12,14 +12,20 @@
 .gwc1_lm table tr{ height:33px; background:#eeeeee;}
 .gwc1_lm table tr td{ text-align:center; font-family:"微软雅黑", "宋体"; font-size:12px;}
 
-.gwc1_lm2 tr{ border-bottom:1px solid #ededed; height:110px;}
+.gwc1_lm2 tr{ border-bottom:1px solid #ededed; height:110px;*+line-height:110px;}
 .gwc1_lm2 tr td{ text-align:center;}
 .gwc1_lm2_a{ width:407px;}
-.gwc1_lm2_a span{ float:left;_float:right; *float:right;}
-.gwc1_lm2_a p{width:256px; float:right; _float:right; *float:right; }
+.gwc1_lm2_a span{ float:left;}
+.gwc1_lm2_a p{width:158px; float:left;/* _float:right; *float:right;*/ text-align:left; *+margin-left:-80px;margin-top:20px;*+margin-left:30px;*+margin-top:30px;}
+.gwc1_lm2_a p a{float:left;}
 .gwc1_lm2_a span a img{ border:1px solid #e5e5e5; margin-right:15px;}
 .gwc1_lm2_a p a{ font-family:"微软雅黑", "宋体"; font-size:12px; color:#666666; margin-top:8px; display:block; text-align:left; line-height:23px;}
 .gwc1_lm2_a p a:hover{ text-decoration:underline; color:#fe3d3e;}
+.gwc1_lm2_c .num_add{*+margin-top:-110px;}
+.gwc1_lm2_c .num_minus{*+margin-top:42px;*+margin-right:-100px;}
+
+
+
 
 .gwc1_lm2_b{ width:227px; text-align:center;}
 .gwc1_lm2_b span{font-family:"微软雅黑", "宋体";  font-size:14px; color:#fe3d3e; font-weight:bold;}

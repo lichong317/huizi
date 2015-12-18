@@ -152,6 +152,8 @@ function hideDialog()
                                         <#if distributedCoupon.mobile?length gt 8>
                                             ${distributedCoupon.mobile[0..6]?default("")}****
                                         </#if>
+                                    <#else>
+                                        ************
                                     </#if>
                                     </span>
                                     <span class="fr">

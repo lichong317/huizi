@@ -402,9 +402,9 @@ div {
                 <form id = "form1" method="post" action="/reg">
                         <span style="color: #F00"><#if errCode??>
                         <#if errCode==1>
-                            验证码错误
-                        <#elseif errCode==4>
                             短信验证码错误
+                        <#elseif errCode==4>
+                            验证码错误               
                         </#if>
                     </#if></span>
                     <input name="shareId" type="hidden" value="${share_id!''}">
@@ -419,7 +419,7 @@ div {
                      <dl id="codedl">
                         <dt><i>*</i>验证码</dt>
                         <dd>
-                            <input type="text"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                            <input type="text" name="yzmcode"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
                     </dl>
                     <dl>
                         <dt><i>*</i>短信验证码</dt>

@@ -299,7 +299,7 @@ var forPaymentFllow = true;
                 </table>
             </div>
     
-            <lable id = "notcodaddress1" style="display: none;margin-left:350px;color:#ef0000; margin-top:10px">不支持货到付款</lable>
+            <span id = "notcodaddress1" style="display: none;margin-left:350px;color:#ef0000; margin-top:10px">不支持货到付款</span>
             <div class="main mt15">
                 <div class="s_gwc3_1">
                     <div class="s_gwc3_1_a">

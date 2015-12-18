@@ -554,7 +554,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 
 
 .loginbox { width: 453px; overflow: hidden; margin:0 auto;}
-.login_r {width: 415px; float: right; padding-left: 65px; padding-top:20px; color: #999; }
+.login_r {width: 415px; float: right; padding-top:20px; color: #999; }
 .login_r span { display: block; margin-bottom: 3px; }
 .login_txt1 { margin-bottom: 10px; width: 370px; padding-left: 8px; height: 37px; border: 1px solid #ddd; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; font-size: 14px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; color: #222222; transition: all .2s linaer; -webkit-transition: all .2s linaer; }
 .login_txt1:focus, .login_txt2:focus { border: 1px solid #2579D1; box-shadow: 1px 1px 3px #ddd; -webkit-box-shadow: 1px 1px 3px #ddd; }
