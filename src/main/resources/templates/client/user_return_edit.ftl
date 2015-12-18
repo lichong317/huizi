@@ -108,7 +108,7 @@ $(function () {
 			             </div>
 			             <div  class="mymember_eva_div">
 			             	<b><font>* </font>数量：</b>
-			                <input type="text" name="returnNumber" datatype="*" nullmsg="请填写退换货的数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"</#if> />
+			                <input type="text" name="returnNumber" datatype="/^([1-${order_goods.quantity!'1'}])$/" nullmsg="请填写退换货的数量" errormsg="数量不能大于购买数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"</#if> />
 			            </div>
 			        <#-->    <div class="mymember_eva_div">
 			            <b ><font>* </font>问题类型：</b>
