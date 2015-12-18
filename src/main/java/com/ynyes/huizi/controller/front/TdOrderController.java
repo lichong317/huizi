@@ -181,13 +181,18 @@ public class TdOrderController {
      * @return
      */
     @RequestMapping(value = "/buy/{type}")
-    public String orderBuy(@PathVariable String type, Long gid, String zhid,Long shareId,
+    public String orderBuy(@PathVariable String type, Long quantity, Long gid, String zhid,Long shareId,
             HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
         if (null !=  shareId) {
         	map.addAttribute("shareId", shareId);
 		}
+        
+        if (null == quantity)
+        {
+        	quantity = 1L;
+        }
         
         if (null == username) {
             return "redirect:/login";
@@ -328,47 +333,43 @@ public class TdOrderController {
 
             tdGoodsList.add(buyGoods);
         }
-//        // 正常立即购买
-//        else {
-//        	 // 购买商品
-//            TdGoods goods = tdGoodsService.findOne(gid);
-//
-//            if (null == goods) {
-//                return "/client/error_404";
-//            }
-//
-//            // 优惠券
-////            map.addAttribute("coupon_list",
-////                    tdCouponService.findByUsernameAndIsUseable(username));
-//            
-//            
-//            // 积分限额
-//            TdUser tdUser = tdUserService.findByUsername(username);
-//            if (null != tdUser ) {
-//				if (null != tdUser.getTotalPoints() ) {
-//					if (goods.getPointLimited() > tdUser.getTotalPoints()) {
-//						map.addAttribute("total_point_limit", tdUser.getTotalPoints());
-//					}
-//					else{
-//						map.addAttribute("total_point_limit", goods.getPointLimited());
-//					}
-//				}
-//			}
-//            
-//
-//            TdGoodsDto buyGoods = new TdGoodsDto();
-//
-//            buyGoods.setGoodsId(goods.getId());
-//            buyGoods.setGoodsTitle(goods.getTitle());
-//            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-//            buyGoods.setPrice(goods.getSalePrice());
-//            buyGoods.setQuantity(1L);
-//            buyGoods.setSaleId(0);
-//
-//            tdGoodsList.add(buyGoods);
-//            map.addAttribute("selected_goods_list", tdGoodsList);
-//                                  
-//        }
+        // 正常立即购买
+        else
+        {
+        	 // 购买商品
+            TdGoods goods = tdGoodsService.findOne(gid);
+
+            if (null == goods) {
+                return "/client/error_404";
+            }           
+            
+            // 积分限额
+            TdUser tdUser = tdUserService.findByUsername(username);
+            if (null != tdUser ) {
+				if (null != tdUser.getTotalPoints() ) {
+					if (goods.getPointLimited() > tdUser.getTotalPoints()) {
+						map.addAttribute("total_point_limit", tdUser.getTotalPoints());
+					}
+					else{
+						map.addAttribute("total_point_limit", goods.getPointLimited());
+					}
+				}
+			}
+            
+
+            TdGoodsDto buyGoods = new TdGoodsDto();
+
+            buyGoods.setGoodsId(goods.getId());
+            buyGoods.setGoodsTitle(goods.getTitle());
+            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+            buyGoods.setPrice(goods.getSalePrice());
+            buyGoods.setQuantity(quantity);
+            buyGoods.setSaleId(0);
+
+            tdGoodsList.add(buyGoods);
+            map.addAttribute("selected_goods_list", tdGoodsList);
+                                  
+        }
 
         // 购买商品表
         map.addAttribute("buy_goods_list", tdGoodsList);

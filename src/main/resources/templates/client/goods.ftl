@@ -84,7 +84,8 @@ $(document).ready(function(){
         window.location.href="/cart/init?id=${goods.id?c}&quantity="+q+"<#if qiang??>&qiang=${qiang}</#if>";       
     }
     function buyNow(){
-        window.location.href="/order/buy/normal?gid=<#if goods??>${goods.id?c}</#if>";     
+    	var quantity = $("#quantity").val();
+        window.location.href="/order/buy/normal?gid=${goods.id?c}&quantity=" + quantity + "<#if shareId??>&shareId=${shareId}</#if>";     
     }
 
     function combSelect(self, price, originPrice)
@@ -623,12 +624,13 @@ function checkTime(i)
             <#else>
                 <#if goods.leftNumber gt 0>
                     <a id="addCart" href="/cart/init?id=${goods.id?c}<#if shareId??>&shareId=${shareId}</#if>" class="sub">加入购物车</a>
+                	<input type="submit" class="sub sub01" onclick="javascript:buyNow()" value="立即购买" />
                 <#else>
-                    <a id="addCart" href="#" class="sub">库存不足</a>
+                    <a id="addCart" href="javascript:;" class="sub">库存不足</a>
                 </#if>    
             </#if>
             <!--<input type="submit" class="sub" onclick="addCart()" value="加入购物车" />  -->
-            <#--><input type="submit" class="sub sub01" onclick="buyNow()" value="立即购买" />-->
+            <#---->
             <div class="clear"></div>
           </td>
         </tr>
