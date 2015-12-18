@@ -15,9 +15,11 @@ $(document).ready(function(){
             dataType: "json",
             success: function (data) {
                     if (data.code == 0) {
-                         $("#notcodaddress1").css("display", "none");       
+                         $("#notcodaddress1").css("display", "none");   
+                         $("#idPayFaceToFace").css("display", "block");
                     } else {
                          $("#notcodaddress1").css("display", "block");
+                         $("#idPayFaceToFace").css("display", "none");
                     }
              }
         });

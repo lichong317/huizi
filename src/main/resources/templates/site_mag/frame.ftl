@@ -132,7 +132,7 @@
                         ordernumberbuy = data.ordernumberbuy;
                         
                         if(data.ordernumberpay>ordernumberpay && ordernumberpay !=0){
-                            alert("有新已支付订单！");
+                            alert("有新待发货订单！");
                         }
                         ordernumberpay = data.ordernumberpay;
                         

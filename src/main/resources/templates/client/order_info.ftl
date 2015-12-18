@@ -310,7 +310,7 @@ var forPaymentFllow = true;
                         <ul>
                             <#if pay_type_list??>
                                 <#list pay_type_list as pay_type>
-                                    <li>
+                                    <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>>
                                         <input onclick="changepaytype(this)" tn="${pay_type.title!''}" name="payTypeId" class="input-pay-type" type="radio" datatype="n" value="${pay_type.id?c!''}" nullmsg="请选择支付方式!">
                                         <span>${pay_type.title!''}</span>
                                     </li>
