@@ -987,7 +987,7 @@ public class TdTouchOrderController {
         TdSetting tdSetting = tdSettingService.findTopBy();
         if (null != tdSetting.getMaxPostage()) {
 			if (totalPrice > tdSetting.getMaxPostage()) {
-				totalPostagefeenot = totalPostage;
+				totalPostagefeenot += totalPostage;
 				totalPostage = 0.0;
 			}
 		}
