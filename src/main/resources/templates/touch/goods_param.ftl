@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if goods??>${goods.seoTitle!''}</#if>-惠资生活</title>
+<title><#if goods??>${goods.seoTitle!''}</#if>-惠之店</title>
 <meta name="keywords" content="${goods.seoKeywords!''}">
 <meta name="description" content="${goods.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />

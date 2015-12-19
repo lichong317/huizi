@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
@@ -135,7 +135,7 @@ function tip()
     <input class="orange_btn " type="submit" value="立即注册" style="margin-top: 15px; font-family:'微软雅黑';">
    </form>
 <div class="center mt15 pb15">
-    <a class="absolute-l fs08 c9 fr" href="#">注册既表示您同意<span class="red">《惠资生活网上商城用户协议》</span></a>
+    <a class="absolute-l fs08 c9 fr" href="#">注册既表示您同意<span class="red">《惠之店网上商城用户协议》</span></a>
   </div>  
   <p class="center c9 fs08 pt15">其他方式登录</p>
   <table class="login_check">

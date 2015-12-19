@@ -125,7 +125,7 @@ function move()
         <a class="a" href="/user" style="float:left; color:#ff4040;">${username}<i></i></a>
         <a class="a" href="/logout" style="float:left;">退出<i></i></a>
     <#else>
-        <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登陆<i></i></a>
+        <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登录<i></i></a>
         <a class="a" href="/reg" style="float:left;" target="_blank">注册<i></i></a>
     </#if>
     <a class="a2" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes">在线咨询</a>
@@ -211,8 +211,14 @@ function delItem(id)
   <a href="/user/recent/list" title="我的足迹"><img src="/client/images/float_ico04.png" width="42" height="42" alt="我的足迹" /><span>我的足迹</span></a>        
   <a href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线客服"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /><span>在线客服</span></a>
   <a href="javascript:move();" title="到顶部"><img src="/client/images/float_ico05.png" width="42" height="42" alt="到顶部" /></a>
+</aside> 
+<#--<aside class="floatbox"> 
+  <a class="a1" href="#" title="购物车"><span>购物车</span></a>
+  <a class="a2" href="#" title="我的关注"><span>我的关注</span></a>
+  <a class="a3" href="#" title="我的足迹"><span>我的足迹</span></a>
+  <a class="a4" href="#" title="在线客服"><span>在线客服</span></a>
+   <a class="a5" href="#" title="回到顶部"><span>回到顶部</span></a>
 </aside>
-
 	<!--导航-->
 	<div class="daohang">
     <nav class="navbox">

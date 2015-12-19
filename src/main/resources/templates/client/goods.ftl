@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if goods??>${goods.seoTitle!''}-</#if>惠资生活</title>
+<title><#if goods??>${goods.seoTitle!''}-</#if>惠之店</title>
 
 <meta name="keywords" content="${goods.seoKeywords!''}">
 <meta name="description" content="${goods.seoDescription!''}">
-<meta name="copyright" content="惠资生活" />
+<meta name="copyright" content="惠之店" />
 <!--[if IE]>
    <script src="/client/js/html5.js"></script>
 <![endif]-->
@@ -246,7 +246,7 @@ function deleteContrastgoods(id){
                         var jiathis_config={
                             url:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>",
                             summary:"",
-                            title:"惠资生活##${goods.title!''}",
+                            title:"惠之店##${goods.title!''}",
                             shortUrl:false,
                             hideMore:false
                         }
@@ -266,7 +266,7 @@ function deleteContrastgoods(id){
                 window._bd_share_config={
                 "common":{
                     "bdSnsKey":{},
-                    "bdText":"惠资生活##${goods.title!''}", bdUrl:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>", "bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},
+                    "bdText":"惠之店##${goods.title!''}", bdUrl:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>", "bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},
                     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
                    

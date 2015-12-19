@@ -47,8 +47,13 @@
         <p class="fc fs30 lh40 pb10">订单提交成功! </p>
         <p> 订单号：<a href="/user/order?id=${order.id?c}">${order.orderNumber!''}</a></p>
         <p> 支付方式：${order.payTypeTitle!''}</p>
-        <p>应付金额￥${order.totalPrice?string('0.00')} <a class="blue" href="/order/dopay/${order.id?c}">点击支付</a></p>
-        <p>您还可以 <a class="blue" href="/user/order/list/0">查看订单</a>或在订单详情页面<a class="blue" href="/user/order?id=${order.id?c}">修改支付方式</a></p>
+        <#if order.totalPrice == 0>
+            <p>订单金额￥${order.totalPrice?string('0.00')} <a class="blue" href="#">无须支付</a></p>
+            <p>您可以 <a class="blue" href="/user/order/list/0">查看订单</a></p>
+        <#else>
+            <p>应付金额￥${order.totalPrice?string('0.00')} <a class="blue" href="/order/dopay/${order.id?c}">点击支付</a></p>
+            <p>您可以 <a class="blue" href="/user/order/list/0">查看订单</a></p>
+        </#if>
     </div>
   
     <div class="clear"></div> 

@@ -297,7 +297,7 @@ $(document).ready(function(){
                         <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>发票抬头：</span>
                         <input type="text" name="invoiceTitle" class="fapiaolan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>发票内容：由惠资生活直接开具</span>
+                        <span>发票内容：由惠之店直接开具</span>
                     </div>
                 </div>
             </div>

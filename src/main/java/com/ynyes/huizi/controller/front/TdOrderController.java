@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,13 +30,13 @@ import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdProductCategory;
-import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdShippingAddressService;
+import com.ibm.icu.util.Calendar;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdGoods;
@@ -1469,6 +1471,10 @@ public class TdOrderController {
         tdCartGoodsService.delete(cartGoodsList);
 
         if (tdOrder.getIsOnlinePay()) {
+        	
+        	if (tdOrder.getTotalPrice() == 0) {
+    			afterPaySuccess(tdOrder);
+    		}
             return "redirect:/order/pay?orderId=" + tdOrder.getId();
         }
 
@@ -1518,5 +1524,91 @@ public class TdOrderController {
         tdCommonService.setHeader(map, req);
 
         return "/client/order_pay_success";
+    }
+    
+    /**
+     * 订单支付成功后步骤
+     * 
+     * @param tdOrder
+     *            订单
+     */
+    private void afterPaySuccess(TdOrder tdOrder) {
+        if (null == tdOrder) 
+        {
+            return;
+        }
+
+        // 用户
+        TdUser tdUser = tdUserService.findByUsername(tdOrder.getUsername());
+        
+        if (null == tdUser)
+        {
+            return;
+        }       
+      
+        
+        // 设置抢购最后时间
+        if (null != tdOrder.getTypeId() && tdOrder.getTypeId().equals(3L))
+        {
+            Date nextTime = new Date();
+
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(nextTime);
+
+            calendar.add(Calendar.DATE, 30); 
+            
+            tdUser.setLastFlashBuyTime(calendar.getTime());
+            tdUser = tdUserService.save(tdUser);
+        }
+        
+        if (tdOrder.getStatusId().equals(2L))
+        {
+            tdOrder.setPayTime(new Date()); // 设置付款时间
+        }
+        else
+        {
+//            tdOrder.setPayLeftTime(new Date()); // 设置付尾款时间
+        }
+
+      
+        // 待发货
+        tdOrder.setStatusId(3L);
+        tdOrder = tdOrderService.save(tdOrder);
+       
+
+        // 给用户发送短信
+//        if (null != tdUser) {
+//            Random random = new Random();
+//            String smscode = String.format("%04d", random.nextInt(9999));
+//            tdOrder.setSmscode(smscode);
+//            tdOrder = tdOrderService.save(tdOrder);
+//            
+//            SMSUtil.send(tdOrder.getShippingPhone(), "29040",
+//                    new String[] { tdUser.getUsername(),
+//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
+//                            smscode });
+//        }
+//
+//        // 给商户发短信
+//        if (null != tdShop && null != tdUser && null != tdShop.getMobile()) {
+//            SMSUtil.send(tdShop.getMobile(), "29039",
+//                    new String[] { tdShop.getTitle(), tdUser.getUsername(),
+//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
+//                            tdOrder.getAppointmentTime().toString() });
+//        }
+
+//        List<TdOrderGoods> tdOrderGoodsList = tdOrder.getOrderGoodsList();
+//
+//        Long totalPoints = 0L; // 总用户返利
+//        Double totalCash = 0.0; // 总同盟店返利
+//        Double platformService = 0.0;// 商城服务费
+//        Double trainService = 0.0; // 培训费
+//        Double shopOrderincome = 0.0;// 同盟店收入
+//        Double totalSaleprice = 0.0; // 订单商品总销售价
+//        Double totalCostprice = 0.0; // 订单商品总成本价
+//        Double totalgoodCommentpoints = 0.0; // 好评赠送粮草
+
+       
     }
 }

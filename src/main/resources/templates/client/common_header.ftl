@@ -32,7 +32,7 @@ function move()
         <a class="a" href="/user" style="float:left; color:#ff4040;">${username}<i></i></a>
         <a class="a" href="/logout" style="float:left;">退出<i></i></a>
     <#else>
-        <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登陆<i></i></a>
+        <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登录<i></i></a>
         <a class="a" href="/reg<#if shareId??>?shareId=${shareId}"</#if>" style="float:left;" target="_blank">注册<i></i></a>
     </#if>
     <a class="a2" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes">在线咨询</a>

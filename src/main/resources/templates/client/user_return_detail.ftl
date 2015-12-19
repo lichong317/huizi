@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
-<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
@@ -234,7 +234,7 @@
           <li><a href="#">广告合作</a></li>
           </ul>
     <div class="clear"></div>
-    版权所有2015 惠资生活 保留所有权利 <br>
+    版权所有2015 惠之店 保留所有权利 <br>
     Copyright ©  2015 bangonggou.com.cn All Rights Reserved <a style="color:#FFF" href="#">滇ICP备2-20140075</a>
           <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
 </div>

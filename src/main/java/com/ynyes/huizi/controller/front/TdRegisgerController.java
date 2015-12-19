@@ -466,6 +466,30 @@ public class TdRegisgerController {
         randomValidateCode.getRandcode(request, response);
     }
     
+    @RequestMapping(value = "/reg/checkYzmcode",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> checkyzmcode(String yzmcode, HttpServletResponse response, HttpServletRequest request) {
+    	Map<String, Object> res = new HashMap<String, Object>();
+
+        res.put("code", 1);    	
+    	
+    	if (null == yzmcode) {
+    		res.put("msg", "验证码为空");
+    		return res;
+		}
+    	
+    	String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+    	if (!yzmcode.equalsIgnoreCase(codeBack)) {
+    		res.put("msg", "验证码错误");
+    		return res;
+		}
+    	
+    	res.put("code", 0);
+    	
+    	return	res;
+    			
+    }
+    
     @RequestMapping(value = "/reg/smscode",method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> smsCode(String mobile, HttpServletResponse response, HttpServletRequest request) {

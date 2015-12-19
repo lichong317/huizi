@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
@@ -85,10 +85,20 @@ $(document).ready(function(){
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
         <#if user?? &&  user.roleId??>
-            <#if user.roleId == 1>
-                <#assign virtual_limit = user.totalCashRewards />
+            <#if user.roleId == 1 >
+                <#if user.totalCashRewards??>
+                    <#assign virtual_limit = user.totalCashRewards />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
+            <#elseif user.roleId == 2>
+                <#if user.virtualCurrency??>
+                    <#assign virtual_limit = user.virtualCurrency />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
             <#else>
-                <#assign virtual_limit = user.virtualCurrency />
+                 <#assign virtual_limit = 0 />
             </#if>
         </#if>
         
@@ -199,7 +209,7 @@ function formsubmit(){
           <select id="city" name="city" class="city fr"></select>
           <div class="clear"></div>
           <select id="dist" name="disctrict" class="dist" style="width:100%;" onchange="javascript:checkaddress()"></select>
-          <lable id = "notcodaddress" style="display: none ;color:red">不支持货到付款</lable>
+          <span id = "notcodaddress" style="display: none ;color:red">不支持货到付款</span>
                       <script>
                          function checkaddress(){
                              var province = $("#prov").val();

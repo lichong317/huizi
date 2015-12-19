@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
@@ -73,7 +73,7 @@ function redEnvelopeGet(){
                 <!--领取 -->
                 <#if tdRedEnvelope?? && !tdRedEnvelope.isGet>
                     <div class="RBno" id ="getRedenvelope">
-                        <p class="RBtitle">惠资生活给您发了一个红包！</p>
+                        <p class="RBtitle">惠之店给您发了一个红包！</p>
                         <p class="RBinfo">恭喜发财，万事如意</p>            
                         <a class="RBopen" href="javascript:redEnvelopeGet()" title="拆红包"><span class="r5">拆红包</span><i class="r5"></i></a>
                     </div>

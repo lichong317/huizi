@@ -84,6 +84,7 @@ var theForm = document.forms['form1'];
     <th align="center" width="3%">银行卡号</th>
     <th width="12%">手机号码</th>
     <th width="8%">是否审核</th>
+    <th width="8%">操作</th>
   </tr>
 
     <#if withdraw_page??>
@@ -96,11 +97,13 @@ var theForm = document.forms['form1'];
                     <input type="hidden" name="listId" id="listId" value="${withdraw.id?c}">
                 </td>
                 <td align="center">${withdraw.username!""}</td>
+                <td align="center">
                 <#if  withdraw.roleId?? && withdraw.roleId == 1>
-                    <td align="center">分销会员</td>
+                    分销会员
                 <#elseif withdraw.roleId?? && withdraw.roleId == 2>
-                    <td align="center">商城会员</td>
+                                             商城会员
                 </#if>
+                </td>
                 <td align="center">${withdraw.realName!""}</td>
                 <td align="center">${withdraw.totalWithdraw?string("0.00")}</td>
                 <td align="center">${withdraw.withdrawTime!""}</td>
@@ -115,7 +118,9 @@ var theForm = document.forms['form1'];
                     </#if>
                 </td>
                 <td align="center">
+                <#if withdraw.statusId?? && withdraw.statusId==0>
                     <a href="/Verwalter/user/withdraw/edit?id=${withdraw.id?c}">修改</a>
+                </#if>
                 </td>
             </tr>
         </#list>

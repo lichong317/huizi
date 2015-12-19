@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
-<title><#if site??>${site.seoTitle!''}-</#if>惠资生活</title>
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
@@ -87,6 +87,23 @@ var t1=null;
         });
         
       }); 
+      
+    $("#yzmcode").change(function(){
+        var yzmcode =$.trim($('#yzmcode').val());
+        $.ajax({
+            url : '/reg/checkYzmcode',
+            type : 'POST',
+            data : {"yzmcode": yzmcode}, 
+            success : function(data) {
+                if(data.code == 0){
+                    $("#yzmerror").css("display", "none");
+                }else{
+                    $("#yzmerror").css("display", "block");
+                }
+             
+            }
+        });
+    });
 });
 
 function enableBtn()
@@ -236,7 +253,7 @@ function checkwindowhide()
 <iframe class="thickframe" id="" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" style="display:none"></iframe>
 <div  id="tanchuangbackgroud"></div>
 <div class="thickbox" id="tanchuang" style="width: 924px; height: 500px; left: 485.5px; top: 88px; display:none">
-    <div class="thicktitle" id="" style="width:922"><span>惠资生活注册协议</span></div>
+    <div class="thicktitle" id="" style="width:922"><span>惠之店注册协议</span></div>
     <div class="thickcon" id="" style="width: 922px; height: 450px; padding-left: 0px; padding-right: 0px; border-left-width: 1px; border-right-width: 1px;">
         <div class=" regist-2013">
             <div class="regist-bor">
@@ -396,7 +413,7 @@ div {
 				
 							
 			</script>
-            <div class="regtip right">已有惠资生活网上商城账号？现在就<a href="/login.aspx">登录</a></div>
+            <div class="regtip right">已有惠之店网上商城账号？现在就<a href="/login.aspx">登录</a></div>
             
             <div class="xxknr" id="xxknr">
                 <form id = "form1" method="post" action="/reg">
@@ -419,7 +436,10 @@ div {
                      <dl id="codedl">
                         <dt><i>*</i>验证码</dt>
                         <dd>
-                            <input type="text" name="yzmcode"  id="yzmcode" style="width: 120px;" ><img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                            <input type="text" name="yzmcode"  id="yzmcode" style="width: 120px;" >
+                            <img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = '/code?date='+Math.random();">
+                            <span  id="yzmerror" style="color:red; display:none; margin-left:10px">验证码错误</span>
+                        </dd>
                     </dl>
                     <dl>
                         <dt><i>*</i>短信验证码</dt>
@@ -434,7 +454,7 @@ div {
                         <dt></dt>
                         <dd>
                             <input name="" id="mmprovision" type="checkbox" datatype="*" nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                            <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠资生活用户协议》</a></label></dd>
+                            <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                     </dl>
                     <dl>
                         <dt></dt>
@@ -497,7 +517,7 @@ div {
                             <dt></dt>
                             <dd>
                                 <input name="" id="mmprovision2"  datatype="*" nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                                <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠资生活用户协议》</a></label></dd>
+                                <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                         </dl>
                         <dl>
                             <dt></dt>
@@ -525,7 +545,7 @@ div {
     <div class="clear"></div>
     <#if site??>${site.copyright!''}</#if><br>
     <a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-    <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">昆明天度网络公司</a></span>
+    <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
 
 </div>
     </div>

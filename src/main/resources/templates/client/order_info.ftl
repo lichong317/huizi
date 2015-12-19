@@ -104,10 +104,20 @@ $(document).ready(function(){
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
         <#if user?? &&  user.roleId??>
-            <#if user.roleId == 1>
-                <#assign virtual_limit = user.totalCashRewards />
+            <#if user.roleId == 1 >
+                <#if user.totalCashRewards??>
+                    <#assign virtual_limit = user.totalCashRewards />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
+            <#elseif user.roleId == 2>
+                <#if user.virtualCurrency??>
+                    <#assign virtual_limit = user.virtualCurrency />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
             <#else>
-                <#assign virtual_limit = user.virtualCurrency />
+                 <#assign virtual_limit = 0 />
             </#if>
         </#if>
         
@@ -242,7 +252,7 @@ var forPaymentFllow = true;
                       <select id="prov" class="prov" style="width: 100px; float:left;margin-right:5px;"></select>
                       <select id="city" class="city" style="width: 100px;float:left;margin-right:5px;"></select>
                       <select id="dist" class="dist" style="width: 150px;float:left;" onchange="javascript:checkaddress()"></select>
-                      <lable id = "notcodaddress" style="display: none;float:left;margin-left:5px;color:#ef0000;">不支持货到付款</lable>
+                      <span id="notcodaddress" style="display: none;float:left;margin-left:5px;color:#ef0000;">不支持货到付款</span>
                       <script>
                          function checkaddress(){
                              var province = $("#prov").val();
@@ -391,7 +401,7 @@ var forPaymentFllow = true;
                         <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>发票抬头：</span>
                         <input type="text" name="invoiceTitle" class="fapiaolan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>发票内容：由惠资生活直接开具</span>
+                        <span>发票内容：由惠之店直接开具</span>
                     </div>
                 </div>
             </div>
