@@ -172,7 +172,7 @@ $(function(){
              dataType: "json",
              success: function (data) {
                  if (data.code == 0) {
-                    data1 = data.prizeCategory;
+                     data1 = data.prizeCategory;
                  } else {
                      alert("出错了！");
                  }
@@ -190,11 +190,17 @@ $(function(){
                        //easing: $.easing.easeOutSine,//动画效果，需加jquery.easing.min.js
                        // easing: $.easing.easeInOutExpo,
                        callback: function(){
-                             alert(a.prize+a.message);//简单的弹出获奖信息
-                             animatetemp = a.angle;
-                             if(a.isWin){
-                                window.location.reload();
-                             }
+                            // alert(a.isOver);
+                             if(a.isOver == true){
+                                alert("奖品已抽完！");
+                             }else{
+                                alert(a.prize+a.message);//简单的弹出获奖信息
+                                animatetemp = a.angle;
+                                if(a.isWin){
+                                    window.location.reload();
+                                }
+                             }                             
+                             
                        }
                 });                                     
             }

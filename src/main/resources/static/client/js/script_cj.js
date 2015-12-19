@@ -4,6 +4,8 @@
 	return (smin + Math.round(Rand * Range));
 }
 
+var isOver = false; // 判断奖品是否送完
+
 function runzp(data) {
 	//var data = '[{"id":1,"prize":"一等奖","v":1.0},{"id":2,"prize":"二等奖","v":2.0},{"id":3,"prize":"三等奖","v":18.0}]';// 奖项json
 	//var obj = eval('(' + data + ')');
@@ -13,7 +15,11 @@ function runzp(data) {
 	var temp = 0;
 	var returnobj = "0";
 	var index = 0;
-
+	
+	var angle = 330;
+	var message = "";
+	var myreturn = new Object;
+    
 	//alert("随机数"+result);
 	for ( var i = 0; i < obj.length; i++) {
 		var obj2 = obj[i];
@@ -36,7 +42,9 @@ function runzp(data) {
 		                 if (data.code == 0) {
 		                    
 		                 } else {
-		                     alert(data.msg);
+		                     //alert(data.msg);
+		                	 isOver = true;	
+		                	 myreturn.isOver = isOver;	
 		                 }
 		             }
 		        });
@@ -44,9 +52,7 @@ function runzp(data) {
 			}
 		}
 	}
-	var angle = 330;
-	var message = "";
-	var myreturn = new Object;
+	
 	if (returnobj != "0") {// 有奖
 		message = "恭喜中奖了";
 		var angle0 = [ 344, 373 ];
@@ -94,5 +100,6 @@ function runzp(data) {
 	}
 	myreturn.angle = angle;
 	myreturn.message = message;
+	
 	return myreturn;
 }

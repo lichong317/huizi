@@ -79,21 +79,26 @@ public class TdShopController {
 	 */
     @RequestMapping(value="/sendAddress", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> sendaddress(Long id, HttpServletRequest req){
+    public Map<String, Object> sendaddress(Long id, String mobile, String code, HttpServletRequest req){
     	 Map<String, Object> res = new HashMap<String, Object>();         
         res.put("code", 1);
-        String username = (String) req.getSession().getAttribute("username");
-        if (null == username) {
-			res.put("msg", "请登录");
+       
+        if (null == mobile || null == code) {
+			res.put("msg", "请输入手机号");
 			return res;
 		}
-         
+        
+        String codeBack = (String) req.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+        if (!codeBack.equalsIgnoreCase(code)) {
+        	res.put("msg", "验证码错误");
+			return res;
+		}
+        
         if (null == id) {
         	res.put("msg", "发送失败！");
 			return res;
 		}
-        
-        TdUser tdUser = tdUserService.findByUsername(username);
+                
         TdDiySite tdDiySite = tdDiySiteService.findOne(id);
         if (null == tdDiySite) {
         	res.put("msg", "发送失败！");
@@ -104,7 +109,7 @@ public class TdShopController {
 			return res;
 		}
         //发送地址到手机
-        SMSUtil.send(tdUser.getMobile(), "33442" ,new String[]{tdDiySite.getTitle(), tdDiySite.getAddress(), tdDiySite.getServiceTele(),"http://www.huizhidian.com/touch/shop/list"});
+        SMSUtil.send(mobile, "56496" ,new String[]{tdDiySite.getTitle(), tdDiySite.getAddress(), tdDiySite.getServiceTele(),"http://www.huizhidian.com/touch/shop/list"});
         res.put("code", 0);
         return res;
     }

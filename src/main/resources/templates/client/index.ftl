@@ -204,20 +204,33 @@ function delItem(id)
 </div>
   <div class="clear"></div>
 </div>
-
+<#-->
 <aside class="floatbox">
   <a href="/cart" title="购物车"><img src="/client/images/float_ico01.png" width="42" height="42" alt="购物车" /><span>购物车</span></a>
   <a href="/user/collect/list" title="我的关注"><img src="/client/images/float_ico03.png" width="42" height="42" alt="我的关注" /><span>我的关注</span></a>
   <a href="/user/recent/list" title="我的足迹"><img src="/client/images/float_ico04.png" width="42" height="42" alt="我的足迹" /><span>我的足迹</span></a>        
   <a href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线客服"><img src="/client/images/float_ico02.png" width="42" height="42" alt="在线咨询" /><span>在线客服</span></a>
   <a href="javascript:move();" title="到顶部"><img src="/client/images/float_ico05.png" width="42" height="42" alt="到顶部" /></a>
-</aside> 
-<#--<aside class="floatbox"> 
-  <a class="a1" href="#" title="购物车"><span>购物车</span></a>
-  <a class="a2" href="#" title="我的关注"><span>我的关注</span></a>
-  <a class="a3" href="#" title="我的足迹"><span>我的足迹</span></a>
-  <a class="a4" href="#" title="在线客服"><span>在线客服</span></a>
-   <a class="a5" href="#" title="回到顶部"><span>回到顶部</span></a>
+</aside> -->
+
+<style>
+.floatbox a.a1{background:url(/client/images/float_ico01.png) no-repeat center; width:42px; height:42px;}
+.floatbox a.a1:hover{background:url(/client/images/float_ico011.png) no-repeat center; width:42px; height:42px; }
+.floatbox a.a2{background:url(/client/images/float_ico03.png) no-repeat center; width:42px; height:42px;}
+.floatbox a.a2:hover{background:url(/client/images/float_ico033.png) no-repeat center; width:42px; height:42px; }
+.floatbox a.a3{background:url(/client/images/float_ico04.png) no-repeat center; width:42px; height:42px;}
+.floatbox a.a3:hover{background:url(/client/images/float_ico044.png) no-repeat center; width:42px; height:42px; }
+.floatbox a.a4{background:url(/client/images/float_ico02.png) no-repeat center; width:42px; height:42px;}
+.floatbox a.a4:hover{background:url(/client/images/float_ico022.png) no-repeat center; width:42px; height:42px; }
+.floatbox a.a5{background:url(/client/images/float_ico05.png) no-repeat center; width:42px; height:42px;}
+.floatbox a.a5:hover{background:url(/client/images/float_ico055.png) no-repeat center; width:42px; height:42px; }
+</style>
+<aside class="floatbox"> 
+  <a class="a1" href="/cart" title="购物车"><span>购物车</span></a>
+  <a class="a2" href="/user/collect/list" title="我的关注"><span>我的关注</span></a>
+  <a class="a3" href="/user/recent/list" title="我的足迹"><span>我的足迹</span></a>
+  <a class="a4" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线客服"><span>在线客服</span></a>
+   <a class="a5" href="javascript:move();" title="回到顶部"><span>回到顶部</span></a>
 </aside>
 	<!--导航-->
 	<div class="daohang">

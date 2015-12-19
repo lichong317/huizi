@@ -256,8 +256,8 @@ margin: 0 3px 2px 0;
 .pro_choose .plus { float:left; width:17px;}
 .pro_choose .plus a { display:block; line-height:17px; border:1px solid #ddd; background:#f1f1f1; text-align:center; padding:0; margin:0;}
 .pro_choose .plus a:hover { background:#eee;}
-.pro_choose .sub {height:40px; line-height:40px;float:left; background:#e83928 url(../images/content/pro_buy.png) no-repeat 20px center; color:#fff; border:1px solid #ff8800; border-radius:3px; width:175px; margin-top:20px; font-size:16px;}
-.pro_choose .sub:hover { background:#ff8800 url(../images/content/pro_buy.png) no-repeat 20px center;}
+.pro_choose .sub {height:40px; line-height:40px;float:left; background:#e83928 /*url(../images/content/pro_buy.png)*/ no-repeat 20px center; color:#fff; border:1px solid #ff8800; border-radius:3px; width:175px; margin-top:20px; font-size:16px;}
+.pro_choose .sub:hover { background:#ff8800 /*url(../images/content/pro_buy.png)*/ no-repeat 20px center;}
 .pro_choose .sub01 { background:#f5f5f5 url(../images/content/pro_fq.png) no-repeat 20px center; border:1px solid #aaa;color:#333; width:150px; margin-left:20px;}
 .pro_choose .sub01:hover { background:#ff8800 url(../images/content/pro_fq.png) no-repeat 20px center; color:#fff;}
 .proinfo_right .sys {

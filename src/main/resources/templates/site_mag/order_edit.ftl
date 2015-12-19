@@ -896,7 +896,7 @@
                         </th>                      
                         <td>
                             <div class="position">
-                                    <div>${order.deliverTypeTitle!""}</div>
+                                    <div>${order.deliverTypeTitle!""}&nbsp;物流编号：${order.expressNumber!''}</div>
                                     
                             </div>
                         </td>

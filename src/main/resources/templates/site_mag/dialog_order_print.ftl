@@ -94,7 +94,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>配送方式：${order.deliverTypeTitle!''}</td>
+                            <td>配送方式：${order.deliverTypeTitle!''}&nbsp;(物流编号：${order.expressNumber!''})</td>
                             <td>邮政编码：${order.postalCode!''}</td>
                         </tr>
                         <tr>
