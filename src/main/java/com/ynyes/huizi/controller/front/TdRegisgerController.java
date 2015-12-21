@@ -163,7 +163,9 @@ public class TdRegisgerController {
     }
     
     @RequestMapping("/reg")
-    public String reg(Integer errCode, Integer shareId, HttpServletRequest request, ModelMap map) {
+    public String reg(Integer errCode, Integer shareId, 
+    				  String username1,  String mobile, String email,
+    				  HttpServletRequest request, ModelMap map) {
         String username = (String) request.getSession().getAttribute("username");
         
         if (null != shareId)
@@ -196,6 +198,11 @@ public class TdRegisgerController {
                 }
                 map.addAttribute("errCode", errCode);
             }
+            
+            map.addAttribute("username1", username1);
+            map.addAttribute("mobile", mobile);
+            map.addAttribute("email", email);
+
             return "/client/reg";
         }
         return "redirect:/";
@@ -233,17 +240,22 @@ public class TdRegisgerController {
                 HttpServletRequest request){
         String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
-        
+        if (null == smsCodeSave ) {
+			smsCodeSave = "123456";			
+		}
+        if (null == codeBack ) {
+        	codeBack = "123456";			
+		}
         if (null == username) {
         	 if ( null == yzmcode)
              {
                  if (null == shareId)
                  {
-                     return "redirect:/reg";
+                     return "redirect:/reg?mobile="+ mobile ;
                  }
                  else
                  {
-                     return "redirect:/reg?shareId=" + shareId;
+                     return "redirect:/reg?shareId=" + shareId + "&mobile=" + mobile;
                  }
              }
              
@@ -251,11 +263,11 @@ public class TdRegisgerController {
              {
                  if (null == shareId)
                  {
-                     return "redirect:/reg?errCode=4";
+                     return "redirect:/reg?errCode=4" + "&mobile=" + mobile;
                  }
                  else
                  {
-                     return "redirect:/reg?errCode=4&shareId=" + shareId;
+                     return "redirect:/reg?errCode=4&shareId=" + shareId + "&mobile=" + mobile;
                  }
              }
         	 
@@ -263,11 +275,11 @@ public class TdRegisgerController {
              {
                  if (null == shareId)
                  {
-                     return "redirect:/reg?errCode=1";
+                     return "redirect:/reg?errCode=1" + "&mobile=" + mobile;
                  }
                  else
                  {
-                     return "redirect:/reg?errCode=1&shareId=" + shareId;
+                     return "redirect:/reg?errCode=1&shareId=" + shareId + "&mobile=" + mobile;
                  }
              }
              //将手机号作为用户名
@@ -278,11 +290,11 @@ public class TdRegisgerController {
             {
                 if (null == shareId)
                 {
-                    return "redirect:/reg";
+                    return "redirect:/reg?username1=" + username + "&mobile=" + mobile +"&email=" + email;
                 }
                 else
                 {
-                    return "redirect:/reg?shareId=" + shareId;
+                    return "redirect:/reg?shareId=" + shareId + "&username1=" + username + "&mobile=" + mobile+"&email=" + email;
                 }
             }
             
@@ -290,11 +302,11 @@ public class TdRegisgerController {
             {
                 if (null == shareId)
                 {
-                    return "redirect:/reg?errCode=4";
+                    return "redirect:/reg?errCode=4" + "&username1=" + username + "&mobile=" + mobile +"&email=" + email;
                 }
                 else
                 {
-                    return "redirect:/reg?errCode=4&shareId=" + shareId;
+                    return "redirect:/reg?errCode=4&shareId=" + shareId + "&username1=" + username + "&mobile=" + mobile  +"&email=" + email;
                 }
             }
 		}

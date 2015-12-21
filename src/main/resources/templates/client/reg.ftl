@@ -432,7 +432,7 @@ div {
                     <dl>
                         <dt><i>*</i>手机号码</dt>
                         <dd>
-                            <input type="text" name="mobile" id="usermobile" datatype="m" ajaxurl="/reg/check/mobile" value="">
+                            <input type="text" name="mobile" id="usermobile" datatype="m" ajaxurl="/reg/check/mobile" value="${mobile!''}">
                             <span class="Validform_checktip">手机号码非常重要，找回密码及购物都会用到</span>
                         </dd>
                     </dl>
@@ -478,14 +478,14 @@ div {
                         <dl>
                             <dt><i>*</i>用户名</dt>
                             <dd>
-                                <input type="text" name="username" autofocus="autofocus" id="userUID" datatype="s6-20" ajaxurl="/reg/check/username" value="" >                       
+                                <input type="text" name="username" autofocus="autofocus" id="userUID" datatype="s6-20" ajaxurl="/reg/check/username" value="${username1!''}" >                       
                                 <span class="Validform_checktip">6-20位字母、数字或汉字，请不要输入特殊字符！</span>
                             </dd>
                         </dl>
                         <dl>
                             <dt><i>*</i>密码</dt>
                             <dd>
-                                <input type="password" id="userpwd3" name="password" datatype="s6-20">
+                                <input type="password" id="userpwd3" name="password" datatype="s6-20" value="${password!''}">
                                 <span class="Validform_checktip">6个字符以上的字母或数字</span>
                             </dd>
                         </dl>
@@ -500,14 +500,14 @@ div {
                         <dl>
                             <dt><i>*</i>手机号码</dt>
                             <dd>
-                                <input type="text" name="mobile" id="usermobile2" datatype="m" ajaxurl="/reg/check/mobile" value="">
+                                <input type="text" name="mobile" id="usermobile2" datatype="m" ajaxurl="/reg/check/mobile" value="${mobile!''}">
                                 <span class="Validform_checktip">手机号码非常重要，找回密码及购物都会用到</span>
                             </dd>
                         </dl>
                         <dl>
                             <dt>邮箱地址</dt>
                             <dd>
-                                <input type="text" id="usermail" name="email">
+                                <input type="text" id="usermail" name="email" value="${email!''}" >
                                 <span class="Validform_checktip">请填写邮箱，用于找回密码</span>
                             </dd>
                         </dl>
