@@ -394,17 +394,36 @@ var forPaymentFllow = true;
                     <div class="s_gwc3_1_a">
                         <p><span>发票信息</span></p>
                     </div>
-                    <div class="invoice">
+                    <div class="invoice" style="overflow:hidden;">
+                    <div style="display:block;width:244px;line-height:40px; float:left;margin-top:16px;*+width:300px">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>是否开具发票：</span>
-                        <input type="radio" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>发票抬头：</span>
-                        <input type="text" name="invoiceTitle" class="fapiaolan">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>发票内容：由惠之店直接开具</span>
+                        <input type="radio" id="isNeedInvoice" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="isNeedInvoicenot" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     </div>  
+                        <div id="invoice1" style="display:none;width:520px;line-height:40px; float:left; margin-top:16px;*+width:700px">
+                            <span style="float:left;">发票抬头：</span>
+                            <input type="text" name="invoiceTitle" class="fapiaolan" id="invoice2" style="float:left;margin:0 10px; margin-top:10px;" >
+                            <span id="invoice3" style="float:left;" >发票内容：由惠之店直接开具</span>
+                        </div>
                     </div>
                 </div>
             </div>
+    <script>
+        $(document).ready(function(){
+            $("#isNeedInvoice").change(function(){
+                var ischecked = $(this).val();
+                $("#invoice1").css("display", "block");
+                
+            });
+            
+            $("#isNeedInvoicenot").change(function(){
+                var ischecked = $(this).val();
+                $("#invoice1").css("display", "none");
+                
+            });
+        });
+    </script>
     
             <div class="main mt15">
                 <div class="s_gwc4_1">
@@ -507,7 +526,7 @@ var forPaymentFllow = true;
                     <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
                      + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
                      - 积分抵扣（<span>￥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
-                     = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+delivery_fee!0)?string("0.00")}</b></span> </p>
+                     = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+totalPostage!0)?string("0.00")}</b></span> </p>
                 </div>
             </div>
             <div class="clear"></div>

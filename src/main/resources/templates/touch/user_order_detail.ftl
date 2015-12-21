@@ -77,9 +77,18 @@
 <section class="whitebg" style="margin-top:1px;">
   <menu class="myorder_info mainbox">
     <p><span class="c7">商品总金额：</span><#if order.totalGoodsPrice??>${order.totalGoodsPrice?string("0.00")}</#if></p>
-    <#--><p><span class="c7">邮费：</span>2333.00</p>
-    <p><span class="c7">服务费：</span>云南省昆明市西山区</p> -->
-    <p><span class="c7">优惠：</span>￥${order.totalPrice - order.totalGoodsPrice}</p>
+    <p><span class="c7">邮费：</span><#if order.deliverTypeFee??>${order.deliverTypeFee?string("0.00")}</#if></p>
+    <#if order.virtualCurrencyUse?? && order.virtualCurrencyUse gt 0>
+        <p><span class="c7">虚拟货币抵用：</span><#if order.virtualCurrencyUse??>${order.virtualCurrencyUse?string("0.00")}</#if></p>
+    </#if>
+    <#if order.pointUse?? && order.pointUse gt 0>
+        <p><span class="c7">积分抵用：</span><#if order.pointUse??>${order.pointUse?string("0.00")}</#if></p>
+    </#if>
+    <#if order.couponUse?? && order.couponUse gt 0>
+        <p><span class="c7">优惠券抵用：</span><#if order.couponUse??>${order.couponUse?string("0.00")}</#if></p>
+    </#if>
+    <#--><p><span class="c7">服务费：</span>云南省昆明市西山区</p> 
+    <p><span class="c7">优惠：</span>￥${order.totalPrice - order.totalGoodsPrice - order.deliverTypeFee!0}</p>-->
     <p class="mt10"><span class="c9">应付总额：</span><span class="red fs11">￥<#if order.totalPrice??>${order.totalPrice?string("0.00")}</#if></span></p>
   </menu>
 </section>

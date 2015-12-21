@@ -111,7 +111,16 @@
                         <tbody><tr>
                             <td align="right">商品金额：￥${order.totalGoodsPrice?string("0.00")}
                                 + 配送费：￥${order.deliverTypeFee?string("0.00")}
-                                + 支付手续费：￥${order.payTypeFee?string("0.00")}
+                                <#--+ 支付手续费：￥${order.payTypeFee?string("0.00")} -->
+                                <#if order.virtualCurrencyUse?? && order.virtualCurrencyUse gt 0>
+                                    - 虚拟货币抵用：￥${order.virtualCurrencyUse!'0'}
+                                </#if>
+                                <#if order.couponUse?? && order.couponUse gt 0>
+                                    - 优惠券抵用：￥${order.couponUse!'0'}
+                                </#if>
+                                <#if order.pointUse?? && order.pointUse gt 0>
+                                    - 积分抵用：￥${order.pointUse!'0'}
+                                </#if>
                                 = 订单总额：${order.totalPrice?string("0.00")}</td>
                         </tr>
                     </tbody></table>

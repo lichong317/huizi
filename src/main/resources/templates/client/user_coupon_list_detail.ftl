@@ -43,7 +43,7 @@
 			              
 		              </td>
 		              <td><a href="/"  class="ftx-05" target="_blank">去购物&gt;</a><br />
-		                <a  href="javascript:coupondel(${item.id?c},${listId?c});" class="ftx-05 dellink"  <#if (!item.isUsed??||!item.isUsed)&&item.hourLeft gt 0>onclick="javascript:coupondelcfm();"</#if> >删除</a> </td>
+		                <#--><a  href="javascript:coupondel(${item.id?c},${listId?c});" class="ftx-05 dellink"  <#if (!item.isUsed??||!item.isUsed)&&item.hourLeft gt 0>onclick="javascript:coupondelcfm();"</#if> >删除</a> </td> -->
 		            </tr>
 		        </#list>
 		    </#if>        

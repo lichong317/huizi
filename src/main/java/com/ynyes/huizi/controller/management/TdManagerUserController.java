@@ -206,7 +206,7 @@ public class TdManagerUserController {
             size = SiteMagConstant.pageSize;;
         }
         
-        map.addAttribute("withdraw_page", tdUserWithdrawService.findAllOrderBySortIdAsc( page, ClientConstant.pageSize));
+        map.addAttribute("withdraw_page", tdUserWithdrawService.findAllOrderByIdDesc( page, ClientConstant.pageSize));
 
         return "/site_mag/user_withdraw_list";
     }
@@ -1413,22 +1413,22 @@ public class TdManagerUserController {
         {
             if (null == keywords || "".equalsIgnoreCase(keywords))
             {
-                dataPage = tdUserReturnService.findAllOrderBySortIdAsc(page, size);
+                dataPage = tdUserReturnService.findAllOrderByIdDesc(page, size);
             }
             else
             {
-                dataPage = tdUserReturnService.searchAndOrderBySortIdAsc(keywords, page, size);
+                dataPage = tdUserReturnService.searchAndOrderByIdDesc(keywords, page, size);
             }
         }
         else
         {
             if (null == keywords || "".equalsIgnoreCase(keywords))
             {
-                dataPage = tdUserReturnService.findByStatusIdOrderBySortIdAsc(statusId, page, size);
+                dataPage = tdUserReturnService.findByStatusIdOrderByIdDesc(statusId, page, size);
             }
             else
             {
-                dataPage = tdUserReturnService.searchAndFindByStatusIdOrderBySortIdAsc(keywords, statusId, page, size);
+                dataPage = tdUserReturnService.searchAndFindByStatusIdOrderByIdDesc(keywords, statusId, page, size);
             }
         }
         

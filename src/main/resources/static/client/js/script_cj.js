@@ -30,7 +30,12 @@ function runzp(data) {
 			if (result > line && result <= (line + c)) {
 				index = i;
 				// alert(i+"中奖"+line+"<result"+"<="+(line + c));
-				returnobj = obj2;
+				if (null != obj2.leftNumber && obj2.leftNumber > 0){
+					returnobj = obj2;
+				}else{
+					break;
+				}
+								
 				var username = $("#username").text();
 				//alert(username);
 				$.ajax({

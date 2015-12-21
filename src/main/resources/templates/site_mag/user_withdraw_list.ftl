@@ -36,7 +36,7 @@ var theForm = document.forms['form1'];
   <a href="javascript:history.back(-1);" class="back"><i></i><span>返回上一页</span></a>
   <a href="/Verwalter/center" class="home"><i></i><span>首页</span></a>
   <i class="arrow"></i>
-  <span>分销用户</span>
+  <span>分销(商城)用户</span>
   <i class="arrow"></i>
   <span>提现列表</span>  
 </div>

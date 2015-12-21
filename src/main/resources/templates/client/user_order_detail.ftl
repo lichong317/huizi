@@ -165,6 +165,12 @@ $(document).ready(function(){
             <font color="#ff1000">￥<#if order??>${order.totalPrice?string("0.00")}</#if></font>
             &nbsp;&nbsp;=&nbsp;&nbsp;商品总金额:￥${order.totalGoodsPrice?string("0.00")}
             &nbsp;&nbsp;+&nbsp;&nbsp;配送费用:￥${order.deliverTypeFee?string("0.00")}
+            <#if order.virtualCurrencyUse?? && order.virtualCurrencyUse gt 0>
+                &nbsp;&nbsp;-&nbsp;&nbsp;虚拟货币:￥${order.virtualCurrencyUse!'0'}
+            </#if>
+            <#if order.couponUse?? && order.couponUse gt 0>
+                &nbsp;&nbsp;-&nbsp;&nbsp;优惠券抵扣:￥${order.couponUse!'0'}
+            </#if>           
             &nbsp;&nbsp;-&nbsp;&nbsp;积分抵扣:￥${order.pointUse!'0'}
             &nbsp;&nbsp;&nbsp;&nbsp;支付方式：${order.payTypeTitle!''}
           </td>

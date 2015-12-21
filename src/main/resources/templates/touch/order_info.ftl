@@ -251,15 +251,31 @@ function formsubmit(){
   <p class="address">发票信息：</p>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <span>是否开具发票：</span>
-  <input type="radio" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
-  <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
-  <input type="text" name="invoiceTitle"  class="address" value="" placeholder="发票抬头"/>
+  <input type="radio" id="isNeedInvoice" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="radio" id="isNeedInvoicenot" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
+  <input type="text" id="invoiceTitle" style="display:none" name="invoiceTitle"  class="address" value="" placeholder="发票抬头"/>
+<script>
+     $(document).ready(function(){
+            $("#isNeedInvoice").change(function(){
+                var ischecked = $(this).val();
+                $("#invoiceTitle").css("display", "block");
+                
+            });
+            
+            $("#isNeedInvoicenot").change(function(){
+                var ischecked = $(this).val();
+                $("#invoiceTitle").css("display", "none");
+                
+            });
+     });
+</script>  
+  
   
   <p class="address">选择支付方式：  <span id = "notcodaddress1" style="display: none;margin-left:10px;color:#ef0000;">不支持货到付款</span></p>
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="*" value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
+            <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="*" value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
             <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
             <span>${pay_type.title!''}</span>
             </li>

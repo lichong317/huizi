@@ -21,11 +21,11 @@ public interface TdUserReturnRepo extends
 		JpaSpecificationExecutor<TdUserReturn> 
 {
 	TdUserReturn findByUsernameAndOrderNumberAndGoodsId(String username,String orderNumber, Long goodsId); //zhangji
-    Page<TdUserReturn> findByStatusIdOrderBySortIdAsc(Long statusId, Pageable page);
+    Page<TdUserReturn> findByStatusIdOrderByIdDesc(Long statusId, Pageable page);
     
-    Page<TdUserReturn> findByUsernameContainingOrGoodsTitleContainingOrOrderNumberContainingOrderBySortIdAsc(String keywords1, String keywords2, String keywords3, Pageable page);
+    Page<TdUserReturn> findByUsernameContainingOrGoodsTitleContainingOrOrderNumberContainingOrderByIdDesc(String keywords1, String keywords2, String keywords3, Pageable page);
     
-    Page<TdUserReturn> findByUsernameContainingAndStatusIdOrGoodsTitleContainingAndStatusIdOrOrderNumberContainingAndStatusIdOrderBySortIdAsc(String keywords1, 
+    Page<TdUserReturn> findByUsernameContainingAndStatusIdOrGoodsTitleContainingAndStatusIdOrOrderNumberContainingAndStatusIdOrderByIdDesc(String keywords1, 
             Long statusId1,
             String keywords2,
             Long statusId2,

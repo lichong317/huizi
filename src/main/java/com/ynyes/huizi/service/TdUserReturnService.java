@@ -121,32 +121,32 @@ public class TdUserReturnService {
         return repository.findByUsernameAndGoodsTitleContainingOrderByIdDesc(username, keywords, pageRequest);
     }
     
-    public Page<TdUserReturn> findAllOrderBySortIdAsc(int page, int size)
+    public Page<TdUserReturn> findAllOrderByIdDesc(int page, int size)
     {
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
         
         return repository.findAll(pageRequest);
     }
     
-    public Page<TdUserReturn> findByStatusIdOrderBySortIdAsc(Long statusId, int page, int size)
+    public Page<TdUserReturn> findByStatusIdOrderByIdDesc(Long statusId, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByStatusIdOrderBySortIdAsc(statusId, pageRequest);
+        return repository.findByStatusIdOrderByIdDesc(statusId, pageRequest);
     }
     
-    public Page<TdUserReturn> searchAndFindByStatusIdOrderBySortIdAsc(String keywords, Long statusId, int page, int size)
+    public Page<TdUserReturn> searchAndFindByStatusIdOrderByIdDesc(String keywords, Long statusId, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUsernameContainingAndStatusIdOrGoodsTitleContainingAndStatusIdOrOrderNumberContainingAndStatusIdOrderBySortIdAsc(keywords, statusId, keywords, statusId, keywords, statusId, pageRequest);
+        return repository.findByUsernameContainingAndStatusIdOrGoodsTitleContainingAndStatusIdOrOrderNumberContainingAndStatusIdOrderByIdDesc(keywords, statusId, keywords, statusId, keywords, statusId, pageRequest);
     }
     
-    public Page<TdUserReturn> searchAndOrderBySortIdAsc(String keywords, int page, int size)
+    public Page<TdUserReturn> searchAndOrderByIdDesc(String keywords, int page, int size)
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUsernameContainingOrGoodsTitleContainingOrOrderNumberContainingOrderBySortIdAsc(keywords, keywords, keywords, pageRequest);
+        return repository.findByUsernameContainingOrGoodsTitleContainingOrOrderNumberContainingOrderByIdDesc(keywords, keywords, keywords, pageRequest);
     }
     
     /**

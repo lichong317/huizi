@@ -804,6 +804,37 @@
                             </div>
                         </td>
                     </tr>
+                     <tr>
+                        <th>
+                            虚拟货币使用额度
+                        </th>
+                        <td>
+                            <div class="position">
+                                ${order.virtualCurrencyUse!"0"}
+                            </div>
+                        </td>
+                    </tr>
+                    
+                     <tr>
+                        <th>
+                            积分抵用额度
+                        </th>
+                        <td>
+                            <div class="position">
+                                ${order.pointUse!"0"}
+                            </div>
+                        </td>
+                    </tr>
+                     <tr>
+                        <th>
+                            优惠券抵用额度
+                        </th>
+                        <td>
+                            <div class="position">
+                                ${order.couponUse!"0"}
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <th>
                             订单总金额

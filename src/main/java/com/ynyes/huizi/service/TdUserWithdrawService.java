@@ -85,9 +85,9 @@ public class TdUserWithdrawService {
         return repository.findByUsername(username);
     }
     
-    public Page<TdUserWithdraw> findAllOrderBySortIdAsc(int page, int size)
+    public Page<TdUserWithdraw> findAllOrderByIdDesc(int page, int size)
     {
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
         
         return repository.findAll(pageRequest);
     }

@@ -37,14 +37,7 @@ $(document).ready(function(){
     <div class="car_success">
         <p class="fc fs30 lh40 pb10">订单提交成功! </p>
         <p> 订单号：<a href="/touch/user/order?id=${order.id?c!''}" style="color: #FF0000;">${order.orderNumber!''}</a></p>
-        <p> 支付方式：${order.payTypeTitle!''}</p>
-        <#if order.totalPrice == 0>
-            <p>订单金额￥${order.totalPrice?string('0.00')} 
-            <span style="color:red">无须支付</span></p>
-        <#else>
-            <p>应付金额￥${order.totalPrice?string('0.00')} 
-            <a class="blue" href="/touch/order/dopay/${order.id?c}" style="color: #FF0000;">点击支付</a></p>
-        </#if>
+        <p> 货到付款：<strong class="f24" style="color:red"><#if order??>${order.totalPrice?string("0.00")}</#if></strong>元</p>       
         <p>您还可以
             <a class="blue" style="color: #FF0000;" href="/touch/user/order?id=${order.id?c!''}">查看订单详情</a></p>
     </div>

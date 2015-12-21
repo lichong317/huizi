@@ -55,7 +55,7 @@ function formsubmit(){
   </div>
 </header>
 
-<form id="form1" name="form1" action="/touch/order/submit" method="post">
+<form id="form1" name="form1" action="/touch/order/buysubmit" method="post">
 <input name="shareId" type="hidden" value="${shareId!''}">
 <div class="mainbox">
   <p class="address">收货地址：<span class="fr" ><a id="addAddress" style="border:none !important;"href="javascript:;">新增收货地址</a></span></p>
@@ -119,15 +119,33 @@ function formsubmit(){
   <p class="address">发票信息：</p>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <span>是否开具发票：</span>
-  <input type="radio" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
-  <input type="radio" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
-  <input type="text" name="invoiceTitle"  class="address" value="" placeholder="发票抬头"/>
+  <input type="radio" id="isNeedInvoice" name="isNeedInvoice" value="1" datatype="n" nullmsg="请选择是否开具发票!"><span>是</span>&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="radio" id="isNeedInvoicenot" checked="checked" name="isNeedInvoice" value="0" datatype="n" nullmsg="请选择是否开具发票!"><span>否</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
+  <input type="text" id="invoiceTitle" style="display:none" name="invoiceTitle"  class="address" value="" placeholder="发票抬头"/>
+<script>
+     $(document).ready(function(){
+            $("#isNeedInvoice").change(function(){
+                var ischecked = $(this).val();
+                $("#invoiceTitle").css("display", "block");
+                
+            });
+            
+            $("#isNeedInvoicenot").change(function(){
+                var ischecked = $(this).val();
+                $("#invoiceTitle").css("display", "none");
+                
+            });
+     });
+</script>  
   
   <p class="address">选择支付方式：</p>
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="n" value="${pay_type.id?c}" nullmsg="请选择支付方式!" /><span><img src="${pay_type.coverImageUri!''}" height="30" /></span></li>
+             <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="*" value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
+            <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
+            <span>${pay_type.title!''}</span>
+            </li>
         </#list>
         <script>
                                     function changepaytype(paytype){
@@ -159,7 +177,8 @@ function formsubmit(){
                                 </script>
     </#if>
   </ul>
-  
+
+<#-->  
   <p class="address">选择配送方式：</p>
   <ul class="paystyle">
     <#if delivery_type_list??>
@@ -168,6 +187,7 @@ function formsubmit(){
         </#list>
     </#if>
   </ul>
+-->
   
   <div class="clear"></div>
   <p class="address">留言：</p>
@@ -202,7 +222,10 @@ function formsubmit(){
 <footer class="mainfoot">
 <div class="main" style="background:#35424e;">
 <section class="car_price">
-    <h3>合计：<span class="sc">￥${totalPrice?string("0.00")}</span>（共<span>${totalQuantity!'0'}</span>件商品）</h3>
+    <input type="hidden" name="totalPostage" value="${totalPostage!'0'}">
+    <h3>合计(含运费)：<span class="sc">￥${(totalPrice+totalPostage)?string("0.00")}</span>
+         + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
+                            （共<span>${totalQuantity!'0'}</span>件商品）</h3>
   
     <a id="btn_sub" href="javascript:;">提交订单（${totalQuantity!'0'}）</a> 
     <div class="clear"></div>

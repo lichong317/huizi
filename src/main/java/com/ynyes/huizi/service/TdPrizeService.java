@@ -69,7 +69,8 @@ public class TdPrizeService {
 	
 	public Page<TdPrize> findAll(int page, int size){
 		
-		PageRequest pageRequest = new PageRequest(page, size);
+		PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.DESC, "id"));
 		return repository.findAll(pageRequest);
 	}
 }

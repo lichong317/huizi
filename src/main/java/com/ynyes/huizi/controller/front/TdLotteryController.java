@@ -116,6 +116,10 @@ public class TdLotteryController {
 	     
 	     TdUser tdUser = tdUserService.findByUsername(username);
 	     tdUser.setIsSignin(true);
+	     
+	     // 签到送积分
+	     
+	     
 	     tdUserService.save(tdUser);	     	     
 	     
 	     res.put("code", 0);

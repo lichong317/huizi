@@ -470,6 +470,7 @@ public class TdOrderController {
             String invoiceTitle, // 发票抬头
             String userMessage, // 用户留言
             Long shareId,// 分享用户id
+            Double totalPostage,
             String appointmentTime, HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -502,7 +503,10 @@ public class TdOrderController {
         
         // 总运费
         Double totalFeePrice = 0.0;
-
+        if (null ==totalPostage) {
+        	totalPostage = 0.0;
+		}
+        
         // 商品总尾款
         Double totalLeftPrice = 0.0;
 
@@ -787,7 +791,7 @@ public class TdOrderController {
         tdOrder.setOrderNumber("P" + curStr
                 + leftPad(Integer.toString(random.nextInt(999)), 3, "0"));
 
-        // 安装信息
+        // 配送信息
         if (null != address) {
             tdOrder.setPostalCode(address.getPostcode());
 
@@ -810,14 +814,16 @@ public class TdOrderController {
         }
 
         // 配送方式
-        if (null != deliveryTypeId) {
-            TdDeliveryType deliveryType = tdDeliveryTypeService
-                    .findOne(deliveryTypeId);
-            tdOrder.setDeliverTypeId(deliveryType.getId());
-            tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
-            tdOrder.setDeliverTypeFee(deliveryType.getFee());
-            deliveryTypeFee = deliveryType.getFee();
-        }
+//        if (null != deliveryTypeId) {
+//            TdDeliveryType deliveryType = tdDeliveryTypeService
+//                    .findOne(deliveryTypeId);
+//            tdOrder.setDeliverTypeId(deliveryType.getId());
+//            tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
+//            tdOrder.setDeliverTypeFee(deliveryType.getFee());
+//            deliveryTypeFee = deliveryType.getFee();
+//        }
+        tdOrder.setDeliverTypeFee(totalPostage);
+        
         
         // 用户留言
         tdOrder.setUserRemarkInfo(userMessage);
@@ -883,7 +889,8 @@ public class TdOrderController {
 //        }
 
     	// 总价
-        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalFeePrice);
+        
+        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
         
         // 待付款
         tdOrder.setStatusId(2L);
@@ -966,7 +973,7 @@ public class TdOrderController {
               }
           
 		}
-        
+                  
         tdOrder = tdOrderService.save(tdOrder);
 
          if (tdOrder.getIsOnlinePay()) {
@@ -1228,8 +1235,8 @@ public class TdOrderController {
 
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         TdPayType payType = tdPayTypeService.findOne(payTypeId);
-        TdDeliveryType deliveryType = tdDeliveryTypeService
-                .findOne(1L);
+//        TdDeliveryType deliveryType = tdDeliveryTypeService
+//                .findOne(1L);
         TdShippingAddress address = null;
 
         if (null == pointUse) {
@@ -1394,9 +1401,9 @@ public class TdOrderController {
         tdOrder.setIsOnlinePay(payType.getIsOnlinePay());
 
         // 配送方式
-        tdOrder.setDeliverTypeId(deliveryType.getId());
-        tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
-        tdOrder.setDeliverTypeFee(totalPostage);
+//        tdOrder.setDeliverTypeId(deliveryType.getId());
+//        tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
+//        tdOrder.setDeliverTypeFee(totalPostage);
 
         // 发票
         tdOrder.setIsNeedInvoice(isNeedInvoice);
@@ -1577,38 +1584,8 @@ public class TdOrderController {
         tdOrder = tdOrderService.save(tdOrder);
        
 
-        // 给用户发送短信
-//        if (null != tdUser) {
-//            Random random = new Random();
-//            String smscode = String.format("%04d", random.nextInt(9999));
-//            tdOrder.setSmscode(smscode);
-//            tdOrder = tdOrderService.save(tdOrder);
-//            
-//            SMSUtil.send(tdOrder.getShippingPhone(), "29040",
-//                    new String[] { tdUser.getUsername(),
-//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
-//                            smscode });
-//        }
-//
-//        // 给商户发短信
-//        if (null != tdShop && null != tdUser && null != tdShop.getMobile()) {
-//            SMSUtil.send(tdShop.getMobile(), "29039",
-//                    new String[] { tdShop.getTitle(), tdUser.getUsername(),
-//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
-//                            tdOrder.getAppointmentTime().toString() });
-//        }
-
-//        List<TdOrderGoods> tdOrderGoodsList = tdOrder.getOrderGoodsList();
-//
-//        Long totalPoints = 0L; // 总用户返利
-//        Double totalCash = 0.0; // 总同盟店返利
-//        Double platformService = 0.0;// 商城服务费
-//        Double trainService = 0.0; // 培训费
-//        Double shopOrderincome = 0.0;// 同盟店收入
-//        Double totalSaleprice = 0.0; // 订单商品总销售价
-//        Double totalCostprice = 0.0; // 订单商品总成本价
-//        Double totalgoodCommentpoints = 0.0; // 好评赠送粮草
-
-       
+        // 虚拟货币扣除
+        
+      
     }
 }
