@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/mag/js/swfupload.handlers.js"></script>
 <script src="/client/js/jquery.cityselect.js"></script>
 
-
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css"> 
 <script type="text/javascript">
     $(function () {

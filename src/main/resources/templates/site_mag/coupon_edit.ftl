@@ -11,6 +11,8 @@
 <script type="text/javascript" src="/mag/js/swfupload.js"></script>
 <script type="text/javascript" src="/mag/js/swfupload.queue.js"></script>
 <script type="text/javascript" src="/mag/js/swfupload.handlers.js"></script>
+
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 $(function () {

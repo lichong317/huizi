@@ -4,6 +4,8 @@
 <script type="text/javascript" src="/client/js/lhgdialog.js?skin=idialog"></script>
 <script type="text/javascript" src="/client/js/PCASClass.js"></script>
 <script type="text/javascript" src="/client/js/layout.js"></script>
+
+
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
     //窗口API

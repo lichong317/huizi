@@ -14,6 +14,8 @@
 <script type="text/javascript" charset="utf-8" src="/mag/js/kindeditor-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/mag/js/zh_CN.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
+
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/mag/style/WdatePicker.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/default.css" rel="stylesheet">

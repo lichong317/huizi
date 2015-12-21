@@ -91,7 +91,7 @@
 
 /**/
 .index_onetit{font-size: 18px; line-height: 24px;color:#f779a8;height: 24px;border-left: 2px solid #f779a8;  padding-left: 16px;  margin-bottom: 6px;}
-.index_one{width: 210px;height: 440px;float: left;overflow: hidden;}
+.index_one{width: 210px;height: 444px;float: left;overflow: hidden;}
 .index_one_list{width: 90%; padding: 10px 5% 0 6%;background-color:#f779a8; position: absolute;top:0;right: 0;overflow: hidden;height: 212px;}
 .index_one_list a{display: inline-block;color: white;font-size: 14px;  margin: 0 40px 4px 10px;}
 .index_litbanner{width: 210px; height: 218px;  position: absolute;bottom: 0;}
@@ -102,7 +102,7 @@
 .index_tab table { table-layout:fixed; border-collapse:collapse;width:100%;}
 .index_tab table td { border:1px solid  #cccccc; overflow:hidden;}
 .index_tab .a1{width: 329px;height: 220px;display: block;}
-.index_tab .a1 img{  position: absolute;right: 0;top:70px;}
+.index_tab .a1 img{  position: absolute;right: 0;top:70px;*right: 2px;*top:66px;_right: 2px;_top:66px;}
 .index_tab .a1:hover img{right: 15px;-webkit-transition: all 0.2s ease-in-out 0.01s;
     -moz-transition: all 0.2s ease-in-out 0.01s;
     -o-transition: all 0.2s ease-in-out 0.01s;
@@ -118,22 +118,22 @@
 .index_tab td .p2{font-size: 16px;color: #333333;padding-left: 10px;}
 
 .index_twotit{font-size: 18px; line-height: 24px;color:#9b91e8;height: 24px;border-left: 2px solid #9b91e8;  padding-left: 16px;  margin-bottom: 6px;}
-.index_two{width: 210px;height: 440px;float: left;overflow: hidden;}
+.index_two{width: 210px;height: 444px;float: left;overflow: hidden;}
 .index_two_list{width: 90%; padding: 10px 5% 0 6%;background-color:#9b91e8; position: absolute;top:0;right: 0;overflow: hidden;height: 212px;}
 .index_two_list a{display: inline-block;color: white;font-size: 14px;  margin: 0 40px 4px 10px;}
 
 .index_threetit{font-size: 18px; line-height: 24px;color:#ff6446;height: 24px;border-left: 2px solid #ff6446;  padding-left: 16px;  margin-bottom: 6px;margin-top: 20px;}
-.index_three{width: 210px;height: 440px;float: left;overflow: hidden;}
+.index_three{width: 210px;height: 444px;float: left;overflow: hidden;}
 .index_three_list{width: 90%; padding: 10px 5% 0 6%;background-color:#ff6446; position: absolute;top:0;right: 0;overflow: hidden;height: 212px;}
 .index_three_list a{display: inline-block;color: white;font-size: 14px;  margin: 0 40px 4px 10px;}
 
 .index_fourtit{font-size: 18px; line-height: 24px;color:#6a3906;height: 24px;border-left: 2px solid #6a3906;  padding-left: 16px;  margin-bottom: 6px;margin-top: 20px;}
-.index_four{width: 210px;height: 440px;float: left;overflow: hidden;}
+.index_four{width: 210px;height: 444px;float: left;overflow: hidden;}
 .index_four_list{width: 90%; padding: 10px 5% 0 6%;background-color:#6a3906; position: absolute;top:0;right: 0;overflow: hidden;height: 212px;}
 .index_four_list a{display: inline-block;color: white;font-size: 14px;  margin: 0 40px 4px 10px;}
 
 .index_fivetit{font-size: 18px; line-height: 24px;color:#73ab56;height: 24px;border-left: 2px solid #73ab56;  padding-left: 16px;  margin-bottom: 6px;margin-top: 20px;}
-.index_five{width: 210px;height: 440px;float: left;overflow: hidden;}
+.index_five{width: 210px;height: 444px;float: left;overflow: hidden;}
 .index_five_list{width: 90%; padding: 10px 5% 0 6%;background-color:#73ab56; position: absolute;top:0;right: 0;overflow: hidden;height: 212px;}
 .index_five_list a{display: inline-block;color: white;font-size: 14px;  margin: 0 40px 4px 10px;}
 

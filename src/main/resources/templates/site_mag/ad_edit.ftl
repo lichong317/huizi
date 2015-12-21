@@ -10,6 +10,8 @@
 <script type="text/javascript" src="/mag/js/swfupload.queue.js"></script>
 <script type="text/javascript" src="/mag/js/swfupload.handlers.js"></script>
 <script type="text/javascript" src="/mag/js/WdatePicker.js"></script>
+
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/mag/style/WdatePicker.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/default.css" rel="stylesheet">

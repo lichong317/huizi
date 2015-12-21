@@ -50,10 +50,10 @@ var t1=null;
         
     });
     
-     $("#smsCodeBtn").bind("click", function() {  
+     $("#dyMobileButton").bind("click", function() {  
         
-        var mob = $('#mobileNumber').val();
-        
+        var mob = $('#usermobile').val();
+
         var re = /^1\d{10}$/;
         
         if (!re.test(mob)) {
@@ -61,34 +61,6 @@ var t1=null;
             return;
         }
         
-        $("#smsCodeBtn").attr("disabled","disabled"); 
-        
-        $.ajax({  
-            url : "/reg/smscode",  
-            async : true,  
-            type : 'GET',  
-            data : {"mobile": mob},  
-            success : function(data) {  
-                
-                if(data.statusCode == '000000')
-                {  
-                    t1 = setInterval(tip, 1000);  
-                }
-                else
-                {
-                    $("#smsCodeBtn").removeAttr("disabled");
-                }
-            },  
-            error : function(XMLHttpRequest, textStatus,  
-                    errorThrown) {  
-                alert("error");
-            }  
-  
-        });
-        
-      }); 
-      
-    $("#yzmcode").change(function(){
         var yzmcode =$.trim($('#yzmcode').val());
         $.ajax({
             url : '/reg/checkYzmcode',
@@ -96,13 +68,44 @@ var t1=null;
             data : {"yzmcode": yzmcode}, 
             success : function(data) {
                 if(data.code == 0){
-                    $("#yzmerror").css("display", "none");
+                     $("#dyMobileButton").attr("disabled","disabled"); 
+        
+                     $.ajax({  
+                            url : "/reg/smscode",  
+                            async : true,  
+                            type : 'GET',  
+                            data : {"mobile": mob},  
+                            success : function(data) {  
+                                
+                                if(data.statusCode == '000000')
+                                {  
+                                    t1 = setInterval(tip, 1000);  
+                                }
+                                else
+                                {
+                                    $("#dyMobileButton").removeAttr("disabled");
+                                }
+                            },  
+                            error : function(XMLHttpRequest, textStatus,  
+                                    errorThrown) {  
+                                alert("发送失败");
+                            }  
+                  
+                        });
                 }else{
-                    $("#yzmerror").css("display", "block");
+                    //$("#yzmerror").css("display", "block");
+                    alert("您输入的图片验证码不正确");
                 }
              
             }
         });
+        
+       
+        
+      }); 
+      
+    $("#dyMobileButton").click(function(){
+       
     });
 });
 

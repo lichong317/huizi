@@ -7,6 +7,8 @@
 <script type="text/javascript" src="/mag/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/mag/js/lhgdialog.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
+
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/mag/style/pagination.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 </head>
