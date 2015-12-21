@@ -135,7 +135,7 @@ function tip()
     <input class="orange_btn " type="submit" value="立即注册" style="margin-top: 15px; font-family:'微软雅黑';">
    </form>
 <div class="center mt15 pb15">
-    <a class="absolute-l fs08 c9 fr" href="/touch/info/content/9?mid=10">注册既表示您同意<span class="red">《惠之店网上商城用户协议》</span></a>
+    <a class="absolute-l fs08 c9 fr" href="/touch/info/content/13?mid=10">注册既表示您同意<span class="red">《惠之店网上商城用户协议》</span></a>
   </div>  
   <p class="center c9 fs08 pt15">其他方式登录</p>
   <table class="login_check">
