@@ -13,7 +13,6 @@ body, html,#myMap {width: 100%;height: 100%;margin:0;}
 </style> 
 
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
-<script src="/touch/js/ljs-v1.01.js"></script>
 <script src="/touch/js/common.js"></script>
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
@@ -24,13 +23,19 @@ body, html,#myMap {width: 100%;height: 100%;margin:0;}
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
 
 <script type="text/javascript">
+  $(document).ready(function(){
+   indexBanner("box","sum",300,5000,"num");
+});
+</script>
+
+<script type="text/javascript">
 $(document).ready(function(){
     hideMap();   
 });
 
 function loadMap(x, y, z, address)
 {
-    scroll(0,0);
+    //scroll(0,0);
     showMap();
     // 百度地图API功能
     /*
@@ -127,47 +132,75 @@ function showMap(longitude,latitude)
 }
 
 </script>
+
 </head>
 
 <body>
 <div class="maintop_bg"></div>
 <header class="maintop">
   <div class="main">
-    <p>门店查询</p>
+    <p>${shop.title!''}</p>
     <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
     <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
   </div>
 </header>
 
+
+<div class="clear"></div>
+<div class="main">
+<section id="box">
+  <ul id="sum">
+    <#if shop?? && shop.showPictures??>
+            <#list shop.showPictures?split(",") as uri>
+                <#if uri != "" >
+                       <li><img src="${uri!""}" height="250px"/></li>
+                </#if>
+            </#list>
+     </#if>   
+  </ul>
+  <div class="clear"></div>
+</section><!--我是banner-->
+<div class="clear15"></div>
+  <div class="mendiandizhi" style="font-size: 0.9em;
+  line-height: 30px;
+  margin: 0 auto 10px;
+  padding: 10px 2%;
+  width: 90%;">
+    <p style="background:url(/touch/images/iconfont-dizhi.png) no-repeat left; border-bottom:solid 1px #ccc; text-indent:33px; height:30px; overflow:hidden; padding-right:10px;">${shop.address!''}</p>
+    <div class="clear15"></div>
+        <p style="background:url(/touch/images/iconfont-dianhua.png) no-repeat left; width:48%; text-indent:20px; height:30px; float:left; text-align:center; overflow:hidden; padding-right:10px;"><a href="tel://${shop.serviceTele}">13529252922</a></p>
+        <p style="background:url(/touch/images/iconfont-ditu.png) no-repeat left; width:40%; text-indent:20px; height:30px; text-align:center; float:right; overflow:hidden; padding-right:10px;"><a href="javascript:loadMap(<#if shop.longitude??>${shop.longitude?string("0.000000")}<#else>110</#if>, <#if shop.latitude??>${shop.latitude?string("0.000000")}<#else>39</#if>,'${shop.title!''}','${shop.address!''}');">在线导航</a></p>
+    </div>
+    <div class="clear15"></div>
+    
 <div><div id="newMap"></div></div>
 <!--地图的添加 2015-8-12 19:49:37 mdj-->
-<div id="allMap" style="width:90%;margin-left:auto;margin-right:auto; height:80%;margin-bottom:auto;z-index:999999999;">
+<div id="allMap" style="width:90%;margin-left:auto;margin-right:auto; height:300px;margin-bottom:auto;z-index:999999999;">
     <a class="fr" style="z-index:999999999; /* margin-top:50px; position: absolute;*/  margin-right: 10px;" href="javascript:hideMap();"><img src="/client/images/20150407114113116_easyicon_net_71.8756476684.png" width="25" height="25"></a>
     <div id="myMap">
     </div>
 </div>
-<!--地图结束     2015-8-12 19:49:37 mdj-->
+    
+    <div class="mendianxiangq">
+    <article class="essay_main" style="line-height:30px;">
+        <h3 style="text-align:left; font-size:0.9em; color:#FFF; background:#FF4454; border-bottom:solid 1px #f0f0f0; line-height:30px; padding:0; text-indent:15px;">门店详情</h3>
+         <p class="p1">
+         所在区域：${shop.city!''}${shop.disctrict!''}
+        </p>
+         <p class="p1">
+        营业时间：${shop.openTimeSpan!''}
+        </p>
+         <p class="p1">
+        门店客服：${shop.serviceTele!''}
+        </p>
+         <p class="p1">
+        投诉电话：${shop.complainTele!''}
+        </p>
+    </article>
+  </div>
 <div class="clear"></div>
-<div class="main">
-    <menu id="goods-menu">
-        <#if shop_list??>
-            <#list shop_list.content as item>
-                <div class="phone_list">
-                    <b><a href="/touch/shop/${item.id?c}"><img src="${item.imageUri!''}" width="91" height="91"/></a></b>
-                    <p class="p1">${item.title!''}<#if item.isFlagShip?? && item.isFlagShip><span class="red">(旗舰店)</span></#if></p>
-                    <p>地址：<span>${item.address!''}</span></p>
-                    <p class="fl">客服QQ：<span>${item.qq!''}</span></p>
-                    <p class="fl">联系电话：<span>${item.serviceTele!''}</span></p>
-                    <div class="clear"></div>
-                    <h6 class="pj"><a href="tel://${item.serviceTele}" style="color:#fff">一键呼叫</a></h6>
-                    <h6><a href="javascript:loadMap(<#if item.longitude??>${item.longitude?string("0.000000")}<#else>110</#if>, <#if item.latitude??>${item.latitude?string("0.000000")}<#else>39</#if>,'${item.title!''}','${item.address!''}');" style="color:#fff">地图导航</a></h6>
-                </div>
-            </#list>
-        </#if>
-    </menu>
- 
-  <#--><a class="grey_more" href="#"><img src="images/more.png" /></a> -->
-  <div class="clear20"></div>
+
+
 </div><!--main END-->
 
 <section class="botmain">

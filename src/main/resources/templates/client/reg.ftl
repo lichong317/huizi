@@ -104,14 +104,12 @@ var t1=null;
         
       }); 
       
-    $("#dyMobileButton").click(function(){
-       
-    });
+   
 });
 
 function enableBtn()
 {  
-    $("#smsCodeBtn").removeAttr("disabled");   
+    $("#dyMobileButton").removeAttr("disabled");   
 } 
 
 function tip() 
@@ -121,10 +119,10 @@ function tip()
     {  
         enableBtn();  
         seed = 60;  
-        $("#smsCodeBtn").val('点击获取短信验证码');  
+        $("#dyMobileButton").val('点击获取短信验证码');  
         var t2 = clearInterval(t1);  
     } else {  
-        $("#smsCodeBtn").val(seed + "秒后重新获取");  
+        $("#dyMobileButton").val(seed + "秒后重新获取");  
     }  
 } 
 </script>
@@ -425,6 +423,8 @@ div {
                             短信验证码错误
                         <#elseif errCode==4>
                             验证码错误               
+                        <#elseif errCode==3>
+                            用户名已存在             
                         </#if>
                     </#if></span>
                     <input name="shareId" type="hidden" value="${share_id!''}">
@@ -447,8 +447,9 @@ div {
                     <dl>
                         <dt><i>*</i>短信验证码</dt>
                         <dd>
-                            <input type="text" id="phonecode" name="smscode" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><a class="btn" id="getCode" href="">
-                                <span id="dyMobileButton">获取短信验证码</span></a>
+                            <input type="text" id="phonecode" name="smscode" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符">
+                            <#--><a class="btn" id="getCode" href=""><span id="dyMobileButton">获取短信验证码</span></a>-->
+                            <input id="dyMobileButton" type="button" class="sub" value="发送验证码" style="text-align:center;width: 20%; border-radius: 3px; margin-left:10px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" />
                             </dd>
                     </dl>
 
@@ -468,11 +469,7 @@ div {
                 </form>
                 
                 <form id = "form2" method="post" action="/reg">
-                        <span style="color: #F00"><#if errCode??>
-                        <#if errCode==3>
-                            短信验证码错误
-                        </#if>
-                    </#if></span>
+ 
                     <input name="shareId" type="hidden" value="${share_id!''}">
                     <div class="reg tableLoginreg" style="display: none;">
                         <dl>

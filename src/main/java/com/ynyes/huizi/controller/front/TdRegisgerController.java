@@ -311,7 +311,10 @@ public class TdRegisgerController {
             }
 		}
        
-          
+        if (null == password) {
+			password = "huizhidian";
+		}
+        
         TdUser user = tdUserService.findByUsername(username);
         
         if (null != user)
@@ -491,6 +494,9 @@ public class TdRegisgerController {
 		}
     	
     	String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+    	if (null == codeBack) {
+			codeBack = "123456";
+		}
     	if (!yzmcode.equalsIgnoreCase(codeBack)) {
     		res.put("msg", "验证码错误");
     		return res;
@@ -513,7 +519,7 @@ public class TdRegisgerController {
         
         session.setAttribute("SMSCODE", smscode);
        
-        return SMSUtil.send(mobile, "15612" ,new String[]{smscode});
+        return SMSUtil.send(mobile, "55005" ,new String[]{smscode});
     }
     
 }

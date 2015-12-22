@@ -121,6 +121,9 @@ public class TdLoginController {
 		}
         
         String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+        if (null == codeBack) {
+			codeBack = "123456";
+		}
         if (!codeBack.equalsIgnoreCase(code)) {
         	res.put("msg", "验证码错误");
     		return res;

@@ -370,7 +370,63 @@ public class TdOrderController {
 
             tdGoodsList.add(buyGoods);
             map.addAttribute("selected_goods_list", tdGoodsList);
-                                  
+            
+            // 查询购物车的所有种类
+            List<String> productIds = new ArrayList<>();
+          
+            if (productIds.isEmpty()) {
+                    productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+            } else {
+                  if (!productIds
+                            .contains(goods.getCategoryIdTree().split(",")[0])) {
+                        productIds.add(goods.getCategoryIdTree().split(",")[0]);
+                  }
+            }
+            
+            Double totalPrice = 0.0; // 购物总额
+            
+            totalPrice = buyGoods.getPrice() * buyGoods.getQuantity();
+            
+         // 如果有不同种类的商品则不能使用优惠券
+            if (productIds.size() < 2) {
+                List<TdCoupon> userCoupons = null;
+                if (null != tdUser.getMobile()) {
+                    userCoupons = tdCouponService.findByMobileAndIsUseable(tdUser
+                            .getMobile());// 根据账号查询所有优惠券
+                }
+
+                if (null != userCoupons) {
+                    List<TdCoupon> userCouponList = new ArrayList<>(); // 可用券
+                    TdCouponType couponType = null;
+                    for (int i = 0; i < userCoupons.size(); i++) {
+                        couponType = tdCouponTypeService.findOne(userCoupons.get(i)
+                                .getTypeId());
+                        if (null != couponType) {
+                            if (couponType.getCategoryId().equals(1L)) {
+                                TdProductCategory tpc = tdProductCategoryService
+                                        .findOne(couponType.getProductTypeId());
+                                List<String> templist = new ArrayList<>();
+                                for (String cid : tpc.getParentTree().split(",")) {
+                                    templist.add(cid);
+                                }
+                                // 判断购物总价>满购券使用金额
+                                if (totalPrice > couponType.getCanUsePrice()
+                                        && templist.contains(productIds.get(0))) {
+                                    userCouponList.add(userCoupons.get(i));
+                                }
+                            } else if (couponType.getCategoryId().equals(0L)) {
+                                userCouponList.add(userCoupons.get(i));
+                            } else if (couponType.getCategoryId().equals(2L)) {
+                                if (totalPrice > couponType.getCanUsePrice()) {
+                                    userCouponList.add(userCoupons.get(i));
+                                }
+                            }
+                        }
+                    }
+                    map.addAttribute("coupon_list", userCouponList);
+                }
+            }
+
         }
 
         // 购买商品表
@@ -1403,7 +1459,7 @@ public class TdOrderController {
         // 配送方式
 //        tdOrder.setDeliverTypeId(deliveryType.getId());
 //        tdOrder.setDeliverTypeTitle(deliveryType.getTitle());
-//        tdOrder.setDeliverTypeFee(totalPostage);
+        tdOrder.setDeliverTypeFee(totalPostage);
 
         // 发票
         tdOrder.setIsNeedInvoice(isNeedInvoice);
