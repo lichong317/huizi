@@ -41,6 +41,10 @@ public class TdUserReturn {
     @Column
     private String goodsTitle;
     
+	// zhangji 
+    @Column
+    private String showPictures;
+    
     // 商品封面
     @Column
     private String goodsCoverImageUri;
@@ -238,4 +242,13 @@ public class TdUserReturn {
     public void setGoodsCoverImageUri(String goodsCoverImageUri) {
         this.goodsCoverImageUri = goodsCoverImageUri;
     }
+
+	public String getShowPictures() {
+		return showPictures;
+	}
+
+	public void setShowPictures(String showPictures) {
+		this.showPictures = showPictures;
+	}
+    
 }
