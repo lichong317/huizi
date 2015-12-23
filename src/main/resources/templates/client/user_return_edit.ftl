@@ -147,15 +147,15 @@ $(function () {
 			  <tr>
 			    <td> <span style="position:absolute;right:88px;top:-13px;"><img src="/client/images/mymember/arrow06.gif" /></span>
 			            <input type="hidden" name="id" value="${orderId?c}" />
-			            <input type="hidden" name="goodsId" value="${goodsId?c}" />
+			            <input type="hidden" name="orderGoodsId" value="${orderGoodsId?c}" />
 			            <input type="hidden" name="telephone" value="${telephone!''}" />
 			            <div style="height:30px;margin-top:30px;">
-			           		  <label style="float:left;margin-left:200px;"><input type="radio" name="isReturn" value="true" <#if has_returned??&&has_returned&&return.isReturn?? && return.isReturn> checked="checked" </#if>/>退货</label>
-			                  <label style="float:left;margin-left:30px;"><input type="radio" datatype="*" name="isReturn" value="false" <#if has_returned??&&has_returned&&return.isReturn?? && !return.isReturn> checked="checked" </#if>/>换货</label>
+			           		  <label style="float:left;margin-left:200px;"><input type="radio" name="isReturn" value="true" <#if has_returned??&&has_returned&&return??&&return.isReturn?? && return.isReturn> checked="checked" </#if>/>退货</label>
+			                  <label style="float:left;margin-left:30px;"><input type="radio" datatype="*" name="isReturn" value="false" <#if has_returned??&&has_returned&&return??&&return.isReturn?? && !return.isReturn> checked="checked" </#if>/>换货</label>
 			             </div>
 			             <div  class="mymember_eva_div">
 			             	<b><font>* </font>数量：</b>
-			                <input type="text" name="returnNumber" datatype="/^([1-${order_goods.quantity!'1'}])$/" nullmsg="请填写退换货的数量" errormsg="数量不能大于购买数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"</#if> />
+			                <input type="text" name="returnNumber" datatype="/^([1-${order_goods.quantity!'1'}])$/" nullmsg="请填写退换货的数量" errormsg="数量不能大于购买数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"<#else>value="${order_goods.quantity!'1'}"</#if> />
 			            </div>
 			        <#-->    <div class="mymember_eva_div">
 			            <b ><font>* </font>问题类型：</b>

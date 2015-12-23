@@ -1651,11 +1651,12 @@ public class TdUserController {
                         {
                             map.addAttribute("has_returned", true);
                             String orderNumber = tdOrder.getOrderNumber();
-                            TdUserReturn userReturn = tdUserReturnService.findByUsernameAndOrderNumberAndGoodsId(username, orderNumber, tog.getGoodsId());
+//                            TdUserReturn userReturn = tdUserReturnService.findByUsernameAndOrderNumberAndGoodsId(username, orderNumber, tog.getGoodsId());
+                            TdUserReturn userReturn = tdUserReturnService.findByUsernameAndOrderNumberAndGoodsId(username, orderNumber, tog.getId());
                             map.addAttribute("return", userReturn);
                         }
 
-                        map.addAttribute("goodsId",tog.getGoodsId());
+                        map.addAttribute("orderGoodsId",tog.getId());
                         map.addAttribute("orderId",orderId);
                         map.addAttribute("order_goods", tog);
 
@@ -1671,7 +1672,7 @@ public class TdUserController {
     @RequestMapping(value = "/user/return/save", method=RequestMethod.POST)
     public String returnSave(HttpServletRequest req, 
     					Boolean isReturn,
-                        Long goodsId,
+                        Long orderGoodsId,
                         Long id, // 订单ID
                         String reason,
                         String telephone,
@@ -1689,7 +1690,7 @@ public class TdUserController {
       //猜你喜欢 zhangji
         getgoodsLike(map, username);
 
-        if (null != id && null != goodsId)
+        if (null != id && null != orderGoodsId)
         {
             TdOrder order = tdOrderService.findOne(id);
             
@@ -1697,7 +1698,7 @@ public class TdUserController {
             {
                 for (TdOrderGoods tog : order.getOrderGoodsList())
                 {
-                    if (goodsId.equals(tog.getGoodsId()))
+                    if (orderGoodsId.equals(tog.getId()))
                     {
                         TdUserReturn tdReturn = new TdUserReturn();
                         
@@ -1705,11 +1706,11 @@ public class TdUserController {
                         
                         // 用户
                         tdReturn.setUsername(username);
-                        tdReturn.setTelephone(telephone);;
+                        tdReturn.setTelephone(telephone);
                         
                         // 退货订单商品
                         tdReturn.setOrderNumber(order.getOrderNumber());
-                        tdReturn.setGoodsId(goodsId);
+                        tdReturn.setGoodsId(tog.getId());   //zhangji  由goodsId更改  2015年12月23日9:33:27
                         tdReturn.setGoodsTitle(tog.getGoodsTitle());
                         tdReturn.setGoodsPrice(tog.getPrice());
                         tdReturn.setGoodsCoverImageUri(tog.getGoodsCoverImageUri());
