@@ -1675,6 +1675,7 @@ public class TdUserController {
                         Long id, // 订单ID
                         String reason,
                         String telephone,
+                        String[] hid_photo_name_show360, 
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -1719,6 +1720,12 @@ public class TdUserController {
                         
                         tdReturn.setStatusId(0L);
                         tdReturn.setReturnNumber(1L);
+                        
+                        //zhangji
+                        //zhangji 图片uri
+                        String uris = parsePicUris(hid_photo_name_show360);
+
+                        tdReturn.setShowPictures(uris);
                         
                         // 保存
                         tdUserReturnService.save(tdReturn);

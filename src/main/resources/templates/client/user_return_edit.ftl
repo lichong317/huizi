@@ -22,6 +22,37 @@
 <script src="/client/js/mymember.js"></script>
 <script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script type="text/javascript" src="/mag/js/swfupload.js"></script>
+<script type="text/javascript" src="/mag/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/client/js/swfupload.imghandlers.js"></script>
+
+<style>
+/*上传样式  zhangji */
+.upload-box{float:left;margin-left:20%; background:rgb(255,68,4);color:#fff;position:relative; display:inline-block; height:32px; line-height:32px;vertical-align:middle; *display:inline;overflow: hidden;}
+.upload-box .upload-btn{ width: 100px;color:#fff;
+height:32px; 
+line-height:32px; 
+background-color: #e6e6e6;
+cursor: pointer;
+font-size: 14px;
+font-weight:bold;
+background: url(skin_icons.png) 0px -834px no-repeat;
+text-align:center;
+position:relative;
+padding-top:4px;
+}
+	.upload-box .upload-progress{ position:absolute; top:0; left:0; padding:2px 5px; width:115px; height:26px; border:1px solid #d7d7d7; background:#fff; overflow:hidden; }
+	.upload-box .upload-progress .txt{ display:block; padding-right:10px; font-weight:normal; font-style:normal; font-size:11px; line-height:18px; height:18px; text-overflow:ellipsis; overflow:hidden; }
+	.upload-box .upload-progress .bar{ position:relative; display:block; width:112px; height:4px; border:1px solid #1da76b; }
+	.upload-box .upload-progress .bar b{ display:block; width:0%; height:4px; font-weight:normal; text-indent:-99em; background:#28B779; overflow:hidden; }
+	.upload-box .upload-progress .close{position:absolute; display:block; top:1px; right:1px; width:14px; height:14px; text-indent:-99em; background:url(skin_icons.png) -112px -168px no-repeat; cursor:pointer; overflow:hidden; }
+.upload-box .upload-btn:hover{background-color:rgb(52,153,217);}
+.photo-list_show360 ul{margin-top:75px;}
+.photo-list_show360 ul li{width:110px;height:130px;float:left;}
+.photo-list_show360 img{width:100px;height:100px;}
+</style>
+
+
 <script type="text/javascript">
   $(document).ready(function(){
 	menuDownList("top_phone","#top_phonelist",".a1","sel");
@@ -34,6 +65,22 @@
 	menuDownList("mainnavdown","#navdown",".a2","sel");
 	
 	chooseMoreShow();
+	
+	  //初始化上传控件  zhangji 
+    $(".upload-show360").each(function () {
+        $(this).InitSWFUpload_show360({ 
+            btntext: "上传图片",
+            btnwidth: 66,
+            btnstyle:".btnText{font-family: 微软雅黑; font-size: 14px;line-height:32px;color:#ffffff;text-align:center;}",
+            single: false, 
+            water: true, 
+            thumbnail: true, 
+            filesize: "5120", 
+            sendurl: "/user/upload", 
+            flashurl: "/mag/js/swfupload.swf", 
+            filetypes: "*.jpg;*.jpge;*.png;*.gif;" 
+        });
+    });
 });
 
 </script>
@@ -120,11 +167,31 @@ $(function () {
 			              <#if has_returned?? &&has_returned>
 			              	<textarea name="reason" disabled="disabled">${return.reason!''}</textarea>
 			              	<h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>
+			              	<#if return?? && return.showPictures??>
+	                            <#list return.showPictures?split(",") as uri>
+	                                <#if uri != "">
+	                                <li style="width:110px;height:110px;float:left;">
+	                                    <input type="hidden" name="hid_photo_name_show360" value="0|${uri!""}|${uri!""}">
+	                                    <div class="img-box">
+	                                        <img style="margin-top:10px;width:100px;height:100px;" src="${uri!""}" bigsrc="${uri!""}">
+	                                    </div>
+	                                </li>
+	                                </#if>
+	                            </#list>
+	                       	  </#if>
 			              <#else>	
 			             	 <textarea name="reason" datatype="*5-255"></textarea>
 			             	 </div>
 			            <div class="mymember_eva_div">
-			              <input class="mysub" type="submit" value="提交" />
+                                <#-- 上传图片 zhangji -->
+                                <div class="upload-box upload-show360"></div>
+                                <input style="float:right;margin-right:20%;" class="mysub" type="submit" value="提交">
+				                <div class="photo-list_show360">
+				                    <ul>
+				            
+				                    </ul>
+				                </div>
+                            	<#-- 上传图片 end -->
 			            </div>
 			              </#if>
 			            
