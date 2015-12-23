@@ -102,7 +102,7 @@ function sendAddress(){
 .loginfoot nav { padding:0 0 20px;}
 .loginfoot p { padding-bottom:5px;}
 .loginfoot p a { color:#555;}
-
+input[type="button"], input[type="submit"], input[type="reset"] {-webkit-appearance: none;}textarea {  -webkit-appearance: none;} 
 </style>
 <div id="checkDialog" class="mianfeilingqutanchu" style="display: none;position: fixed; top: 0px; left: 0px;">
     <div class="mianfeilingqutanchu_dl">

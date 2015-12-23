@@ -42,6 +42,7 @@
 <div class="main">
   <#if top_cat_list??>
        <#list top_cat_list as item>
+            <#if item_index < 4>
             <a class="menu_tit menu_tit_sel" href="javascript:showCategory(${item_index});"><span>${item.title!''}</span></a>
             <#if ("second_level_"+item_index+"_cat_list")?eval??>
                 <table id="table${item_index}" class="comtab menu_tab" style="display:none">
@@ -69,6 +70,7 @@
                         </#if>
                     </#list>
                 </table>
+            </#if>
             </#if>
        </#list>  
   </#if>

@@ -305,7 +305,7 @@ public class TdListController {
     // 组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[页号]_[价格低值]-[价格高值]
     //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[评价]-[页号]_[价格低值]-[价格高值]
     @RequestMapping("/list/{listStr}")
-    public String list(@PathVariable String listStr, ModelMap map, HttpServletRequest req){
+    public String list(@PathVariable String listStr,String showtype, ModelMap map, HttpServletRequest req){
         
         tdCommonService.setHeader(map, req);
         
@@ -690,6 +690,11 @@ public class TdListController {
         // 促销公告
         map.addAttribute("promotion_notice", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(10L, 17L, 0, ClientConstant.pageSize));
         
+        if (null != showtype) {
+			if (showtype.equals("horizontal")) {
+				return "/client/goods_list_horizontal";
+			}
+		}
         return "/client/goods_list";
     }
 }

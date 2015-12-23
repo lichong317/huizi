@@ -21,16 +21,16 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-	menuDownList("top_phone","#top_phonelist",".a1","sel");
-	phoneListMore();//单独下拉
+    menuDownList("top_phone","#top_phonelist",".a1","sel");
+    phoneListMore();//单独下拉
     menuDownList("top_order","#top_orderlist",".a4","sel");//顶部下拉
-	searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
-	searchTextClear(".bottext","查看所有门店","#fff","#fff");
-	checkNowHover("shopping_down","shopping_sel");
-	navDownList("navdown","li",".nav_showbox");
-	menuDownList("mainnavdown","#navdown",".a2","sel");
-	
-	chooseMoreShow();	
+    searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
+    searchTextClear(".bottext","查看所有门店","#fff","#fff");
+    checkNowHover("shopping_down","shopping_sel");
+    navDownList("navdown","li",".nav_showbox");
+    menuDownList("mainnavdown","#navdown",".a2","sel");
+    
+    chooseMoreShow();   
 });
 
 function setprice() {
@@ -267,26 +267,42 @@ function deleteContrastgoods(id){
       <div class="clear"></div>
     </section>
     <div class="fr_l" style="text-align:right;">
-        <a style="width:35px;" href="#"><img src="/client/images/A1.png" height="11" /></a>
-        <a style="width:35px;" href="${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>?showtype=horizontal"><img src="/client/images/A2.png" height="11" /></a>
+        <a style="width:35px;" href="${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><img src="/client/images/A1.png" height="11" /></a>
+        <a style="width:35px;" href="#"><img src="/client/images/A2.png" height="11" /></a>
       </div>
     
+    <style>
+    .shangpa{margin:10px; height:100px; background:#FFF; border-bottom:solid 1px #f9f9f9;}
+    .shangpa_tp {float:left; width:100px; height:100px; }
+    .shangpa_tp img{width:100px; height:100px;}
+    .shangpa_bt{width:400px; height:100px; line-height:100px; padding-left:15px; overflow:hidden; font-size:14px; float:left;}
+    .shangpa_anniu{float:right; margin-top:36px; margin-right:15px;}
+    .shangpa_anniu .a2{width:100px; background:#ff4454; color:#fff; line-height:30px; height:30px; padding:5px;}
+    .shangpa_anniu .a3{width:100px; background:#ff4454; color:#fff; line-height:30px; height:30px; padding:5px;}
+    .shangpa_anniu .a4{width:100px; background:#ff4454; color:#fff; line-height:30px; height:30px; padding:5px;}
+    .shangpa_anniu a:hover{background:#333;}
+    .shangpa_jg{color: #ff4454;font-size: 24px;font-weight: bold;float: left;line-height: 100px; width: 225px;text-align: center;}
+    </style>
     <ul class="column_sum">
         <#if goods_page?? && goods_page.content?size gt 0>
             <#list goods_page.content as goods>
-                <li>
-                    <a class="a1" href="/goods/${goods.id?c}"><img src="${goods.coverImageUri!''}" height="210" width="210" title="${goods.title!''} ${goods.subTitle!''}"/></a>
-                    <a class="block h40" href="/goods/${goods.id?c}" style="overflow: hidden;height: 40px;">${goods.title!""} ${goods.version!""} ${goods.color!""} ${goods.capacity!""}</a>
-                    <p class="fs26 lh35 red">￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></p>
-                    <span class="pl"><img src="/client/images/images/pl_07.png" /></span>
-                    <p class="fs12 lh13"><span><a href="/goods/${goods.id?c}#commentDiv">${goods.totalComments!"0"}</a></span>条</p>
-                    <div>
-                      <a class="a2" href="/cart/init?id=${goods.id?c}" target="_blank">加入购物车</a>
-                      <a class="a3" href="javascript:addCollect(${goods.id?c});">收藏</a>
-                      <a class="a4" href="javascript:;" onclick="addContrastgoods('${goods.id?c}')">对比</a>                     
-                      <p class="clear"></p>
+                <div class="shangpa">
+                    <a href="/goods/${goods.id?c}">
+                    <div class="shangpa_tp">
+                        <img src="${goods.coverImageUri!''}" width="100" height="100" />
                     </div>
-                </li>
+                    <div class="shangpa_bt">
+                        <p>${goods.title!""}</p>
+                    </div>
+                    <div class="shangpa_jg">¥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></div>
+                    <div class="shangpa_anniu">
+                          <a class="a2" href="/cart/init?id=${goods.id?c}" target="_blank">加入购物车</a>
+                          <a class="a3" href="javascript:addCollect(${goods.id?c});">收藏</a>
+                          <a class="a4" href="javascript:;" onclick="addContrastgoods('${goods.id?c}')">对比</a>                     
+                          <p class="clear"></p>
+                    </div>
+                    </a>
+                </div>
             </#list>
         <#else>
                 <div style="text-align: center; padding: 15px;">此类商品正在扩充中，敬请期待！</div>

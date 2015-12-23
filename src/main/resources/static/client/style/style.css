@@ -267,20 +267,23 @@
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);}
 .choose_more a:hover { color:#ff4040;}
-.column_px { width:100%; background:#ececec;border:1px solid #e3e3e3; height:40px; line-height:40px;}
-.column_px menu { float:left; width:700px;}
-.column_px menu a { display:inline-block; line-height:40px; border-right:1px solid #e3e3e3; padding:0 25px; float:left;}
+.column_px { background:#ececec;border:1px solid #e3e3e3; height:40px; line-height:40px;}
+.column_px menu { float:left; width:680px;}
+.column_px menu a { display:inline-block; line-height:40px; border-right:1px solid #e3e3e3; padding:0 20px; float:left;}
 .column_px menu a:hover,.column_px menu a.sel01,.column_px menu a.sel02 { color:#fff; background:#ff4040;}
 .column_px menu a.sel01 span { display:inline-block; background:url(../images/content/px01.png) no-repeat right center; padding-right:20px;}
 .column_px menu a.sel02 span { display:inline-block; background:url(../images/content/px02.png) no-repeat right center; padding-right:20px;}
 /**lichong*/
-.column_px .fr { width:180px; padding-right:10px;}
+.column_px .fr {float:right; width:200px;}
 .zy { width:13px; height:13px; margin-top:14px; float:left; /*margin-left:12px ;*/ background:url(../images/pic.png) no-repeat -731px -204px; border:none}
 .zyon { width:13px; height:13px; margin-top:14px; float:left; /*margin-left:12px;*/ background:url(../images/pic.png) no-repeat -744px -220px; border:none}
 .dd { line-height:42px; float:left; padding-left:7px;}
 
 .column_px .fr span { float:right; margin-right:10px;}
-.column_px .fr a { float:right; display:inline-block;width:60px; text-align:center;border:1px solid #e3e3e3; margin-top:6px; padding:7px 0; background:#f1f1f1; opacity:0.8;}
+.fr_l{background-color:#ececec;border:1px solid #e3e3e3;margin-top:1px;}
+.fr_l:after{content:"clear";clear:both;height:0;display:block;overflow:hidden;}
+.fr_l a { float:right; display:block;width:60px; text-align:center;border:1px solid #e3e3e3; margin:6px 10px 6px 0px; padding:7px 0; background:#f1f1f1; opacity:0.8;}
+.fr a { float:right; display:inline-block;width:60px; text-align:center;border:1px solid #e3e3e3; margin:6px 0px 6px; padding:7px 0; background:#f1f1f1; opacity:0.8;}
 .column_px .fr a:hover { background:#fff;opacity:1;}
 .column_sum { width:100%;}
 .column_sum li { float:left; width:213px; border:1px solid #fff; padding:15px; text-align:left; margin:28px 0 0;}
