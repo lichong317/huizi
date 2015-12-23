@@ -449,7 +449,7 @@ div {
                         <dd>
                             <input type="text" id="phonecode" name="smscode" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符">
                             <#--><a class="btn" id="getCode" href=""><span id="dyMobileButton">获取短信验证码</span></a>-->
-                            <input id="dyMobileButton" type="button" class="sub" value="发送验证码" style="text-align:center;width: 20%; border-radius: 3px; margin-left:10px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" />
+                            <input id="dyMobileButton" type="button" class="sub" value="发送验证码" style="text-align:center;width: 15%; border-radius: 3px; margin-left:10px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" />
                             </dd>
                     </dl>
 
@@ -545,7 +545,7 @@ div {
     <div class="clear"></div>
     <#if site??>${site.copyright!''}</#if><br>
     <a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-    <span class="flr"><a title="云南网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>技术支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
+    <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
 
 </div>
     </div>

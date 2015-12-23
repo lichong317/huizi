@@ -466,7 +466,7 @@ public class TdRegisgerController {
     		return res;
 		}
     	
-    	res.put("code", 0);
+    	res.put("status", 0);
     	return res;
     }
     

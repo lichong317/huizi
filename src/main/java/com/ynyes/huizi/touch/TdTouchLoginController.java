@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdCommonService;
@@ -48,6 +49,32 @@ public class TdTouchLoginController {
 	        if (null == username) 
 	        {
 	            return "/touch/login";
+	        }
+	        
+	        if (null == referer)
+	        {
+	            referer = "/touch/";
+	        }
+	        
+	        return "redirect:/touch" + referer;
+	    }
+	    
+	    @RequestMapping(value = "/touch/loginMobile", method = RequestMethod.GET)
+	    public String loginMobile(HttpServletRequest req, Long shareId,  ModelMap map) {
+	        String username = (String) req.getSession().getAttribute("username");
+
+	        String referer = req.getHeader("referer");
+	        
+	        if (null != shareId) {
+	        	map.addAttribute("shareId", shareId);
+			}
+	        
+	        // 基本信息
+	        tdCommonService.setHeader(map, req);
+	        
+	        if (null == username) 
+	        {
+	            return "/touch/login_mobile";
 	        }
 	        
 	        if (null == referer)
@@ -123,6 +150,82 @@ public class TdTouchLoginController {
 	        
 	    }
 	    
+	    @RequestMapping(value="/touch/loginmobile",method = RequestMethod.POST)
+	    @ResponseBody
+	    public Map<String, Object> loginmobile(String mobile,  
+	                String code, 
+	                HttpServletRequest request) {
+	        Map<String, Object> res = new HashMap<String, Object>();
+	        
+	        res.put("code", 1);
+	        
+	        if (mobile.isEmpty() || code.isEmpty())
+	        {
+	            res.put("msg", "用户名及密码不能为空");
+	            return res;
+	        }
+	        
+	        String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
+	        if (null == smsCodeSave ) {
+	        	smsCodeSave = "123456";			
+			}
+	        if (!smsCodeSave.equalsIgnoreCase(code))
+	        {
+	        	 res.put("msg", "短信验证码错误");
+	             return res;
+	        }
+	        
+	        TdUser user = tdUserService.findByMobileAndIsEnabled(mobile);
+	        
+	        if (null == user) {
+	        	res.put("msg", "用户名不存在");
+	            return res;
+			}
+	                       
+	        user.setLastLoginTime(new Date());
+	        
+	        tdUserService.save(user);
+	        
+	        // 检查是否有未领取红包
+	        List<TdRedEnvelope> tdRedEnvelopes = tdRedEnvelopeService.findByUsernameAndIsGetFalse(user.getUsername());
+	        if (tdRedEnvelopes.isEmpty()) {
+				res.put("hasRedenvelope", 0);
+			}else {
+				res.put("hasRedenvelope", 1);
+			}
+	        
+	        request.getSession().setAttribute("username", user.getUsername());
+	        
+	        res.put("code", 0);
+	        
+	        // 将对比商品转入该用户名下
+//	        List<TdContrastGoods> contrastSessionGoodsList = tdContrastGoodsService
+//	                .findByUsername(request.getSession().getId());
+//	        
+//	        // 合并商品
+//	        List<TdContrastGoods> contrastUserGoodsList = tdContrastGoodsService
+//	                .findByUsername(user.getUsername());
+//
+//	        for (TdContrastGoods contrastGoods : contrastSessionGoodsList) {
+//	        	contrastGoods.setUsername(user.getUsername());
+//	        	contrastUserGoodsList.add(contrastGoods);
+//	        }
+//
+//	        tdContrastGoodsService.save(contrastUserGoodsList);
+//
+//	        for (TdContrastGoods cg1 : contrastUserGoodsList) {
+//	            List<TdContrastGoods> findList = tdContrastGoodsService
+//	                    .findByGoodsIdAndPriceAndUsername(cg1.getGoodsId(), cg1.getPrice(), user.getUsername());
+//
+//	            if (findList.size() > 1) {
+//	            	tdContrastGoodsService.delete(findList.subList(1,
+//	                        findList.size()));
+//	            }
+//	        }
+	        
+	        return res;
+	    } 
+	   
 	    /**
 	     * @author mdj
 	     * @param request

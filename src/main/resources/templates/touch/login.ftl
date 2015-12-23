@@ -112,7 +112,12 @@ function saveUserInfo() {
   <div class="logintext logintext01">
     <input id="txt_loginPwd" class="login_ts02" type="text" value="" style="font-family:'微软雅黑';" placeholder="密码"/>
   </div>
-  
+ <div class="clear20"></div>
+  <a href="/touch/loginMobile" style="
+    font-size: 0.8em;
+    color: #ff4454;
+    margin-left: 18px;
+">手机验证登录</a>  
   
   
 <input class="orange_btn " id="btn_login" type="submit" value="立即登录" style="margin-top: 15px; font-family:'微软雅黑';">
