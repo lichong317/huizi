@@ -721,7 +721,7 @@ public class TdManagerGoodsController {
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
         map.addAttribute("categoryId", categoryId);
         map.addAttribute("property", property);
-        
+        map.addAttribute("saleType", saleType);
         // 文字列表模式
         if (null != __VIEWSTATE && __VIEWSTATE.equals("lbtnViewTxt"))
         {

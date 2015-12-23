@@ -105,8 +105,8 @@ public class TdCommonService {
                 TdProductCategory topCat = topCatList.get(i);
                 List<TdProductCategory> secondLevelList = tdProductCategoryService
                         .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "_cat_list", secondLevelList);
-
+                map.addAttribute("second_level_" + i + "_cat_list", secondLevelList);                
+                
                 if (null != secondLevelList && secondLevelList.size() > 0) 
                 {
                     for (int j=0; j<secondLevelList.size(); j++)

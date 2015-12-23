@@ -232,6 +232,13 @@ public class TdListController {
          return res;
     }
     
+    //全部分类页面
+    @RequestMapping(value="/productCategory/all")
+    public String allCategory(ModelMap map, HttpServletRequest req){
+    	tdCommonService.setHeader(map, req);
+    	   	
+    	return "/client/all_productCategory_list";
+    }
     
     // 分类专题页面
     @RequestMapping(value="/themes")

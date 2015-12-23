@@ -128,10 +128,10 @@ $(function () {
                     <td>
                         <ul class="list-proinfo" id="removeTheSingleGife">
                             <li class="fore1">
-                                <a href="http://item.jd.com/1448733811.html" target="_blank">
+                                <a href="/goods/${order_goods.goodsId?c}" target="_blank">
                                     <img height="50" width="50" title="${order_goods.goodsTitle!''}-${order_goods.goodsSubTitle!''}"
                                          src="${order_goods.goodsCoverImageUri!''}" data-img="1" alt="">
-                                </a><div class="p-info"><a href="/goods/${order_goods.goodsId!''}" target="_blank">${order_goods.goodsTitle!''}</a></div>
+                                </a><div class="p-info"><a href="/goods/${order_goods.goodsId?c}" target="_blank">${order_goods.goodsTitle!''}</a></div>
                             </li>
                        </ul>
                     </td>                  
@@ -155,7 +155,7 @@ $(function () {
 			             </div>
 			             <div  class="mymember_eva_div">
 			             	<b><font>* </font>数量：</b>
-			                <input type="text" name="returnNumber" datatype="/^([1-${order_goods.quantity!'1'}])$/" nullmsg="请填写退换货的数量" errormsg="数量不能大于购买数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="${return.returnNumber!''}" disabled="disabled"<#else>value="${order_goods.quantity!'1'}"</#if> />
+			                <input type="text" name="returnNumber" datatype="/^([1-${order_goods.quantity!'1'}])$/" nullmsg="请填写退换货的数量" errormsg="数量不能大于购买数量" style="width:24px;"   <#if has_returned?? &&has_returned>value="<#if return??>${return.returnNumber!''}</#if>" disabled="disabled"<#else>value="${order_goods.quantity!'1'}"</#if> />
 			            </div>
 			        <#-->    <div class="mymember_eva_div">
 			            <b ><font>* </font>问题类型：</b>
@@ -165,8 +165,8 @@ $(function () {
 			            <div class="mymember_eva_div">
 			              <b><font>* </font>问题描述：</b>
 			              <#if has_returned?? &&has_returned>
-			              	<textarea name="reason" disabled="disabled">${return.reason!''}</textarea>
-			              	<h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>
+			              	<textarea name="reason" disabled="disabled"><#if return??>${return.reason!''}</#if></textarea>
+			              	<h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if  return?? && return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>
 			              	<#if return?? && return.showPictures??>
 	                            <#list return.showPictures?split(",") as uri>
 	                                <#if uri != "">

@@ -1615,7 +1615,7 @@ public class TdUserController {
     @RequestMapping(value = "/user/return/{orderId}")
     public String userReturn(HttpServletRequest req, 
                         @PathVariable Long orderId,
-                        Long id, // 商品ID
+                        Long id, // 订单商品ID
                         String method,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");

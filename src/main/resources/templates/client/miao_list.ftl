@@ -158,7 +158,7 @@ function checkTime(i)
                                                       </#if>                                                  
                                                       <#if goods.flashSaleStartTime?? && goods.flashSaleStopTime??>
                                                           <#if goods.flashSaleStartTime gt .now>
-                                                               <a href="javascript:;" class="soon">即将开始<</a>
+                                                               <a href="javascript:;" class="soon">即将开始</a>
                                                           <#elseif goods.flashSaleStopTime < .now>
                                                                <a href="javascript:;" class="finish">已结束</a>
                                                           <#else>

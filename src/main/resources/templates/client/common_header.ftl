@@ -118,7 +118,7 @@ function delItem(id)
 
 <nav class="navbox">
   <section class="navlist" id="mainnavdown">
-    <a href="javascript:;" class="a2">全部商品分类</a>
+    <a href="/productCategory/all" class="a2">全部商品分类</a>
     <ul class="navlistout" id="navdown" style="display:none;">
         <#if top_cat_list??>
             <#list top_cat_list as item>

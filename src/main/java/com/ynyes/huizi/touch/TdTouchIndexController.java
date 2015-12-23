@@ -35,25 +35,10 @@ public class TdTouchIndexController {
     private TdGoodsService tdGoodsService;
 
     @Autowired
-    private TdArticleService tdArticleService;
-
-    @Autowired
-    private TdArticleCategoryService tdArticleCategoryService;
-
-    @Autowired
-    private TdProductCategoryService tdProductCategoryService;
-
-    @Autowired
-    private TdSiteLinkService tdSiteLinkService;
-
-    @Autowired
     private TdAdTypeService tdAdTypeService;
 
     @Autowired
     private TdAdService tdAdService;
-
-    @Autowired
-    private TdBrandService tdBrandService;
 
     @RequestMapping
     public String index(HttpServletRequest req, ModelMap map) {
@@ -78,6 +63,9 @@ public class TdTouchIndexController {
         }                      
         
         // 热卖推荐商品
+        map.addAttribute("hot_recommend_list", tdGoodsService.findByIshotTrueAndIsOnSaleTrueOrderBySortIdAsc(0,ClientConstant.pageSize).getContent());
+        
+        // 热卖排行商品
         map.addAttribute("hot_sale_list", tdGoodsService.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc());
         
         // 商品推荐广告位

@@ -120,6 +120,13 @@ public class TdGoodsService {
         return repository.findAll(pageRequest);
     }
     
+    public Page<TdGoods> findByIshotTrueAndIsOnSaleTrueOrderBySortIdAsc(int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                 Direction.ASC, "sortId"));
+    	
+    	return repository.findByIsHotTrueAndIsOnSaleTrue(pageRequest);
+    }
+    
     public Page<TdGoods> findByIsOnSaleTrueOrderBySortIdAsc(int page, int size) {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(
                 Direction.ASC, "sortId"));

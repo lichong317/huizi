@@ -39,6 +39,8 @@ public interface TdGoodsRepo extends
     
     Page<TdGoods> findByIsOnSaleTrue(Pageable page);
     
+    Page<TdGoods> findByIsHotTrueAndIsOnSaleTrue(Pageable page);
+    
     Page<TdGoods> findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(Pageable page);
     
     List<TdGoods> findByIdAndIsOnSaleTrue(Iterable<Long> ids);

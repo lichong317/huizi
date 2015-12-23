@@ -7,6 +7,10 @@
 <script type="text/javascript" src="/mag/js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="/mag/js/lhgdialog.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
+<script type="text/javascript" src="/mag/js/swfupload.js"></script>
+<script type="text/javascript" src="/mag/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="/client/js/swfupload.imghandlers.js"></script>
+
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
     $(function () {
@@ -84,6 +88,23 @@
     <dt>申请时间</dt>
     <dd><#if user_return??>${user_return.returnTime!""}</#if></dd>
   </dl>
+  
+  <dl style="height: 200px">
+    <dt>图片展示</dt>
+   <#if user_return?? && user_return.showPictures??>
+               <#list user_return.showPictures?split(",") as uri>
+                          <#if uri != "">
+                                    <li style="width:150px;height:150px;float:left;">
+                                        <input type="hidden" name="hid_photo_name_show360" value="0|${uri!""}|${uri!""}"> 
+                                        <div class="img-box">
+                                            <a href="${uri!""}" target="_blank"><img style="margin-top:10px;width:150px;height:150px;" src="${uri!""}" bigsrc="${uri!""}"></a>
+                                        </div>
+                                    </li>
+                          </#if>
+               </#list>
+    </#if>
+  </dl>          
+  
   <dl>
     <dt>审核状态</dt>
     <dd>

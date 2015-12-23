@@ -34,31 +34,12 @@
         </td>
       </tr>
     </table> 
+    <a class="a2" href="#"><img src="/touch/images/images/yo_03.png" height="33" /></a>
   </div>
 </header>
-<div class="main">
-  <section class="index_part">
-    <table class="comtab indexnav">
-      <tr>
-        <td><a class="a6" href="#">全部分类</a></td>
-        <td><a class="a7" href="#">家用电器</a></td>
-        <td><a class="a8" href="#">电脑办公</a></td>
-        <td><a class="a9" href="#">摄影摄像</a></td>
-        <td><a class="a10" href="#">手机大全</a></td>
-      </tr>
-      <tr>
-        <td><a class="a1" href="#">会员中心</a></td>
-        <td><a class="a2" href="#">我的订单</a></td>
-        <td><a class="a3" href="#">购物车</a></td>
-        <td><a class="a4" href="#">门店查询</a></td>
-        <td><a class="a5" href="#">客户端</a></td>
-      </tr>
-    </table>
-  </section>
 
-</div>
 <section id="box">
-   <ul id="sum">
+  <ul id="sum">
     <#if banner_ad_list??>
         <#list banner_ad_list as item>
             <li><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="343" height="160"/></a></li>
@@ -70,7 +51,17 @@
 
 <div class="main">
   <div class="clear10"></div>
-
+  <section class="index_part">
+    <table class="comtab indexnav">
+      <tr>
+        <td><a class="a1" href="/touch/user">会员中心</a></td>
+        <td><a class="a2" href="/touch/user/order/list/0">我的订单</a></td>
+        <td><a class="a3" href="/touch/cart">购物车</a></td>
+        <td><a class="a4" href="/touch/shop/list">门店查询</a></td>
+        <td><a class="a5" href="#">客户端</a></td>
+      </tr>
+    </table>
+  </section>
   <section class="index_part">
     
     <table class="index_list">
@@ -122,10 +113,10 @@
       <a class="a1" href="/touch/category/list">更多+</a>
     </h3>
     
-    <table class="index_list">
+    <table class="index_list">    
       <tr>
-      <#if hot_recommend_list??>
-        <#list hot_recommend_list as item>
+      <#if hot_sale_list??>
+        <#list hot_sale_list as item>
             <#if item_index gt 2 && item_index < 6>
             <td>
               <a href="/touch/goods/${item.id?c}">
@@ -148,7 +139,7 @@
       商品推荐
     </h3>
         <table class="index_list_b"/>
-<tr>
+        <tr>
         <#if goodsRecommend_ad_list??>
             <#list goodsRecommend_ad_list as item>
                 <#if item_index < 2>
@@ -184,6 +175,71 @@
     
   </section>
   
+  <section class="index_part">
+    <h3 class="index_tit">
+      <b></b>
+      精选分类
+      <a class="a1" href="/touch/category/list">更多+</a>
+    </h3>
+    
+    <table class="index_list">
+<#-->    <#if top_cat_list??>
+        <#list top_cat_list as item>
+            <#if item_index % 2 == 0>
+                <tr>
+                    <td>
+                      <a href="/touch/list/${item.id?c}">
+                        <div class="fenleiwenzi"><h4>${item.title!''}</h4>
+                        <p>${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.imgUrl!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+            <#else>
+                    <td>
+                      <a href="/touch/list/${item.id?c}">
+                        <div class="fenleiwenzi"><h4>${item.title!''}</h4>
+                        <p>${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.imgUrl!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+                </tr>
+            </#if>
+        </#list>
+    </#if>   -->  
+    <#if selection_ad_list??>
+        <#list selection_ad_list as item>
+            <#if item_index % 2 == 0>
+                <tr>
+                    <td>
+                      <a href="${item.linkUri!''}">
+                        <div class="fenleiwenzi"><h4 style=" height: 17px;overflow: hidden;">${item.title!''}</h4>
+                        <p style=" height: 20px;overflow: hidden;">${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+            <#else>
+                    <td>
+                      <a href="${item.linkUri!''}">
+                        <div class="fenleiwenzi"><h4 style=" height: 17px;overflow: hidden;">${item.title!''}</h4>
+                        <p style=" height: 20px;overflow: hidden;">${item.subtitle!''}</p></div>
+                        <div class="fenleitupian">
+                        <p class="ta-r"><img src="${item.fileUri!''}"width="39" height="39" /></p>
+                      </div>
+                      </a>
+                    </td>
+                </tr>
+            </#if>
+        </#list>
+    </#if>  
+  </table>
+    
+  </section>
   
     <section class="index_part">
     <h3 class="index_tit">
@@ -193,22 +249,26 @@
       <a class="a1" href="/touch/category/list">更多+</a>
     </h3>
     
-    <ul class="index_rmph">
-    <#if hot_sale_list??>
+    <table class="index_list">
+      <tr>
+      <#if hot_sale_list??>
         <#list hot_sale_list as item>
-            <li><a href="/touch/goods/${item.id?c}">
-                <img src="${item.coverImageUri!''}" width="90" height="90" />
-                <p class="pp1">${item.title!''}</p> 
-                <p class="pp2">${item.subTitle!''}</p>
-                <span class="red pp3">¥<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span></a>
-            </li>
+            <#if item_index < 3>
+            <td>
+              <a href="/touch/goods/${item.id?c}">
+                <p class="ta-c"><img src="${item.coverImageUri!''}" width="90" height="90"  /></p>
+                <p style=" height: 40px;overflow: hidden;">${item.name!''}</p>
+                <span class="red">¥：<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span>
+              </a>
+            </td>
+            </#if>
         </#list>
-    </#if>
-    
-    </ul>
+      </#if>           
+      </tr>
+    </table>
     
   </section>
-  <div class="clear"></div>
+  
   
 </div><!--main END-->
 

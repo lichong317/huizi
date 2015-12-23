@@ -275,6 +275,25 @@
 	background-image:url(../images/images/index_13.png);}
 .indexnav a.a5 {
 	background-image:url(../images/images/index_24.png);}
+	
+.indexnav a.a6 {
+    background-image:url(../images/images/fgj_06.png);}
+.indexnav a.a7 {
+    background-image:url(../images/images/fgj_08.png);}
+.indexnav a.a8 {
+    background-image:url(../images/images/fgj_03.png);}
+.indexnav a.a9 {
+    background-image:url(../images/images/fgj_10.png);}
+.indexnav a.a10 {
+    background-image:url(../images/images/fgj_13.png);}
+.index_rmph img{width:90px; height:90px; float:left;}
+.index_rmph li{height:90px; float:left; margin-top:10px; width:100%; border-bottom:solid 1px #C7C7C7;}
+.index_part .pp1{font-size:0.8em; margin-left:100px; height:40px; overflow:hidden;}
+.index_part .pp2{font-size:0.7em; color:#C8C8C8; margin-left:100px; height:20px; overflow:hidden;}
+.index_part .pp3{top:10px; left:10px;}
+
+
+	
 .index_tit {
 	width:93%;
 	padding:5px 0 5px 7%;

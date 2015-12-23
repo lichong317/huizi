@@ -177,6 +177,53 @@ public class TdIndexController {
         
         return res;
     }
+    
+    @RequestMapping(value="app/index/getCategory")
+    @ResponseBody
+    public Map<String, Object> androidgetCategory(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        // 新建二维数组
+        TdProductCategory [][] tdProductCategory;
+        
+        // 全部商品分类，取三级
+        List<TdProductCategory> topCatList = tdProductCategoryService
+                .findByParentIdIsNullOrderBySortIdAsc();
+        res.put("top_cat_list", topCatList);
+
+        tdProductCategory = new TdProductCategory[topCatList.size()][];
+        
+        if (null != topCatList && topCatList.size() > 0) 
+        {
+            for (int i = 0; i < 4; i++) 
+            {
+                TdProductCategory topCat = topCatList.get(i);
+                List<TdProductCategory> secondLevelList = tdProductCategoryService
+                        .findByParentIdOrderBySortIdAsc(topCat.getId());             
+                if (null != secondLevelList && secondLevelList.size() > 0) 
+                {      
+                	tdProductCategory[i] = new TdProductCategory[secondLevelList.size()] ;
+                    for (int j=0; j<secondLevelList.size(); j++)
+                    {
+                        TdProductCategory secondLevelCat = secondLevelList.get(j);
+//                        List<TdProductCategory> thirdLevelList = tdProductCategoryService
+//                                .findByParentIdOrderBySortIdAsc(secondLevelCat.getId());                    	
+                        tdProductCategory[i][j] = secondLevelCat ;
+                    }
+                }
+            }
+        }
+        res.put("data", tdProductCategory);
+        
+        // 分类                              
+        res.put("code", 0);
+        
+        return res;
+    }
+    
     /**
      * ios 接口
      * @return
