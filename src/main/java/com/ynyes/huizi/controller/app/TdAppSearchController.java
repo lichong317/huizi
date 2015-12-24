@@ -1,4 +1,4 @@
-package com.ynyes.huizi.controller.front;
+package com.ynyes.huizi.controller.app;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import com.ynyes.huizi.util.ClientConstant;
  *
  */
 @Controller
-public class TdSearchController {
+public class TdAppSearchController {
     
     @Autowired
     private TdCommonService tdCommonService;
@@ -40,12 +40,14 @@ public class TdSearchController {
     @Autowired
     private TdKeywordsService tdKeywordsService;
 
-    
-    
-    @RequestMapping(value="/search", method = RequestMethod.GET)
-    public String list(String keywords, Integer page, HttpServletRequest req, ModelMap map){
+    // app 接口
+    @RequestMapping(value="/index/appSearch",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> appsearch(String keywords, Integer page, HttpServletRequest req){
         
-        tdCommonService.setHeader(map, req);
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
         
         if (null == page || page < 0)
         {
@@ -72,28 +74,14 @@ public class TdSearchController {
                 tdKeywordsService.save(key);
             }
             
-            map.addAttribute("goods_page", tdGoodsService.searchGoods(keywords.trim(), page, ClientConstant.pageSize));
+            res.put("data", tdGoodsService.searchGoods(keywords.trim(), page, ClientConstant.pageSize));
         }
         
-        map.addAttribute("pageId", page);
-        map.addAttribute("keywords", keywords);
-        
-        // 热卖推荐
-        map.addAttribute("hot_sale_list", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, 10).getContent());   
-        
-        // 销量排行
-        map.addAttribute("most_sold_list", tdGoodsService.findByIsOnSaleTrueOrderBySoldNumberDesc(0, 10).getContent());   
-        
-        // 新品推荐
-        map.addAttribute("newest_list", tdGoodsService.findByIsOnSaleTrueOrderByOnSaleTimeDesc( 0, 10).getContent());  
-
-        return "/client/search_result";      
+        res.put("pageId", page);
+        res.put("keywords", keywords);
+        res.put("code", 0);       
+        return res;      
     }
-     
-    // 去掉名字重复的商品
-//    public Page<TdGoods> EliminatingRedundancy(Page<TdGoods> goodspage){
-//    	if (null != goodspage) {
-//			
-//		}
-//    }
+    
+    
 }
