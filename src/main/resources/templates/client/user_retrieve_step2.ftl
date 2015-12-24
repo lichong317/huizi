@@ -145,17 +145,17 @@ function tip()
 
 <div class="main">
       <style>
-  .loginbox .text {
+  .l_loginbox .text {
   width: 100%;
   height: 35px;
   line-height: 35px;
   border: 1px solid #ddd;
   background: #FFF;
 }
-.loginbox p {
+.l_loginbox p {
   margin: 10px 0 5px;
 }
-.loginbox {
+.l_loginbox {
   width: 400px;
   padding: 20px 50px;
   float: left;
@@ -165,7 +165,7 @@ function tip()
 .car_top p.sel, .car_top p.sel i {
   background: #ff4454;
 }
-.loginbox .sub {
+.l_loginbox .sub {
   width: 100%;
   border-radius: 3px;
   background: #ff4454;
@@ -173,7 +173,7 @@ function tip()
   line-height: 35px;
   height: 35px;
 }
-.loginbox .yzm01 {
+.l_loginbox .yzm01 {
   float: left;
   width: 100px;
   height: 37px;
@@ -181,7 +181,7 @@ function tip()
   color: #fff;
   margin-left: 10px;
 }
-.loginbox .yzm02 {
+.l_loginbox .yzm02 {
   float: right;
   line-height: 37px;
 }
@@ -194,7 +194,7 @@ function tip()
         <div class="clear"></div>
     </menu>  
       
-    <section class="loginbox">
+    <section class="l_loginbox">
         <span style="color: #F00"><#if errCode??>
             <#if errCode==1>
                 验证码错误

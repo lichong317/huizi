@@ -590,7 +590,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .mendian h3{width:138px; height:29px; border-radius:10px;  line-height:29px; background:#fd3e3e url(../images/hzd_60.png) no-repeat 7px center; text-align:center; margin-top:19px;}
 .mendian a{color:#FFF;}
 .mendian a:hover{color:#222222;}
-.dizhi{width:310px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
+.dizhi{width:330px; font-size:14px; color:#FFF; line-height:35px; float:left; margin-left:65px;}
 
 .downwenzi li{ float:left; width:80px; color:#FFF;  display: block;}
 .down3{line-height:30px;}
@@ -674,7 +674,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .denglutop{width:1065px; height:150px;}
 .denglulogo{margin-top:35px; width:233px; height:73px; float:left;}
 
-.denglu_center {width:543px;padding:54px 0; float:right;}
+.denglu_center {width:543px;padding:50px 0; float:right;position:absolute;top:0px;right:10px;}
 .denglu_center table { width:543px; table-layout:fixed; margin:0 auto;}
 .denglu_center a { display:block; padding:10px 0 0 79px; height:37px; font-size:14px;}
 .denglu_center a img { position:absolute;left:34px;top:0;}

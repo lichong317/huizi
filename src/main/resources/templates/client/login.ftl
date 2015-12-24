@@ -1,9 +1,8 @@
  <!DOCTYPE html><head>
-<meta charset="utf-8">
-<title>惠资生活</title>
-<meta name="keywords" content="惠资生活" />
-<meta name="description" content="惠资生活" />
-<meta name="copyright" content="惠资生活 版权所有" />
+<meta charset="utf-8"><title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
+<meta name="copyright" content="${site.copyright!''}" />
 
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
@@ -20,6 +19,7 @@
 <script type="text/javascript">
  var seed=60;    //60秒  
  var t1=null; 
+ 
   $(document).ready(function(){
     menuDownList("top_phone","#top_phonelist",".a1","sel");
     phoneListMore();//单独下拉
@@ -32,162 +32,14 @@
     
     chooseMoreShow();
     
-    
-});
-</script>
-</head>
-
-<body>
-
-    <div class="w1065">
-    <div class="denglutop">
-<div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
-<section class="denglu_center">
-  <table>
-     <tbody>
-            <#if service_item_list??>
-                  <tr>
-                       <#list service_item_list as item>
-                            <#if item_index <4>
-                            <td>
-                                <a href="javascript:;"><img src="${item.logo!''}" width="38" height="38"/>${item.title!''}</a>
-                            </td>
-                            </#if>
-                       </#list>
-                  </tr>
-            </#if>
-     </tbody>   
-  </table>
-</section>
-    </div>
-    </div>
- <div class="clear"></div>   
-    <div class="main">
-    <style>
-    .zhuce-tab {
-  cursor: pointer;
-  font-size: 16px;
-  color: #999;
-  display: inline-block;
-  font-family: 'Microsoft YaHei';
-}
-.zhuce-tab .xz {
-  border-top: solid 2px #ff4454;
-  font-size: 16px;
-  color: #666;
-  background: #fff;
-}
-.zhuce-tab ul li {
-  float: left;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
-}
-.reg dl dd {
-  margin-left: 110px;
-}
-.reg dl dt {
-  color: #999;
-  float: left;
-  height: 30px;
-  line-height: 30px;
-  text-align: right;
-  width: 100px;
-}
-.login_wrap {
-  background: #fff url(/client/images/dsds.png) no-repeat right center;
-  border: solid 8px #f0f0f0;
-  height: 380px;
-  margin-bottom: 20px;
-  width:960px;
-  margin:0 auto;
-}
-.reg dl dt i {
-  color: #f33;
-  font-style: normal;
-  font-weight: 400;
-}
-.reg dl {
-  line-height: 30px;
-  margin-top: 8px;
-  min-height: 30px;
-}
-.reg dl dd button {
-  background: #ff4454;
-  border: 0;
-  border-radius: 3px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  height: 40px;
-  width: 160px;
-}
-.reg dl dd input[type=text], .reg dl dd input[type=password] {
-  border: solid 1px #ccc;
-  border-radius: 2px;
-  box-shadow: inset 0 2px #f3f3f3;
-  height: 28px;
-  line-height: 28px\9;
-  text-indent: 5px;
-  width: 240px;
-}
-.reg dl dd em {
-  color: #999;
-  font-style: normal;
-  font-weight: 400;
-  margin-left: 10px;
-}
-#codedl {
-  display: none;
-}
-.regtip {
-  margin-top: 10px;
-  text-shadow: 0 1px 0 #fff;
-}
-.right {
-  float: right;
-}
-div {
-  display: block;
-}
-.regtip a {
-  background: #9c3;
-  color: #fff;
-  margin-left: 5px;
-  padding: 2px;
-  text-shadow: none;
-}
-    </style>
-<div class="login_wrap">
-            <div class="zhuce-tab">
-                <ul id="tableLogin">
-                    <li class="xz">快速登录</li>
-                    <li class="">账号密码登录</li>
-                </ul>
-            </div>
-            <script>          
-                $(function(){
-                    $("#tableLogin li").click(function(){
-                        if($(this).hasClass("xz")){
-                            return;
-                        }else{
-                            $(".tableLoginreg").css("display","none");
-                            $(".tableLoginreg").eq($(this).index()).css("display","block");
-                            $(this).addClass("xz").siblings().removeClass("xz");
-                        }
-                    }); 
-                });
-
-            $(document).ready(function(){    
-                //记住密码
+     //记住密码
                 if ($.cookie("rmbUser") == "true") { 
                     $("#rmbUser").attr("checked", true); 
                     $("#txt_loginId").val($.cookie("userName")); 
                     $("#txt_loginPwd").val($.cookie("passWord")); 
                 } 
                 
-                $("#txt_loginId")[0].focus();
+                //$("#txt_loginId")[0].focus();
 
                 $(function(){
                     $("#btn_login").click(function(){
@@ -203,12 +55,12 @@ div {
                     }); 
                 });
                 
-                document.onkeydown = function(event){
-                    if((event.keyCode || event.which) == 13){
+               // document.onkeydown = function(event){
+                   // if((event.keyCode || event.which) == 13){
                        // saveUserInfo();
                        // login();
-                    }
-                   }
+                    //}
+                   //}
                
                
                 $("#dyMobileButton").bind("click", function() {  
@@ -245,8 +97,8 @@ div {
                           
                 });
                 });
-               
-            });    
+});
+                   
             
              function login(){
                     var username = $("#txt_loginId").val();
@@ -330,7 +182,183 @@ div {
                     $.cookie("userName", '', { expires: -1 }); 
                     $.cookie("passWord", '', { expires: -1 }); 
                 } 
-            }     
+            }    
+            
+            function enableBtn()
+            {  
+                $("#dyMobileButton").removeAttr("disabled");   
+            } 
+            
+            function tip() 
+            {  
+                seed--;  
+                if (seed < 1) 
+                {  
+                    enableBtn();  
+                    seed = 60;  
+                    $("#dyMobileButton").val('点击获取短信验证码');  
+                    var t2 = clearInterval(t1);  
+                } else {  
+                    $("#dyMobileButton").val(seed + "秒后重新获取");  
+                }  
+            }  
+</script>
+</head>
+
+<body>
+
+    <div class="w1065">
+    <div class="denglutop">
+<div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
+<ul class="new_add">
+    <#if service_item_list??>
+        <#list service_item_list as item>
+            <li>
+                <div>
+                 <img src="${item.logo!''}" width="38" height="38">
+                </div>
+                <span>${item.title!''}</span>
+            </li>
+        </#list>
+    </#if>
+</ul>
+
+<#--<section class="denglu_center" style="margin-left:10px">
+  <div>
+     <ul>
+            <#if service_item_list??>
+                  <li style="float:left;">
+                       <#list service_item_list as item>
+                            <#if item_index <4>
+                                <a href="javascript:;"><img src="${item.logo!''}" width="38" height="38"/><span>${item.title!''}</span></a>
+                            </#if>
+                       </#list>
+                  </li>
+            </#if>
+     </ul>   
+  </div>
+</section>-->
+    </div>
+    </div>
+ <div class="clear"></div>   
+    <div class="main">
+    <style>
+    .zhuce-tab {
+  cursor: pointer;
+  font-size: 16px;
+  color: #999;
+  display: inline-block;
+  font-family: 'Microsoft YaHei';
+}
+.zhuce-tab .xz {
+  border-top: solid 2px #ff4454;
+  font-size: 16px;
+  color: #666;
+  background: #fff;
+}
+.zhuce-tab ul li {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+}
+.reg dl dd {
+  margin-left: 110px;
+}
+.reg dl dt {
+  color: #999;
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  text-align: right;
+  width: 100px;
+}
+.login_wrap {
+  background: #fff url(/client/images/dsds.png) no-repeat 540px center;
+  border: solid 8px #f0f0f0;
+  height: 380px;
+  margin-bottom: 20px;
+  width:960px;
+  margin:0 auto;
+}
+.reg dl dt i {
+  color: #f33;
+  font-style: normal;
+  font-weight: 400;
+}
+.reg dl {
+  line-height: 30px;
+  margin-top: 8px;
+  min-height: 30px;
+}
+.reg dl dd button {
+  background: #ff4454;
+  border: 0;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  height: 40px;
+  width: 160px;
+}
+.reg dl dd input[type=text], .reg dl dd input[type=password] {
+  border: solid 1px #ccc;
+  border-radius: 2px;
+  box-shadow: inset 0 2px #f3f3f3;
+  height: 28px;
+  line-height: 28px\9;
+  text-indent: 5px;
+  width: 240px;
+}
+.reg dl dd em {
+  color: #999;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: 10px;
+}
+#codedl {
+  display: none;
+}
+.regtip {
+  margin-top: 10px;
+  text-shadow: 0 1px 0 #fff;
+}
+.right {
+  float: right;
+  margin-right:100px;
+}
+div {
+  display: block;
+}
+.regtip a {
+  background: #9c3;
+  color: #fff;
+  margin-left: 5px;
+  padding: 2px;
+  text-shadow: none;
+}
+    </style>
+<div class="login_wrap">
+            <div class="zhuce-tab">
+                <ul id="tableLogin">
+                    <li class="xz">快速登录</li>
+                    <li class="">账号密码登录</li>
+                </ul>
+            </div>
+            <script>          
+                $(function(){
+                    $("#tableLogin li").click(function(){
+                        if($(this).hasClass("xz")){
+                            return;
+                        }else{
+                            $(".tableLoginreg").css("display","none");
+                            
+                            $(".tableLoginreg").eq($(this).index()).css("display","block");
+                            $(this).addClass("xz").siblings().removeClass("xz");
+                        }
+                    }); 
+                });
             </script>
             <div class="regtip right">还没有惠之店网上商城账号？现在就<a href="/reg">注册</a></div>
             <div class="xxknr" id="xxknr">
@@ -398,7 +426,6 @@ div {
     
         <div class="clear"></div>
         <div class="w1065">
-        <div class="h30"></div>
     <div class="w1059 downbq">
           <ul class="downwenzi">
           <li><a href="#">公司简介</a>丨</li>

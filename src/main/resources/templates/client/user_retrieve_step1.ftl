@@ -78,30 +78,30 @@
 <body>
 <#include "/client/common_header.ftl" />
 
-<div class="main">
+<div class="main l_write">
 
     <style>
-  .loginbox .text {
+    .l_write{overflow:hidden;height:300px;}
+  .l_loginbox .text {
   width: 100%;
   height: 35px;
   line-height: 35px;
   border: 1px solid #ddd;
   background: #FFF;
 }
-.loginbox p {
+.l_loginbox p {
   margin: 10px 0 5px;
 }
-.loginbox {
+.l_loginbox {
   width: 400px;
   padding: 20px 50px;
   float: left;
-  position:initial;
   margin-left:350px;
 }
 .car_top p.sel, .car_top p.sel i {
   background: #ff4454;
 }
-.loginbox .sub {
+.l_loginbox .sub {
   width: 100%;
   border-radius: 3px;
   background: #ff4454;
@@ -109,7 +109,7 @@
   line-height: 35px;
   height: 35px;
 }
-.loginbox .yzm01 {
+.l_loginbox .yzm01 {
   float: left;
   width: 100px;
   height: 37px;
@@ -117,7 +117,7 @@
   color: #fff;
   margin-left: 10px;
 }
-.loginbox .yzm02 {
+.l_loginbox .yzm02 {
   float: right;
   line-height: 37px;
 }
@@ -129,7 +129,7 @@
     <div class="clear"></div>
   </menu>  
   
-  <section class="loginbox">
+  <section class="l_loginbox">
     <p>请输入用户名</p>
     <input id="txt_loginId" class="text" type="text" />
     <p>请输入验证码</p>

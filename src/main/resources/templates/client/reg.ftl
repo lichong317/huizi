@@ -250,7 +250,7 @@ function checkwindowhide()
 
 
 </script>
-
+<body>
 <iframe class="thickframe" id="" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" style="display:none"></iframe>
 <div  id="tanchuangbackgroud"></div>
 <div class="thickbox" id="tanchuang" style="width: 924px; height: 500px; left: 485.5px; top: 88px; display:none">
@@ -271,27 +271,22 @@ function checkwindowhide()
     </div>
     <a href="javascript:checkwindowhide();" id="closeBox" class="thickclose">×</a></div>
 
-<body>
+
     <div class="w1065">
     <div class="denglutop">
 <div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
-<section class="denglu_center">
-  <table>
-    <tbody>
-            <#if service_item_list??>
-                  <tr>
-                       <#list service_item_list as item>
-                            <#if item_index <4>
-                            <td>
-                                <a href="javascript:;"><img src="${item.logo!''}" width="38" height="38"/>${item.title!''}</a>
-                            </td>
-                            </#if>
-                       </#list>
-                  </tr>
-            </#if>
-     </tbody>   
-  </table>
-</section>
+<ul class="new_add">
+    <#if service_item_list??>
+        <#list service_item_list as item>
+            <li>
+                <div>
+                 <img src="${item.logo!''}" width="38" height="38">
+                </div>
+                <span>${item.title!''}</span>
+            </li>
+        </#list>
+    </#if>
+</ul>
     </div>
     </div>
  <div class="clear"></div>   
@@ -380,6 +375,7 @@ function checkwindowhide()
 }
 .right {
   float: right;
+  margin-right:54px;
 }
 div {
   display: block;

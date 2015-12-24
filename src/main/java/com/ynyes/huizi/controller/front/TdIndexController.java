@@ -184,7 +184,7 @@ public class TdIndexController {
 			  								HttpServletRequest req){
     	Map<String, Object> res = new HashMap<String, Object>();
         
-        res.put("code", 1);
+        res.put("status", 1);
         
         // 新建二维数组
         TdProductCategory [][] tdProductCategory;
@@ -219,7 +219,7 @@ public class TdIndexController {
         res.put("data", tdProductCategory);
         
         // 分类                              
-        res.put("code", 0);
+        res.put("status", 0);
         
         return res;
     }

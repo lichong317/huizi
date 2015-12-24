@@ -14,7 +14,7 @@ a:hover{text-decoration:none; transition: all .5s; -moz-transition: all .5s; -ms
 .he15{height: 15px;}
 .ds{ display:inline;}
 .fll {	float:left;_float:left; *float:left;}
-.flr{float:right;_float:right; *float:right;}
+.flr{float:left;_float:left; *float:right;}
 .wh588{ width:588px;}
 .mt1 {	margin-top:1px;}
 .mt2 {	margin-top:2px;}
