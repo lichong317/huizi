@@ -81,7 +81,7 @@
 <div class="main l_write">
 
     <style>
-    .l_write{overflow:hidden;height:300px;}
+.l_write{overflow:hidden;height:300px;*+height:400px}
   .l_loginbox .text {
   width: 100%;
   height: 35px;
@@ -130,16 +130,20 @@
   </menu>  
   
   <section class="l_loginbox">
+    <div>
     <p>请输入用户名</p>
     <input id="txt_loginId" class="text" type="text" />
     <p>请输入验证码</p>
+    </div>
     <div class="clear"></div>
+    <div>
     <input id="code" class="text fl" type="text" style="width:35%;" />
     <img src="/code" id="yzm" height="37" style="padding-left: 15px;"/>
-    <a class="yzm02" onclick="document.getElementById('yzm').src = '/code?date='+Math.random();" href="javascript:;">看不清楚？换一张</a>
+    <a class="yzm02" onclick="document.getElementById('yzm').src = '/code?date='+Math.random();" href="javascript:;" style="*+margin-top:-40px;">看不清楚？换一张</a>
+    </div>
     <div class="clear h15"></div>
 
-    <input id="btn_nextstep" type="submit" class="sub" value="下一步" />
+    <div><input id="btn_nextstep" type="submit" class="sub" value="下一步" /></div>
     <div class="clear h15"></div>
   </section>
   

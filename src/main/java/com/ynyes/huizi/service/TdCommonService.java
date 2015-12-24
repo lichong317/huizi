@@ -134,7 +134,7 @@ public class TdCommonService {
         map.addAttribute("GoodsService_item_list", tdServiceItemService.findByIsEnableTrueAndIsGoodsServiceTrueOrderBySortIdAsc());
         
         // 关于我们
-        Long aboutId = 12L;
+        Long aboutId = 8L;
         
         map.addAttribute("about_id", aboutId);
         

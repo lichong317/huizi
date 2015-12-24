@@ -428,15 +428,17 @@ div {
         <div class="w1065">
     <div class="w1059 downbq">
           <ul class="downwenzi">
-          <li><a href="#">公司简介</a>丨</li>
-          <li><a href="#">联系我们</a>丨</li>
-          <li><a href="#">招贤纳士</a>丨</li>
-          <li><a href="#">合作伙伴</a>丨</li>
-          <li><a href="#">广告合作</a></li>
+              <#if about_us_list??>
+                   <#list about_us_list as item>
+                        <#if item_index < 5>
+                            <li><a href="/info/list/${about_id!'1'}?catId=${item.id?c!''}">${item.title!''}</a>丨</li>
+                        </#if>
+                   </#list>
+              </#if>             
           </ul>
     <div class="clear"></div>
-  <#if site??>${site.copyright!''}</#if><a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-          <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
+  <div><#if site??>${site.copyright!''}</#if><#if site??>${site.icpNumber!''}</#if></div>
+  <div><span><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span></div>
 </div>
 </div>
 </body>
