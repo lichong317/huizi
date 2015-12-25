@@ -160,7 +160,7 @@ public class TdGoodsController {
             return "/client/error_404";
         }
 
-        TdGoods goods = tdGoodsService.findOne(goodsId);
+        TdGoods goods = tdGoodsService.findByIdAndIsOnsaleTrue(goodsId);
         
         if (null == goods)
         {

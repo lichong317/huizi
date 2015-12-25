@@ -95,7 +95,7 @@ var theForm = document.forms['form1'];
                     <input name="listSortId" type="text" value="${item.sortId!""}" class="sort" onkeydown="return checkNumber(event);">
                 </td>
                 <td align="center">
-                    <a href="/admin/product/edit?id=${item.id?c}">修改</a>
+                    <a href="/Verwalter/product/edit?id=${item.id?c}">修改</a>
                 </td>
             </tr>
         </#list>

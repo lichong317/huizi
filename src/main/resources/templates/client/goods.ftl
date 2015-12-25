@@ -85,6 +85,9 @@ $(document).ready(function(){
     }
     function buyNow(){
     	var quantity = $("#quantity").val();
+    	
+    	if (isNaN(quantity) || quantity== "" ) { quantity = 1 }
+    	 
         window.location.href="/order/buy/normal?gid=${goods.id?c}&quantity=" + quantity + "<#if shareId??>&shareId=${shareId}</#if>";     
     }
 
@@ -643,6 +646,8 @@ function checkTime(i)
     </section><!--proinfo_right END-->
     <div class="clear h20"></div>
   </div>
+  
+  <#if goods.combList?? && goods.combList?size gt 0>
   <section class="pro_assort">
     <menu id="assort_menu">
       <a class="sel" href="#">推荐配套</a>
@@ -692,7 +697,9 @@ function checkTime(i)
     <div class="clear"></div>
     </#if>
   </section>
-  <div class="column_right">
+  </#if>
+  
+  <div class="column_right" style="margin-top:20px">
     <div class="detail_tit" id="detail_tit">
       <div class="out">
         <menu>

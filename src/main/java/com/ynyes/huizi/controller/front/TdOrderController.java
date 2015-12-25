@@ -191,7 +191,7 @@ public class TdOrderController {
         	map.addAttribute("shareId", shareId);
 		}
         
-        if (null == quantity)
+        if (null == quantity || quantity < 0)
         {
         	quantity = 1L;
         }

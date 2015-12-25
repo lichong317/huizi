@@ -35,8 +35,17 @@
 
 function setprice() {
     var p1 = $.trim($('#ParamFiltern_price1').val()), p2 = $.trim($('#ParamFiltern_price2').val())
-    if (isNaN(p1) || p1=="") { p1 = 0 }
-    if (isNaN(p2) || p2== "") { p2 = 0 }
+    if (isNaN(p1) || p1=="" ) { p1 = 0 }
+    if (isNaN(p2) || p2== "" ) { p2 = 0 }
+    
+    //排除负数
+    if(parseFloat(p1) < 0){
+        p1 = 0;
+    }
+    if(parseFloat(p2) < 0){
+        p2 = 0;
+    }
+    
     var price = p1 + '-' + p2;
     var url = "/list/${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-${leftId!'0'}";
     if (price != "0-0") { url += "_" + price; }

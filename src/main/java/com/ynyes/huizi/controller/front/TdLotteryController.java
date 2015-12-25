@@ -20,6 +20,7 @@ import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdPrize;
 import com.ynyes.huizi.entity.TdPrizeCategory;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserLevel;
 import com.ynyes.huizi.entity.TdUserPoint;
@@ -29,6 +30,7 @@ import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdPrizeCategoryService;
 import com.ynyes.huizi.service.TdPrizeService;
+import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserLevelService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
@@ -62,6 +64,10 @@ public class TdLotteryController {
 	
 	@Autowired
 	private TdUserPointService tdUserPointService;
+	
+	
+	@Autowired
+	private TdSettingService tdSettingService;
 	
 	@RequestMapping("/lottery")
 	public String lottery(ModelMap map, HttpServletRequest req){
@@ -118,8 +124,21 @@ public class TdLotteryController {
 	     tdUser.setIsSignin(true);
 	     
 	     // 签到送积分
+	     TdSetting tdSetting = tdSettingService.findTopBy();
 	     
-	     
+	     if (null != tdSetting && null != tdSetting.getSigninPoints() ) {
+	    	 tdUser.setTotalPoints(tdSetting.getSigninPoints() + tdUser.getTotalPoints());
+		     TdUserPoint userPoint = new TdUserPoint();
+
+		     userPoint.setIsBackgroundShow(false);
+		     userPoint.setTotalPoint(tdUser.getTotalPoints());
+		     userPoint.setUsername(tdUser.getUsername());
+		     userPoint.setPoint(tdSetting.getSigninPoints());
+		     userPoint.setDetail("每日签到奖励");
+				
+		     userPoint = tdUserPointService.save(userPoint);
+		}
+	      	     
 	     tdUserService.save(tdUser);	     	     
 	     
 	     res.put("code", 0);
@@ -188,7 +207,7 @@ public class TdLotteryController {
 					TdUserPoint userPoint = new TdUserPoint();
 
 					userPoint.setIsBackgroundShow(false);
-					userPoint.setTotalPoint(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					userPoint.setTotalPoint(tdUser.getTotalPoints());
 					userPoint.setUsername(tdUser.getUsername());
 					userPoint.setPoint(tdPrizeCategory.getPrizePoints());
 					userPoint.setDetail("抽奖奖励");

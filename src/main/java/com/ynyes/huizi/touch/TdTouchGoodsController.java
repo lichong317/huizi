@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
-import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserConsult;
-import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdDiySiteService;
@@ -72,16 +70,10 @@ public class TdTouchGoodsController {
     private TdUserRecentVisitService tdUserRecentVisitService;
 
     @Autowired
-    private TdSettingService tdSettingService;
-
-    @Autowired
     private TdUserService tdUserService;
 
     @Autowired
     private TdProductService tdProductService;
-    
-    @Autowired
-    private TdUserPointService tdUserPointService;
     
     @Autowired
     private TdDiySiteService tdDiySiteService;
@@ -155,7 +147,7 @@ public class TdTouchGoodsController {
             return "/touch/error_404";
         }
 
-        TdGoods goods = tdGoodsService.findOne(goodsId);
+        TdGoods goods = tdGoodsService.findByIdAndIsOnsaleTrue(goodsId);
         
         if (null == goods)
         {

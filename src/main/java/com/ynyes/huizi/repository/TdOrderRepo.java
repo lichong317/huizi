@@ -40,6 +40,10 @@ public interface TdOrderRepo extends
     
     Page<TdOrder> findByIdInOrderByIdDesc(List<Long> orderids, Pageable page);
     
+    Page<TdOrder> findByorderNumberContainingOrShippingAddressContainingOrShippingNameContainingOrUsernameContainingOrShippingPhoneContaining(String keywords, String keywords1, String keywords2, String keywords3, String keywords4, Pageable page);
+    
+    Page<TdOrder> findByorderNumberContainingAndStatusIdOrShippingAddressContainingAndStatusIdOrShippingNameContainingAndStatusIdOrUsernameContainingAndStatusIdOrShippingPhoneContainingAndStatusId(String keywords, Long statusId, String keywords1, Long statusId1, String keywords2, Long statusId2, String keywords3, Long statusId3, String keywords4, Long statusId4, Pageable page);
+    
     //zhangji
     Page<TdOrder> findByUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrUsernameAndOrderNumberContainingAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3, Pageable page);
     Page<TdOrder> findByUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrUsernameAndOrderNumberAndStatusIdOrderByIdDesc(String username1, String keywords1, Long statusId1,String username2, String keywords2, Long statusId2,String username3, String keywords3, Long statusId3, Pageable page);

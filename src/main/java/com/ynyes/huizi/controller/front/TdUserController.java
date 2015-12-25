@@ -333,7 +333,7 @@ public class TdUserController {
 							TdUserPoint userPoint = new TdUserPoint();
 
 							userPoint.setIsBackgroundShow(false);
-							userPoint.setTotalPoint(tdRedEnvelopeType.getPrizePoints() + tdUser.getTotalPoints());
+							userPoint.setTotalPoint(tdUser.getTotalPoints());
 							userPoint.setUsername(tdUser.getUsername());
 							userPoint.setPoint(tdRedEnvelopeType.getPrizePoints());
 							userPoint.setDetail("红包奖励");
