@@ -435,8 +435,8 @@ function checkTime(i)
      <#else>
        <div class="mainbox">
             <div class="buynum">
-                <a id="id-plus" href="javascript:;">+</a>
-                <a class="a1"id="id-minus" href="javascript:;">-</a>
+                <a id="id-minus" href="javascript:;">-</a>
+                <a class="a1"id="id-plus" href="javascript:;">+</a>
                 <input type="text" id="quantity" class="text" value="1" />
             </div>
             <#if goods.leftNumber gt 0>

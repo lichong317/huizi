@@ -94,16 +94,30 @@
 </section>
 <!--main END-->
 
-
+<section class="botmain">
+  <div class="main">
+  <div class="center">
+    <#if username??>
+        <a href="/touch/user">${username!''}</a>
+        <span>|</span>
+        <a href="/touch/logout">退出</a>
+    <#else>
+        <a href="/touch/login">登录</a>
+        <span>|</span>
+        <a href="/touch/reg">注册</a>
+    </#if>
+    <a class="absolute-r" href="javascript:$('html,body').animate({scrollTop:0},500);">返回顶部</a>
+  </div>
+  </div>
+</section>
   <p class="ta-c mb10">
     <a class="fc fs09" href="#">触屏版</a>
     <span>&nbsp;|&nbsp;</span>
     <a class="fs09" href="/user/order/list/0">电脑版</a>
   </p>
-  <p class="ta-c fs08 c7">${site.copyright!''} </p> 
+  <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
-  
-  <div class="buyfoot_bg"></div>
+<div class="clear70"></div>
 <footer class="buyfoot">
   <div class="mainbox">
     <a class="fl" href="#">去付款</a>

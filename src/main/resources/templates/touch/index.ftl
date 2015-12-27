@@ -224,6 +224,7 @@
         <span>|</span>
         <a href="/touch/reg">注册</a>
     </#if>
+    <a class="absolute-r" href="javascript:$('html,body').animate({scrollTop:0},500);">返回顶部</a>
   </div>
   </div>
 </section>

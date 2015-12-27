@@ -57,6 +57,15 @@
 <section class="botmain">
   <div class="main">
   <div class="center">
+    <#if username??>
+        <a href="/touch/user">${username!''}</a>
+        <span>|</span>
+        <a href="/touch/logout">退出</a>
+    <#else>
+        <a href="/touch/login">登录</a>
+        <span>|</span>
+        <a href="/touch/reg">注册</a>
+    </#if>
     <a class="absolute-r" href="javascript:$('html,body').animate({scrollTop:0},500);">返回顶部</a>
   </div>
   </div>
