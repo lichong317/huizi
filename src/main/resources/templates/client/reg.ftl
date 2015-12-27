@@ -327,7 +327,7 @@ function checkwindowhide()
   border: solid 8px #f0f0f0;
   height: 380px;
   margin-bottom: 20px;
-  width:960px;
+  width:1050px;
   margin:0 auto;
 }
 .reg dl dt i {
@@ -407,8 +407,7 @@ div {
 						}
 					});	
 				});
-				
-							
+					
 			</script>
             <div class="regtip right">已有惠之店网上商城账号？现在就<a href="/login.aspx">登录</a></div>
             
@@ -453,8 +452,8 @@ div {
                     <dl>
                         <dt></dt>
                         <dd>
-                            <input name="" id="mmprovision" type="checkbox" datatype="*" nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                            <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
+                            <input name="" id="mmprovision" type="checkbox"  nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                            <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                     </dl>
                     <dl>
                         <dt></dt>
@@ -507,13 +506,13 @@ div {
                         <dl>
                             <dt>验证码</dt>
                             <dd>
-                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
                         </dl>
                         <dl>
                             <dt></dt>
                             <dd>
-                                <input name="" id="mmprovision2"  datatype="*" nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                                <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
+                                <input name="" id="mmprovision2"   nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                                <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                         </dl>
                         <dl>
                             <dt></dt>

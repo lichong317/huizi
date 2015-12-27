@@ -284,11 +284,13 @@ function deleteContrastgoods(id){
  <#-->     <input type="button" value="对比" onclick="addContrastgoods('${goods.id?c}')"> -->
       <a href="javascript:;" onclick="addContrastgoods('${goods.id?c}')" style="
                         position: absolute;
-                        right: 0;
+                        right: 163px;
                         background: #f0f0f0;
                         border: solid 1px#ccc;
-                        padding: 4px 10px;
-                        z-index: 2;">对比</a>
+                        padding: 9px 30px;
+                        z-index: 2;
+                        bottom: 5px;
+                        border-radius: 20px;">对比</a>
       <input type="hidden" id="goodscategoryId" value="${goods.categoryId!''}">
       <h4 class="red">${goods.subTitle!''}</h4>
      <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>

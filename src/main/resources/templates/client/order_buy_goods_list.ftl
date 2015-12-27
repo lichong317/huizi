@@ -14,9 +14,9 @@
                     <td class="gwc1_lm2_b1"><span>￥${sg.price?string("0.00")}</span></td>
                     <td class="gwc1_lm2_c1">
                         <div class="ds content_nr_3_jg2">
-                        <a class="quantity-minus" href="/order/goods/minus?gid=<#if sg.goodsId??>${sg.goodsId?c}</#if><#if shareId??>&shareId=${shareId}</#if>"><img src="/client/images/slj.png" width="20" height="20"></a>
+                        <a class="quantity-minus" href="/order/buygoods/minus?gid=<#if sg.goodsId??>${sg.goodsId?c}</#if><#if shareId??>&shareId=${shareId?c}</#if>"><img src="/client/images/slj.png" width="20" height="20"></a>
                         <input type="text" class="content_zj" disabled="disabled" value="${sg.quantity!''}">
-                        <a class="quantity-plus" href="/order/goods/plus?gid=<#if sg.goodsId??>${sg.goodsId?c}</#if><#if shareId??>&shareId=${shareId}</#if>"><img src="/client/images/sljj.png" width="20" height="20"></a>
+                        <a class="quantity-plus" href="/order/buygoods/plus?gid=<#if sg.goodsId??>${sg.goodsId?c}</#if><#if shareId??>&shareId=${shareId?c}</#if>"><img src="/client/images/sljj.png" width="20" height="20"></a>
                         </div>
                     </td>
                     <td class="gwc1_lm2_b1"><span>￥${(sg.price*sg.quantity)?string("0.00")}</span></td>

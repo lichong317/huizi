@@ -1,9 +1,14 @@
 package com.ynyes.huizi.controller.front;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdBrand;
 import com.ynyes.huizi.entity.TdGoods;
@@ -27,6 +34,7 @@ import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdParameterService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.util.ClientConstant;
+import com.ynyes.huizi.util.SMSUtil;
 
 
 @Controller
@@ -52,6 +60,23 @@ public class TdListController {
     @Autowired
     private TdArticleService tdArticleService;
    
+    @RequestMapping(value = "/list/changeParam",method = RequestMethod.GET)
+    //@ResponseBody
+    public Map<String, Object> smsCode(Integer index, HttpServletResponse response,ModelMap map, HttpServletRequest request) {
+    	Map<String, Object> res = new HashMap<String, Object>();      
+        
+    	res.put("code", 1);
+    	
+    	if (null == index) {
+    		res.put("msg", "参数错误");
+    		return res;
+		}
+    	
+    	map.addAttribute("paramindex", index);
+    	res.put("paramindex", index);
+    	res.put("code", 0);
+        return res;
+    }
     
     //全部分类页面
     @RequestMapping(value="/productCategory/all")

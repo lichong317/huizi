@@ -15,6 +15,7 @@
 <script src="/client/js/ljs-v1.01.js"></script>
 <script src="/client/js/mymember.js"></script>
 <script type="text/javascript" src="/client/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>
 
 <script type="text/javascript">
  var seed=60;    //60秒  
@@ -62,7 +63,6 @@
                     //}
                    //}
                
-               
                 $("#dyMobileButton").bind("click", function() {  
         
                 var mob = $('#usermobile').val();
@@ -73,29 +73,43 @@
                     alert("请输入正确的手机号");
                     return;
                 }
-                        
-                $.ajax({  
-                        url : "/reg/smscode",  
-                        async : true,  
-                        type : 'GET',  
-                        data : {"mobile": mob},  
-                        success : function(data) {  
-                                        
-                             if(data.statusCode == '000000')
-                                        {  
-                                            t1 = setInterval(tip, 1000);  
-                                        }
-                                        else
-                                        {
-                                            $("#dyMobileButton").removeAttr("disabled");
-                                        }
-                                    },  
-                               error : function(XMLHttpRequest, textStatus,  
-                                            errorThrown) {  
-                                        alert("发送失败");
-                                    }  
-                          
-                });
+                
+                // 判断用户是否存在
+                $.ajax({
+                            type: "post",
+                            url: "/reg/check/mobile",
+                            data: { "param": mob},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == "n") {
+                                    $.ajax({  
+                                            url : "/reg/smscode",  
+                                            async : true,  
+                                            type : 'GET',  
+                                            data : {"mobile": mob},  
+                                            success : function(data) {  
+                                                            
+                                                 if(data.statusCode == '000000')
+                                                            {  
+                                                                t1 = setInterval(tip, 1000);  
+                                                            }
+                                                            else
+                                                            {
+                                                                $("#dyMobileButton").removeAttr("disabled");
+                                                            }
+                                                        },  
+                                                   error : function(XMLHttpRequest, textStatus,  
+                                                                errorThrown) {  
+                                                            alert("发送失败");
+                                                        }  
+                                              
+                                    });
+                                } else {
+                                    alert("此用户名不存在");
+                                }
+                            }
+                        });
+                                       
                 });
 });
                    
@@ -278,7 +292,7 @@
   border: solid 8px #f0f0f0;
   height: 380px;
   margin-bottom: 20px;
-  width:960px;
+  width:1000px;
   margin:0 auto;
 }
 .reg dl dt i {
@@ -366,7 +380,7 @@ div {
                     <dl>
                         <dt><i>*</i>手机号码</dt>
                         <dd>
-                            <input type="text" id="usermobile">
+                            <input type="text" id="usermobile" >
                         </dd>
                     </dl>
                    <#-->  <dl id="codedl">

@@ -27,20 +27,20 @@
 <script src="/client/js/order_info.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	menuDownList("top_phone","#top_phonelist",".a1","sel");
-	phoneListMore();//单独下拉
+    menuDownList("top_phone","#top_phonelist",".a1","sel");
+    phoneListMore();//单独下拉
     menuDownList("top_order","#top_orderlist",".a4","sel");//顶部下拉
-	searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
-	searchTextClear(".bottext","查看所有门店","#fff","#fff");
-	checkNowHover("shopping_down","shopping_sel");
-	navDownList("navdown","li",".nav_showbox");
-	menuDownList("mainnavdown","#navdown",".a2","sel");
-	
-	chooseMoreShow();
-	
-	//初始化表单验证
-	//$("#form1").initValidform();
-	
+    searchTextClear(".toptext","请输入品牌或商品名称","#999","#666");
+    searchTextClear(".bottext","查看所有门店","#fff","#fff");
+    checkNowHover("shopping_down","shopping_sel");
+    navDownList("navdown","li",".nav_showbox");
+    menuDownList("mainnavdown","#navdown",".a2","sel");
+    
+    chooseMoreShow();
+    
+    //初始化表单验证
+    //$("#form1").initValidform();
+    
     $("#form1").Validform({
         tiptype: 1
     });
@@ -140,11 +140,12 @@ $(document).ready(function(){
         else{
                        
             $("#virtualCurrencyfee").html(virtualCurrency);
-            
+
             if(currentPrice + deliPrice > pointFee + couponFee + virtualCurrency){
                 $("#totalPrice").html(currentPrice + deliPrice - pointFee - couponFee - virtualCurrency);
             }
             else{
+                
                 $("#totalPrice").html(0);
             }
         }        
@@ -206,7 +207,7 @@ var forPaymentFllow = true;
         </div>
         
         <div id="main-form">
-        <form id="form1" name="form1" action="/order/submit" method="post">
+        <form id="form1" name="form1" action="/order/buysubmit" method="post">
             <div class="main mt15">
                 <div class="s_gwc2_1">
                     <div class="s_gwc2_1_a">
@@ -445,7 +446,7 @@ var forPaymentFllow = true;
                         </div>
                         
                         <div id="goodsListDiv" class="gwc1_lm2">
-                            <#include "/client/order_info_goods_list.ftl" />
+                            <#include "/client/order_buy_goods_list.ftl" />
                         </div>
                     </div>
                     <div class="clear"></div>
