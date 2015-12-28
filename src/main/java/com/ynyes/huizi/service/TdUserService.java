@@ -313,6 +313,31 @@ public class TdUserService {
     }
     
     /**
+	 * @author lc
+	 * @注释：按支付宝id查找
+	 */
+    public TdUser findByAlipayUserId(String alipayname){
+    	if(null ==alipayname){
+    		return null;
+    	}
+    	return repository.findByAlipayUserId(alipayname);
+
+    }
+    
+    /**
+     * 按QQ——openID查找
+     * @author libiao
+     * @param qq
+     * @return
+     */
+    public TdUser findByQqUserId(String qqUserId){
+    	if(null == qqUserId){
+    		return null;
+    	}
+    	return repository.findByQqUserId(qqUserId);
+    }
+    
+    /**
      * 查找
      * 
      * @param ids

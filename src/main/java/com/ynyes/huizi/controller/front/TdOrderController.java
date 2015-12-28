@@ -2,21 +2,21 @@ package com.ynyes.huizi.controller.front;
 
 import static org.apache.commons.lang3.StringUtils.leftPad;
 
-import java.text.ParseException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,40 +24,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ynyes.huizi.entity.TdGoodsCombination;
-import com.ynyes.huizi.entity.TdGoodsDto;
-import com.ynyes.huizi.service.TdGoodsCombinationService;
+import com.cytm.payment.alipay.AlipayConfig;
+import com.cytm.payment.alipay.Constants;
+import com.cytm.payment.alipay.PaymentChannelAlipay;
+import com.cytm.payment.alipay.core.AlipayNotify;
+import com.cytm.payment.ceb.CEBPayConfig;
+import com.cytm.payment.ceb.PaymentChannelCEB;
+import com.ibm.icu.util.Calendar;
+import com.tencent.common.Configure;
+import com.tencent.common.MD5;
+import com.tencent.common.RandomStringGenerator;
+import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
-import com.ynyes.huizi.entity.TdProductCategory;
-import com.ynyes.huizi.entity.TdSetting;
-import com.ynyes.huizi.service.TdCouponTypeService;
-import com.ynyes.huizi.service.TdCouponService;
-import com.ynyes.huizi.service.TdProductCategoryService;
-import com.ynyes.huizi.service.TdSettingService;
-import com.ynyes.huizi.service.TdShippingAddressService;
-import com.ibm.icu.util.Calendar;
-import com.ynyes.huizi.entity.TdCartGoods;
-import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.entity.TdGoodsCombination;
+import com.ynyes.huizi.entity.TdGoodsDto;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
+import com.ynyes.huizi.entity.TdPayRecord;
 import com.ynyes.huizi.entity.TdPayType;
+import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.service.TdCartGoodsService;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdCouponService;
+import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdDeliveryTypeService;
+import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdPayRecordService;
 import com.ynyes.huizi.service.TdPayTypeService;
+import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
-
-import scala.math.Numeric.DoubleAsIfIntegral;
 
 /**
  * 订单
@@ -65,8 +73,11 @@ import scala.math.Numeric.DoubleAsIfIntegral;
  */
 @Controller
 @RequestMapping("/order")
-public class TdOrderController {
+public class TdOrderController extends AbstractPaytypeController{
 
+	private static final String PAYMENT_ALI = "ALI";
+	private static final String PAYMENT_WX = "WX";
+	
     @Autowired
     private TdCartGoodsService tdCartGoodsService;
 
@@ -111,6 +122,15 @@ public class TdOrderController {
     
     @Autowired
     private TdShippingAddressService tdShippingAddressService;
+    
+    @Autowired
+    private TdPayRecordService tdPayRecordService;
+    
+//    @Autowired
+//    private PaymentChannelAlipay payChannelAlipay;
+    
+//    @Autowired
+//    private PaymentChannelCEB payChannelCEB;
     
     @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
     @ResponseBody
@@ -1817,6 +1837,238 @@ public class TdOrderController {
         tdCommonService.setHeader(map, req);
 
         return "/client/order_pay_success";
+    }
+    
+    /**
+     * 支付
+     * 
+     * @param orderId
+     * @param map
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/dopay/{orderId}")
+    public String payOrder(@PathVariable Long orderId, ModelMap map,
+            HttpServletRequest req) {
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+            return "redirect:/login";
+        }
+
+        tdCommonService.setHeader(map, req);
+
+        if (null == orderId) {
+            return "/client/error_404";
+        }
+
+        TdOrder order = tdOrderService.findOne(orderId);
+
+        if (null == order) {
+            return "/client/error_404";
+        }
+
+        // 根据订单类型来判断支付时间是否过期
+//        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            // System.out.println(temp);
+//            if (temp > 1000 * 60 * 30) {
+//                return "/client/overtime";
+//            }
+//        }
+//        else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+//                                                                                   // 预付是团购结束前，
+//            Date cur = new Date();
+//            long temp = 0L;
+////            if (temp > 1000 * 3600 * 12) {
+////                return "/client/overtime";
+////            }
+//            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
+//            if (null != tdGoods) {
+//				if (order.getTypeId().equals(4L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
+//				}else if (order.getTypeId().equals(5L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
+//				}
+//				if (temp > 0) {
+//                    return "/client/overtime";
+//                }
+//			}
+//
+//        } else { // 普通 订单提交后24小时内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            if (temp > 1000 * 3600 * 24) {
+//                return "/client/overtime";
+//            }
+//        }
+
+        // 待付款
+        if (!order.getStatusId().equals(2L)) {
+            return "/client/error_404";
+        }
+
+        String amount = order.getTotalPrice().toString();
+        req.setAttribute("totalPrice", amount);
+
+        String payForm = "";
+
+        Long payId = order.getPayTypeId();
+        TdPayType payType = tdPayTypeService.findOne(payId);
+        if (payType != null) {
+            TdPayRecord record = new TdPayRecord();
+            record.setCreateTime(new Date());
+            record.setOrderId(order.getId());
+            record.setPayTypeId(payType.getId());
+            record.setStatusCode(1);
+            record.setCreateTime(new Date());
+            record = tdPayRecordService.save(record);
+
+            String payRecordId = record.getId().toString();
+            int recordLength = payRecordId.length();
+            if (recordLength > 6) {
+                payRecordId = payRecordId.substring(recordLength - 6);
+            } else {
+                payRecordId = leftPad(payRecordId, 6, "0");
+            }
+            req.setAttribute("payRecordId", payRecordId);
+
+            req.setAttribute("orderNumber", order.getOrderNumber());
+
+            String payCode = payType.getCode();
+            if (PAYMENT_ALI.equals(payCode)) {
+            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+                payForm = payChannelAlipay.getPayFormData(req);
+                map.addAttribute("charset", AlipayConfig.CHARSET);
+            } else if (PAYMENT_WX.equals(payCode)) {
+                map.addAttribute("order_number", order.getOrderNumber());
+                map.addAttribute("total_price", order.getTotalPrice());
+
+                String sa = "appid=" + Configure.getAppid() + "&mch_id="
+                        + Configure.getMchid() + "&nonce_str="
+                        + RandomStringGenerator.getRandomStringByLength(32)
+                        + "&product_id=" + order.getId() + "&time_stamp="
+                        + System.currentTimeMillis() / 1000;
+
+                String sign = MD5.MD5Encode(
+                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        .toUpperCase();
+
+                System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
+                        + "&sign=" + sign + "\n");
+
+                req.getSession().setAttribute("WXPAYURLSESSEION",
+                        "weixin://wxpay/bizpayurl?" + sa + "&sign=" + sign);
+                // "weixin://wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
+                return "/client/order_pay_wx";
+//            }
+//                else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
+//                    payCode)) {
+//                req.setAttribute("payMethod", payCode);
+//                payForm = payChannelCEB.getPayFormData(req);
+//                map.addAttribute("charset", "GBK");
+          } else {
+                // 其他目前未实现的支付方式
+                return "/client/error_404";
+            }
+        } else {
+            return "/client/error_404";
+        }
+
+        tdOrderService.save(order);
+
+        map.addAttribute("payForm", payForm);
+
+        return "/client/order_pay_form";
+    }
+    
+    /*
+     * 
+     */
+    @RequestMapping(value = "/pay/notify_alipay")
+    public void payNotifyAlipay(ModelMap map, HttpServletRequest req,
+            HttpServletResponse resp) {
+    	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+        payChannelAlipay.doResponse(req, resp);
+    }
+    
+    /*
+     * 
+     */
+    @RequestMapping(value = "/pay/result_alipay")
+    public String payResultAlipay(Device device, ModelMap map, HttpServletRequest req,
+            HttpServletResponse resp) {
+        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String[]> requestParams = req.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter
+                .hasNext();) {
+            String name = iter.next();
+            String[] values = requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            // 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+            try {
+                valueStr = new String(valueStr.getBytes("ISO-8859-1"),
+                        AlipayConfig.CHARSET);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            params.put(name, valueStr);
+        }
+
+        // 获取支付宝的返回参数
+        String orderNo = "";
+        String trade_status = "";
+        try {
+            // 商户订单号
+            orderNo = new String(req.getParameter(Constants.KEY_OUT_TRADE_NO)
+                    .getBytes("ISO-8859-1"), AlipayConfig.CHARSET);
+            // 交易状态
+            trade_status = new String(req.getParameter("trade_status")
+                    .getBytes("ISO-8859-1"), AlipayConfig.CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // 计算得出通知验证结果
+        boolean verify_result = AlipayNotify.verify(params);
+
+        tdCommonService.setHeader(map, req);
+        orderNo = (orderNo == null) ? "" : (orderNo.length() < 6) ? orderNo
+                : orderNo.substring(0, orderNo.length() - 6);
+        TdOrder order = tdOrderService.findByOrderNumber(orderNo);
+        if (order == null) {
+            // 订单不存在
+        	// 触屏
+            if (device.isMobile() || device.isTablet()) {
+                return "/touch/order_pay_failed";
+            }
+            return "/client/order_pay_failed";
+        }
+        map.put("order", order);
+        if (verify_result) {// 验证成功
+            if ("WAIT_SELLER_SEND_GOODS".equals(trade_status)) {
+
+                // 订单支付成功
+                afterPaySuccess(order);
+                // 触屏
+                if (device.isMobile() || device.isTablet()) {
+                    return "/touch/order_pay_success";
+                }
+                return "/client/order_pay_success";
+            }
+        }
+
+        // 验证失败或者支付失败
+        // 触屏
+        if (device.isMobile() || device.isTablet()) {
+            return "/touch/order_pay_failed";
+        }
+        return "/client/order_pay_failed";
     }
     
     /**

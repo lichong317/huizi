@@ -875,7 +875,7 @@ public class TdUserController {
             page = 0;
         }
        
-  TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", tdUser);
         map.addAttribute("time_id", timeId);

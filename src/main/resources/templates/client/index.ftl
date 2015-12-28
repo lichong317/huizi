@@ -6,6 +6,7 @@
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
+<meta property="qc:admins" content="3753272672605120141166375" />
 <!--[if IE]>
    <script src="/client/js/html5.js"></script>
 <![endif]-->

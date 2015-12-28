@@ -73,19 +73,21 @@ $(document).ready(function(){
                 </#if>
             </#if>
         </dt>
-        <dt>
-            支付总额：<span>￥<#if order??>${order.totalPrice?string("#.##")}</#if></span>
-        </dt>
+         <dt>
+                     支付方式：<#if order??>${order.payTypeTitle!''}</#if>&nbsp;&nbsp;&nbsp;&nbsp;支付总额：<span>￥<#if order??>${order.totalPrice?string("0.00")}</#if></span>
+        </dt>       
         <dd>
             <#if order??>
                 <#if order.statusId==1>
                     请稍等，我们将尽快确认您的订单。
                 <#elseif order.statusId==2>
-                    亲爱的客户，请付款。
+                    亲爱的客户，此订单还未支付，您可以<a href="/order/dopay/${order.id?c}" style="color: #F00;">去支付</a>
                 <#elseif order.statusId==3>
                     亲爱的客户，我们将尽快为您发货。
                 <#elseif order.statusId==4>
                     亲爱的客户，商品已发出，请检查商品包装完整。
+                <#elseif order.statusId==5>
+                    亲爱的客户，您已消费成功，您可以<a href="/user/comment/list">发表评论</a>。
                 <#elseif order.statusId==6>
                     亲爱的客户，此订单已交易成功。
                 </#if>
