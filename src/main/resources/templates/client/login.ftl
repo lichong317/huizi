@@ -433,6 +433,44 @@ div {
                             <button  id="btn_login">登录</button></dd>
                     </dl>
                 </div>
+                <div class="login_r item" style="width: 415px;
+  float: left;
+  padding-left: 65px;
+  padding-top: 20px;
+  color: #999;">
+  
+  <style>
+  .item table td a i {
+  background:url(/client/images/login.png) no-repeat;
+}
+.item table td a i.weixin {
+  background-position: -170px -40px;
+}
+.item table td a i {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.item table td a i.qq {
+  background-position: -9px -40px;
+}
+.item table td a i.alipay {
+  background-position: -124px -40px;
+}
+  </style>
+             <table width="300" border="0" cellpadding="5" cellspacing="0">
+                  <tbody>
+                  <tr style="height:30px;">合作账号登录:</tr>
+                <tr><td><a style="text-decoration:none" href="user.php?act=oath&amp;type=weixin"><i class="weixin"></i>&nbsp;&nbsp;微信</a></td>
+                    <td><a style="text-decoration:none" href="user.php?act=oath&amp;type=qq"><i class="qq"></i>&nbsp;&nbsp;QQ</a></td>
+                    <!-- <td><a style="text-decoration:none" href="user.php?act=oath&type=weibo"><i class="sina"></i>&nbsp;&nbsp;新浪</a></td> -->
+                    <td><a style="text-decoration:none" href="user.php?act=oath&type=alipay"><i class="alipay"></i>&nbsp;&nbsp;支付宝</a></td> 
+                  </tr>
+                </tbody></table>
+             </div>
+                
+                
             </div>
 
         </div>          

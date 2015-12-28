@@ -51,7 +51,7 @@ $(document).ready(function(){
         var q = parseInt($("#quantity").val());
         
         <#if goods.leftNumber??>
-            if (q < ${goods.leftNumber!'0'})
+            if (q < ${goods.leftNumber?c})
             {
                 $("#quantity").val(q+1);
             }
