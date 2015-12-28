@@ -237,9 +237,16 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getSalePrice());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getSalePrice()) {
+            	buyGoods.setPrice(goods.getSalePrice());
+			}
+            
             buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(1);
 
@@ -268,10 +275,16 @@ public class TdOrderController {
                         TdGoodsDto buyZhGoods = new TdGoodsDto();
     
                         buyZhGoods.setGoodsId(combGoods.getGoodsId());
-                        buyZhGoods.setGoodsTitle(combGoods.getGoodsTitle());
-                        buyZhGoods.setGoodsCoverImageUri(combGoods
-                                .getCoverImageUri());
-                        buyZhGoods.setPrice(combGoods.getCurrentPrice());
+                        if (null != combGoods.getGoodsTitle()) {
+                        	buyZhGoods.setGoodsTitle(combGoods.getGoodsTitle());
+						}
+                        if (null != combGoods.getCoverImageUri()) {
+                        	buyZhGoods.setGoodsCoverImageUri(combGoods.getCoverImageUri());
+						}
+                        if (null != combGoods.getCurrentPrice()) {
+                        	buyZhGoods.setPrice(combGoods.getCurrentPrice());
+						}
+                        
                         buyZhGoods.setQuantity(1L);
                         buyZhGoods.setSaleId(1);
     
@@ -296,8 +309,13 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            
             Double flashSalePrice = tdGoodsService.getFlashPrice(goods);
             
             if (null == flashSalePrice)
@@ -327,9 +345,16 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getGroupSalePrice());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getGroupSalePrice()) {
+            	buyGoods.setPrice(goods.getGroupSalePrice());
+			}
+            
             buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(3);
 
@@ -348,7 +373,7 @@ public class TdOrderController {
             // 积分限额
             TdUser tdUser = tdUserService.findByUsername(username);
             if (null != tdUser ) {
-				if (null != tdUser.getTotalPoints() ) {
+				if (null != tdUser.getTotalPoints() && null != goods.getPointLimited()) {
 					if (goods.getPointLimited() > tdUser.getTotalPoints()) {
 						map.addAttribute("total_point_limit", tdUser.getTotalPoints());
 					}
@@ -362,9 +387,16 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getSalePrice());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getSalePrice()) {
+            	buyGoods.setPrice(goods.getSalePrice());
+			}
+            
             buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(0);
 
@@ -375,9 +407,11 @@ public class TdOrderController {
             List<String> productIds = new ArrayList<>();
           
             if (productIds.isEmpty()) {
-                    productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+            		if (null != goods.getCategoryIdTree()) {
+            			productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+					}                  
             } else {
-                  if (!productIds
+                  if (null != goods.getCategoryIdTree() && !productIds
                             .contains(goods.getCategoryIdTree().split(",")[0])) {
                         productIds.add(goods.getCategoryIdTree().split(",")[0]);
                   }
@@ -597,10 +631,16 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
+                    
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
@@ -625,7 +665,7 @@ public class TdOrderController {
                     }
 
                     // 是否免邮
-                   if(!goods.getIsFeeNot())
+                   if(null !=goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                    {
                 	   // 邮费
                 	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
@@ -643,12 +683,15 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long soldNumber = goods.getSoldNumber();
-                    Long leftNumber = goods.getLeftNumber();
-
-                    if (null == soldNumber) {
-                        soldNumber = 0L;
-                    }
+                    Long soldNumber = 0L;
+                    if (null != goods.getSoldNumber()) {
+						soldNumber = goods.getSoldNumber();
+					}
+                    		
+                    Long leftNumber = 0L;
+                    if (null != goods.getLeftNumber()) {
+						leftNumber = goods.getLeftNumber();
+					}                    		
 
                     soldNumber += buyGoods.getQuantity();
                     goods.setSoldNumber(soldNumber);
@@ -691,10 +734,16 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
 
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
@@ -715,7 +764,7 @@ public class TdOrderController {
                     totalGoodsPrice += flashSalePrice;
 
                     // 是否免邮
-                    if(!goods.getIsFeeNot())
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                     {
                  	   // 邮费
                  	   totalFeePrice += goods.getPostage();
@@ -727,12 +776,16 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long flashSoldNumber = goods.getFlashSaleSoldNumber();
-                    Long flashLeftNumber = goods.getFlashSaleLeftNumber();
+                    Long flashSoldNumber = 0L;
+                    if (null != goods.getFlashSaleSoldNumber()) {
+                    	flashSoldNumber = goods.getFlashSaleSoldNumber();
+					}
+                    		
+                    Long flashLeftNumber = 0L;
+                    if (null != goods.getFlashSaleLeftNumber()) {
+                    	flashLeftNumber = goods.getFlashSaleLeftNumber();
+					}                    		
 
-                    if (null == flashSoldNumber) {
-                        flashSoldNumber = 0L;
-                    }
 
                     flashSoldNumber += 1L;
                     goods.setFlashSaleSoldNumber(flashSoldNumber);
@@ -767,24 +820,33 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
 
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
-                    // 十人团预付价格
-                    orderGoods.setPrice(goods.getGroupSalePrice());
-
+             
+                    if (null != goods.getGroupSalePrice()) {
+                    	orderGoods.setPrice(goods.getGroupSalePrice());
+                    	// 商品总价
+                        totalGoodsPrice += goods.getGroupSalePrice() * buyGoods.getQuantity();
+					}
+                    
                     // 十人团
                     orderGoods.setGoodsSaleType(3);
 
-                    // 商品总价
-                    totalGoodsPrice += goods.getGroupSalePrice() * buyGoods.getQuantity();
+                    
                     
                     // 是否免邮
-                    if(!goods.getIsFeeNot())
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                     {
                  	   // 邮费
                  	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
@@ -804,12 +866,14 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long groupSoldNumber = goods.getGroupSaleSoldNumber();
-                    Long groupLeftNumber = goods.getGroupSaleLeftNumber();
-
-                    if (null == groupSoldNumber) {
-                        groupSoldNumber = 0L;
-                    }
+                    Long groupSoldNumber = 0L;
+                    if (null != goods.getGroupSaleSoldNumber()) {
+						groupSoldNumber = goods.getGroupSaleSoldNumber();
+					}                    		
+                    Long groupLeftNumber = 0L;
+                    if (null != goods.getGroupSaleLeftNumber()) {
+                    	groupLeftNumber = goods.getGroupSaleLeftNumber();
+					}
 
                     groupSoldNumber += buyGoods.getQuantity();
                     goods.setGroupSaleSoldNumber(groupSoldNumber);
@@ -839,24 +903,32 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
 
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
                     
                     // 价格 
-                    orderGoods.setPrice(goods.getSalePrice());
-
+                    if (null != goods.getSalePrice()) {
+                    	orderGoods.setPrice(goods.getSalePrice());
+                    	 // 商品总价
+                        totalGoodsPrice += (goods.getSalePrice() * buyGoods.getQuantity());
+					}
+                    
                     // 普通购买
-                    orderGoods.setGoodsSaleType(4);
+                    orderGoods.setGoodsSaleType(0);
 
-                    // 商品总价
-                    totalGoodsPrice += (goods.getSalePrice() * buyGoods.getQuantity());
-
+                   
                     // 是否免邮
-                    if(!goods.getIsFeeNot())
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                     {
                  	   // 邮费
                  	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
@@ -868,12 +940,15 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long soldNumber = goods.getSoldNumber();
-                    Long leftNumber = goods.getLeftNumber();
-
-                    if (null == soldNumber) {
-                        soldNumber = 0L;
-                    }
+                    Long soldNumber = 0L;
+                    if (null != goods.getSoldNumber()) {
+						soldNumber = goods.getSoldNumber();
+					}
+                    		
+                    Long leftNumber = 0L;
+                    if (null != goods.getLeftNumber()) {
+						leftNumber = goods.getLeftNumber();
+					}   
 
                     soldNumber += buyGoods.getQuantity();
                     goods.setSoldNumber(soldNumber);
@@ -1054,7 +1129,7 @@ public class TdOrderController {
 		 * @author lc
 		 * @注释：订单类型设置 
 		 */
-        tdOrder.setTypeId(0L);
+        tdOrder.setTypeId(1L);
         for(TdOrderGoods tdOrderGoods : orderGoodsList){
         	if (tdOrderGoods.getGoodsSaleType() == 1) {
 				tdOrder.setTypeId(2L);
@@ -1068,7 +1143,7 @@ public class TdOrderController {
         	else if (tdOrderGoods.getGoodsSaleType() == 3) {
         		tdOrder.setTypeId(4L);
 			}
-        	else if (tdOrderGoods.getGoodsSaleType() == 4) {
+        	else if (tdOrderGoods.getGoodsSaleType() == 0) {
         		tdOrder.setTypeId(1L);
 			}
         }
@@ -1118,7 +1193,10 @@ public class TdOrderController {
         tdOrder = tdOrderService.save(tdOrder);
 
          if (tdOrder.getIsOnlinePay()) {
-        return "redirect:/order/pay?orderId=" + tdOrder.getId();
+        	 if (tdOrder.getTotalPrice() == 0) {
+     			afterPaySuccess(tdOrder);
+     		}
+        	 return "redirect:/order/pay?orderId=" + tdOrder.getId();
          }
 
         return "redirect:/order/success?orderId=" + tdOrder.getId();
