@@ -78,7 +78,7 @@ public class TdAppLoginController {
         }
         user.setLastLoginTime(new Date());
         Map<String, Object> data=new HashMap<String, Object>();
-        data.put("username", username);
+        data.put("username", user.getUsername());
         
         data.put("password", MD5.md5(password, 32) );       
         

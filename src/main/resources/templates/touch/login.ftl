@@ -57,7 +57,7 @@
         
         $.ajax({
                 type: "post",
-                url: "login",
+                url: "/touch/login",
                 data: { "username": username, "password": password },
                 dataType: "json",
                 success: function (data) {
@@ -124,7 +124,7 @@ function saveUserInfo() {
 <div class="center mt15 pb15">
     <input id="rmbUser" type="checkbox" />
     <span class="fs08 c9">记住我</span>
-    <a class="absolute-r fs08 c9 fr" href="#">忘记密码？</a>
+    <a class="absolute-r fs08 c9 fr" href="/touch/login/password_retrieve">忘记密码？</a>
   </div>  
   <p class="center c9 fs08 pt15">其他方式登录</p>
   <table class="login_check">
@@ -141,7 +141,7 @@ function saveUserInfo() {
   <p class="ta-c mb10">
     <a class="fc fs09" href="#">触屏版</a>
     <span>&nbsp;|&nbsp;</span>
-    <a class="fs09" href="#">电脑版</a>
+    <a class="fs09" href="/login">电脑版</a>
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 

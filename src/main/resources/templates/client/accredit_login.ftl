@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>车有同盟</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="copyright" content="" />
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
+<meta name="copyright" content="${site.copyright!''}" />
 <!--[if IE]>
    <script src="js/html5.js"></script>
 <![endif]-->
@@ -13,14 +13,15 @@
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
 
-<link rel="shortcut icon" href="/client/images/cheyou.ico" />
-<link href="/client/style/common.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/style.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
+<link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/mymember.css" rel="stylesheet" type="text/css" />
 <style>
 .righta{float:right;}
 .lefta{float:left;}
-.contenta{ padding:20px 0; padding:20px; background:#fff; border-radius:5px; width:70%; margin-left:20%;}
+.contenta{ padding:20px 0; padding:25px; background:#fff; border-radius:5px; width:80%; margin-left:15%;}
 .contenta h3{ font-size:18px; color:#999;font-family: 'Microsoft YaHei'; padding:20px 0; height:20px;}
 .contenta button{ padding:10px 15px; border:0; background:#ff4454; color:#fff}
 .contenta i{ width:5px; height:20px; display:inline-block; background:#ff4454; margin-right:10px; vertical-align:middle}
@@ -77,15 +78,23 @@ function cliLogin(){
 </head>
 
 <body>
-<header class="logintop">
-  <div class="main pt20">
-    <a class="fl" href="#"><img src="/client/images/liebiao_03.png" /></a>
-    <p class="p3">售后保障</p>
-    <p class="p2">100%品牌制造商</p>
-    <p class="p1">100%正品保障</p>
-    <div class="clear"></div>
-  </div>
-</header>
+    <div class="w1065">
+        <div class="denglutop">
+            <div class="denglulogo"><a href="/"><img src="<#if site??>${site.logoUri!''}</#if>"></a></div>
+            <ul class="new_add">
+                <#if service_item_list??>
+                    <#list service_item_list as item>
+                        <li>
+                            <div>
+                             <img src="${item.logo!''}" width="38" height="38">
+                            </div>
+                            <span>${item.title!''}</span>
+                        </li>
+                    </#list>
+                </#if>
+            </ul>
+        </div>
+    </div>
 <div class="main">
     <!--QQ登录显示用户在Qzone的昵称-->
     <#if nickName??><p style=" width: 360px;text-align: right;">惠之店欢迎您：${nickName}</p></#if>
@@ -111,25 +120,22 @@ function cliLogin(){
 </div>
 
 
-<footer class="loginfoot">
-    <nav>
-        <#if help_level0_cat_list??>
-            <#list help_level0_cat_list as item>
-                <a href="/info/list/${item.id?c!''}">${item.title!''}</a>
-            </#list>
-        </#if>
-    </nav>
-    <p>友情链接：
-    <#if site_link_list??>
-        <#list site_link_list as item>
-            <a href="${item.linkUri!''}">${item.title!''}</a> |
-        </#list>
-    </#if>
-    </p>
-    <p><#if site??>${site.copyright!''}</#if></p>
-    <p>${site.address!''} 电话：${site.telephone!''} </p>
-  <p><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a>
-</p>
-</footer>
+ <div class="clear"></div>
+        <div class="w1065">
+    <div class="w1059 downbq">
+          <ul class="downwenzi">
+              <#if about_us_list??>
+                   <#list about_us_list as item>
+                        <#if item_index < 5>
+                            <li><a href="/info/list/${about_id!'1'}?catId=${item.id?c!''}">${item.title!''}</a>丨</li>
+                        </#if>
+                   </#list>
+              </#if>             
+          </ul>
+    <div class="clear"></div>
+  <div><#if site??>${site.copyright!''}</#if><#if site??>${site.icpNumber!''}</#if></div>
+  <div><span><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span></div>
+</div>
+</div>
 </body>
 </html>

@@ -134,13 +134,15 @@ public class TdTouchUserController {
     private TdCouponTypeService tdCouponTypeService;
     
     @RequestMapping(value = "/user")
-    public String user(HttpServletRequest req, ModelMap map) {
-        String username = (String) req.getSession().getAttribute("username");
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
-        
+    public String user(HttpServletRequest req, String username, ModelMap map) {
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
+               
         tdCommonService.setHeader(map, req);
         
         map.addAttribute("server_ip", req.getLocalName());

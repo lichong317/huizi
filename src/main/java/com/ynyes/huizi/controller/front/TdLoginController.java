@@ -115,7 +115,7 @@ public class TdLoginController {
     public Map<String, Object> login(String username, 
                 String password, 
                 String code, 
-                Boolean isSave,
+                Boolean isSave, String alipayuser_id,String type,
                 HttpServletRequest request) {
         Map<String, Object> res = new HashMap<String, Object>();
         
@@ -141,6 +141,30 @@ public class TdLoginController {
         }
         
         user.setLastLoginTime(new Date());
+        
+        /**
+		 * @author libiao
+		 * 判断是首页直接登录还是绑定第三方账号
+		 */
+		if(null !=type){
+			/**
+			 * @author libiao
+			 * 判断绑定类型为绑定QQ
+			 */
+			if("qq".equals(type)){
+				user.setQqUserId(alipayuser_id);
+			}
+			/**
+			 * @author lc
+			 * @注释：添加支付宝第三方登陆用户名
+			 */
+			if("zfb".equals(type)){
+				user.setAlipayUserId(alipayuser_id);
+			}
+			
+			user = tdUserService.save(user);
+		}
+		
         
         tdUserService.save(user);
         
@@ -456,7 +480,7 @@ public class TdLoginController {
 				//user.setLastLoginIp(CommonService.getIp(request));
 				user = tdUserService.save(user);
 				request.getSession().setAttribute("username", user.getUsername());
-				request.getSession().setAttribute("usermobile", user.getMobile());
+				//request.getSession().setAttribute("usermobile", user.getMobile());
 				return "redirect:/";
 			} else {
 				return "/client/accredit_login";
@@ -481,28 +505,42 @@ public class TdLoginController {
 	@RequestMapping(value = "/login/alipay_accredit/{type}", method = RequestMethod.GET)
 	public String alipaylogin(@PathVariable String type, String thirdparty_username, HttpServletRequest request, ModelMap map) {
 		TdUser user = tdUserService.findByAlipayUserId(thirdparty_username);
-		if ("qq".equals(type)) {
+		
+		String newUsername = null;
+		if ("qq".equals(type)) {// 如果需要区分用户名
 			//user = tdUserService.findByQqUserId(useralipay_username);
-		}		
-        
-		String alipayusername = randomUsername();
+			newUsername = randomUsername();
+		}else {
+			newUsername = randomUsername();
+		}		        		
         
 		if (null != user) {
 			user.setLastLoginTime(new Date());
 			//user.setLastLoginIp(CommonService.getIp(request));
 			user = tdUserService.save(user);
 			request.getSession().setAttribute("username", user.getUsername());
-			request.getSession().setAttribute("usermobile", user.getMobile());
+			//request.getSession().setAttribute("usermobile", user.getMobile());
 
 			return "redirect:/";
-		} else {
-		
-			map.put("username1", thirdparty_username);
-			map.put("type", type);
-			map.put("typeId", thirdparty_username);
-			tdCommonService.setHeader(map, request);
-			return "client/login_verification";
+		} else { //新建用户 用户名随机
+		    user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
+			if (null != user) {
+				if("qq".equals(type)){
+					//QQ登录新建账号
+					user.setQqUserId(thirdparty_username);
+				}else{
+					//支付宝登录新建账号
+					user.setAlipayUserId(thirdparty_username);
+				}
+
+				user.setLastLoginTime(new Date());
+				tdUserService.save(user);
+				request.getSession().setAttribute("username", user.getUsername());
+				return "redirect:/";
+			}
+			
 		}
+		return "redirect:/";
 	}
 	
 	/**
@@ -598,7 +636,7 @@ public class TdLoginController {
 					//user.setLastLoginIp(CommonService.getIp(request));
 					tdUserService.save(user);
 					request.getSession().setAttribute("username", user.getUsername());
-					request.getSession().setAttribute("usermobile", user.getMobile());
+					//request.getSession().setAttribute("usermobile", user.getMobile());
 					return "redirect:/";
 				}
 			}

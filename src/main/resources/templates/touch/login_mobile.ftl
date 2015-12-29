@@ -146,7 +146,7 @@ function tip()
   </div>
     <input id="smsCodeBtn" type="submit" class="loginbtn fl" value="发送验证码" style="width:40%; margin-right:3%; margin-left:5%; float:right; font-size:0.8em;" />
   <div class="clear20"></div>
-  <a href="#" style="
+  <a href="/touch/login" style="
     font-size: 0.8em;
     color: #ff4454;
     margin-left: 18px;
@@ -157,7 +157,7 @@ function tip()
 <div class="center mt15 pb15">
     <input type="radio" />
     <span class="fs08 c9">记住我</span>
-    <a class="absolute-r fs08 c9 fr" href="#">忘记密码？</a>
+    <a class="absolute-r fs08 c9 fr" href="/touch/login/password_retrieve">忘记密码？</a>
   </div>  
   <p class="center c9 fs08 pt15">其他方式登录</p>
   <table class="login_check">
@@ -174,9 +174,9 @@ function tip()
   <p class="ta-c mb10">
     <a class="fc fs09" href="#">触屏版</a>
     <span>&nbsp;|&nbsp;</span>
-    <a class="fs09" href="#">电脑版</a>
+    <a class="fs09" href="/login">电脑版</a>
   </p>
-  <p class="ta-c fs08 c7">Copyright © 2015 www.rcsj.com 保留所有版权 </p> 
-  <p class="ta-c fs08 c7">滇ICP备0932488号</p> 
+  <p class="ta-c fs08 c7">${site.copyright!''}</p> 
+  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
 </body>
 </html>
