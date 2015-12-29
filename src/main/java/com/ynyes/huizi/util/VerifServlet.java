@@ -4,12 +4,24 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
+import com.ibm.icu.text.SimpleDateFormat;
 /**
  * 
  * 验证码工具
@@ -58,9 +70,9 @@ public class VerifServlet {
         for(int i=1;i<=stringNum;i++){
             randomString=drowString(g,randomString,i);
         }
+        System.out.println(randomString+"..");
         session.removeAttribute(RANDOMCODEKEY);
         session.setAttribute(RANDOMCODEKEY, randomString);
-     //   System.out.println(randomString);
         g.dispose();
         try {
             ImageIO.write(image, "JPEG", response.getOutputStream());//将内存中的图片通过流动形式输出到客户端
@@ -68,6 +80,76 @@ public class VerifServlet {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * 
+     * APP中获取验证码
+     * */
+    String ImageRoot = SiteMagConstant.imagePath;    
+    public Map<String, Object> getAppRandcode(HttpServletRequest request,
+                HttpServletResponse response) throws IOException {
+            HttpSession session = request.getSession();
+          
+            BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_BGR);
+            Graphics g = image.getGraphics();
+            g.fillRect(0, 0, width, height);
+            g.setFont(new Font("Times New Roman",Font.ROMAN_BASELINE,18));
+            g.setColor(getRandColor(110, 133));
+            for(int i=0;i<=lineSize;i++){
+                drowLine(g);
+            }
+            String randomString = "";
+            for(int i=1;i<=stringNum;i++){
+                randomString=drowString(g,randomString,i);
+            }
+            System.out.println(randomString+"..");
+            session.removeAttribute(RANDOMCODEKEY);
+            session.setAttribute(RANDOMCODEKEY, randomString);
+            g.dispose();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+    			ImageIO.write(image, "PNG", out);
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+            
+            byte[] bytes = out.toByteArray();
+            Date dt = new Date(System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            String fileName = "AppCode.jpeg";
+
+            String uri = ImageRoot + "/" + fileName;
+
+            File file = new File(uri);
+
+            BufferedOutputStream stream;
+    		try 
+    		{
+    			stream = new BufferedOutputStream(
+    			        new FileOutputStream(file));
+    					stream.write(bytes);
+    					stream.close();
+    		}
+    		catch (FileNotFoundException e1)
+    		{
+    			e1.printStackTrace();
+    		}
+    		Map<String, Object> res = new HashMap<String, Object>();
+            res.put("status", 0);
+            res.put("msg", "上传文件成功！");
+            res.put("path", "/images/" + fileName);
+            res.put("codes", randomString);
+            res.put("thumb", "/images/" + fileName);
+            System.out.println(res+"...");
+
+            return res;
+//            try {
+//                ImageIO.write(image, "JPEG", response.getOutputStream());//将内存中的图片通过流动形式输出到客户端
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }
+    
     private String drowString(Graphics g,String randomString,int i){
         g.setFont(getFont());
         g.setColor(new Color(random.nextInt(101),random.nextInt(111),random.nextInt(121)));

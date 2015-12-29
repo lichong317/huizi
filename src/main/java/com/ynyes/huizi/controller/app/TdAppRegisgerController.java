@@ -21,18 +21,18 @@ import com.ynyes.huizi.service.TdUserService;
  * 
  */
 @Controller
+@RequestMapping(value = "/app", method = RequestMethod.GET)
 public class TdAppRegisgerController {
     @Autowired
     private TdUserService tdUserService;
     
     //APP 手机号验证
-    @RequestMapping(value = "/app/reg/check/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/reg/check/{type}", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> appregcheck(@PathVariable String type, String param) {
         Map<String, Object> res = new HashMap<String, Object>();
 
         res.put("status", 1);
-        
         
         if (null == type)
         {
@@ -89,7 +89,7 @@ public class TdAppRegisgerController {
 	 * @author lc
 	 * @注释：app注册接口
 	 */
-    @RequestMapping(value = "/app/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> appreg(String mobile, String password, String smscode,  HttpServletResponse response, HttpServletRequest request){
     	Map<String, Object> res = new HashMap<String, Object>();
@@ -111,16 +111,16 @@ public class TdAppRegisgerController {
     		return res;
 		}
     	
-    	String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
-    	if (null == smsCodeSave) {
-			smsCodeSave = "123456";
-		} 
-    	if (!smsCodeSave.equalsIgnoreCase(smscode)) {
-    		res.put("status", 2); 
-    		res.put("msg", "验证码错误");
-    		return res;
-		}
-    	
+//    	String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
+//    	if (null == smsCodeSave) {
+//			smsCodeSave = "123456";
+//		} 
+//    	if (!smsCodeSave.equalsIgnoreCase(smscode)) {
+//    		res.put("status", 2); 
+//    		res.put("msg", "验证码错误");
+//    		return res;
+//		}
+//    	
     	TdUser tdUser = tdUserService.findByUsername(mobile);
     	if (null != tdUser) {
     		res.put("status", 3); 
@@ -137,6 +137,7 @@ public class TdAppRegisgerController {
 		}
     	
     	res.put("status", 0);
+    	res.put("msg", "注册成功");
     	return res;
     }
     

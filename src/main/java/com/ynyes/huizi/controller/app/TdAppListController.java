@@ -44,6 +44,7 @@ public class TdAppListController {
         
         List<TdProductCategory> topCatList = tdProductCategoryService
                 .findByParentIdIsNullOrderBySortIdAsc();
+        
         res.put("data", topCatList);
         
         res.put("code", 0);

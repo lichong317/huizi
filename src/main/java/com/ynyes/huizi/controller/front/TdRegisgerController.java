@@ -180,7 +180,7 @@ public class TdRegisgerController {
                 String smscode,
                 Long shareId,
                 HttpServletRequest request){
-        String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+        String codeBack = (String) request.getSession().getAttribute(VerifServlet.RANDOMCODEKEY);
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
         if (null == smsCodeSave ) {
 			smsCodeSave = "123456";			
@@ -371,6 +371,19 @@ public class TdRegisgerController {
         randomValidateCode.getRandcode(request, response);
     }
     
+    
+    @RequestMapping(value = "app/code",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> verifyApp(HttpServletResponse response, HttpServletRequest request) throws Exception {
+		response.setContentType("image/jpeg");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expire", 0);
+        VerifServlet randomValidateCode = new VerifServlet();
+        System.out.println("App---code Session:" + request.getSession().getId());
+        return randomValidateCode.getAppRandcode(request, response);
+    }
+    
     @RequestMapping(value = "/reg/checkYzmcode",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> checkyzmcode(String yzmcode, HttpServletResponse response, HttpServletRequest request) {
@@ -409,7 +422,12 @@ public class TdRegisgerController {
         
         session.setAttribute("SMSCODE", smscode);
        
-        return SMSUtil.send(mobile, "55005" ,new String[]{smscode});
+        HashMap<String, Object> map = SMSUtil.send(mobile, "55005" ,new String[]{smscode});
+        map.put("status", "0");
+        map.put("msg" ,"验证码发送成功!");
+        map.put("code", smscode);
+        return map;
+        
     }
     
 }

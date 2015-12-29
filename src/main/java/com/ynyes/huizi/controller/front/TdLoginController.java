@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.front;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -344,7 +345,7 @@ public class TdLoginController {
 	}
     
     @RequestMapping(value = "/verify",method = RequestMethod.GET)
-    public void verify(HttpServletResponse response, HttpServletRequest request) {
+    public void verify(HttpServletResponse response, HttpServletRequest request) throws Exception{
         response.setContentType("image/jpeg");
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");

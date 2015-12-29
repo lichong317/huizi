@@ -1,5 +1,9 @@
 package com.ynyes.huizi.controller.app;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +146,7 @@ public class TdAppIndexController {
                 List<TdProductCategory> secondLevelList = tdProductCategoryService
                         .findByParentIdOrderBySortIdAsc(topCat.getId());
                 res.put("second_level_" + i + "_cat_list", secondLevelList);
-
+                
                 if (null != secondLevelList && secondLevelList.size() > 0) 
                 {
                     for (int j=0; j<secondLevelList.size(); j++)
@@ -175,7 +179,7 @@ public class TdAppIndexController {
         // 全部商品分类，取三级
         List<TdProductCategory> topCatList = tdProductCategoryService
                 .findByParentIdIsNullOrderBySortIdAsc();
-        res.put("top_cat_list", topCatList);
+       
 
         tdProductCategory = new TdProductCategory[topCatList.size()][];
         
@@ -195,15 +199,15 @@ public class TdAppIndexController {
 //                        List<TdProductCategory> thirdLevelList = tdProductCategoryService
 //                                .findByParentIdOrderBySortIdAsc(secondLevelCat.getId());                    	
                         tdProductCategory[i][j] = secondLevelCat ;
+                        
                     }
                 }
             }
         }
-        res.put("data", tdProductCategory);
-        
+        res.put("data", topCatList);
+        res.put("top_cat_list", tdProductCategory);
         // 分类                              
         res.put("status", 0);
-        
         return res;
     }
     
@@ -288,6 +292,5 @@ public class TdAppIndexController {
     	
     	return res;
     }
-    
-   
+	
 }

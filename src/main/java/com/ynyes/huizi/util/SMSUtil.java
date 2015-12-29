@@ -36,7 +36,7 @@ public class SMSUtil {
         //*******************************************************************************
         restAPI.setAppId("8a48b551518f46de01519034dec20332");
         
-        
+        //18656033053
         //******************************注释****************************************************************
         //*调用发送模板短信的接口发送短信                                                                  *
         //*参数顺序说明：                                                                                  *
@@ -53,20 +53,6 @@ public class SMSUtil {
         //*********************************************************************************************************************
         result = restAPI.sendTemplateSMS(to, templateId, datas);
         
-        System.out.println("SDKTestGetSubAccounts result=" + result);
-        
         return result;
-//        if("000000".equals(result.get("statusCode"))){
-//            //正常返回输出data包体信息（map）
-//            HashMap<String,Object> data = (HashMap<String, Object>) result.get("data");
-//            Set<String> keySet = data.keySet();
-//            for(String key:keySet){
-//                Object object = data.get(key);
-//                System.out.println(key +" = "+object);
-//            }
-//        }else{
-//            //异常返回输出错误码和错误信息
-//            System.out.println("错误码=" + result.get("statusCode") +" 错误信息= "+result.get("statusMsg"));
-//        }
     }
 }
