@@ -60,8 +60,7 @@
 
 <!--main END-->
 
-
-  <p class="ta-c mb10">
+<p class="ta-c mb10">
     <a class="fc fs09" href="#">触屏版</a>
     <span>&nbsp;|&nbsp;</span>
     <a class="fs09" href="/user">电脑版</a>

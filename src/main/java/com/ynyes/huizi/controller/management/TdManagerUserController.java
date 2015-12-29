@@ -455,7 +455,7 @@ public class TdManagerUserController {
 					TdUserPoint userPoint = new TdUserPoint();
 
 					userPoint.setIsBackgroundShow(false);
-					userPoint.setTotalPoint(tdPrizeCategory.getPrizePoints() + tdUser.getTotalPoints());
+					userPoint.setTotalPoint( tdUser.getTotalPoints());
 					userPoint.setUsername(tdUser.getUsername());
 					userPoint.setPoint(tdPrizeCategory.getPrizePoints());
 					userPoint.setDetail("抽奖奖励");

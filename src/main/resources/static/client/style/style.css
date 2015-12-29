@@ -1219,3 +1219,44 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .duibilan td img{width:75px; height:75px; float:left; margin-right:15px; margin-left:15px;}
 .duibilan p{width:100px; overflow:hidden; margin-left:15px; height:52px; line-height:24px;}
 .duibilan h3{font-weight:400; font-size:16px; color:#FFF; text-align:center;}
+
+.crumbs-nav-item {
+  float: left;
+  margin-right: 8px;
+}
+.crumbs-link, .crumbs-nav-item .menu-drop, .crumbs-nav-item .selector-set {
+  float: left;
+  margin-right: 5px;
+}
+.selector-set .ss-item {
+  position: relative;
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  border: 1px solid #DDD;
+  font-size: 12px;
+  vertical-align: top;
+  margin: 0 5px 5px 0;
+  padding: 0 26px 0 4px;
+  cursor: pointer;
+}
+
+.selector-set .ss-item b {
+  font-weight: 400;
+}
+.selector-set .ss-item em {
+  color: #e4393c;
+  font-style:normal;
+}
+
+.selector-set .ss-item i {
+  display: block;
+  position: absolute;
+  width: 25px;
+  height: 22px;
+  right: 0;
+  top: 0;
+  background:url(/client/images/imagesarch.ele.png) no-repeat 7px -140px;
+}
+.selector-set .ss-item:hover{border-color:#e4393c;text-decoration:none}
+.selector-set .ss-item:hover i{background-color:#e4393c;background-position:7px -158px}

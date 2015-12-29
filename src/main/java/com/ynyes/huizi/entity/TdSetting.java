@@ -109,10 +109,14 @@ public class TdSetting {
     @Column
     private Long goodsSharePoints;
     
+    // 每日签到奖励积分
+    @Column
+    private Long signinPoints;
+    
     // 商品分享每日积分奖励限额
     @Column
     private Long goodsShareLimits;
-    
+        
     // 分销用户返现比例
     @Column(scale=2)
     private Double returnRation;
@@ -373,6 +377,14 @@ public class TdSetting {
 
 	public void setMinWithdraw(Double minWithdraw) {
 		this.minWithdraw = minWithdraw;
+	}
+
+	public Long getSigninPoints() {
+		return signinPoints;
+	}
+
+	public void setSigninPoints(Long signinPoints) {
+		this.signinPoints = signinPoints;
 	}
     
 }

@@ -107,6 +107,10 @@ public class TdGoodsService {
      * @param size
      * @return
      */
+    public TdGoods findByIdAndIsOnsaleTrue(Long id){
+    	return repository.findByIdAndIsOnSaleTrue(id);
+    }
+    
     public Page<TdGoods> findAll(int page, int size) {
         PageRequest pageRequest = new PageRequest(page, size);
 

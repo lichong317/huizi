@@ -42,6 +42,14 @@ public class TdUser {
 	// 用户名
 	@Column(nullable=false, unique=true)
 	private String username;
+	
+	//支付宝登陆名
+	@Column
+	private String alipayUserId;
+		
+	//QQ登录名
+	@Column
+	private String qqUserId;
     
     // 上级用户名
     @Column
@@ -629,6 +637,22 @@ public class TdUser {
 
 	public void setCashRewardsFrozen(Long cashRewardsFrozen) {
 		this.cashRewardsFrozen = cashRewardsFrozen;
+	}
+
+	public String getAlipayUserId() {
+		return alipayUserId;
+	}
+
+	public void setAlipayUserId(String alipayUserId) {
+		this.alipayUserId = alipayUserId;
+	}
+
+	public String getQqUserId() {
+		return qqUserId;
+	}
+
+	public void setQqUserId(String qqUserId) {
+		this.qqUserId = qqUserId;
 	}
 
     

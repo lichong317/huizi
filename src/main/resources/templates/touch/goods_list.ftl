@@ -93,7 +93,8 @@ function loadMore()
         <a href="/touch/login">登录</a>
         <span>|</span>
         <a href="/touch/reg">注册</a>
-    </#if>      
+    </#if> 
+    <a class="absolute-r" href="javascript:$('html,body').animate({scrollTop:0},500);">返回顶部</a>     
   </div>
   </div>
 </section>

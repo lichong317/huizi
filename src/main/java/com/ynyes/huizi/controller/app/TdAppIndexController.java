@@ -46,6 +46,23 @@ public class TdAppIndexController {
     @Autowired
     private TdAdService tdAdService;
 
+    // 版本更新
+    
+    @RequestMapping(value="app/update")
+    @ResponseBody
+    public Map<String, Object> update(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+//        res.put("code", 1);
+//        
+//        res.put("data", tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, 4));
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
     // 新品推荐
     @RequestMapping(value="index/getNewProduct")
     @ResponseBody

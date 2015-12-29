@@ -141,7 +141,7 @@ function btnPageSubmit()
                         <#if goods_page.number+1 == 1>
                             <a class="a1 a0" href="javascript:;"><span>上一页</span></a>
                         <#else>
-                            <a class="a1 a0" href="/search?keywords=${keywords!''}&page=${goods_page.number-1}"><span>上一页</span></a>
+                            <a class="a1 " href="/search?keywords=${keywords!''}&page=${goods_page.number-1}"><span>上一页</span></a>
                         </#if>
                         
                         <#if goods_page.totalPages gt 0>
@@ -163,7 +163,7 @@ function btnPageSubmit()
                         </#if>
                         
                         <#if goods_page.number+1 == goods_page.totalPages || goods_page.totalPages==0>
-                            <a class="a2" href="javascript:;"><span>下一页</span></a>
+                            <a class="a2 a0" href="javascript:;"><span>下一页</span></a>
                         <#else>
                             <a class="a2" href="/search?keywords=${keywords!''}&page=${goods_page.number+1}"><span>下一页</span></a>
                         </#if>

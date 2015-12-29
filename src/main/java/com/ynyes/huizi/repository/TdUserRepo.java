@@ -59,4 +59,8 @@ public interface TdUserRepo extends
     Page<TdUser> findByUserLevelIdOrderByIdDesc(Long userlevelId, Pageable page);
     
     List<TdUser> findByStatusId(Long statusId);
+    
+    TdUser findByAlipayUserId(String alipay_userid); // 支付宝用户名查找
+    
+    TdUser findByQqUserId(String qqUserId);
 }

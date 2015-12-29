@@ -327,7 +327,7 @@ function checkwindowhide()
   border: solid 8px #f0f0f0;
   height: 380px;
   margin-bottom: 20px;
-  width:960px;
+  width:1050px;
   margin:0 auto;
 }
 .reg dl dt i {
@@ -407,8 +407,7 @@ div {
 						}
 					});	
 				});
-				
-							
+					
 			</script>
             <div class="regtip right">已有惠之店网上商城账号？现在就<a href="/login.aspx">登录</a></div>
             
@@ -453,8 +452,8 @@ div {
                     <dl>
                         <dt></dt>
                         <dd>
-                            <input name="" id="mmprovision" type="checkbox" datatype="*" nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                            <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
+                            <input name="" id="mmprovision" type="checkbox"  nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                            <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                     </dl>
                     <dl>
                         <dt></dt>
@@ -507,13 +506,13 @@ div {
                         <dl>
                             <dt>验证码</dt>
                             <dd>
-                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick=" this.src = 'this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
                         </dl>
                         <dl>
                             <dt></dt>
                             <dd>
-                                <input name="" id="mmprovision2"  datatype="*" nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
-                                <label for="mmprovision" style="color: #999;">我已认真阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
+                                <input name="" id="mmprovision2"   nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                                <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                         </dl>
                         <dl>
                             <dt></dt>
@@ -532,17 +531,17 @@ div {
 <div class="h30"></div>
 <div class="w1059 downbq">
     <ul class="downwenzi">
-          <li><a href="#">公司简介</a>丨</li>
-          <li><a href="#">联系我们</a>丨</li>
-          <li><a href="#">招贤纳士</a>丨</li>
-          <li><a href="#">合作伙伴</a>丨</li>
-          <li><a href="#">广告合作</a></li>
-    </ul>
+              <#if about_us_list??>
+                   <#list about_us_list as item>
+                        <#if item_index < 5>
+                            <li><a href="/info/list/${about_id!'1'}?catId=${item.id?c!''}">${item.title!''}</a>丨</li>
+                        </#if>
+                   </#list>
+              </#if>             
+     </ul>
     <div class="clear"></div>
-    <#if site??>${site.copyright!''}</#if><br>
-    <a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-    <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
-
+  <div><#if site??>${site.copyright!''}</#if><#if site??>${site.icpNumber!''}</#if></div>
+  <div><span><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span></div>
 </div>
     </div>
 </body>

@@ -403,12 +403,22 @@ public class TdManagerOrderController {
         if (null != statusId)
         {
             if (statusId.equals(0L)) // 全部订单
-            {
-                map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchAll(keywords, page, size));
+				}
+                
             }
             else
             {
-                map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByStatusId(keywords, statusId, page, size));
+				}
+                
             }
         }
         

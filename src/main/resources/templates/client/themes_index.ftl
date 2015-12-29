@@ -256,7 +256,7 @@ function timer${item_index}()
                                 <#if ("third_level_" + item_index + "_cat_list")?eval??>
                                     <#list ("third_level_" + item_index + "_cat_list")?eval as thirdcat>
                                         <#if thirdcat_index < 10>
-                                            <a title="${thirdcat.title!''}" href="/list${thirdcat.id?c}">${thirdcat.title!''}</a>
+                                            <a title="${thirdcat.title!''}" href="/list/${thirdcat.id?c}">${thirdcat.title!''}</a>
                                         </#if>
                                     </#list>                                   
                                 </#if> 

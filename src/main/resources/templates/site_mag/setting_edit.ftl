@@ -310,6 +310,13 @@ $(function () {
         </dd>
     </dl>
     <dl>
+        <dt>每日签到奖励积分</dt>
+        <dd>
+            <input name="signinPoints" type="text" value="<#if setting??>${setting.signinPoints!"1"}<#else>1</#if>" class="input normal" datatype="n" sucmsg=" ">
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
+    <dl>
         <dt>商品分享每日积分限额</dt>
         <dd>
             <input name="goodsShareLimits" type="text" value="<#if setting??>${setting.goodsShareLimits!"50"}<#else>50</#if>" class="input normal" datatype="n" sucmsg=" ">

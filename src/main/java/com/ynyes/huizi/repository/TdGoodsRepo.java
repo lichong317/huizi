@@ -21,6 +21,8 @@ public interface TdGoodsRepo extends
 		PagingAndSortingRepository<TdGoods, Long>,
 		JpaSpecificationExecutor<TdGoods> 
 {
+	TdGoods findByIdAndIsOnSaleTrue(Long id);
+	
     Page<TdGoods> findByCategoryIdTreeContainingAndIsOnSaleTrue(String categoryId, Pageable page);
     
     Page<TdGoods> findByCategoryIdTreeContainingAndIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(String categoryId, Pageable page);

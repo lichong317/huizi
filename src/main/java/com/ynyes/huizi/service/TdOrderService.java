@@ -3,6 +3,7 @@ package com.ynyes.huizi.service;
 import java.util.Date;
 import java.util.List;
 
+import org.neo4j.cypher.internal.compiler.v2_1.docbuilders.internalDocBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -78,6 +79,21 @@ public class TdOrderService {
         return repository.findOne(id);
     }
     
+    /**
+	 * @author lc
+	 * @注释：搜索 
+	 */
+    public Page<TdOrder> searchAll(String keywords, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
+    	
+    	return repository.findByorderNumberContainingOrShippingAddressContainingOrShippingNameContainingOrUsernameContainingOrShippingPhoneContaining(keywords,keywords,keywords,keywords,keywords,pageRequest);
+    }
+    
+    public Page<TdOrder> searchByStatusId(String keywords, Long statusId, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
+    	
+    	return repository.findByorderNumberContainingAndStatusIdOrShippingAddressContainingAndStatusIdOrShippingNameContainingAndStatusIdOrUsernameContainingAndStatusIdOrShippingPhoneContainingAndStatusId(keywords,statusId,keywords,statusId,keywords,statusId,keywords,statusId,keywords,statusId,pageRequest);
+    }
     /**
      * 查找
      * 

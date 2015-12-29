@@ -52,6 +52,18 @@ public class TdPayType {
     // 描述说明
     @Column
     private String info;
+    
+ // 支付代码
+    @Column
+    private String code;
+    
+    // 支付接口活动引导小标题
+    @Column
+    private String adTitle;
+
+    // 支付接口活动引导内容
+    @Column
+    private String adContents;
 
     public Long getId() {
         return id;
@@ -124,4 +136,28 @@ public class TdPayType {
     public void setInfo(String info) {
         this.info = info;
     }
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getAdTitle() {
+		return adTitle;
+	}
+
+	public void setAdTitle(String adTitle) {
+		this.adTitle = adTitle;
+	}
+
+	public String getAdContents() {
+		return adContents;
+	}
+
+	public void setAdContents(String adContents) {
+		this.adContents = adContents;
+	}
 }

@@ -15,6 +15,7 @@
 <script src="/client/js/ljs-v1.01.js"></script>
 <script src="/client/js/mymember.js"></script>
 <script type="text/javascript" src="/client/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>
 
 <script type="text/javascript">
  var seed=60;    //60秒  
@@ -62,7 +63,6 @@
                     //}
                    //}
                
-               
                 $("#dyMobileButton").bind("click", function() {  
         
                 var mob = $('#usermobile').val();
@@ -73,29 +73,43 @@
                     alert("请输入正确的手机号");
                     return;
                 }
-                        
-                $.ajax({  
-                        url : "/reg/smscode",  
-                        async : true,  
-                        type : 'GET',  
-                        data : {"mobile": mob},  
-                        success : function(data) {  
-                                        
-                             if(data.statusCode == '000000')
-                                        {  
-                                            t1 = setInterval(tip, 1000);  
-                                        }
-                                        else
-                                        {
-                                            $("#dyMobileButton").removeAttr("disabled");
-                                        }
-                                    },  
-                               error : function(XMLHttpRequest, textStatus,  
-                                            errorThrown) {  
-                                        alert("发送失败");
-                                    }  
-                          
-                });
+                
+                // 判断用户是否存在
+                $.ajax({
+                            type: "post",
+                            url: "/reg/check/mobile",
+                            data: { "param": mob},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == "n") {
+                                    $.ajax({  
+                                            url : "/reg/smscode",  
+                                            async : true,  
+                                            type : 'GET',  
+                                            data : {"mobile": mob},  
+                                            success : function(data) {  
+                                                            
+                                                 if(data.statusCode == '000000')
+                                                            {  
+                                                                t1 = setInterval(tip, 1000);  
+                                                            }
+                                                            else
+                                                            {
+                                                                $("#dyMobileButton").removeAttr("disabled");
+                                                            }
+                                                        },  
+                                                   error : function(XMLHttpRequest, textStatus,  
+                                                                errorThrown) {  
+                                                            alert("发送失败");
+                                                        }  
+                                              
+                                    });
+                                } else {
+                                    alert("此用户名不存在");
+                                }
+                            }
+                        });
+                                       
                 });
 });
                    
@@ -278,7 +292,7 @@
   border: solid 8px #f0f0f0;
   height: 380px;
   margin-bottom: 20px;
-  width:960px;
+  width:1000px;
   margin:0 auto;
 }
 .reg dl dt i {
@@ -366,7 +380,7 @@ div {
                     <dl>
                         <dt><i>*</i>手机号码</dt>
                         <dd>
-                            <input type="text" id="usermobile">
+                            <input type="text" id="usermobile" >
                         </dd>
                     </dl>
                    <#-->  <dl id="codedl">
@@ -419,6 +433,44 @@ div {
                             <button  id="btn_login">登录</button></dd>
                     </dl>
                 </div>
+                <div class="login_r item" style="width: 415px;
+  float: left;
+  padding-left: 65px;
+  padding-top: 20px;
+  color: #999;">
+  
+  <style>
+  .item table td a i {
+  background:url(/client/images/login.png) no-repeat;
+}
+.item table td a i.weixin {
+  background-position: -170px -40px;
+}
+.item table td a i {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.item table td a i.qq {
+  background-position: -9px -40px;
+}
+.item table td a i.alipay {
+  background-position: -124px -40px;
+}
+  </style>
+             <table width="300" border="0" cellpadding="5" cellspacing="0">
+                  <tbody>
+                  <tr style="height:30px;">合作账号登录:</tr>
+                <tr><td><a style="text-decoration:none" href="user.php?act=oath&amp;type=weixin"><i class="weixin"></i>&nbsp;&nbsp;微信</a></td>
+                    <td><a style="text-decoration:none" href="/qq/login"><i class="qq"></i>&nbsp;&nbsp;QQ</a></td>
+                    <!-- <td><a style="text-decoration:none" href="user.php?act=oath&type=weibo"><i class="sina"></i>&nbsp;&nbsp;新浪</a></td> -->
+                    <td><a style="text-decoration:none" href="/login/alipay_login"><i class="alipay"></i>&nbsp;&nbsp;支付宝</a></td> 
+                  </tr>
+                </tbody></table>
+             </div>
+                
+                
             </div>
 
         </div>          
@@ -428,15 +480,17 @@ div {
         <div class="w1065">
     <div class="w1059 downbq">
           <ul class="downwenzi">
-          <li><a href="#">公司简介</a>丨</li>
-          <li><a href="#">联系我们</a>丨</li>
-          <li><a href="#">招贤纳士</a>丨</li>
-          <li><a href="#">合作伙伴</a>丨</li>
-          <li><a href="#">广告合作</a></li>
+              <#if about_us_list??>
+                   <#list about_us_list as item>
+                        <#if item_index < 5>
+                            <li><a href="/info/list/${about_id!'1'}?catId=${item.id?c!''}">${item.title!''}</a>丨</li>
+                        </#if>
+                   </#list>
+              </#if>             
           </ul>
     <div class="clear"></div>
-  <#if site??>${site.copyright!''}</#if><a style="color:#222222" href="#"><#if site??>${site.icpNumber!''}</#if></a>
-          <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
+  <div><#if site??>${site.copyright!''}</#if><#if site??>${site.icpNumber!''}</#if></div>
+  <div><span><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span></div>
 </div>
 </div>
 </body>

@@ -55,7 +55,7 @@ $(document).ready(function(){
            
     //积分修改
     $("#idPointUse").change(function(){
-        var point = $.trim($(this).val());
+        var point = parseFloat($.trim($(this).val()));
         if (isNaN(point) || point=="") { point = 0 }
         
         var price = $.trim($("#idTotalPriceSteady").val());
@@ -100,7 +100,7 @@ $(document).ready(function(){
     
     $("#virtualCurrency").change(function(){
 
-        var virtualCurrency  = $.trim($(this).val());
+        var virtualCurrency  = parseFloat($.trim($(this).val()));
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
         <#if user?? &&  user.roleId??>

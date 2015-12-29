@@ -2,21 +2,21 @@ package com.ynyes.huizi.controller.front;
 
 import static org.apache.commons.lang3.StringUtils.leftPad;
 
-import java.text.ParseException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,40 +24,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ynyes.huizi.entity.TdGoodsCombination;
-import com.ynyes.huizi.entity.TdGoodsDto;
-import com.ynyes.huizi.service.TdGoodsCombinationService;
+import com.cytm.payment.alipay.AlipayConfig;
+import com.cytm.payment.alipay.Constants;
+import com.cytm.payment.alipay.PaymentChannelAlipay;
+import com.cytm.payment.alipay.core.AlipayNotify;
+import com.cytm.payment.ceb.CEBPayConfig;
+import com.cytm.payment.ceb.PaymentChannelCEB;
+import com.ibm.icu.util.Calendar;
+import com.tencent.common.Configure;
+import com.tencent.common.MD5;
+import com.tencent.common.RandomStringGenerator;
+import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
-import com.ynyes.huizi.entity.TdProductCategory;
-import com.ynyes.huizi.entity.TdSetting;
-import com.ynyes.huizi.service.TdCouponTypeService;
-import com.ynyes.huizi.service.TdCouponService;
-import com.ynyes.huizi.service.TdProductCategoryService;
-import com.ynyes.huizi.service.TdSettingService;
-import com.ynyes.huizi.service.TdShippingAddressService;
-import com.ibm.icu.util.Calendar;
-import com.ynyes.huizi.entity.TdCartGoods;
-import com.ynyes.huizi.entity.TdDeliveryType;
 import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.entity.TdGoodsCombination;
+import com.ynyes.huizi.entity.TdGoodsDto;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
+import com.ynyes.huizi.entity.TdPayRecord;
 import com.ynyes.huizi.entity.TdPayType;
+import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.service.TdCartGoodsService;
 import com.ynyes.huizi.service.TdCommonService;
+import com.ynyes.huizi.service.TdCouponService;
+import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdDeliveryTypeService;
+import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdPayRecordService;
 import com.ynyes.huizi.service.TdPayTypeService;
+import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdSettingService;
+import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
-
-import scala.math.Numeric.DoubleAsIfIntegral;
 
 /**
  * 订单
@@ -65,8 +73,11 @@ import scala.math.Numeric.DoubleAsIfIntegral;
  */
 @Controller
 @RequestMapping("/order")
-public class TdOrderController {
+public class TdOrderController extends AbstractPaytypeController{
 
+	private static final String PAYMENT_ALI = "ALI";
+	private static final String PAYMENT_WX = "WX";
+	
     @Autowired
     private TdCartGoodsService tdCartGoodsService;
 
@@ -111,6 +122,15 @@ public class TdOrderController {
     
     @Autowired
     private TdShippingAddressService tdShippingAddressService;
+    
+    @Autowired
+    private TdPayRecordService tdPayRecordService;
+    
+//    @Autowired
+//    private PaymentChannelAlipay payChannelAlipay;
+    
+//    @Autowired
+//    private PaymentChannelCEB payChannelCEB;
     
     @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
     @ResponseBody
@@ -191,7 +211,7 @@ public class TdOrderController {
         	map.addAttribute("shareId", shareId);
 		}
         
-        if (null == quantity)
+        if (null == quantity || quantity < 0)
         {
         	quantity = 1L;
         }
@@ -237,10 +257,17 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getSalePrice());
-            buyGoods.setQuantity(1L);
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getSalePrice()) {
+            	buyGoods.setPrice(goods.getSalePrice());
+			}
+            
+            buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(1);
 
             tdGoodsList.add(buyGoods);
@@ -268,10 +295,16 @@ public class TdOrderController {
                         TdGoodsDto buyZhGoods = new TdGoodsDto();
     
                         buyZhGoods.setGoodsId(combGoods.getGoodsId());
-                        buyZhGoods.setGoodsTitle(combGoods.getGoodsTitle());
-                        buyZhGoods.setGoodsCoverImageUri(combGoods
-                                .getCoverImageUri());
-                        buyZhGoods.setPrice(combGoods.getCurrentPrice());
+                        if (null != combGoods.getGoodsTitle()) {
+                        	buyZhGoods.setGoodsTitle(combGoods.getGoodsTitle());
+						}
+                        if (null != combGoods.getCoverImageUri()) {
+                        	buyZhGoods.setGoodsCoverImageUri(combGoods.getCoverImageUri());
+						}
+                        if (null != combGoods.getCurrentPrice()) {
+                        	buyZhGoods.setPrice(combGoods.getCurrentPrice());
+						}
+                        
                         buyZhGoods.setQuantity(1L);
                         buyZhGoods.setSaleId(1);
     
@@ -296,8 +329,13 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            
             Double flashSalePrice = tdGoodsService.getFlashPrice(goods);
             
             if (null == flashSalePrice)
@@ -306,7 +344,7 @@ public class TdOrderController {
             }
             
             buyGoods.setPrice(flashSalePrice);
-            buyGoods.setQuantity(1L);
+            buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(2);
 
             tdGoodsList.add(buyGoods);
@@ -327,10 +365,17 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getGroupSalePrice());
-            buyGoods.setQuantity(1L);
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getGroupSalePrice()) {
+            	buyGoods.setPrice(goods.getGroupSalePrice());
+			}
+            
+            buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(3);
 
             tdGoodsList.add(buyGoods);
@@ -348,7 +393,7 @@ public class TdOrderController {
             // 积分限额
             TdUser tdUser = tdUserService.findByUsername(username);
             if (null != tdUser ) {
-				if (null != tdUser.getTotalPoints() ) {
+				if (null != tdUser.getTotalPoints() && null != goods.getPointLimited()) {
 					if (goods.getPointLimited() > tdUser.getTotalPoints()) {
 						map.addAttribute("total_point_limit", tdUser.getTotalPoints());
 					}
@@ -362,9 +407,16 @@ public class TdOrderController {
             TdGoodsDto buyGoods = new TdGoodsDto();
 
             buyGoods.setGoodsId(goods.getId());
-            buyGoods.setGoodsTitle(goods.getTitle());
-            buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-            buyGoods.setPrice(goods.getSalePrice());
+            if (null != goods.getTitle()) {
+            	buyGoods.setGoodsTitle(goods.getTitle());
+			}
+            if (null != goods.getCoverImageUri()) {
+            	buyGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+			}
+            if (null != goods.getSalePrice()) {
+            	buyGoods.setPrice(goods.getSalePrice());
+			}
+            
             buyGoods.setQuantity(quantity);
             buyGoods.setSaleId(0);
 
@@ -375,9 +427,11 @@ public class TdOrderController {
             List<String> productIds = new ArrayList<>();
           
             if (productIds.isEmpty()) {
-                    productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+            		if (null != goods.getCategoryIdTree()) {
+            			productIds.add(goods.getCategoryIdTree().split(",")[0]);// 根类别
+					}                  
             } else {
-                  if (!productIds
+                  if (null != goods.getCategoryIdTree() && !productIds
                             .contains(goods.getCategoryIdTree().split(",")[0])) {
                         productIds.add(goods.getCategoryIdTree().split(",")[0]);
                   }
@@ -499,7 +553,7 @@ public class TdOrderController {
         }
         else
         {
-            return "/client/order_info";
+            return "/client/order_buy_ordinary";
         }
     }
     
@@ -526,7 +580,7 @@ public class TdOrderController {
             String invoiceTitle, // 发票抬头
             String userMessage, // 用户留言
             Long shareId,// 分享用户id
-            Double totalPostage,
+            Double totalPostage, Double virtualCurrency,
             String appointmentTime, HttpServletRequest req, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -546,6 +600,11 @@ public class TdOrderController {
             return "/client/error_404";
         }
 
+        // 虚拟货币
+        if (null == virtualCurrency) {
+        	virtualCurrency = 0.0;
+		}     
+        
         double payTypeFee = 0.0;
         double deliveryTypeFee = 0.0;
         double pointFee = 0.0;
@@ -592,10 +651,16 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
-
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
+                    
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
@@ -616,18 +681,18 @@ public class TdOrderController {
                         orderGoods.setGoodsSaleType(1);
 
                         // 商品总价
-                        totalGoodsPrice += buyGoods.getPrice();
+                        totalGoodsPrice += buyGoods.getPrice() * buyGoods.getQuantity();
                     }
 
                     // 是否免邮
-                   if(!goods.getIsFeeNot())
+                   if(null !=goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                    {
                 	   // 邮费
-                	   totalFeePrice += goods.getPostage();
+                	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
                    }
                     
                     // 数量
-                    orderGoods.setQuantity(1L);
+                    orderGoods.setQuantity( buyGoods.getQuantity());
 
                     // 获得积分
                     if (null != goods.getReturnPoints()) {
@@ -638,16 +703,19 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long soldNumber = goods.getSoldNumber();
-                    Long leftNumber = goods.getLeftNumber();
+                    Long soldNumber = 0L;
+                    if (null != goods.getSoldNumber()) {
+						soldNumber = goods.getSoldNumber();
+					}
+                    		
+                    Long leftNumber = 0L;
+                    if (null != goods.getLeftNumber()) {
+						leftNumber = goods.getLeftNumber();
+					}                    		
 
-                    if (null == soldNumber) {
-                        soldNumber = 0L;
-                    }
-
-                    soldNumber += 1L;
+                    soldNumber += buyGoods.getQuantity();
                     goods.setSoldNumber(soldNumber);
-                    goods.setLeftNumber(leftNumber - 1);
+                    goods.setLeftNumber(leftNumber - buyGoods.getQuantity());
 
                     // 保存商品
                     tdGoodsService.save(goods, username);
@@ -656,6 +724,9 @@ public class TdOrderController {
 
             // 使用粮草
             if (null != user.getTotalPoints()) {
+            	if (null == pointUse) {
+					pointUse = 0L;
+				}
                 if (pointUse.compareTo(user.getTotalPoints()) >= 0) {
                     pointUse = user.getTotalPoints();
                 }
@@ -683,10 +754,16 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
 
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
@@ -707,7 +784,7 @@ public class TdOrderController {
                     totalGoodsPrice += flashSalePrice;
 
                     // 是否免邮
-                    if(!goods.getIsFeeNot())
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                     {
                  	   // 邮费
                  	   totalFeePrice += goods.getPostage();
@@ -719,12 +796,16 @@ public class TdOrderController {
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long flashSoldNumber = goods.getFlashSaleSoldNumber();
-                    Long flashLeftNumber = goods.getFlashSaleLeftNumber();
+                    Long flashSoldNumber = 0L;
+                    if (null != goods.getFlashSaleSoldNumber()) {
+                    	flashSoldNumber = goods.getFlashSaleSoldNumber();
+					}
+                    		
+                    Long flashLeftNumber = 0L;
+                    if (null != goods.getFlashSaleLeftNumber()) {
+                    	flashLeftNumber = goods.getFlashSaleLeftNumber();
+					}                    		
 
-                    if (null == flashSoldNumber) {
-                        flashSoldNumber = 0L;
-                    }
 
                     flashSoldNumber += 1L;
                     goods.setFlashSaleSoldNumber(flashSoldNumber);
@@ -759,27 +840,36 @@ public class TdOrderController {
 
                     // 商品信息
                     orderGoods.setGoodsId(goods.getId());
-                    orderGoods.setGoodsTitle(goods.getTitle());
-                    orderGoods.setGoodsSubTitle(goods.getSubTitle());
-                    orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
 
                     // 是否已申请退货
                     orderGoods.setIsReturnApplied(false);
 
-                    // 十人团预付价格
-                    orderGoods.setPrice(goods.getGroupSalePrice());
-
+             
+                    if (null != goods.getGroupSalePrice()) {
+                    	orderGoods.setPrice(goods.getGroupSalePrice());
+                    	// 商品总价
+                        totalGoodsPrice += goods.getGroupSalePrice() * buyGoods.getQuantity();
+					}
+                    
                     // 十人团
                     orderGoods.setGoodsSaleType(3);
 
-                    // 商品总价
-                    totalGoodsPrice += goods.getGroupSalePrice();
+                    
                     
                     // 是否免邮
-                    if(!goods.getIsFeeNot())
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
                     {
                  	   // 邮费
-                 	   totalFeePrice += goods.getPostage();
+                 	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
                     }
 
                     // 尾款
@@ -791,27 +881,114 @@ public class TdOrderController {
                     }
 
                     // 数量
-                    orderGoods.setQuantity(1L);
+                    orderGoods.setQuantity(buyGoods.getQuantity());
 
                     orderGoodsList.add(orderGoods);
 
                     // 更新销量
-                    Long groupSoldNumber = goods.getGroupSaleSoldNumber();
-                    Long groupLeftNumber = goods.getGroupSaleLeftNumber();
+                    Long groupSoldNumber = 0L;
+                    if (null != goods.getGroupSaleSoldNumber()) {
+						groupSoldNumber = goods.getGroupSaleSoldNumber();
+					}                    		
+                    Long groupLeftNumber = 0L;
+                    if (null != goods.getGroupSaleLeftNumber()) {
+                    	groupLeftNumber = goods.getGroupSaleLeftNumber();
+					}
 
-                    if (null == groupSoldNumber) {
-                        groupSoldNumber = 0L;
-                    }
-
-                    groupSoldNumber += 1L;
+                    groupSoldNumber += buyGoods.getQuantity();
                     goods.setGroupSaleSoldNumber(groupSoldNumber);
-                    goods.setGroupSaleLeftNumber(groupLeftNumber - 1);
+                    goods.setGroupSaleLeftNumber(groupLeftNumber - buyGoods.getQuantity());
 
                     // 保存商品
                     tdGoodsService.save(goods, username);
                 }
             }
-        }      
+        }else {  //普通立即购买
+        	@SuppressWarnings("unchecked")
+            List<TdGoodsDto> tdGoodsList = (List<TdGoodsDto>) req.getSession()
+                    .getAttribute("buy_goods_list");
+
+            if (null != tdGoodsList && tdGoodsList.size() > 0) {
+                for (TdGoodsDto buyGoods : tdGoodsList) {
+                    // 原商品
+                    TdGoods goods = tdGoodsService.findOne(buyGoods
+                            .getGoodsId());
+
+                    // 不存在该商品或已下架或已不在秒杀，则跳过
+                    if (null == goods || !goods.getIsOnSale() ) {
+                        return "/client/error_404";
+                    }
+
+                    TdOrderGoods orderGoods = new TdOrderGoods();
+
+                    // 商品信息
+                    orderGoods.setGoodsId(goods.getId());
+                    if (null != goods.getTitle()) {
+                    	orderGoods.setGoodsTitle(goods.getTitle());
+					}
+                    if (null != goods.getSubTitle()) {
+                    	orderGoods.setGoodsSubTitle(goods.getSubTitle());
+					}
+                    if (null != goods.getCoverImageUri()) {
+                    	orderGoods.setGoodsCoverImageUri(goods.getCoverImageUri());
+					}
+
+                    // 是否已申请退货
+                    orderGoods.setIsReturnApplied(false);
+                    
+                    // 价格 
+                    if (null != goods.getSalePrice()) {
+                    	orderGoods.setPrice(goods.getSalePrice());
+                    	 // 商品总价
+                        totalGoodsPrice += (goods.getSalePrice() * buyGoods.getQuantity());
+					}
+                    
+                    // 普通购买
+                    orderGoods.setGoodsSaleType(0);
+
+                   
+                    // 是否免邮
+                    if(null != goods.getIsFeeNot() && !goods.getIsFeeNot() && null != goods.getPostage())
+                    {
+                 	   // 邮费
+                 	   totalFeePrice += goods.getPostage() * buyGoods.getQuantity();
+                    }
+                    
+                    // 数量
+                    orderGoods.setQuantity(buyGoods.getQuantity());
+
+                    orderGoodsList.add(orderGoods);
+
+                    // 更新销量
+                    Long soldNumber = 0L;
+                    if (null != goods.getSoldNumber()) {
+						soldNumber = goods.getSoldNumber();
+					}
+                    		
+                    Long leftNumber = 0L;
+                    if (null != goods.getLeftNumber()) {
+						leftNumber = goods.getLeftNumber();
+					}   
+
+                    soldNumber += buyGoods.getQuantity();
+                    goods.setSoldNumber(soldNumber);
+                    goods.setLeftNumber(leftNumber - buyGoods.getQuantity());
+
+                    // 保存商品
+                    tdGoodsService.save(goods, username);
+                    
+                    // 使用粮草
+                    if (null != user.getTotalPoints()) {
+                    	if (null == pointUse) {
+        					pointUse = 0L;
+        				}
+                        if (pointUse.compareTo(user.getTotalPoints()) >= 0) {
+                            pointUse = user.getTotalPoints();
+                        }
+                    }
+                }
+            }
+		}      
        
         if (null == orderGoodsList || orderGoodsList.size() <= 0) {
             return "/client/error_404";
@@ -884,69 +1061,69 @@ public class TdOrderController {
         // 用户留言
         tdOrder.setUserRemarkInfo(userMessage);
 
-//        if (buyType.equalsIgnoreCase("comb"))
-//        {
-//            // 使用积分
-//            tdOrder.setPointUse(pointUse);
-//
-//            // 优惠券
-////            if (null != couponId) {
-////                TdCoupon coupon = tdCouponService.findOne(couponId);
-////
-////                if (null != coupon) {
-////                    TdCouponType couponType = tdCouponTypeService
-////                            .findOne(coupon.getId());
-////
-////                    couponFee = couponType.getPrice();
-////                    coupon.setIsUsed(true);
-////                    tdCouponService.save(coupon);
-////                }
-////            }
-//
-//            // 粮草奖励
-//            tdOrder.setPoints(totalPointReturn);
-//
-//            pointFee = pointUse / 1;
-//
-//            // 总价
-//            tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee
-//                    + deliveryTypeFee - pointFee - couponFee);
-//            
-//            // 添加积分使用记录
-//            if (null != user) {
-//                if (null == user.getTotalPoints())
-//                {
-//                    user.setTotalPoints(0L);
-//                    
-//                    user = tdUserService.save(user);
-//                }
-//                
-//                if (pointUse.compareTo(0L) >= 0
-//                        && null != user.getTotalPoints()
-//                        && user.getTotalPoints().compareTo(pointUse) >= 0) {
-//                    TdUserPoint userPoint = new TdUserPoint();
-//                    userPoint.setDetail("购买商品使用积分抵扣");
-//                    userPoint.setOrderNumber(tdOrder.getOrderNumber());
-//                    userPoint.setPoint(0 - pointUse);
-//                    userPoint.setPointTime(new Date());
-//                    userPoint.setUsername(username);
-//                    userPoint.setTotalPoint(user.getTotalPoints() - pointUse);
-//                    tdUserPointService.save(userPoint);
-//
-//                    user.setTotalPoints(user.getTotalPoints() - pointUse);
-//                    tdUserService.save(user);
-//                }
-//            }
-//        }
-//        else
-//        {
-//         // 总价
-//            tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee);
-//        }
+        if (buyType.equalsIgnoreCase("normal"))
+        {
+            // 使用积分
+            tdOrder.setPointUse(pointUse);
 
-    	// 总价
-        
-        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
+            // 优惠券
+            if (null != couponId) {
+                TdCoupon coupon = tdCouponService.findOne(couponId);
+
+                if (null != coupon) {
+                    TdCouponType couponType = tdCouponTypeService
+                            .findOne(coupon.getId());
+
+                    couponFee = couponType.getPrice();
+                    coupon.setIsUsed(true);
+                    tdCouponService.save(coupon);
+                }
+            }
+
+            // 粮草奖励
+            tdOrder.setPoints(totalPointReturn);
+
+            pointFee = pointUse / 1;
+
+            // 总价
+            tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee
+                    + deliveryTypeFee + totalPostage - pointFee - couponFee - virtualCurrency);
+            
+            // 添加积分使用记录
+            if (null != user) {
+                if (null == user.getTotalPoints())
+                {
+                    user.setTotalPoints(0L);
+                    
+                    user = tdUserService.save(user);
+                }
+                
+                if (pointUse.compareTo(0L) >= 0
+                        && null != user.getTotalPoints()
+                        && user.getTotalPoints().compareTo(pointUse) >= 0) {
+                    TdUserPoint userPoint = new TdUserPoint();
+                    userPoint.setDetail("购买商品使用积分抵扣");
+                    userPoint.setOrderNumber(tdOrder.getOrderNumber());
+                    userPoint.setPoint(0 - pointUse);
+                    userPoint.setPointTime(new Date());
+                    userPoint.setUsername(username);
+                    userPoint.setTotalPoint(user.getTotalPoints() - pointUse);
+                    tdUserPointService.save(userPoint);
+
+                    user.setTotalPoints(user.getTotalPoints() - pointUse);
+                    tdUserService.save(user);
+                }
+            }
+        }
+        else
+        {
+         // 总价
+            tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
+        }
+
+//    	// 总价
+//        
+//        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
         
         // 待付款
         tdOrder.setStatusId(2L);
@@ -972,7 +1149,7 @@ public class TdOrderController {
 		 * @author lc
 		 * @注释：订单类型设置 
 		 */
-        tdOrder.setTypeId(0L);
+        tdOrder.setTypeId(1L);
         for(TdOrderGoods tdOrderGoods : orderGoodsList){
         	if (tdOrderGoods.getGoodsSaleType() == 1) {
 				tdOrder.setTypeId(2L);
@@ -985,7 +1162,10 @@ public class TdOrderController {
 			}
         	else if (tdOrderGoods.getGoodsSaleType() == 3) {
         		tdOrder.setTypeId(4L);
-			}       	
+			}
+        	else if (tdOrderGoods.getGoodsSaleType() == 0) {
+        		tdOrder.setTypeId(1L);
+			}
         }
         
         //分享用户id
@@ -1033,7 +1213,10 @@ public class TdOrderController {
         tdOrder = tdOrderService.save(tdOrder);
 
          if (tdOrder.getIsOnlinePay()) {
-        return "redirect:/order/pay?orderId=" + tdOrder.getId();
+        	 if (tdOrder.getTotalPrice() == 0) {
+     			afterPaySuccess(tdOrder);
+     		}
+        	 return "redirect:/order/pay?orderId=" + tdOrder.getId();
          }
 
         return "redirect:/order/success?orderId=" + tdOrder.getId();
@@ -1194,7 +1377,7 @@ public class TdOrderController {
     }
 
     @RequestMapping(value = "/goods/{type}")
-    public String orderEdit(HttpServletRequest req, HttpServletResponse resp,
+    public String orderEdit(HttpServletRequest req, HttpServletResponse resp,Long shareId,
             @PathVariable String type, Long gid, ModelMap map) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -1274,6 +1457,73 @@ public class TdOrderController {
         return "redirect:/order/info";
     }
 
+    /**
+	 * @author lc
+	 * @注释：立即购买商品数量加减
+	 */
+    @RequestMapping(value = "/buygoods/{type}")
+    public String orderBuyEdit(HttpServletRequest req, HttpServletResponse resp,Long shareId,
+            @PathVariable String type, Long gid, ModelMap map) {
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+            return "redirect:/login";
+        }
+
+        // 把所有的购物车项转到该登陆用户下
+//        List<TdCartGoods> cgList = tdCartGoodsService
+//                .findByUsernameAndIsSelectedTrue(username);
+
+        @SuppressWarnings("unchecked")
+		List<TdGoodsDto> cgList = (List<TdGoodsDto>) req.getSession()
+                .getAttribute("buy_goods_list");
+        
+        if (null != cgList && null != type && null != gid) {
+            for (TdGoodsDto cg : cgList) {
+                if (gid.equals(cg.getGoodsId())) {
+                	
+                    TdGoods goods = tdGoodsService.findOne(cg.getGoodsId());
+
+                    if (null != goods) {
+                        if (type.equalsIgnoreCase("plus")) 
+                        {
+                            // 团购
+                            if (goods.getIsGroupSale()
+                                    && goods.getGroupSaleStartTime().before(new Date())
+                                    && goods.getGroupSaleStopTime().after(new Date())
+                                    && cg.getPrice().equals(goods.getGroupSalePrice())) 
+                            {
+                                if (cg.getQuantity().compareTo(goods.getGroupSaleLeftNumber()) < 0) {
+                                    cg.setQuantity(cg.getQuantity() + 1L);
+                                }
+                            }
+                            else
+                            {
+                                if (cg.getQuantity().compareTo(goods.getLeftNumber()) < 0) {
+                                    cg.setQuantity(cg.getQuantity() + 1L);
+                                }
+                            }
+                        } else {
+                            if (cg.getQuantity().compareTo(1L) > 0) {
+                                cg.setQuantity(cg.getQuantity() - 1L);
+                            }
+                        }
+
+                        return "redirect:/order/buy/normal?gid=" + cg.getGoodsId() +"&quantity=" + cg.getQuantity() + "&shareId="  ;
+
+                    }
+				  
+                }
+            }
+        }
+               
+//        
+//        List<TdCartGoods> selectedGoodsList = tdCartGoodsService.findByUsernameAndIsSelectedTrue(username);
+//        map.addAttribute("selected_goods_list", selectedGoodsList);
+
+        return "redirect:/order/info";
+    }
+    
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submit(Long addressId, Long payTypeId, Long deliveryTypeId, Long couponId,
             Long pointUse, Boolean isNeedInvoice, String invoiceTitle,String userRemarkInfo, Double virtualCurrency, Double totalPostage,
@@ -1587,6 +1837,238 @@ public class TdOrderController {
         tdCommonService.setHeader(map, req);
 
         return "/client/order_pay_success";
+    }
+    
+    /**
+     * 支付
+     * 
+     * @param orderId
+     * @param map
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/dopay/{orderId}")
+    public String payOrder(@PathVariable Long orderId, ModelMap map,
+            HttpServletRequest req) {
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+            return "redirect:/login";
+        }
+
+        tdCommonService.setHeader(map, req);
+
+        if (null == orderId) {
+            return "/client/error_404";
+        }
+
+        TdOrder order = tdOrderService.findOne(orderId);
+
+        if (null == order) {
+            return "/client/error_404";
+        }
+
+        // 根据订单类型来判断支付时间是否过期
+//        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            // System.out.println(temp);
+//            if (temp > 1000 * 60 * 30) {
+//                return "/client/overtime";
+//            }
+//        }
+//        else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+//                                                                                   // 预付是团购结束前，
+//            Date cur = new Date();
+//            long temp = 0L;
+////            if (temp > 1000 * 3600 * 12) {
+////                return "/client/overtime";
+////            }
+//            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
+//            if (null != tdGoods) {
+//				if (order.getTypeId().equals(4L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
+//				}else if (order.getTypeId().equals(5L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
+//				}
+//				if (temp > 0) {
+//                    return "/client/overtime";
+//                }
+//			}
+//
+//        } else { // 普通 订单提交后24小时内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            if (temp > 1000 * 3600 * 24) {
+//                return "/client/overtime";
+//            }
+//        }
+
+        // 待付款
+        if (!order.getStatusId().equals(2L)) {
+            return "/client/error_404";
+        }
+
+        String amount = order.getTotalPrice().toString();
+        req.setAttribute("totalPrice", amount);
+
+        String payForm = "";
+
+        Long payId = order.getPayTypeId();
+        TdPayType payType = tdPayTypeService.findOne(payId);
+        if (payType != null) {
+            TdPayRecord record = new TdPayRecord();
+            record.setCreateTime(new Date());
+            record.setOrderId(order.getId());
+            record.setPayTypeId(payType.getId());
+            record.setStatusCode(1);
+            record.setCreateTime(new Date());
+            record = tdPayRecordService.save(record);
+
+            String payRecordId = record.getId().toString();
+            int recordLength = payRecordId.length();
+            if (recordLength > 6) {
+                payRecordId = payRecordId.substring(recordLength - 6);
+            } else {
+                payRecordId = leftPad(payRecordId, 6, "0");
+            }
+            req.setAttribute("payRecordId", payRecordId);
+
+            req.setAttribute("orderNumber", order.getOrderNumber());
+
+            String payCode = payType.getCode();
+            if (PAYMENT_ALI.equals(payCode)) {
+            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+                payForm = payChannelAlipay.getPayFormData(req);
+                map.addAttribute("charset", AlipayConfig.CHARSET);
+            } else if (PAYMENT_WX.equals(payCode)) {
+                map.addAttribute("order_number", order.getOrderNumber());
+                map.addAttribute("total_price", order.getTotalPrice());
+
+                String sa = "appid=" + Configure.getAppid() + "&mch_id="
+                        + Configure.getMchid() + "&nonce_str="
+                        + RandomStringGenerator.getRandomStringByLength(32)
+                        + "&product_id=" + order.getId() + "&time_stamp="
+                        + System.currentTimeMillis() / 1000;
+
+                String sign = MD5.MD5Encode(
+                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        .toUpperCase();
+
+                System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
+                        + "&sign=" + sign + "\n");
+
+                req.getSession().setAttribute("WXPAYURLSESSEION",
+                        "weixin://wxpay/bizpayurl?" + sa + "&sign=" + sign);
+                // "weixin://wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
+                return "/client/order_pay_wx";
+//            }
+//                else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
+//                    payCode)) {
+//                req.setAttribute("payMethod", payCode);
+//                payForm = payChannelCEB.getPayFormData(req);
+//                map.addAttribute("charset", "GBK");
+          } else {
+                // 其他目前未实现的支付方式
+                return "/client/error_404";
+            }
+        } else {
+            return "/client/error_404";
+        }
+
+        tdOrderService.save(order);
+
+        map.addAttribute("payForm", payForm);
+
+        return "/client/order_pay_form";
+    }
+    
+    /*
+     * 
+     */
+    @RequestMapping(value = "/pay/notify_alipay")
+    public void payNotifyAlipay(ModelMap map, HttpServletRequest req,
+            HttpServletResponse resp) {
+    	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+        payChannelAlipay.doResponse(req, resp);
+    }
+    
+    /*
+     * 
+     */
+    @RequestMapping(value = "/pay/result_alipay")
+    public String payResultAlipay(Device device, ModelMap map, HttpServletRequest req,
+            HttpServletResponse resp) {
+        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String[]> requestParams = req.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter
+                .hasNext();) {
+            String name = iter.next();
+            String[] values = requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            // 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+            try {
+                valueStr = new String(valueStr.getBytes("ISO-8859-1"),
+                        AlipayConfig.CHARSET);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            params.put(name, valueStr);
+        }
+
+        // 获取支付宝的返回参数
+        String orderNo = "";
+        String trade_status = "";
+        try {
+            // 商户订单号
+            orderNo = new String(req.getParameter(Constants.KEY_OUT_TRADE_NO)
+                    .getBytes("ISO-8859-1"), AlipayConfig.CHARSET);
+            // 交易状态
+            trade_status = new String(req.getParameter("trade_status")
+                    .getBytes("ISO-8859-1"), AlipayConfig.CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // 计算得出通知验证结果
+        boolean verify_result = AlipayNotify.verify(params);
+
+        tdCommonService.setHeader(map, req);
+        orderNo = (orderNo == null) ? "" : (orderNo.length() < 6) ? orderNo
+                : orderNo.substring(0, orderNo.length() - 6);
+        TdOrder order = tdOrderService.findByOrderNumber(orderNo);
+        if (order == null) {
+            // 订单不存在
+        	// 触屏
+            if (device.isMobile() || device.isTablet()) {
+                return "/touch/order_pay_failed";
+            }
+            return "/client/order_pay_failed";
+        }
+        map.put("order", order);
+        if (verify_result) {// 验证成功
+            if ("WAIT_SELLER_SEND_GOODS".equals(trade_status)) {
+
+                // 订单支付成功
+                afterPaySuccess(order);
+                // 触屏
+                if (device.isMobile() || device.isTablet()) {
+                    return "/touch/order_pay_success";
+                }
+                return "/client/order_pay_success";
+            }
+        }
+
+        // 验证失败或者支付失败
+        // 触屏
+        if (device.isMobile() || device.isTablet()) {
+            return "/touch/order_pay_failed";
+        }
+        return "/client/order_pay_failed";
     }
     
     /**

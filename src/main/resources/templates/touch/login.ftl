@@ -110,7 +110,7 @@ function saveUserInfo() {
     <input id="txt_loginId" class="login_ts01" type="text" style="font-family:'微软雅黑';" value="" placeholder="/用户名/手机号"/>
   </div>
   <div class="logintext logintext01">
-    <input id="txt_loginPwd" class="login_ts02" type="text" value="" style="font-family:'微软雅黑';" placeholder="密码"/>
+    <input id="txt_loginPwd" class="login_ts02" type="password" value="" style="font-family:'微软雅黑';" placeholder="密码"/>
   </div>
  <div class="clear20"></div>
   <a href="/touch/loginMobile" style="

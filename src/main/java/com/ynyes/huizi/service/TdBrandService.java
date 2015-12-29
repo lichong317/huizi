@@ -1,5 +1,6 @@
 package com.ynyes.huizi.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,6 +214,10 @@ public class TdBrandService {
                 e.setProductCategoryTree(cat.getParentTree());
             }
         }
+        
+        if (null == e.getCreateTime()) {
+			e.setCreateTime(new Date());
+		}
         
         return repository.save(e);
     }

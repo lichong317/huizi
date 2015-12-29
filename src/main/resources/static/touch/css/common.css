@@ -398,7 +398,10 @@ a.white:hover { color:#ff7d43;}
 
 .hide {display: none;}
 
-
+.indextop {
+  width: 95%;
+  margin-left: 2%;
+}
 
 
 

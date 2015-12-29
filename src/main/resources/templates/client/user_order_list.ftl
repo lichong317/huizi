@@ -207,7 +207,9 @@ function orderReceive(id)
                       <td class="td003"> 
 	                     <#if order.statusId == 7>
 	                    	<p><a href="/user/cancel?id=${order.id?c}">查看</a></p>
-	                    <#else>	
+	                    <#elseif order.statusId == 2>	
+	                        <p><a href="/order/dopay/${order.id?c}">去付款</a></p>
+	                    <#else>
 	                        <p><a href="/user/order?id=${order.id?c}">查看</a></p>
 	                    </#if>    
                         <#if order.statusId == 1||order.statusId ==2>
@@ -221,7 +223,7 @@ function orderReceive(id)
                         <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6>   
                             <p><a href="/user/return/list?keywords=${order.orderNumber!''}">申请返修/退换货</a></p>
                         <#elseif order.statusId==2>
-                            <p><a href="javascript:;">去付款</a></p>
+                            <p><a href="/order/dopay/${order.id?c}">去付款</a></p>
                         </#if>
                       </td>
                     </tr>

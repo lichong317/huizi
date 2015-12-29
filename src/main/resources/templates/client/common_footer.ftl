@@ -93,7 +93,7 @@
               <br />
               ${site.address!''} 电话：${site.telephone!''}
 
-              <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a></span>
+              <span class="flr"><a title="网站建设" href="http://www.ynyes.com" target="_blank">网站建设</a>支持：<a title="云南网站建设" href="http://www.ynyes.com" target="_blank">天度网络</a>&nbsp;<a href="http://m.kuaidi100.com" target="_blank">快递查询</a></span>
           </p>
     </div>
 </div>

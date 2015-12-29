@@ -35,8 +35,17 @@
 
 function setprice() {
     var p1 = $.trim($('#ParamFiltern_price1').val()), p2 = $.trim($('#ParamFiltern_price2').val())
-    if (isNaN(p1) || p1=="") { p1 = 0 }
-    if (isNaN(p2) || p2== "") { p2 = 0 }
+    if (isNaN(p1) || p1=="" ) { p1 = 0 }
+    if (isNaN(p2) || p2== "" ) { p2 = 0 }
+    
+    //排除负数
+    if(parseFloat(p1) < 0){
+        p1 = 0;
+    }
+    if(parseFloat(p2) < 0){
+        p2 = 0;
+    }
+    
     var price = p1 + '-' + p2;
     var url = "/list/${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-${leftId!'0'}";
     if (price != "0-0") { url += "_" + price; }
@@ -149,6 +158,47 @@ function deleteContrastgoods(id){
       商品筛选
       <a class="a1" href="${categoryId!'0'}-0<#list param_index_list as pindex>-0</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${pageId!'0'}-0">清空筛选条件</a>
     </h3>
+    <div class="crumbs-nav-item">    
+        <div class="selector-set">
+<script>
+    function allBrand(){
+        var url = "/list/${categoryId!'0'}-0<#list param_index_list as pindex>-${pindex!'0'}</#list>";
+        location.href = url;
+    }
+
+</script>
+            <#if brand_list??>
+                <#list brand_list as brand>
+                    <#if brandIndex==brand_index+1>
+                        <a href="javascript:allBrand();" data-id="100002" class="ss-item">
+                            <b>品牌：</b>
+                            <em>${brand.title?trim!''}</em>
+                            <i></i>
+                        </a>
+                    </#if>
+                </#list>
+            </#if>
+            <#if param_list??>
+                <#list param_list as param>
+                    <#if param.valueList??>
+                        <#list param.valueList?split(",") as value>
+                            <#if value!="">
+                                <#if param_index_list[param_index]==value_index+1>
+                                    <a href="${categoryId!'0'}-${brandIndex!'0'}<#list param_index_list as pindex><#if param_index == pindex_index>-0<#else>-${pindex!'0'}</#if></#list>" data-id="100002" class="ss-item">
+                                        <b>${param.title!""}：</b>
+                                        <em>${value?trim!""}</em>
+                                        <i></i>
+                                    </a>
+                                </#if>
+                            </#if>
+                        </#list>
+                    </#if>
+                </#list>
+            </#if>            
+        </div>
+    </div>
+<div class="clear10"></div>
+    
     <table class="screen_tab">
     <#-- 品牌开始 -->
     <#if brand_list??>
@@ -301,7 +351,7 @@ function deleteContrastgoods(id){
             <#if goods_page.number+1 == 1>
                 <a class="a1 a0" href="javascript:;"><span>上一页</span></a>
             <#else>
-                <a class="a1 a0" href="${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${goods_page.number-1}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>上一页</span></a>
+                <a class="a1 " href="${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${goods_page.number-1}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>上一页</span></a>
             </#if>
             
             <#if goods_page.totalPages gt 0>
@@ -323,7 +373,7 @@ function deleteContrastgoods(id){
             </#if>
             
             <#if goods_page.number+1 == goods_page.totalPages || goods_page.totalPages==0>
-                <a class="a2" href="javascript:;"><span>下一页</span></a>
+                <a class="a2 a0" href="javascript:;"><span>下一页</span></a>
             <#else>
                 <a class="a2" href="${categoryId!'0'}-${brandIndex!0}<#list param_index_list as pindex>-${pindex!'0'}</#list>-${orderId!'0'}<#if sort_id_list??><#list sort_id_list as sortId>-${sortId!'0'}</#list></#if>-${goods_page.number+1}-${leftId!'0'}<#if priceLow?? && priceHigh??>_${priceLow?string("#.##")}-${priceHigh?string("#.##")}</#if>"><span>下一页</span></a>
             </#if>

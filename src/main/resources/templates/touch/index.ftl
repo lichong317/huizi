@@ -196,12 +196,14 @@
     <ul class="index_rmph">
     <#if hot_sale_list??>
         <#list hot_sale_list as item>
+            <#if item_index < 10>
             <li><a href="/touch/goods/${item.id?c}">
                 <img src="${item.coverImageUri!''}" width="90" height="90" />
                 <p class="pp1">${item.title!''}</p> 
                 <p class="pp2">${item.subTitle!''}</p>
                 <span class="red pp3">¥<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span></a>
             </li>
+            </#if>
         </#list>
     </#if>
     
@@ -224,6 +226,7 @@
         <span>|</span>
         <a href="/touch/reg">注册</a>
     </#if>
+    <a class="absolute-r" href="javascript:$('html,body').animate({scrollTop:0},500);">返回顶部</a>
   </div>
   </div>
 </section>
