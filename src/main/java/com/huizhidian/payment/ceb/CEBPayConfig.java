@@ -1,4 +1,4 @@
-package com.cytm.payment.ceb;
+package com.huizhidian.payment.ceb;
 
 import java.util.HashMap;
 import java.util.Map;

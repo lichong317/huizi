@@ -5,4 +5,4 @@
  * @author Administrator
  *
  */
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.ceb;

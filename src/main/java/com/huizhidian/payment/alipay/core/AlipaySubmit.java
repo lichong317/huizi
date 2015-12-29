@@ -1,10 +1,10 @@
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.alipay.core;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.cytm.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.AlipayConfig;
 
 public class AlipaySubmit {
     /**

@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cytm.payment.alipay.AlipayConfig;
-import com.cytm.payment.alipay.Constants;
-import com.cytm.payment.alipay.PaymentChannelAlipay;
-import com.cytm.payment.alipay.core.AlipayNotify;
-import com.cytm.payment.ceb.CEBPayConfig;
-import com.cytm.payment.ceb.PaymentChannelCEB;
+import com.huizhidian.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.Constants;
+import com.huizhidian.payment.alipay.PaymentChannelAlipay;
+import com.huizhidian.payment.alipay.core.AlipayNotify;
+import com.huizhidian.payment.ceb.CEBPayConfig;
+import com.huizhidian.payment.ceb.PaymentChannelCEB;
 import com.ibm.icu.util.Calendar;
 import com.tencent.common.Configure;
 import com.tencent.common.MD5;
@@ -2051,7 +2051,7 @@ public class TdOrderController extends AbstractPaytypeController{
         }
         map.put("order", order);
         if (verify_result) {// 验证成功
-            if ("WAIT_SELLER_SEND_GOODS".equals(trade_status)) {
+            if ("TRADE_SUCCESS".equals(trade_status)) {
 
                 // 订单支付成功
                 afterPaySuccess(order);
@@ -2111,11 +2111,7 @@ public class TdOrderController extends AbstractPaytypeController{
         {
             tdOrder.setPayTime(new Date()); // 设置付款时间
         }
-        else
-        {
-//            tdOrder.setPayLeftTime(new Date()); // 设置付尾款时间
-        }
-
+       
       
         // 待发货
         tdOrder.setStatusId(3L);
@@ -2124,6 +2120,7 @@ public class TdOrderController extends AbstractPaytypeController{
 
         // 虚拟货币扣除
         
-      
+        // 分销用户返利
+        
     }
 }

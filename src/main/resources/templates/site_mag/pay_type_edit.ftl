@@ -134,6 +134,13 @@
       <span class="Validform_checktip">支付方式的描述说明，支持HTML代码</span>
     </dd>
   </dl>
+   <dl>
+    <dt>代码(例如:CEB,CMBC)建议开发人员设置</dt>
+    <dd>
+      <textarea name="code" rows="2" cols="20" class="input normal"><#if pay_type??>${pay_type.code!''}</#if></textarea>
+      <span class="Validform_checktip">(例如:CEB、CMBC)建议开发人员设置</span>
+    </dd>
+  </dl>
 </div>
 <!--/内容-->
 

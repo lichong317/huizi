@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.alipay.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cytm.payment.alipay.AlipayConfig;
-import com.cytm.payment.alipay.sign.MD5;
+import com.huizhidian.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.sign.MD5;
 
 public class AlipayRequest {
     //

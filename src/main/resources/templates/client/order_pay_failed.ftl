@@ -13,15 +13,13 @@
 <script src="/client/js/Validform_v5.3.2_min.js"></script>
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
-<script src="/client/js/cart.js"></script>
-<script src="/client/js/order_info.js"></script>
-<script src="/client/js/jquery.cityselect.js"></script>
 
-<link rel="shortcut icon" href="/client/images/cheyou.ico" />
-<link href="/client/style/common.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/cytm.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
+<link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/mymember.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/gwc.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/payment_status.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">

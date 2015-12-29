@@ -1,4 +1,4 @@
-package com.cytm.payment.util;
+package com.huizhidian.payment.util;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,10 +17,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
-import com.cytm.payment.PaymentChannel;
-import com.cytm.payment.alipay.PaymentChannelAlipay;
-import com.cytm.payment.ceb.CEBPayConfig;
-import com.cytm.payment.ceb.PaymentChannelCEB;
+import com.huizhidian.payment.PaymentChannel;
+import com.huizhidian.payment.alipay.PaymentChannelAlipay;
+import com.huizhidian.payment.ceb.CEBPayConfig;
+import com.huizhidian.payment.ceb.PaymentChannelCEB;
 
 public class PaymentUtil {
     private static RequestConfig config = null;

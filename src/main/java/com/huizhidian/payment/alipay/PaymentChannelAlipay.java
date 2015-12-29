@@ -1,7 +1,7 @@
-package com.cytm.payment.alipay;
+package com.huizhidian.payment.alipay;
 
-import static com.cytm.payment.util.PaymentUtil.getServerPath;
-import static com.cytm.payment.util.PaymentUtil.post;
+import static com.huizhidian.payment.util.PaymentUtil.getServerPath;
+import static com.huizhidian.payment.util.PaymentUtil.post;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,11 +19,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cytm.payment.PaymentChannel;
-import com.cytm.payment.alipay.core.AlipayConfirmGoods;
-import com.cytm.payment.alipay.core.AlipayConfirmGoodsHandler;
-import com.cytm.payment.alipay.core.AlipayNotify;
-import com.cytm.payment.alipay.core.AlipaySubmit;
+import com.huizhidian.payment.PaymentChannel;
+import com.huizhidian.payment.alipay.core.AlipayConfirmGoods;
+import com.huizhidian.payment.alipay.core.AlipayConfirmGoodsHandler;
+import com.huizhidian.payment.alipay.core.AlipayNotify;
+import com.huizhidian.payment.alipay.core.AlipaySubmit;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayRecord;
 import com.ynyes.huizi.service.TdOrderService;
@@ -59,7 +59,8 @@ public class PaymentChannelAlipay implements PaymentChannel {
         requestParameters.put(Constants.KEY_SERVICE, AlipayConfig.CREATE_TRADE_SERVICE);
         requestParameters.put(Constants.KEY_PARTNER, AlipayConfig.PARTNER);
         requestParameters.put(Constants.KEY_CHARSET, AlipayConfig.CHARSET);
-        String serverPath = getServerPath(request);
+        //String serverPath = getServerPath(request);
+        String serverPath =  "http://www.huizhidian.com/";
         requestParameters.put(Constants.KEY_NOTIFY_URL, serverPath + "order/pay/notify_alipay");
         requestParameters.put(Constants.KEY_RETURN_URL, serverPath + "order/pay/result_alipay");
         

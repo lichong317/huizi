@@ -1,4 +1,4 @@
-package com.cytm.payment.ceb;
+package com.huizhidian.payment.ceb;
 
 import static com.csii.payment.client.core.CebMerchantSignVerify.merchantSignData_ABA;
 import static com.csii.payment.client.core.CebMerchantSignVerify.merchantVerifyPayGate_ABA;
@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cytm.payment.PaymentChannel;
-import com.cytm.payment.util.PaymentUtil;
+import com.huizhidian.payment.PaymentChannel;
+import com.huizhidian.payment.util.PaymentUtil;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayRecord;
 import com.ynyes.huizi.service.TdOrderService;

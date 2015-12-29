@@ -1,4 +1,4 @@
-package com.cytm.payment;
+package com.huizhidian.payment;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

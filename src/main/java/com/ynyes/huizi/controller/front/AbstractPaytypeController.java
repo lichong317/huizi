@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
-import com.cytm.payment.ceb.CEBPayConfig;
+import com.huizhidian.payment.ceb.CEBPayConfig;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdPayType;
 import com.ynyes.huizi.service.TdPayTypeService;

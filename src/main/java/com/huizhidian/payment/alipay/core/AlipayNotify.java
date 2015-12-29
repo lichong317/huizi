@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.alipay.core;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.Map;
 
 import com.alipay.util.AlipayCore;
-import com.cytm.payment.alipay.AlipayConfig;
-import com.cytm.payment.alipay.sign.MD5;
+import com.huizhidian.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.sign.MD5;
 
 /* *
  *类名：AlipayNotify

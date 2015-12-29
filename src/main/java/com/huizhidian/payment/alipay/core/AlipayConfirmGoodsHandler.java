@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.alipay.core;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
 
-import com.cytm.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.AlipayConfig;
 
 @SuppressWarnings("hiding")
 public class AlipayConfirmGoodsHandler<String> implements ResponseHandler<java.lang.String> {

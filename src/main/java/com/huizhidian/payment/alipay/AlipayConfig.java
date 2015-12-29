@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay;
+package com.huizhidian.payment.alipay;
 
 public class AlipayConfig {
     // ISO-8859-1编码

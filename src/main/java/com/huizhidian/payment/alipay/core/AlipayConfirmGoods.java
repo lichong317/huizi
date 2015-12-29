@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay.core;
+package com.huizhidian.payment.alipay.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.cytm.payment.alipay.AlipayConfig;
-import com.cytm.payment.alipay.Constants;
+import com.huizhidian.payment.alipay.AlipayConfig;
+import com.huizhidian.payment.alipay.Constants;
 
 public class AlipayConfirmGoods {
     private static final String LOGISTICS_NAME = "EXPRESS";

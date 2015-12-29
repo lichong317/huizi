@@ -1,4 +1,4 @@
-package com.cytm.payment.alipay;
+package com.huizhidian.payment.alipay;
 
 public class Constants {
     public static final String KEY_SERVICE = "service";
