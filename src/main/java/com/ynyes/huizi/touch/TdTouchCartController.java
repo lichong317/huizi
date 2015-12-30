@@ -36,21 +36,27 @@ public class TdTouchCartController {
     private TdCommonService tdCommonService;
 
     @RequestMapping(value = "/touch/cart")
-    public String cart(HttpServletRequest req, Long shareId, ModelMap map) {
+    public String cart(HttpServletRequest req, Long shareId,String username, ModelMap map) {
 
-        String username = (String) req.getSession().getAttribute("username");
-
+//        String username = (String) req.getSession().getAttribute("username");
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         // 未登录用户的购物车商品
         List<TdCartGoods> cartSessionGoodsList = tdCartGoodsService
                 .findByUsername(req.getSession().getId());
-
-        if (null == username) {
-            username = req.getSession().getId();
-        } else {
+        
+//        if (null == username) {
+//            username = req.getSession().getId();
+//        } else {
             // 已登录用户的购物车
             List<TdCartGoods> cartUserGoodsList = tdCartGoodsService
                     .findByUsername(username);
-
+            req.getSession().setAttribute("username", username);
             // 将未登录用户的购物车加入已登录用户购物车中
             for (TdCartGoods cg : cartSessionGoodsList) {
                 cg.setUsername(username);
@@ -70,7 +76,7 @@ public class TdTouchCartController {
                             findList.size()));
                 }
             }
-        }
+//        }
 
         List<TdCartGoods> resList = tdCartGoodsService.findByUsername(username);
         

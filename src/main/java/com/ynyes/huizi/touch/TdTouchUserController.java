@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,14 +143,11 @@ public class TdTouchUserController {
                 return "redirect:/touch/login";
             }
 		}
-               
         tdCommonService.setHeader(map, req);
-        
+        req.getSession().setAttribute("username", username);
         map.addAttribute("server_ip", req.getLocalName());
         map.addAttribute("server_port", req.getLocalPort());
-        
         TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
-        
         if (null == tdUser)
         {
             return "/touch/error_404";
@@ -170,8 +168,15 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/center/headImg", method = RequestMethod.POST)
-	public String uploadImg(@RequestParam MultipartFile Filedata, HttpServletRequest req) {
-		String username = (String) req.getSession().getAttribute("username");
+	public String uploadImg(@RequestParam MultipartFile Filedata, String username,HttpServletRequest req) {
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
+//    	String username = (String) req.getSession().getAttribute("username");
 		TdUser user = tdUserService.findByUsername(username);
 		if (null == user) {
 			return "redirect:/touch/login";
@@ -206,14 +211,21 @@ public class TdTouchUserController {
 	}
     
     @RequestMapping(value = "/user/center/qrcode", method = RequestMethod.GET)
-   	public String getqrcode( HttpServletRequest req, ModelMap map) {
-   		String username = (String) req.getSession().getAttribute("username");
-   		if (null == username) {
-   			return "redirect:/touch/login";
-   		}
+   	public String getqrcode( HttpServletRequest req,String username, ModelMap map) {
+//   		String username = (String) req.getSession().getAttribute("username");
+//   		if (null == username) {
+//   			return "redirect:/touch/login";
+//   		}
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
    		tdCommonService.setHeader(map, req);
    		TdUser user = tdUserService.findByUsername(username);
-   		
+   		map.addAttribute("user", user);
    		if (null == user.getQrCodeUri()) {
    			try {
 
@@ -439,13 +451,20 @@ public class TdTouchUserController {
                         String keywords,
                         Integer timeId,
                         HttpServletRequest req, 
+                        String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
+    	req.getSession().setAttribute("username", username);
+//        if (null == username)
+//        {
+//            return "redirect:/touch/login";
+//        }
         
         tdCommonService.setHeader(map, req);
         

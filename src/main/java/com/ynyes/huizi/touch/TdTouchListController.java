@@ -58,7 +58,6 @@ public class TdTouchListController {
 	         {
 	             return "/touch/error_404";
 	         }
-	         
 	         // 排序字段个数
 	         int totalSorts = 4;
 	         
