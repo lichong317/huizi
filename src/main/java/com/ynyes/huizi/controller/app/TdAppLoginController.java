@@ -47,10 +47,10 @@ public class TdAppLoginController {
             return res;
         }
         
-        if (code.isEmpty()) {
-			res.put("msg", "验证码为空");
-			return res;
-		}
+//        if (code.isEmpty()) {
+//			res.put("msg", "验证码为空");
+//			return res;
+//		}
 //        String codeBack = (String) request.getSession().getAttribute(VerifServlet.RANDOMCODEKEY);
 //        System.out.println("App-login Session:" + request.getSession().getId());
 //        System.out.println("code:"+codeBack);
