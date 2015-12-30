@@ -802,7 +802,10 @@ font-size: 0.7em;
 .memberhead { background:url(../images/huiyuan_02.png) no-repeat; background-size:100%; text-align:center; padding:5px 0;}
 .memberhead a { display:inline-block; width:80px; height:80px; border-radius:50%; overflow:hidden; background:#fff;}
 .membertop { display:table; table-layout:fixed;}
-.membertop menu { /*display:table-row;*/background:url(../images/huiyuan_18.png) bottom repeat-x; height:85px;}
+.membertop menu {  display: table-row !important;
+  background: url(../images/huiyuan_18.png) bottom repeat-x;
+  height: 85px;
+}
 .membertop a { display:table-cell; text-align:center; color:#224f62; font-size:0.8em; }
 .memberlist { border-top:1px solid #eee;}
 .memberlist a { display:block; width:80%; padding:0 10%; font-size:0.8em; line-height:45px; background:url(../images/huiyuan_18.png) bottom repeat-x;}

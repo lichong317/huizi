@@ -69,6 +69,7 @@ public class TdTouchIndexController {
         map.addAttribute("hot_sale_list", tdGoodsService.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc());
         
         // 商品推荐广告位
+
         tdAdType = tdAdTypeService.findByTitle("触屏商品推荐广告");
         
         if (null != tdAdType) {

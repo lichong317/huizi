@@ -50,6 +50,10 @@ public class TdUser {
 	//QQ登录名
 	@Column
 	private String qqUserId;
+	
+	//QQ登录名
+	@Column
+	private String weixinUserId;
     
     // 上级用户名
     @Column
@@ -653,6 +657,14 @@ public class TdUser {
 
 	public void setQqUserId(String qqUserId) {
 		this.qqUserId = qqUserId;
+	}
+
+	public String getWeixinUserId() {
+		return weixinUserId;
+	}
+
+	public void setWeixinUserId(String weixinUserId) {
+		this.weixinUserId = weixinUserId;
 	}
 
     

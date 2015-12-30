@@ -48,22 +48,40 @@
 
 <section class="main membertop mt10 mb10" >
   <menu>
-    <a href="/touch/user/order/list/2"><img src="/touch/images/huiyuan_05.png" height="48" /><p>待付款（<#if total_unpayed??>${total_unpayed!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/4"><img src="/touch/images/huiyuan_07.png" height="48" /><p>待收货（<#if total_unreceived??>${total_unreceived!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/5"><img src="/touch/images/huiyuan_09.png" height="48" /><p>待评价（<#if total_uncommented??>${total_uncommented!''}</#if>）</p></a>
-    <a href="/touch/user/order/list/6"><img src="/touch/images/huiyuan_11.png" height="48" /><p>维修/售后（<#if total_finished??>${total_finished!''}</#if>）</p></a>
+    <a href="/touch/user/order/list/2"><img src="/touch/images/huiyuan_05.png" height="48" /><p>待付款</p>
+        <div class="num" style="width: 18px;height: 21px;background: #ff4454;position: absolute;right: 10%;border-radius: 50%;top: 0;z-index: 9;color: #fff;    
+        text-align: center; padding-left: 2px; padding-right: 2px; line-height: 21px;    
+        font-family: Arial, Helvetica, sans-serif;    font-size: 10px;    -webkit-text-size-adjust: none;    font-weight: bold;"><#if total_unpayed??>${total_unpayed!''}</#if></div>       
+    </a>
+    <a href="/touch/user/order/list/4"><img src="/touch/images/huiyuan_07.png" height="48" /><p>待收货</p>
+        <div class="num" style="width: 18px;height: 21px;background: #ff4454;position: absolute;right: 10%;border-radius: 50%;top: 0;z-index: 9;color: #fff;    
+        text-align: center; padding-left: 2px; padding-right: 2px; line-height: 21px;    
+        font-family: Arial, Helvetica, sans-serif;    font-size: 10px;    -webkit-text-size-adjust: none;    font-weight: bold;"><#if total_unreceived??>${total_unreceived!''}</#if></div>
+    </a>
+    <a href="/touch/user/order/list/5"><img src="/touch/images/huiyuan_09.png" height="48" /><p>待评价</p>
+        <div class="num" style="width: 18px;height: 21px;background: #ff4454;position: absolute;right: 10%;border-radius: 50%;top: 0;z-index: 9;color: #fff;    
+        text-align: center; padding-left: 2px; padding-right: 2px; line-height: 21px;    
+        font-family: Arial, Helvetica, sans-serif;    font-size: 10px;    -webkit-text-size-adjust: none;    font-weight: bold;"><#if total_uncommented??>${total_uncommented!''}</#if></div>
+    </a>
+    <a href="/touch/user/order/list/6"><img src="/touch/images/huiyuan_11.png" height="48" /><p>维修/售后</p>
+        <div class="num" style="width: 18px;height: 21px;background: #ff4454;position: absolute;right: 10%;border-radius: 50%;top: 0;z-index: 9;color: #fff;    
+        text-align: center; padding-left: 2px; padding-right: 2px; line-height: 21px;    
+        font-family: Arial, Helvetica, sans-serif;    font-size: 10px;    -webkit-text-size-adjust: none;    font-weight: bold;"><#if total_finished??>${total_finished!''}</#if></div>
+    </a>
   </menu>
 </section>
 
 <menu class="main memberlist">
-  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
-  <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+<#--  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a> -->
+  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="" /></a>
 <#--  <#if user?? && user.roleId?? && user.roleId == 1> -->
-    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
+    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
+    <a href="/touch/user/password">密码修改<img style="float:right; margin-top:13px;" src="" /></a>
 
 </menu>
 <div class=" tuichu main">

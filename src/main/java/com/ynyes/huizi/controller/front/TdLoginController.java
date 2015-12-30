@@ -1,8 +1,10 @@
 package com.ynyes.huizi.controller.front;
 
 import java.io.IOException;
-
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +32,7 @@ import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.AccessToken;
 import com.qq.connect.javabeans.qzone.UserInfoBean;
 import com.qq.connect.oauth.Oauth;
+import com.tencent.common.Configure;
 import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdRedEnvelope;
@@ -43,6 +46,8 @@ import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.CommonService;
 import com.ynyes.huizi.util.VerifServlet;
+
+import net.sf.json.JSONObject;
 
 /**
  * 登录及注册
@@ -545,7 +550,7 @@ public class TdLoginController {
 	
 	/**
 	 * @author lc
-	 * @注释：随机生成支付宝绑定用户名
+	 * @注释：随机生成绑定用户名
 	 */
 	public String randomUsername() {
 		Random random = new Random();
@@ -644,6 +649,179 @@ public class TdLoginController {
 			
 		}
 		return "/client/error_404";
+	}
+	
+	/**
+	 * @author lc
+	 * @注释：微信登录
+	 */
+	@RequestMapping(value = "/weixin/login", method = RequestMethod.GET)
+	public String infoWeixinLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		return "redirect:https://open.weixin.qq.com/connect/qrconnect?appid=wx518e7a154079ad7e&redirect_uri=huizhidian.com/login/weixin_login_return&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
+	}
+	
+	@RequestMapping(value = "/login/weixin_login_return", method = RequestMethod.GET)
+	public String weixnLoginReturn(String code, String state, HttpServletRequest request, ModelMap map) {
+		
+		if (null != code) {
+			Map<String, String> res = getAccessToken(code);
+			String accessToken = res.get("access_token");
+			String openId = res.get("openid");
+			
+			TdUser tdUser = tdUserService.findByWeixinUserId(openId);
+			
+			if (null == tdUser) {
+				if (true == getWxinfo(accessToken, openId)) {
+					tdUser = tdUserService.findByWeixinUserId(openId);
+					request.getSession().setAttribute("username", tdUser.getUsername());
+					//request.getSession().setAttribute("usermobile", user.getMobile());
+					return "redirect:/";
+				}
+			}else {
+				request.getSession().setAttribute("username", tdUser.getUsername());
+				//request.getSession().setAttribute("usermobile", user.getMobile());
+				return "redirect:/";
+			}
+		}
+		return "/client/error_404";
+	}
+	
+	/**
+	 * @author lc
+	 * @注释：通过code 获取 access_token,用户openid, refresh_token,
+	 */
+	public Map<String, String> getAccessToken(String code){
+		
+		Map<String, String> res = new HashMap<String, String>();
+		
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx518e7a154079ad7e&secret=a78740cbb33542e51623a4678432db76&code="
+				+ code +"&grant_type=authorization_code";
+		String accessToken = null;
+		String expiresIn = null;
+		String refresh_token = null;
+		String openid = null;
+		try {  
+			  
+            URL urlGet = new URL(url);  
+
+            HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();  
+
+            http.setRequestMethod("GET"); // 必须是get方式请求  
+
+            http.setRequestProperty("Content-Type",  
+
+                    "application/x-www-form-urlencoded");  
+
+            http.setDoOutput(true);  
+
+            http.setDoInput(true);  
+
+            http.connect();  
+
+            InputStream is = http.getInputStream();  
+
+            int size = is.available();  
+
+            byte[] jsonBytes = new byte[size];  
+
+            is.read(jsonBytes);  
+
+            String message = new String(jsonBytes, "UTF-8");  
+
+            JSONObject demoJson = JSONObject.fromObject(message);  
+
+            accessToken = demoJson.getString("access_token");  
+            expiresIn = demoJson.getString("expires_in");  
+            refresh_token = demoJson.getString("refresh_token");
+            openid = demoJson.getString("openid");
+            
+            res.put("access_token", accessToken);
+            res.put("expires_in", expiresIn);
+            res.put("refresh_token", refresh_token);
+            res.put("openid", openid);
+//           System.out.println("accessToken===="+accessToken);  
+//            System.out.println("expiresIn==="+expiresIn);  
+  
+           // System.out.println("====================获取token结束==============================");  
+
+            is.close();  
+
+        } catch (Exception e) {  
+
+            e.printStackTrace(); 
+        }  
+		return res;
+	}
+	
+	/**
+	 * @author lc
+	 * @注释：通过accessToken 和 openId 拉取用户信息并存储
+	 */
+	public Boolean getWxinfo(String accessToken, String openId){
+		
+		String url = "https://api.weixin.qq.com/sns/userinfo?access_token="
+					+ accessToken + "&openid=" + openId + "&lang=zh_CN";
+		String nickname = null;
+		String headimgurl = null;
+		String sex = null;
+		String province = null;
+		String city = null;
+		try {  
+			  
+	        URL urlGet = new URL(url);  
+	
+	        HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();  
+	
+	        http.setRequestMethod("GET"); // 必须是get方式请求  
+	
+	        http.setRequestProperty("Content-Type",  
+	
+	                "application/x-www-form-urlencoded");  
+	
+	        http.setDoOutput(true);  
+	
+	        http.setDoInput(true);  
+	
+	        http.connect();  
+	
+	        InputStream is = http.getInputStream();  
+	
+	        int size = is.available();  
+	
+	        byte[] jsonBytes = new byte[size];  
+	
+	        is.read(jsonBytes);  
+	
+	        String message = new String(jsonBytes, "UTF-8");  
+	
+	        JSONObject demoJson = JSONObject.fromObject(message);  
+	 
+	        nickname = demoJson.getString("nickname");  
+	        headimgurl = demoJson.getString("headimgurl");
+	        sex = demoJson.getString("sex");
+	        province = demoJson.getString("province");
+	        city = demoJson.getString("city");
+	
+	        // 添加用户记录
+	        String newUsername = randomUsername();
+	        
+	        TdUser user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
+	        user.setNickname(nickname);
+	        user.setHeadImageUri(headimgurl);
+	        user.setSex(sex);
+	        user.setWeixinUserId(openId);
+	        tdUserService.save(user);
+	       // System.out.println("====================获取token结束==============================");  
+	
+	        is.close(); 
+	        return true;
+	
+	    } catch (Exception e) {  
+	
+	        e.printStackTrace(); 
+	    } 
+		return false;
 	}
 	
     @RequestMapping(value = "/verify",method = RequestMethod.GET)

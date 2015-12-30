@@ -79,6 +79,22 @@ public class TdAppIndexController {
         return res;
     }
     
+    // 热卖推荐
+    @RequestMapping(value="index/getHotsaleProduct")
+    @ResponseBody
+    public Map<String, Object> getHotProduct(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        res.put("data", tdGoodsService.findByIsOnSaleTrueOrderBySoldNumberDesc(0, 10).getContent());
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
     //团购秒杀
     @RequestMapping(value="index/getPromotion")
     @ResponseBody
