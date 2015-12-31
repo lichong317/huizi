@@ -136,7 +136,7 @@ function orderReceive(id)
                 <p style="width:90%; float:left; margin:10px; font-size:0.8em;">共<span>${order.orderGoodsList?size}</span>件商品，合计:&nbsp;&nbsp;<span class="red">¥<#if order.totalPrice??>${order.totalPrice?string("0.00")}</#if></span>元</p>
                 <span style="width:100%; float:left; ">
                 <#if order.statusId==2 >
-                    <a href="javascript:;" class="a2">去付款</a>
+                    <a href="/touch/order/dopay/${order.id?c}" class="a2">去付款</a>
                     <a href="/touch/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()" class="a2">取消订单</a>
                 <#elseif order.statusId==1>
                     <a href="/touch/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()" class="a2">取消订单</a>  

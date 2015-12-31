@@ -120,7 +120,7 @@
 <div class="clear70"></div>
 <footer class="buyfoot">
   <div class="mainbox">
-    <a class="fl" href="#">去付款</a>
+    <a class="fl" href="/touch/order/dopay/${order.id?c}">去付款</a>
     <a class="fr" href="#">取消订单</a>
     <div class="clear"></div>
   </div>

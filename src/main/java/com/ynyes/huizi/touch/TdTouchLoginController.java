@@ -4,16 +4,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qq.connect.QQConnectException;
+import com.qq.connect.api.OpenID;
+import com.qq.connect.api.qzone.UserInfo;
+import com.qq.connect.javabeans.AccessToken;
+import com.qq.connect.javabeans.qzone.UserInfoBean;
+import com.qq.connect.oauth.Oauth;
 import com.ynyes.huizi.entity.TdContrastGoods;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdUser;
@@ -235,6 +243,66 @@ public class TdTouchLoginController {
 		public String logOut(HttpServletRequest request) {
 			request.getSession().invalidate();
 			return "redirect:/touch";
+		}
+	    
+	    /**
+		 * @author lc
+		 * @注释：qq登录
+		 */
+	    @RequestMapping(value = "/touch/login/qq_login_return", method = RequestMethod.GET)
+		public String qqLoginReturn(String openID, HttpServletRequest request, ModelMap map) {
+
+	    	if (null == openID) {
+				return "/touch/";
+			}
+	    	
+			tdCommonService.setHeader(map, request);	                
+			//根据openID查找用户
+			map.put("alipay_user_id", openID);
+			map.put("qq", "qq");
+			TdUser user = tdUserService.findByQqUserId(openID);
+			
+			if(null == user){
+					//建立新用户
+					String newUsername = randomUsername();
+				 	user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
+					if (null != user) {
+						
+						//QQ登录新建账号
+						user.setQqUserId(openID);
+						
+						user.setLastLoginTime(new Date());
+						tdUserService.save(user);
+						request.getSession().setAttribute("username", user.getUsername());
+						return "redirect:/touch/";
+					}
+					return "redirect:/touch/";
+			}else{
+					//用户存在，修改最后登录时间，跳转首页
+					user.setLastLoginTime(new Date());
+					//user.setLastLoginIp(CommonService.getIp(request));
+					tdUserService.save(user);
+					request.getSession().setAttribute("username", user.getUsername());
+					//request.getSession().setAttribute("usermobile", user.getMobile());
+					return "redirect:/touch/";
+				}
+				
+		}
+	    
+	    /**
+		 * @author lc
+		 * @注释：随机生成绑定用户名
+		 */
+		public String randomUsername() {
+			Random random = new Random();
+			String username = "";
+			while (true) {
+				int temp1 = random.nextInt(10000000);
+				username = "user_" + temp1;
+				if (null == tdUserService.findByUsername(username)) {
+					return username;
+				}
+			}
 		}
 	    
 	    /**

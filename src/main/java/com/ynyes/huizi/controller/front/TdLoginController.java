@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -592,7 +594,7 @@ public class TdLoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/login/qq_login_return", method = RequestMethod.GET)
-	public String qqLoginReturn(String code, String state, HttpServletRequest request, ModelMap map) {
+	public String qqLoginReturn(String code, String state, Device device, HttpServletRequest request, ModelMap map) {
 
 		tdCommonService.setHeader(map, request);
 		try {
@@ -628,6 +630,11 @@ public class TdLoginController {
                    map.put("nickName",userInfoBean.getNickname());
                 }
 				
+                //手机端跳转
+                if (device.isMobile() || device.isTablet()) {
+                    return "redirect:/touch/login/qq_login_return?openID="+ openID;
+                }
+                
 				//根据openID查找用户
 				map.put("alipay_user_id", openID);
 				map.put("qq", "qq");
@@ -658,7 +665,8 @@ public class TdLoginController {
 	@RequestMapping(value = "/weixin/login", method = RequestMethod.GET)
 	public String infoWeixinLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
-		return "redirect:https://open.weixin.qq.com/connect/qrconnect?appid=wx518e7a154079ad7e&redirect_uri=huizhidian.com/login/weixin_login_return&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
+		return "redirect:https://open.weixin.qq.com/connect/qrconnect?appid=wx518e7a154079ad7e&redirect_uri="
+				+URLEncoder.encode("http://huizhidian.com/login/weixin_login_return", "utf-8") + "&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
 	}
 	
 	@RequestMapping(value = "/login/weixin_login_return", method = RequestMethod.GET)
@@ -668,7 +676,8 @@ public class TdLoginController {
 			Map<String, String> res = getAccessToken(code);
 			String accessToken = res.get("access_token");
 			String openId = res.get("openid");
-			
+			System.out.println("lichong_________________accessToken__" + accessToken);
+			System.out.println("lichong_________________openId__" + openId);
 			TdUser tdUser = tdUserService.findByWeixinUserId(openId);
 			
 			if (null == tdUser) {
@@ -684,6 +693,7 @@ public class TdLoginController {
 				return "redirect:/";
 			}
 		}
+		tdCommonService.setHeader(map, request);
 		return "/client/error_404";
 	}
 	
@@ -740,8 +750,8 @@ public class TdLoginController {
             res.put("expires_in", expiresIn);
             res.put("refresh_token", refresh_token);
             res.put("openid", openid);
-//           System.out.println("accessToken===="+accessToken);  
-//            System.out.println("expiresIn==="+expiresIn);  
+            System.out.println("accessToken===="+accessToken);  
+            System.out.println("expiresIn==="+expiresIn);  
   
            // System.out.println("====================获取token结束==============================");  
 
@@ -807,7 +817,7 @@ public class TdLoginController {
 	        String newUsername = randomUsername();
 	        
 	        TdUser user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
-	        user.setNickname(nickname);
+	        //user.setNickname(nickname);
 	        user.setHeadImageUri(headimgurl);
 	        user.setSex(sex);
 	        user.setWeixinUserId(openId);
