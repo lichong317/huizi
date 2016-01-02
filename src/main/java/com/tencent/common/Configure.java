@@ -18,10 +18,10 @@ public class Configure {
 	private static String key = "422ebb6c35fd75f4c4b717c331f9bcbf";
 
 	//微信分配的公众号ID（开通公众号之后可以获取到）
-	private static String appID = "wx24ca6020b7040665";
+	private static String appID = "wxb309b01e273cd1cf";
 
 	//微信支付分配的商户号ID（开通公众号的微信支付功能之后可以获取到）
-	private static String mchID = "1242364802";
+	private static String mchID = "1247085401";
 
 	//受理模式下给子商户分配的子商户号
 	private static String subMchID = "";

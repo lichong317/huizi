@@ -2,6 +2,7 @@ package com.ynyes.huizi.controller.front;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -592,14 +593,18 @@ public class TdLoginController {
 	 * @param request
 	 * @param map
 	 * @return
+	 * @throws IOException 
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/login/qq_login_return", method = RequestMethod.GET)
-	public String qqLoginReturn(String code, String state, Device device, HttpServletRequest request, ModelMap map) {
+	public String qqLoginReturn(String code, String state, Device device, HttpServletRequest request, ModelMap map,  HttpServletResponse response) throws IOException {
 
 		tdCommonService.setHeader(map, request);
+		
 		try {
 			System.err.println("code-------"+code);
 			System.err.println("state-------"+state);
+			
 			AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
 			System.err.println("accessTokenObj--------"+accessTokenObj);
 			String accessToken = null, openID = null;
@@ -697,9 +702,10 @@ public class TdLoginController {
 		return "/client/error_404";
 	}
 	
+	
 	/**
 	 * @author lc
-	 * @注释：通过code 获取 access_token,用户openid, refresh_token,
+	 * @注释：微信登录通过code 获取 access_token,用户openid, refresh_token,
 	 */
 	public Map<String, String> getAccessToken(String code){
 		

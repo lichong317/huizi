@@ -46,8 +46,27 @@ public class TdAppIndexController {
     @Autowired
     private TdAdService tdAdService;
 
-    // 版本更新
+    // app引导页
+    @RequestMapping(value="index/getGuideImg")
+    @ResponseBody
+    public Map<String, Object> getGuideImg(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        TdAdType tdAdType = tdAdTypeService.findByTitle("App引导广告");
+
+        if (null != tdAdType) {
+        	res.put("data", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+        
+        res.put("code", 0);
+        
+        return res;
+    }
     
+    // 版本更新    
     @RequestMapping(value="app/update")
     @ResponseBody
     public Map<String, Object> update(ModelMap map,

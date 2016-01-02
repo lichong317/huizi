@@ -149,7 +149,13 @@ public class PaymentChannelAlipay implements PaymentChannel {
             if (AlipayNotify.verify(params)) {// 验证成功
                 paymentLogger.info("AlipayNotify:Accepted!");
 
-                TdOrder order = orderService.findByOrderNumber(orderNo);
+                System.out.println("orderNumber___________________________"+orderNo);
+                
+                TdOrderService tdOrderService = new TdOrderService();
+                TdOrder order = tdOrderService.findByOrderNumber(orderNo);
+                
+                //System.out.println("test_________"+order.getOrderNumber());
+                
                 List<TdPayRecord> payRecords = payRecordService.getAllByOrderId(order.getId());
                 if (OrderStatus.WAIT_PAY.equals(trade_status)) {
                     // 该判断表示买家已在支付宝交易管理中产生了交易记录，但没有付款

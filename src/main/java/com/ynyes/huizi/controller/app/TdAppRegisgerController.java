@@ -130,6 +130,8 @@ public class TdAppRegisgerController {
     	
     	tdUser = tdUserService.addNewUser(null, mobile, password, mobile, null);
     	
+    	tdUserService.save(tdUser);
+    	
     	if (null == tdUser) {
     		res.put("status", 3); 
     		res.put("msg", "该手机号已被注册");

@@ -2,7 +2,12 @@ package com.ynyes.huizi.controller.front;
 
 import static org.apache.commons.lang3.StringUtils.leftPad;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,8 +35,6 @@ import com.huizhidian.payment.alipay.AlipayConfig;
 import com.huizhidian.payment.alipay.Constants;
 import com.huizhidian.payment.alipay.PaymentChannelAlipay;
 import com.huizhidian.payment.alipay.core.AlipayNotify;
-import com.huizhidian.payment.ceb.CEBPayConfig;
-import com.huizhidian.payment.ceb.PaymentChannelCEB;
 import com.ibm.icu.util.Calendar;
 import com.tencent.common.Configure;
 import com.tencent.common.MD5;
@@ -66,6 +71,7 @@ import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
+import com.ynyes.huizi.util.QRCodeUtils;
 
 /**
  * 订单
@@ -2069,6 +2075,317 @@ public class TdOrderController extends AbstractPaytypeController{
             return "/touch/order_pay_failed";
         }
         return "/client/order_pay_failed";
+    }
+    
+    @RequestMapping(value = "/wx_return")
+    public void wx_return(HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        /**
+         * <xml> <appid><![CDATA[wx8a4517e0f1b3536a]]></appid>
+         * <openid><![CDATA[od6bXt6a8VHV7cjB21j8O6zwVOIU]]></openid>
+         * <mch_id><![CDATA[1265095501]]></mch_id>
+         * <is_subscribe><![CDATA[N]]></is_subscribe>
+         * <nonce_str><![CDATA[XyodZmN32CcaPoub]]></nonce_str>
+         * <product_id><![CDATA[b15091419521303]]></product_id>
+         * <sign><![CDATA[CDF42D34EE39FBDADD3A0B0951AC2F4B]]></sign> </xml>
+         */
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                request.getInputStream()));
+
+        String line = null;
+        String result = "";
+        String productid = null;
+        String openid = null;
+
+        try {
+            while ((line = br.readLine()) != null) {
+                if (line.contains("<openid>")) {
+                    openid = line.replaceAll("<openid><\\!\\[CDATA\\[", "")
+                            .replaceAll("\\]\\]></openid>", "");
+                } else if (line.contains("<product_id>")) {
+                    productid = line.replaceAll("<product_id><\\!\\[CDATA\\[",
+                            "").replaceAll("\\]\\]></product_id>", "");
+                }
+
+                result += line + "\r\n";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            br.close();
+        }
+
+        System.out.print("Sharon: xml->" + result + "\n");
+
+        System.out.print("Sharon: openid:" + openid + "----productid:"
+                + productid + "\n");
+
+        if (null == productid) {
+            return;
+        }
+
+        Long orderId = Long.parseLong(productid);
+
+        System.out.println("Sharon: orderId:" + orderId);
+
+        TdOrder order = tdOrderService.findOne(orderId);
+
+        if (null == order) {
+            return;
+        }
+
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Calendar calExpire = Calendar.getInstance();
+        calExpire.setTime(order.getOrderTime());
+
+        // 根据订单类型来判断支付时间是否过期
+        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+            calExpire.add(Calendar.MINUTE, 30);
+        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+                                                                                   // 预付是订单提交后12小时内，尾款支付也是12小时
+            calExpire.add(Calendar.HOUR, 12);
+        } else { // 普通 订单提交后24小时内
+            calExpire.add(Calendar.DATE, 1);
+        }
+
+        String noncestr = RandomStringGenerator.getRandomStringByLength(32);
+        
+        long priceToPay = 0L;
+        
+        if (order.getStatusId().equals(2L) && null != order.getTotalPrice())
+        {
+            priceToPay = Math.round(order.getTotalPrice() * 100);
+        }
+//        else if (order.getStatusId().equals(3L) && null != order.getTotalLeftPrice())
+//        {
+//            priceToPay = Math.round(order.getTotalLeftPrice() * 100);
+//        }
+
+        String sa = "appid=" + Configure.getAppid() + "&attach=订单支付"
+                + "&body=支付订单" + order.getOrderNumber() + "&mch_id="
+                + Configure.getMchid() + "&nonce_str=" + noncestr
+                + "&notify_url=http://www.huizhidian.com/order/wx_notify"
+                + "&openid=" + openid + "&out_trade_no="
+                + order.getOrderNumber() + order.getStatusId() + "&spbill_create_ip=116.55.230.207"
+                + "&total_fee=" + priceToPay
+                + "&trade_type=NATIVE";
+
+        String sign = MD5.MD5Encode(
+                sa + "&key=192006250b4c09247ec02edce69f6acy").toUpperCase();
+
+        String content = "<xml>\n" + "<appid>"
+                + Configure.getAppid()
+                + "</appid>\n"
+                + "<attach>订单支付</attach>\n"
+                + "<body>支付订单"
+                + order.getOrderNumber()
+                + "</body>\n"
+                + "<mch_id>"
+                + Configure.getMchid()
+                + "</mch_id>\n"
+                + "<nonce_str>"
+                + noncestr
+                + "</nonce_str>\n"
+                + "<notify_url>http://www.huizhidian.com/order/wx_notify</notify_url>\n"
+                + "<openid>" + openid + "</openid>\n" 
+                + "<out_trade_no>"
+                + order.getOrderNumber() + order.getStatusId() 
+                + "</out_trade_no>\n"
+                + "<spbill_create_ip>116.55.230.207</spbill_create_ip>\n"
+                + "<total_fee>" + priceToPay
+                + "</total_fee>\n" + "<trade_type>NATIVE</trade_type>\n"
+                + "<sign>" + sign + "</sign>\n" + "</xml>\n";
+
+        System.out.print("Sharon: xml=" + content);
+
+        String return_code = null;
+        String prepay_id = null;
+        String result_code = null;
+
+        HttpsURLConnection urlCon = null;
+        try {
+            urlCon = (HttpsURLConnection) (new URL(
+                    "https://api.mch.weixin.qq.com/pay/unifiedorder"))
+                    .openConnection();
+            urlCon.setDoInput(true);
+            urlCon.setDoOutput(true);
+            urlCon.setRequestMethod("POST");
+            urlCon.setRequestProperty("Content-Length",
+                    String.valueOf(content.getBytes().length));
+            urlCon.setUseCaches(false);
+            // 设置为gbk可以解决服务器接收时读取的数据中文乱码问题
+            urlCon.getOutputStream().write(content.getBytes("utf-8"));
+            urlCon.getOutputStream().flush();
+            urlCon.getOutputStream().close();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    urlCon.getInputStream()));
+
+            while ((line = in.readLine()) != null) {
+                System.out.println("Sharon: rline: " + line);
+                if (line.contains("<return_code>")) {
+                    return_code = line.replaceAll(
+                            "<xml><return_code><\\!\\[CDATA\\[", "")
+                            .replaceAll("\\]\\]></return_code>", "");
+                } else if (line.contains("<prepay_id>")) {
+                    prepay_id = line.replaceAll("<prepay_id><\\!\\[CDATA\\[",
+                            "").replaceAll("\\]\\]></prepay_id>", "");
+                } else if (line.contains("<result_code>")) {
+                    result_code = line.replaceAll(
+                            "<result_code><\\!\\[CDATA\\[", "").replaceAll(
+                            "\\]\\]></result_code>", "");
+                }
+            }
+
+            System.out.println("Sharon: return_code: " + return_code);
+            System.out.println("Sharon: prepay_id: " + prepay_id);
+            System.out.println("Sharon: result_code: " + result_code);
+
+            if ("SUCCESS".equalsIgnoreCase(return_code)
+                    && "SUCCESS".equalsIgnoreCase(result_code)
+                    && null != prepay_id) {
+                noncestr = RandomStringGenerator.getRandomStringByLength(32);
+                sa = "appid=" + Configure.getAppid() + "&mch_id="
+                        + Configure.getMchid() + "&nonce_str=" + noncestr
+                        + "&prepay_id=" + prepay_id + "&result_code=SUCCESS"
+                        + "&return_code=SUCCESS";
+
+                sign = MD5.MD5Encode(
+                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        .toUpperCase();
+
+                content = "<xml>\n" + "<appid>" + Configure.getAppid()
+                        + "</appid>\n" + "<mch_id>" + Configure.getMchid()
+                        + "</mch_id>\n" + "<nonce_str>" + noncestr
+                        + "</nonce_str>\n" + "<prepay_id>" + prepay_id
+                        + "</prepay_id>\n"
+                        + "<result_code>SUCCESS</result_code>\n"
+                        + "<return_code>SUCCESS</return_code>\n" + "<sign>"
+                        + sign + "</sign>\n" + "</xml>\n";
+
+                System.out.print("Sharon: return xml=" + content);
+
+                try {
+                    // 把xml字符串写入响应
+                    byte[] xmlData = content.getBytes();
+
+                    response.setContentType("text/xml");
+                    response.setContentLength(xmlData.length);
+
+                    ServletOutputStream os = response.getOutputStream();
+                    os.write(xmlData);
+
+                    os.flush();
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/wx_notify")
+    public void wx_notify(HttpServletResponse response,
+            HttpServletRequest request) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                request.getInputStream()));
+
+        String line = null;
+        String return_code = null;
+        String result_code = null;
+        String noncestr = null;
+        String out_trade_no = null;
+
+        try {
+            while ((line = br.readLine()) != null) {
+                System.out.print("Sharon: notify" + line + "\n");
+                
+                if (line.contains("<return_code>")) {
+                    return_code = line.replaceAll("<return_code><\\!\\[CDATA\\[", "") .replaceAll("\\]\\]></return_code>", "");
+                } else if (line.contains("<out_trade_no>")) {
+                    out_trade_no = line.replaceAll("<out_trade_no><\\!\\[CDATA\\[", "").replaceAll("\\]\\]></out_trade_no>", "");
+                } else if (line.contains("<result_code>")) {
+                    result_code = line.replaceAll("<result_code><\\!\\[CDATA\\[", "").replaceAll("\\]\\]></result_code>", "");
+                }
+            }
+            
+            System.out.println("Sharon: notify return_code: " + return_code);
+            System.out.println("Sharon: notify out_trade_no: " + out_trade_no);
+            System.out.println("Sharon: notify result_code: " + result_code);
+            
+            if (return_code.contains("SUCCESS") && 
+                    result_code.contains("SUCCESS") && 
+                    null != out_trade_no)
+            {
+                TdOrder order = tdOrderService.findByOrderNumber(out_trade_no.substring(0, out_trade_no.length() - 1));
+                
+                if (null != order)
+                {
+                    afterPaySuccess(order);
+                }
+                
+                noncestr = RandomStringGenerator.getRandomStringByLength(32);
+                String sa = "appid=" + Configure.getAppid()
+                        + "&mch_id=" + Configure.getMchid()
+                        + "&nonce_str=" + noncestr
+                        + "&result_code=SUCCESS"
+                        + "&return_code=SUCCESS";
+                
+                String sign = MD5.MD5Encode(
+                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        .toUpperCase();
+                
+                String content = "<xml>\n"
+                        + "<appid>" + Configure.getAppid() + "</appid>\n"
+                        + "<mch_id>" + Configure.getMchid() + "</mch_id>\n"
+                        + "<nonce_str>" + noncestr + "</nonce_str>\n"
+                        + "<result_code>SUCCESS</result_code>\n"
+                        + "<return_code>SUCCESS</return_code>\n"
+                        + "<sign>" + sign + "</sign>\n"
+                        + "</xml>\n";
+                
+                System.out.print("Sharon: return xml=" + content);
+
+                try {
+                    // 把xml字符串写入响应
+                    byte[] xmlData = content.getBytes();
+
+                    response.setContentType("text/xml");
+                    response.setContentLength(xmlData.length);
+
+                    ServletOutputStream os = response.getOutputStream();
+                    os.write(xmlData);
+
+                    os.flush();
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            br.close();
+        }
+    }
+
+    @RequestMapping(value = "/payqrcode", method = RequestMethod.GET)
+    public void verify(HttpServletResponse response, HttpServletRequest request) {
+        response.setContentType("image/jpeg");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expire", 0);
+
+        QRCodeUtils qr = new QRCodeUtils();
+        String url = (String) request.getSession().getAttribute(
+                "WXPAYURLSESSEION");
+        qr.getQRCode(url, 300, response);
     }
     
     /**

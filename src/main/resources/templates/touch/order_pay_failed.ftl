@@ -25,11 +25,12 @@ $(document).ready(function(){
 </head>
 
 <body>
-<header class="comhead">
+<div class="maintop_bg"></div>
+<header class="maintop">
   <div class="main">
-    <p>支付</p>
-    <a class="a1" href="javascript:history.go(-1);">返回</a>
-    <a class="a3" href="/touch">首页</a>
+    <p>支付失败</p>
+    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
+    <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
   </div>
 </header>
 <div class="comhead_bg"></div>
