@@ -47,7 +47,7 @@
 </section>
 
 <section class="main membertop mt10 mb10" >
-  <menu>
+  <menu style="background:none">
     <a href="/touch/user/order/list/2"><img src="/touch/images/huiyuan_05.png" height="48" /><p>待付款</p>
         <div class="num" style="width: 18px;height: 21px;background: #ff4454;position: absolute;right: 10%;border-radius: 50%;top: 0;z-index: 9;color: #fff;    
         text-align: center; padding-left: 2px; padding-right: 2px; line-height: 21px;    
@@ -69,6 +69,13 @@
         font-family: Arial, Helvetica, sans-serif;    font-size: 10px;    -webkit-text-size-adjust: none;    font-weight: bold;"><#if total_finished??>${total_finished!''}</#if></div>
     </a>
   </menu>
+  
+  <menu class="hycd">
+    <a href="/touch/user/order/list/0"><img src="/touch/images/huiyuan_24.png" height="48"><p>全部订单</p></a>
+    <a href="/touch/user/point/list"><img src="/touch/images/huiyuan_27.png" height="48"><p>我的积分</p></a>
+    <a href="/touch/user/coupon/list/0"><img src="/touch/images/huiyuan_30.png" height="48"><p>我的优惠券</p></a>
+    <a href="/touch/user/redenvelope/list"><img src="/touch/images/huiyuan_32.png" height="48"><p>我的红包</p></a>
+</menu>
 </section>
 
 <menu class="main memberlist">
@@ -83,7 +90,7 @@
     <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
     <a href="/touch/user/password">密码修改<img style="float:right; margin-top:13px;" src="" /></a>
 
-</menu>
+</menu> 
 <div class=" tuichu main">
 <a href="/touch/logout">退出</a> </div>
 

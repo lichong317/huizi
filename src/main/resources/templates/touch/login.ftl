@@ -130,7 +130,7 @@ function saveUserInfo() {
   <table class="login_check">
     <tr>
       <td><img style="margin-left:40%;" src="/touch/images/dddl_03.png" /><a href="#">微信登录</a></td>
-      <td><img style="margin-left:40%;" src="/touch/images/dddl_06.png" /><a href="#">支付宝登录</a></td>
+      <td><img style="margin-left:40%;" src="/touch/images/dddl_06.png" /><a href="/login/alipay_login">支付宝登录</a></td>
       <td><img style="margin-left:40%;" src="/touch/images/dddl_09.png" /><a href="/qq/login">QQ登录</a></td>
     </tr>
   </table>

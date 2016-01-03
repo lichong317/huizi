@@ -427,7 +427,7 @@ public class TdLoginController {
 	 * @注释：支付宝登陆返回参数
 	 */
 	@RequestMapping(value= "/login/alipay_return_url"  , method = RequestMethod.GET)
-	public String returnurl(HttpServletRequest request, ModelMap map){
+	public String returnurl(HttpServletRequest request, ModelMap map, Device device){
 		Map<String,String> params = new HashMap<String,String>();
 		Map<String, String[]>  requestParams = request.getParameterMap();
 		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
@@ -481,6 +481,12 @@ public class TdLoginController {
 
 			// 该页面可做页面美工编辑
 			// System.out.println("验证成功");
+			
+			// 触屏版重定向
+			if (device.isMobile() || device.isTablet()) {
+                return "redirect:/touch/login/alipay_login_return?user_id="+ user_id;
+            }
+			
 			map.put("alipay_user_id", user_id);
 			TdUser user = tdUserService.findByAlipayUserId(user_id);
 			if (null != user) {

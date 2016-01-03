@@ -799,7 +799,12 @@ font-size: 0.7em;
 
 
 
-.memberhead { background:url(../images/huiyuan_02.png) no-repeat; background-size:100%; text-align:center; padding:5px 0;}
+/*.memberhead { background:url(../images/huiyuan_02.png) no-repeat; background-size:100%; text-align:center; padding:5px 0;} */
+.memberhead {
+  background: url(../images/huiyuan_02.png) no-repeat;
+  text-align: center;
+  padding: 45px 0;
+}  
 .memberhead a { display:inline-block; width:80px; height:80px; border-radius:50%; overflow:hidden; background:#fff;}
 .membertop { display:table; table-layout:fixed;}
 .membertop menu {  display: table-row !important;

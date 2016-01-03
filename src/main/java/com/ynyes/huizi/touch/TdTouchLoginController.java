@@ -291,6 +291,50 @@ public class TdTouchLoginController {
 	    
 	    /**
 		 * @author lc
+		 * @注释：支付宝触屏登录
+		 */
+	    @RequestMapping(value = "/touch/login/alipay_login_return", method = RequestMethod.GET)
+		public String ailipayLoginReturn(String user_id, HttpServletRequest request, ModelMap map) {
+
+	    	if (null == user_id) {
+				return "/touch/login";
+			}
+	    	
+			tdCommonService.setHeader(map, request);	                
+			//根据openID查找用户
+			map.put("alipay_user_id", user_id);
+			
+			TdUser user = tdUserService.findByAlipayUserId(user_id);
+			
+			if (null != user) {
+				user.setLastLoginTime(new Date());
+				//user.setLastLoginIp(CommonService.getIp(request));
+				user = tdUserService.save(user);
+				request.getSession().setAttribute("username", user.getUsername());
+				//request.getSession().setAttribute("usermobile", user.getMobile());
+
+				return "redirect:/touch/";
+			} else { //新建用户 用户名随机
+				String newUsername = randomUsername();
+			    user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
+				if (null != user) {
+					
+					//支付宝登录新建账号
+					user.setAlipayUserId(user_id);
+					
+					user.setLastLoginTime(new Date());
+					tdUserService.save(user);
+					request.getSession().setAttribute("username", user.getUsername());
+					return "redirect:/touch/";
+				}
+				
+			}
+			return "redirect:/touch/";	
+		}
+	    
+	    
+	    /**
+		 * @author lc
 		 * @注释：随机生成绑定用户名
 		 */
 		public String randomUsername() {
