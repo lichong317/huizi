@@ -41,11 +41,13 @@ public class TdTouchIndexController {
     private TdAdService tdAdService;
 
     @RequestMapping
-    public String index(HttpServletRequest req, ModelMap map) {
-    	        
-        tdCommonService.setHeader(map, req);
+    public String index(HttpServletRequest req, ModelMap map, String username) {
+    	
+    	tdCommonService.setHeader(map, req);
+    	if (null != username) {
+    		req.getSession().setAttribute("username", username);
+		}        
            
-
         // 首页顶部轮播广告
         TdAdType tdAdType = tdAdTypeService.findByTitle("触屏首页轮播广告");
 

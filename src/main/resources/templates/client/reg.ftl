@@ -374,8 +374,8 @@ function checkwindowhide()
   text-shadow: 0 1px 0 #fff;
 }
 .right {
-  float: right;
-  margin-right:54px;
+  float: left;
+  margin-left: 20px;
 }
 div {
   display: block;
@@ -409,7 +409,7 @@ div {
 				});
 					
 			</script>
-            <div class="regtip right">已有惠之店网上商城账号？现在就<a href="/login.aspx">登录</a></div>
+            
             
             <div class="xxknr" id="xxknr">
                 <form id = "form1" method="post" action="/reg">
@@ -522,6 +522,8 @@ div {
                     </div>
                 </form>
             </div>
+            <div class="clear15"></div>
+            <div class="regtip right">已有惠之店网上商城账号？现在就<a href="/login.aspx">登录</a></div>
         </div>			
 	</div>
 <!--</div> -->

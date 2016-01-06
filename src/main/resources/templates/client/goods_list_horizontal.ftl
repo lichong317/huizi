@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/client/js/list.js"></script>
 <script src="/client/js/goods.js"></script>
 
+<link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />

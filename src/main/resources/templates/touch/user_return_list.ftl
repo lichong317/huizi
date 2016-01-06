@@ -60,7 +60,7 @@
     <#if username??>
         <a href="/touch/user">${username!''}</a>
         <span>|</span>
-        <a href="/touch/logout">退出</a>
+        <a href="/touch/logout" onclick="logout()">退出</a>
     <#else>
         <a href="/touch/login">登录</a>
         <span>|</span>

@@ -139,6 +139,12 @@ public class TdSetting {
     // 提现最低金额
     private Double minWithdraw;
     
+    // Android版本
+    private String androidVersion;
+    
+    // Android文件名
+    private String androidApk;
+    
     public Long getId() {
         return id;
     }
@@ -147,7 +153,23 @@ public class TdSetting {
         this.id = id;
     }
 
-    public Double getMaxPostage() {
+    public String getAndroidApk() {
+		return androidApk;
+	}
+
+	public void setAndroidApk(String androidApk) {
+		this.androidApk = androidApk;
+	}
+
+	public String getAndroidVersion() {
+		return androidVersion;
+	}
+
+	public void setAndroidVersion(String androidVersion) {
+		this.androidVersion = androidVersion;
+	}
+
+	public Double getMaxPostage() {
 		return maxPostage;
 	}
 

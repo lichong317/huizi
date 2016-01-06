@@ -7,12 +7,14 @@
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="format-detection"content="telephone=no"/>
 
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 
@@ -79,12 +81,11 @@
 </section>
 
 <menu class="main memberlist">
-<#--  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a> -->
-  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="" /></a>
+<#--  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="" /></a>
-  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="" /></a>
+  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="" /></a> -->
   <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="" /></a>
-  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="" /></a>
+<#-->  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="" /></a> -->
   <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="" /></a>
 <#--  <#if user?? && user.roleId?? && user.roleId == 1> -->
     <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
@@ -92,7 +93,7 @@
 
 </menu> 
 <div class=" tuichu main">
-<a href="/touch/logout">退出</a> </div>
+<a href="/touch/logout" onclick="logout()">退出</a> </div>
 
 <!--main END-->
 

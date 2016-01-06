@@ -12,6 +12,8 @@
 <script src="/touch/js/common.js"></script>
 <script src="/touch/js/jquery.cityselect.js"></script>
 <script src="/touch/js/order_info.js"></script>
+<script src="/client/js/ljs-v1.01.js"></script>
+<script src="/client/js/mymember.js"></script>
 <script src="/touch/js/Validform_v5.3.2_min.js"></script>
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
@@ -37,7 +39,7 @@ $(document).ready(function(){
     }); 
     
     $("#idPointUse").change(function(){
-        var point = $.trim($(this).val());
+        var point = parseFloat($.trim($(this).val()));
         if (isNaN(point) || point=="") { point = 0 }
         
         var price = $.trim($("#idTotalPriceSteady").val());
@@ -81,7 +83,7 @@ $(document).ready(function(){
     
      $("#virtualCurrency").change(function(){
 
-        var virtualCurrency  = $.trim($(this).val());
+        var virtualCurrency  = parseFloat($.trim($(this).val()));
         if (isNaN(virtualCurrency) || virtualCurrency=="") { virtualCurrency = 0 }
         
         <#if user?? &&  user.roleId??>
@@ -183,6 +185,7 @@ function formsubmit(){
    <input id="input-address-id" type="hidden" name="addressId" value="" datatype="n" nullmsg="请选择收货地址!"/>
        <#if user.shippingAddressList?? && user.shippingAddressList?size gt 0>
             <#list user.shippingAddressList as address>
+              <div>
                 <a href="javascript:;" class="selAddress" aid="${address.id?c}">
                 <p>姓名：${address.receiverName!''}<span>邮编：${address.postcode!''}</span></p>
                 <p>手机号码：${address.receiverMobile!''}</p>
@@ -191,7 +194,8 @@ function formsubmit(){
                        <span id="addresscity">${address.city!''}</span>
                        <span id="addressdisctrict">${address.disctrict!''}</span></p>
                 <p>详细地址：${address.detailAddress!''}</p>
-                </a> 
+                </a>
+              </div> 
             </#list>
        </#if>        
    </section>
@@ -275,18 +279,16 @@ function formsubmit(){
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>><input onclick="changepaytype(this)" tn="${pay_type.title!''}" type="radio" name="payTypeId" datatype="*" value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
-            <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
-            <span>${pay_type.title!''}</span>
+            <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>>
+                <input  tn="${pay_type.title!''}" type="radio" <#if pay_type.title="支付宝支付">checked="checked"</#if> name="payTypeId" datatype="n"  value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
+                <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
+                <span>${pay_type.title!''}</span>
             </li>
         </#list>
         <script>
                                     function changepaytype(paytype){
                                         //alert(paytype.getAttribute("tn"));
                                        if(paytype.getAttribute("tn") == "货到付款"){                                      
-                                           var province = $("#addressprovince").text();
-                                           var city = $("#addresscity").text();
-                                           var disctrict = $("#addressdisctrict").text();
                                            
                                            var addressId = $("#input-address-id").val();
                                            
@@ -366,10 +368,12 @@ function formsubmit(){
     = 总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+totalPostage)?string("0.00")}</b></span>
     </h3>
     <a id="btn_sub" href="javascript:;">提交订单（${totalQuantity!'0'}）</a> 
+    <#--<input type="submit" value="提交订单" class="input_zy"></input>-->
     <div class="clear"></div>
   </section>
   </div>
   </footer>
  </form>
+ <div style="height:130px;display:block"></div>
 </body>
 </html>

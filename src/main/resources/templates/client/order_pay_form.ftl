@@ -20,7 +20,7 @@
 <link rel="shortcut icon" href="/client/images/cheyou.ico" />
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/cytm.css" rel="stylesheet" type="text/css" />
-<link href="/client/style/cartoon.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">

@@ -116,3 +116,10 @@ function searchTextClear(_name,_text,color01,color02){
 		}
 	});
 }
+
+// ios 退出登录
+function logout(){
+	var url="hzd/"+"ios"+"/"+"logout";
+	//var url="/touch/";
+    document.location = url;
+}

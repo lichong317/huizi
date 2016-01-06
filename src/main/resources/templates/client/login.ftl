@@ -339,8 +339,8 @@
   text-shadow: 0 1px 0 #fff;
 }
 .right {
-  float: right;
-  margin-right:100px;
+  float: left;
+  margin-left: 20px;
 }
 div {
   display: block;
@@ -374,7 +374,7 @@ div {
                     }); 
                 });
             </script>
-            <div class="regtip right">还没有惠之店网上商城账号？现在就<a href="/reg">注册</a></div>
+            
             <div class="xxknr" id="xxknr">
                 <div class="reg tableLoginreg" style="display: block;">
                     <dl>
@@ -472,7 +472,8 @@ div {
                 
                 
             </div>
-
+            <div class="clear15"></div>
+            <div class="regtip right">还没有惠之店网上商城账号？现在就<a href="/reg">注册</a></div>
         </div>          
     </div>
     

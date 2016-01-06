@@ -153,6 +153,20 @@ $(function () {
         </dd>
     </dl>
     <dl>
+        <dt>Android当前版本</dt>
+        <dd>
+            <input name="androidVersion" type="text" value="<#if setting??>${setting.androidVersion!""}</#if>" class="input normal" datatype="*0-100" sucmsg=" ">
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
+    <dl>
+        <dt>Android当前文件名</dt>
+        <dd>
+            <input name="androidApk" type="text" value="<#if setting??>${setting.androidApk!""}</#if>" class="input normal" datatype="*0-100" sucmsg=" ">
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
+    <dl>
         <dt>安卓App二维码</dt>
         <dd>
             <input id="androidImgUrl" name="androidQrCode" type="text" datatype="*0-255" value="<#if setting??>${setting.androidQrCode!""}</#if>" class="input normal upload-path">

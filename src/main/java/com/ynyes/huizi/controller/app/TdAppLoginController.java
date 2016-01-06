@@ -8,14 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.MD5;
-import com.ynyes.huizi.util.VerifServlet;
 
 /**
  * 登录及注册
@@ -65,10 +66,14 @@ public class TdAppLoginController {
         TdUser userMobile = tdUserService.findByMobileAndIsEnabled(username);
         TdUser userUsername=tdUserService.findByUsernameAndIsEnabled(username);
         TdUser user=null;
-        if(userMobile==null && userUsername!=null){
+        if( userUsername!=null){
         	user=userUsername;
-        }else{
+        }
+        else if (null != userMobile) {
         	user=userMobile;
+		}else{
+			 res.put("msg", "用户不存在");
+	         return res;
         }
         System.out.println("password:"+user.getPassword());
         if (!user.getPassword().equals(password))
@@ -91,5 +96,23 @@ public class TdAppLoginController {
         
         return res;
     }
+    
+    /**
+	 * @author lc
+	 * @注释：app qq登录接口
+	 */
+    @RequestMapping(value="/qq/login",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> appQQlogin(ModelMap map, String openId, String gender, String screen_name, String headImageUri,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);       
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
     
 }

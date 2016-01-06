@@ -17,6 +17,7 @@
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
   $(document).ready(function(){

@@ -1,14 +1,16 @@
 <!DOCTYPE html><head>
 <meta charset="utf-8">
-<title>惠资生活</title>
-<meta name="keywords" content="惠资生活" />
-<meta name="description" content="惠资生活" />
-<meta name="copyright" content="惠资生活 版权所有" />
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
+<meta name="copyright" content="${site.copyright!''}" />
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/pplist.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/mymember.css" rel="stylesheet" type="text/css" />
+
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <!--<link href="css/member.css" rel="stylesheet" type="text/css" />-->
 <script src="/client/js/jquery-1.9.1.min.js"></script>
     <!--html5兼容-->

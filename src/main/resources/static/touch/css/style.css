@@ -818,10 +818,10 @@ font-size: 0.7em;
 
 p.order_info { font-size: 0.9em; text-align: right; width: 90%; max-width: 600px; margin-left: auto; margin-right: auto; }
 .address { display: block; width: 90%; max-width: 600px; margin-left: auto; margin-right: auto; }
-p.address { font-size: 0.9em; padding: 10px 0 5px; }
+/*p.address { font-size: 0.9em; padding: 10px 0 5px; }
 p.address a { display:inline-block; border:1px solid #ccc; padding:0 15px; line-height:30px; border-radius:3px; background:#fff;}
 p.address a.sel {border:1px solid #fc7c26; background:#fff url(../images/screening.png) no-repeat right bottom; background-size:15px;}
-input.address { height: 35px; line-height: 35px; text-indent: 1em; }
+input.address { height: 35px; line-height: 35px; text-indent: 1em; } */
 p.address { font-size: 0.9em; padding: 10px 0 5px; }
 p.address a { display:inline-block; border:1px solid #ccc; padding:0 15px; line-height:30px; border-radius:3px; background:#fff;}
 p.address a.sel {border:1px solid #fc7c26; background:#fff url(../images/screening.png) no-repeat right bottom; background-size:15px;}

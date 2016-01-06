@@ -2,6 +2,8 @@ package com.ynyes.huizi.util;
 
 import java.util.Properties;
 
+import org.apache.xml.resolver.helpers.PublicId;
+
 /**
  * 后台常用常量
  * @author Sharon
@@ -15,9 +17,11 @@ public class SiteMagConstant {
     
 //    public static final String backupPath = "src/main/resources/backup/";
 //    public static final String imagePath = "src/main/resources/static/images";
-//    
+//    public static final String apkPath = "src/main/resources/apk/";
+   
     public static final String backupPath = "/mnt/root/backup/";    
     public static final String imagePath = "/mnt/root/images/";    
+    public static final String apkPath = "/mnt/root/apk/";
     
 //    public static final String backupPath ;
 //    public static final String imagePath; 

@@ -1711,37 +1711,52 @@ public class TdTouchOrderController {
         tdOrder = tdOrderService.save(tdOrder);
        
 
-        // 给用户发送短信
-//        if (null != tdUser) {
-//            Random random = new Random();
-//            String smscode = String.format("%04d", random.nextInt(9999));
-//            tdOrder.setSmscode(smscode);
-//            tdOrder = tdOrderService.save(tdOrder);
-//            
-//            SMSUtil.send(tdOrder.getShippingPhone(), "29040",
-//                    new String[] { tdUser.getUsername(),
-//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
-//                            smscode });
-//        }
-//
-//        // 给商户发短信
-//        if (null != tdShop && null != tdUser && null != tdShop.getMobile()) {
-//            SMSUtil.send(tdShop.getMobile(), "29039",
-//                    new String[] { tdShop.getTitle(), tdUser.getUsername(),
-//                            tdOrder.getOrderGoodsList().get(0).getGoodsTitle(),
-//                            tdOrder.getAppointmentTime().toString() });
-//        }
-
-//        List<TdOrderGoods> tdOrderGoodsList = tdOrder.getOrderGoodsList();
-//
-//        Long totalPoints = 0L; // 总用户返利
-//        Double totalCash = 0.0; // 总同盟店返利
-//        Double platformService = 0.0;// 商城服务费
-//        Double trainService = 0.0; // 培训费
-//        Double shopOrderincome = 0.0;// 同盟店收入
-//        Double totalSaleprice = 0.0; // 订单商品总销售价
-//        Double totalCostprice = 0.0; // 订单商品总成本价
-//        Double totalgoodCommentpoints = 0.0; // 好评赠送粮草
+        // 虚拟货币扣除
+        if (null != tdOrder.getVirtualCurrencyUse() && null != tdUser.getVirtualCurrency()) {
+        	if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+				tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
+			}else {
+				tdUser.setVirtualCurrency(0.0);
+			}
+        	tdUserService.save(tdUser);
+		}
+        
+        // 分享用户
+        
+        // 分销用户返利（下级用户返利给上级用户）
+        if (null != tdUser.getUpperUsername()) {
+			TdSetting tdSetting = tdSettingService.findTopBy();
+			if (null != tdSetting && null != tdSetting.getReturnRation()) {
+				Double totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+				
+				if (totalReturn < 0) {
+					totalReturn = 0.0;
+				}
+				
+				TdUser upperuser = tdUserService.findByUsername(tdUser.getUpperUsername());
+				if (null != upperuser) {
+					// 返现总笔数
+					if (null != upperuser.getTotalCashRewardsNumber()) {
+						upperuser.setTotalCashRewardsNumber(upperuser.getTotalCashRewardsNumber() + 1);
+					}else {
+						upperuser.setTotalCashRewardsNumber(1L);
+					}
+					
+					// 返现金额
+					if (null != upperuser.getTotalCashRewards()) {
+						upperuser.setTotalCashRewards((long) (upperuser.getTotalCashRewards() + totalReturn));
+					}else {
+						upperuser.setTotalCashRewards((long) (totalReturn + 0L));
+					}
+				}
+				// 返现给上级用户总数
+				if (null != tdUser.getTotalCashRewardsToUpuser()) {
+					tdUser.setTotalCashRewardsToUpuser((long) (tdUser.getTotalCashRewardsToUpuser() + totalReturn));
+				}else {
+					tdUser.setTotalCashRewardsToUpuser((long) (totalReturn + 0L));
+				}
+			}			
+		}
 
        
     }

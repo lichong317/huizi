@@ -1958,7 +1958,7 @@ public class TdOrderController extends AbstractPaytypeController{
                         + System.currentTimeMillis() / 1000;
 
                 String sign = MD5.MD5Encode(
-                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        sa + "&key=3835866f1646adc0f0b99ffb49788b30")
                         .toUpperCase();
 
                 System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
@@ -2172,7 +2172,7 @@ public class TdOrderController extends AbstractPaytypeController{
                 + "&trade_type=NATIVE";
 
         String sign = MD5.MD5Encode(
-                sa + "&key=192006250b4c09247ec02edce69f6acy").toUpperCase();
+                sa + "&key=3835866f1646adc0f0b99ffb49788b30").toUpperCase();
 
         String content = "<xml>\n" + "<appid>"
                 + Configure.getAppid()
@@ -2251,7 +2251,7 @@ public class TdOrderController extends AbstractPaytypeController{
                         + "&return_code=SUCCESS";
 
                 sign = MD5.MD5Encode(
-                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        sa + "&key=3835866f1646adc0f0b99ffb49788b30")
                         .toUpperCase();
 
                 content = "<xml>\n" + "<appid>" + Configure.getAppid()
@@ -2338,7 +2338,7 @@ public class TdOrderController extends AbstractPaytypeController{
                         + "&return_code=SUCCESS";
                 
                 String sign = MD5.MD5Encode(
-                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+                        sa + "&key=3835866f1646adc0f0b99ffb49788b30")
                         .toUpperCase();
                 
                 String content = "<xml>\n"
@@ -2432,12 +2432,53 @@ public class TdOrderController extends AbstractPaytypeController{
       
         // 待发货
         tdOrder.setStatusId(3L);
-        tdOrder = tdOrderService.save(tdOrder);
-       
+        tdOrder = tdOrderService.save(tdOrder);       
 
         // 虚拟货币扣除
+        if (null != tdOrder.getVirtualCurrencyUse() && null != tdUser.getVirtualCurrency()) {
+        	if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+				tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
+			}else {
+				tdUser.setVirtualCurrency(0.0);
+			}
+        	tdUserService.save(tdUser);
+		}
         
-        // 分销用户返利
+        // 分享用户
         
+        // 分销用户返利（下级用户返利给上级用户）
+        if (null != tdUser.getUpperUsername()) {
+			TdSetting tdSetting = tdSettingService.findTopBy();
+			if (null != tdSetting && null != tdSetting.getReturnRation()) {
+				Double totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+				
+				if (totalReturn < 0) {
+					totalReturn = 0.0;
+				}
+				
+				TdUser upperuser = tdUserService.findByUsername(tdUser.getUpperUsername());
+				if (null != upperuser) {
+					// 返现总笔数
+					if (null != upperuser.getTotalCashRewardsNumber()) {
+						upperuser.setTotalCashRewardsNumber(upperuser.getTotalCashRewardsNumber() + 1);
+					}else {
+						upperuser.setTotalCashRewardsNumber(1L);
+					}
+					
+					// 返现金额
+					if (null != upperuser.getTotalCashRewards()) {
+						upperuser.setTotalCashRewards((long) (upperuser.getTotalCashRewards() + totalReturn));
+					}else {
+						upperuser.setTotalCashRewards((long) (totalReturn + 0L));
+					}
+				}
+				// 返现给上级用户总数
+				if (null != tdUser.getTotalCashRewardsToUpuser()) {
+					tdUser.setTotalCashRewardsToUpuser((long) (tdUser.getTotalCashRewardsToUpuser() + totalReturn));
+				}else {
+					tdUser.setTotalCashRewardsToUpuser((long) (totalReturn + 0L));
+				}
+			}			
+		}
     }
 }
