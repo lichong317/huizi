@@ -379,7 +379,10 @@ public class TdTouchGoodsController {
         }
 
         // 分享时添加积分
-        if (null != shareId) {    	
+        if (null != shareId) {  
+        	
+        	req.getSession().setAttribute("shareId", shareId);
+        	
             TdUser sharedUser = tdUserService.findOne(shareId);
 
             String clientIp = req.getRemoteHost();
@@ -395,6 +398,12 @@ public class TdTouchGoodsController {
         map.addAttribute("server_ip", req.getLocalName());
         map.addAttribute("server_port", req.getLocalPort());
 
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/goods";
     }
 
@@ -452,6 +461,12 @@ public class TdTouchGoodsController {
         map.addAttribute("page", page);
         map.addAttribute("stars", stars);
         map.addAttribute("goodsId", goodsId);
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/goods_comment";
     }
@@ -521,6 +536,12 @@ public class TdTouchGoodsController {
         map.addAttribute("page", page);
         map.addAttribute("goodsId", goodsId);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/goods_consult";
     }
     
@@ -584,6 +605,12 @@ public class TdTouchGoodsController {
         
         // 商品
         map.addAttribute("goods", tdGoodsService.findOne(goodsId));
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/goods_param";
     }

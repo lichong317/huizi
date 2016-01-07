@@ -54,6 +54,7 @@
   
 </div><!--main END-->
 
+<#if !app??>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -78,5 +79,6 @@
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
 <div class="clear70"></div>
+</#if>
 </body>
 </html>

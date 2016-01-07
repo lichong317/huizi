@@ -74,6 +74,13 @@ public class TdTouchCouponController {
         if (null != tdUser) {
         	 map.addAttribute("user", tdUser);
 		}
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
 		return "/touch/coupon_list";
 	}
 	
@@ -109,6 +116,12 @@ public class TdTouchCouponController {
         TdUser tdUser = tdUserService.findByUsername(username);
         if (null != tdUser) {
         	 map.addAttribute("user", tdUser);
+		}
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
 		}
         
 		return "/touch/coupon_get";

@@ -41,7 +41,7 @@ public class TdCartController {
     private TdCommonService tdCommonService;
 
     @RequestMapping(value = "/cart/init")
-    public String addCart(Long id, Long quantity, String zpid, Integer qiang, Integer m, Long  shareId,
+    public String addCart(Long id, Long quantity, String zpid, Integer qiang, Integer m, 
             HttpServletRequest req) {
         // 是否已登录
         boolean isLoggedIn = true;
@@ -67,6 +67,9 @@ public class TdCartController {
             qiang = 0;
         }
 
+        // 获取 分享用户id
+        Long shareId = (Long) req.getSession().getAttribute("shareId");
+        
         if (null != id) {
             TdGoods goods = tdGoodsService.findOne(id);
 

@@ -270,7 +270,7 @@ function deleteContrastgoods(id){
                 window._bd_share_config={
                 "common":{
                     "bdSnsKey":{},
-                    "bdText":"惠之店##${goods.title!''}", bdUrl:"http://116.55.230.207:8008/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>", "bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},
+                    "bdText":"惠之店##${goods.title!''}", bdUrl:"http://www.huizhidian.com/touch/goods/${goods.id?c}<#if qiang??><#if user??>?qiang=${qiang?c}&shareId=${user.id?c}<#else>?qiang=${qiang?c}</#if><#else><#if user??>?shareId=${user.id?c}</#if></#if>", "bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},
                     "share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 </script>
                    

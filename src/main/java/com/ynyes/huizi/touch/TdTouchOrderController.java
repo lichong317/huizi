@@ -403,6 +403,12 @@ public class TdTouchOrderController {
         	 map.addAttribute("totalPostagefeenot", totalPostagefeenot);
 		}
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         if (type.equalsIgnoreCase("comb"))
         {
             return "/touch/order_buy_zh";
@@ -946,7 +952,13 @@ public class TdTouchOrderController {
 		}
         
         tdOrder = tdOrderService.save(tdOrder);
-
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
          if (tdOrder.getIsOnlinePay()) {
         return "redirect:/touch/order/pay?orderId=" + tdOrder.getId();
          }
@@ -987,9 +999,18 @@ public class TdTouchOrderController {
             map.addAttribute("user", user);
         }
 
+        // 触屏结算目前为所有购物车商品        
+        List<TdCartGoods> cartGoodslist = tdCartGoodsService.findByUsername(username);
+        if (null != cartGoodslist && !cartGoodslist.isEmpty()) {
+			for(TdCartGoods tdCartGoods : cartGoodslist){
+				tdCartGoods.setIsSelected(true);
+				tdCartGoodsService.save(tdCartGoods);
+			}
+		}
+               
         List<TdCartGoods> selectedGoodsList = tdCartGoodsService
                 .findByUsernameAndIsSelectedTrue(username);
-
+        
         Long totalPointLimited = 0L;
         Double totalPrice = 0.0; // 购物总额
         Double totalQuantity =0.0;
@@ -1110,6 +1131,12 @@ public class TdTouchOrderController {
         
         tdCommonService.setHeader(map, req);
 
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/order_info";
     }
 
@@ -1436,6 +1463,12 @@ public class TdTouchOrderController {
         // 删除已生成订单的购物车项
         tdCartGoodsService.delete(cartGoodsList);
 
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         if (tdOrder.getIsOnlinePay()) {
         	if (tdOrder.getTotalPrice() == 0) {
     			afterPaySuccess(tdOrder);
@@ -1457,6 +1490,12 @@ public class TdTouchOrderController {
 
         map.addAttribute("order", tdOrderService.findOne(orderId));
 
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/order_pay";
     }
 
@@ -1480,6 +1519,12 @@ public class TdTouchOrderController {
         TdGoods tdGoods = tdGoodsService.findOne(tdOrderGoods.getGoodsId());
         map.addAttribute("recommend_goods_page", tdGoodsService.findByCategoryIdTreeContainingOrderBySortIdAsc(tdGoods.getCategoryId(), 0, ClientConstant.pageSize));
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/order_success";
     }
 
@@ -1488,6 +1533,12 @@ public class TdTouchOrderController {
 
         tdCommonService.setHeader(map, req);
 
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/order_pay_success";
     }
     

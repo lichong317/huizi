@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+input[type="button"], input[type="submit"], input[type="reset"] {-webkit-appearance: none;}textarea {  -webkit-appearance: none;} 
+
+
 .logintext {
 	height:40px;
 	width:80%;

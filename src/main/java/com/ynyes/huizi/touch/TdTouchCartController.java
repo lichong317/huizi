@@ -88,6 +88,12 @@ public class TdTouchCartController {
         
         tdCommonService.setHeader(map, req);
 
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/cart";
     }
 
@@ -181,6 +187,12 @@ public class TdTouchCartController {
         map.addAttribute("cart_goods_list",
                 tdCartGoodsService.updateGoodsInfo(tdCartGoodsService.findByUsername(username)));
 
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/cart_goods";
     }
 
@@ -210,6 +222,12 @@ public class TdTouchCartController {
         map.addAttribute("cart_goods_list",
                 tdCartGoodsService.updateGoodsInfo(tdCartGoodsService.findByUsername(username)));
 
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/cart_goods";
     }
 
@@ -233,6 +251,12 @@ public class TdTouchCartController {
         map.addAttribute("cart_goods_list",
                 tdCartGoodsService.updateGoodsInfo(tdCartGoodsService.findByUsername(username)));
 
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/cart_goods";
     }
 }

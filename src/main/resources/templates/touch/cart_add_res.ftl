@@ -18,11 +18,11 @@
 <script type="text/javascript">
 function goNext(goodsNum)
 {
-    if (0==goodsNum)
-    {
-        alert("请至少选择一种商品!");
-        return false;
-    }
+//    if (0==goodsNum)
+//    {
+//        alert("请至少选择一种商品!");
+//        return false;
+//    }
     window.location.href="/touch/order/info<#if shareId??>?shareId=${shareId}</#if>";
 }
 </script>
@@ -42,6 +42,7 @@ function goNext(goodsNum)
     <#include "/touch/cart_goods.ftl" />
 </div><!--main END-->
 
+<#if !app??>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -66,5 +67,6 @@ function goNext(goodsNum)
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
 <div class="clear70"></div>
+</#if>
 </body>
 </html>

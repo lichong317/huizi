@@ -62,9 +62,9 @@ public class TdTouchLoginController {
 	        if (null == referer)
 	        {
 	            referer = "/touch/";
-	        }
+	        }	     
 	        
-	        return "redirect:/touch" + referer;
+	        return "redirect:" + referer;
 	    }
 	    
 	    @RequestMapping(value = "/touch/loginMobile", method = RequestMethod.GET)
@@ -90,7 +90,7 @@ public class TdTouchLoginController {
 	            referer = "/touch/";
 	        }
 	        
-	        return "redirect:/touch" + referer;
+	        return "redirect:" + referer;
 	    }
 	    
 	    @RequestMapping(value="/touch/login",method = RequestMethod.POST)
@@ -241,7 +241,7 @@ public class TdTouchLoginController {
 	     */
 	    @RequestMapping("/touch/logout")
 		public String logOut(HttpServletRequest request) {
-			request.getSession().invalidate();
+			request.getSession().invalidate();			
 			return "redirect:/touch";
 		}
 	    
@@ -356,6 +356,12 @@ public class TdTouchLoginController {
 	    @RequestMapping(value = "/touch/login/password_retrieve", method = RequestMethod.GET)
 		public String Retrieve(HttpServletRequest req, ModelMap map){
 			tdCommonService.setHeader(map, req);
+			
+			//判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
 			return "/touch/user_retrieve_step1";
 		}
 	    
@@ -407,6 +413,12 @@ public class TdTouchLoginController {
 			 
 			map.put("user", user);
 			
+			//判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
+			
 			return "/touch/user_retrieve_step2";
 		}
 	    
@@ -426,6 +438,12 @@ public class TdTouchLoginController {
 			map.put("retrieve_username", username);
 			tdCommonService.setHeader(map, req);
 			
+			//判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
+			
 			return "/touch/user_retrieve_step3";
 		}
 		
@@ -439,6 +457,13 @@ public class TdTouchLoginController {
 				tdCommonService.setHeader(map, req);
 				req.getSession().setAttribute("username", user.getUsername());
 				//req.getSession().setAttribute("usermobile", user.getMobile());
+				
+				//判断是否为app链接
+		        Integer isApp = (Integer) req.getSession().getAttribute("app");
+		        if (null != isApp) {
+		        	map.addAttribute("app", isApp);
+				}
+				
 				return "/touch/user_retrieve_ok";
 			}
 			return "/touch/error_404";

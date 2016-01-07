@@ -214,6 +214,9 @@
   
 </div><!--main END-->
 
+<#if app??>
+
+<#else>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -250,5 +253,6 @@
     <a href="#">我是地区名字</a>
   </div>
 </aside>
+</#if>
 </body>
 </html>

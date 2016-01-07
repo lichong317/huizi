@@ -2140,14 +2140,14 @@ public class TdOrderController extends AbstractPaytypeController{
         calExpire.setTime(order.getOrderTime());
 
         // 根据订单类型来判断支付时间是否过期
-        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
-            calExpire.add(Calendar.MINUTE, 30);
-        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
-                                                                                   // 预付是订单提交后12小时内，尾款支付也是12小时
-            calExpire.add(Calendar.HOUR, 12);
-        } else { // 普通 订单提交后24小时内
-            calExpire.add(Calendar.DATE, 1);
-        }
+//        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+//            calExpire.add(Calendar.MINUTE, 30);
+//        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+//                                                                                   // 预付是订单提交后12小时内，尾款支付也是12小时
+//            calExpire.add(Calendar.HOUR, 12);
+//        } else { // 普通 订单提交后24小时内
+//            calExpire.add(Calendar.DATE, 1);
+//        }
 
         String noncestr = RandomStringGenerator.getRandomStringByLength(32);
         

@@ -41,7 +41,7 @@ public class TdTouchIndexController {
     private TdAdService tdAdService;
 
     @RequestMapping
-    public String index(HttpServletRequest req, ModelMap map, String username) {
+    public String index(HttpServletRequest req, ModelMap map, String username, Integer app) {
     	
     	tdCommonService.setHeader(map, req);
     	if (null != username) {
@@ -86,7 +86,12 @@ public class TdTouchIndexController {
             map.addAttribute("selection_ad_list",
                     tdAdService.findByTypeId(tdAdType.getId()));
         }   
-                
+        
+        // app标志位
+        if (null != app) {
+        	map.addAttribute("app", app);
+        	req.getSession().setAttribute("app", app);
+		}
         
         return "/touch/index";
     }

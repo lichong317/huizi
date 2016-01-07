@@ -109,7 +109,7 @@ public class TdAppIndexController {
 			res.put("version", tdSetting.getAndroidVersion());
 		}
         if (null != tdSetting.getAndroidApk()) {
-        	res.put("downloadUrl", "www.huizhidian.com/android/apk/"+ tdSetting.getAndroidApk());
+        	res.put("downloadUrl", "/android/apk/"+ tdSetting.getAndroidApk());
 		}
                
         res.put("code", 0);
@@ -137,8 +137,7 @@ public class TdAppIndexController {
        	 OutputStream os;
    		 try {
    				os = resp.getOutputStream();
-   				File file = new File(exportUrl + filename +".apk");
-                    
+   				File file = new File(exportUrl + filename +".apk");   				
                 if (file.exists())
                     {
                       try {

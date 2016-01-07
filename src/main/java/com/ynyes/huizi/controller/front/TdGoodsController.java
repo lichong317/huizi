@@ -436,6 +436,9 @@ public class TdGoodsController {
 //        }
       if (null != shareId) {    
     	  map.addAttribute("shareId", shareId);
+    	  
+    	  req.getSession().setAttribute("shareId", shareId);
+    	  
 //        TdUser sharedUser = tdUserService.findOne(shareId);
 //
 //        String clientIp = req.getRemoteHost();

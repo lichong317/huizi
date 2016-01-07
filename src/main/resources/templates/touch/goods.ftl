@@ -379,6 +379,7 @@ function checkTime(i)
  
 </div>
 <!--main END-->
+<#if !app??>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -402,6 +403,7 @@ function checkTime(i)
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''} </p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+</#if>
 <div class="buyfoot_bg"></div>
   <footer class="buyfoot">
      <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>

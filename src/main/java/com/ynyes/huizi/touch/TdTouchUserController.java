@@ -250,6 +250,12 @@ public class TdTouchUserController {
    	   		}
 		}
    	
+   		//判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+   		
    		return "/touch/user_qrcode";
 
    	}
@@ -297,6 +303,12 @@ public class TdTouchUserController {
         
         map.addAttribute("redenvelope_page", redenvelopePage);       
         
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_redenvelope_list";
     }
     
@@ -325,7 +337,13 @@ public class TdTouchUserController {
         TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
         
         map.addAttribute("tdRedEnvelope", tdRedEnvelope);
-                
+           
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_redenvelope_edit";
     }
     
@@ -519,6 +537,12 @@ public class TdTouchUserController {
         
         map.addAttribute("order_page", orderPage);
         
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_order_list";
     }
    
@@ -584,6 +608,12 @@ public class TdTouchUserController {
         }       
         
         map.addAttribute("order_page", orderPage);
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_order_list_more";
     }
@@ -678,6 +708,12 @@ public class TdTouchUserController {
         map.addAttribute("return_page", orderPage);
         map.addAttribute("keywords", keywords);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_return_list";
     }
     /**
@@ -770,6 +806,12 @@ public class TdTouchUserController {
         
         map.addAttribute("cancel_page", cancelPage);
         
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_cancel_list";
     }
     
@@ -793,6 +835,12 @@ public class TdTouchUserController {
         {
             map.addAttribute("order", tdOrderService.findOne(id));
         }
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_cancel_detail";
     }
@@ -880,6 +928,12 @@ public class TdTouchUserController {
 	        Long statusId = order.getStatusId();
 	        if (1L == statusId||2L == statusId||3L == statusId)
 	        {
+	        	//判断是否为app链接
+	            Integer isApp = (Integer) req.getSession().getAttribute("app");
+	            if (null != isApp) {
+	            	map.addAttribute("app", isApp);
+	    		}
+	        	
 	        	map.addAttribute("orderId", id);
 	        	map.addAttribute("statusId", statusId);
 	            map.addAttribute("order", order);
@@ -1089,8 +1143,6 @@ public class TdTouchUserController {
 			tdOrderService.save(tdOrder);
 		}
         
-        
-        
         return "redirect:/touch/user/order/list/0";
     }
     
@@ -1114,6 +1166,12 @@ public class TdTouchUserController {
         {
             map.addAttribute("order", tdOrderService.findOne(id));
         }
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_order_detail";
     }
@@ -1208,6 +1266,12 @@ public class TdTouchUserController {
         
         map.addAttribute("collect_page", collectPage);
         map.addAttribute("keywords", keywords);
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_collect_list";
     }
@@ -1350,6 +1414,12 @@ public class TdTouchUserController {
         map.addAttribute("categoryId",categoryId); //商品分类id zhangji
         map.addAttribute("recent_page", recentPage);
         map.addAttribute("keywords", keywords);
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_recent_list";
     }
@@ -1501,6 +1571,12 @@ public class TdTouchUserController {
 		map.addAttribute("listId", listId);  
         map.addAttribute("coupan_list", coupanList);
         
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_coupon_list";
     }
     
@@ -1564,6 +1640,12 @@ public class TdTouchUserController {
         }
         
         map.addAttribute("coupan_list", coupanList);
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_coupon_list_detail";
     }
@@ -1648,6 +1730,12 @@ public class TdTouchUserController {
         
         map.addAttribute("point_page", pointPage);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_point_list";
     }
     
@@ -1724,6 +1812,13 @@ public class TdTouchUserController {
         
         map.addAttribute("user", tdUser);
         map.addAttribute("telephone", tdUser.getMobile());
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         if (null != orderId)
         {
             TdOrder tdOrder = tdOrderService.findOne(orderId);
@@ -1923,6 +2018,13 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/comment/sec")
     public String commentSec(HttpServletRequest req, Long commentId,
             ModelMap map) {
+    	
+    	//判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+    	
         return "/touch/comment_sec";
     }
     
@@ -1953,6 +2055,12 @@ public class TdTouchUserController {
                     .findOne(tdOrderGoods.getCommentId());
             map.addAttribute("comment", uc);
         }
+        
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_comment_edit";
     }
@@ -2051,6 +2159,12 @@ public class TdTouchUserController {
 
         map.addAttribute("statusId", statusId);
 
+        //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_comment_list";
     }
     
@@ -2163,6 +2277,12 @@ public class TdTouchUserController {
         map.addAttribute("consult_page", consultPage);
         map.addAttribute("keywords", keywords);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_consult_list";
     }
     
@@ -2259,6 +2379,12 @@ public class TdTouchUserController {
         
         map.addAttribute("complain_page", complainPage);
         map.addAttribute("keywords", keywords);
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_complain_list";
     }
@@ -2445,6 +2571,12 @@ public class TdTouchUserController {
             map.addAttribute("address_list", user.getShippingAddressList());
         }
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_address_list";
     }
     
@@ -2470,6 +2602,12 @@ public class TdTouchUserController {
 
         map.addAttribute("user", user);
         map.addAttribute("reward_page", tdUserCashRewardService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_distributor_return";
     }
@@ -2498,6 +2636,12 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         map.addAttribute("lower_page", tdUserService.findByUpperUsernameAndIsEnabled(username, page, ClientConstant.pageSize));
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_distributor_lower";
     }
     
@@ -2516,6 +2660,12 @@ public class TdTouchUserController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
 
         map.addAttribute("user", user);
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_distributor_bankcard";
     }
@@ -2560,6 +2710,12 @@ public class TdTouchUserController {
             map.addAttribute("goods_page", tdGoodsService.findByReturnPriceNotZeroAndSearchAndIsOnSaleTrue(page, ClientConstant.pageSize, keywords));
         }
         
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         return "/touch/user_distributor_goods";
     }
     
@@ -2580,6 +2736,12 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         
         map.addAttribute("recommend_goods_page", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_info";
     }
@@ -2634,6 +2796,12 @@ public class TdTouchUserController {
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", user);
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/user_change_password";
     }

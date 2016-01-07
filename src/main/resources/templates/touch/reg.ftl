@@ -88,7 +88,7 @@ $(document).ready(function(){
 </div>
 <!--main END-->
 
-
+<#if !app??>
    <p class="ta-c mb10">
     <a class="fc fs09" href="#">触屏版</a>
     <span>&nbsp;|&nbsp;</span>
@@ -96,5 +96,6 @@ $(document).ready(function(){
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''} </p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+</#if>
 </body>
 </html>

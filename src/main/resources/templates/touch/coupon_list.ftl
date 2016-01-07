@@ -117,6 +117,7 @@ function changeName(p)
 </div>
 <!--main END-->
 
+<#if !app??>
 <section class="botmain">
   <div class="main">
  <div class="center">
@@ -139,5 +140,6 @@ function changeName(p)
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''} </p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+</#if>
 </body>
 </html>

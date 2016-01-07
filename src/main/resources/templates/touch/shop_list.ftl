@@ -170,6 +170,7 @@ function showMap(longitude,latitude)
   <div class="clear20"></div>
 </div><!--main END-->
 
+<#if !app??>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -191,6 +192,7 @@ function showMap(longitude,latitude)
     <a class="fs09" href="/shop/list">电脑版</a>
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
-  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+  <p class="ta-c fs08 c7">${site.icpNumber!''}</p>
+</#if> 
 </body>
 </html>

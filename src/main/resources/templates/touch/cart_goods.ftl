@@ -27,7 +27,7 @@
     <div class="main" style="background:#35424e;">
       <section class="car_price">
         <h3>合计：<span class="sc">￥<#if cart_goods_list??>${totalPrice?string("0.00")}</#if></span>（共<span><#if cart_goods_list??>${cart_goods_list?size}</#if></span>件商品）</h3>
-        <a href="javascript:goNext(${totalGoods!0});">结算（<#if cart_goods_list??>${cart_goods_list?size}</#if>）</a>
+        <a href="/touch/order/info<#if shareId??>?shareId=${shareId}</#if>">结算（<#if cart_goods_list??>${cart_goods_list?size}</#if>）</a>
         <div class="clear"></div>
       </section>
     </div>

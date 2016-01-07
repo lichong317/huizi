@@ -119,6 +119,12 @@ public class TdTouchSearchController {
 	        map.addAttribute("st", st);
 	        map.addAttribute("sd", sd);
 	        
+	      //判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
+	        
 	        return "/touch/search_result";
 	    }
 	    
@@ -185,6 +191,12 @@ public class TdTouchSearchController {
 	        map.addAttribute("st", st);
 	        map.addAttribute("sd", sd);
 
+	      //判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
+	        
 	        return "/touch/search_result_more";
 	    }
 }

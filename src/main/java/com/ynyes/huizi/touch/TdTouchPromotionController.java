@@ -39,6 +39,12 @@ public class TdTouchPromotionController {
 	        
 	        map.addAttribute("type", type);
 	        
+	      //判断是否为app链接
+	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+	        if (null != isApp) {
+	        	map.addAttribute("app", isApp);
+			}
+	        
 	        if (promotionType.equalsIgnoreCase("tuan")) // 团购
 	        {
 	        	

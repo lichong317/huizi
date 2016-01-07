@@ -123,6 +123,12 @@ public class TdTouchInfoController {
 	    map.addAttribute("info_category_list", catList);
 	    map.addAttribute("latest_info_page", tdArticleService.findByMenuIdAndIsEnableOrderByIdDesc(mid, page, ClientConstant.pageSize));
 	    
+	  //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+	    
         return "/touch/info_list";
     }
 	
@@ -168,6 +174,12 @@ public class TdTouchInfoController {
         
         // 最近添加
         map.addAttribute("latest_info_page", tdArticleService.findByMenuIdAndIsEnableOrderByIdDesc(mid, 0, ClientConstant.pageSize));
+        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/info_detail";
     }

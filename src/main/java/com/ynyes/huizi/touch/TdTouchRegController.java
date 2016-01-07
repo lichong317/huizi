@@ -44,6 +44,12 @@ public class TdTouchRegController {
         // 基本信息
         tdCommonService.setHeader(map, request);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) request.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         if (null == username) {
             if (null != errCode)
             {
@@ -71,7 +77,7 @@ public class TdTouchRegController {
     public String regquick(String mobile,
                 String code,
                 String smscode,
-                Long shareId,
+//                Long shareId,
                 HttpServletRequest request){
         String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
@@ -81,6 +87,9 @@ public class TdTouchRegController {
         if (null == codeBack ) {
         	codeBack = "123456";			
 		}
+        
+     // 从session中获取shareid
+        Long shareId = (Long) request.getSession().getAttribute("shareId");
         
         if ( null == code)
         {
@@ -236,6 +245,12 @@ public class TdTouchRegController {
         // 基本信息
         tdCommonService.setHeader(map, request);
         
+      //判断是否为app链接
+        Integer isApp = (Integer) request.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
+        
         if (null == username) {
             if (null != errCode)
             {
@@ -268,13 +283,16 @@ public class TdTouchRegController {
                 String email,               
                 String code,
                 String smscode,
-                Long shareId,
+//                Long shareId,
                 HttpServletRequest request){
         String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
 
         if (null == codeBack ) {
         	codeBack = "123456";			
 		}
+        
+        // 从session中获取shareid
+        Long shareId = (Long) request.getSession().getAttribute("shareId");
         if (null == username) {
         	
              

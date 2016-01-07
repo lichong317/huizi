@@ -424,6 +424,12 @@ public class TdTouchListController {
 	         
 	         map.addAttribute("goods_page", goodsPage);   
 	         
+	       //判断是否为app链接
+	         Integer isApp = (Integer) req.getSession().getAttribute("app");
+	         if (null != isApp) {
+	         	map.addAttribute("app", isApp);
+	 		}
+	         
 	         return "/touch/goods_list";
 	    }
 	    

@@ -57,7 +57,11 @@ public class TdTouchShopController {
         
         map.addAttribute("shop_list", tdDiySiteService.findAllOrderBySortIdAsc(page, SiteMagConstant.pageSize));
        
-        
+      //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
         
         return "/touch/shop_list";
     }
@@ -67,6 +71,12 @@ public class TdTouchShopController {
 	    tdCommonService.setHeader(map, req);
 	    
 	    map.addAttribute("shop", tdDiySiteService.findOne(id));
+	    
+	  //判断是否为app链接
+        Integer isApp = (Integer) req.getSession().getAttribute("app");
+        if (null != isApp) {
+        	map.addAttribute("app", isApp);
+		}
 	    
         return "/touch/shop_detail";
     }

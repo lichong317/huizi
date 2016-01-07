@@ -94,6 +94,7 @@
 </section>
 <!--main END-->
 
+<#if !app??>
 <section class="botmain">
   <div class="main">
   <div class="center">
@@ -118,6 +119,7 @@
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
 <div class="clear70"></div>
+</#if>
 <footer class="buyfoot">
   <div class="mainbox">
     <a class="fl" href="/order/dopay/${order.id?c}">去付款</a>

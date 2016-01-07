@@ -178,7 +178,7 @@ public class TdRegisgerController {
                 String yzmcode,
                 String code,
                 String smscode,
-                Long shareId,
+//                Long shareId,
                 HttpServletRequest request){
         String codeBack = (String) request.getSession().getAttribute(VerifServlet.RANDOMCODEKEY);
         String smsCodeSave = (String) request.getSession().getAttribute("SMSCODE");
@@ -188,6 +188,11 @@ public class TdRegisgerController {
         if (null == codeBack ) {
         	codeBack = "123456";			
 		}
+        
+        // 从session中获取shareid
+        Long shareId = (Long) request.getSession().getAttribute("shareId");
+        
+        
         if (null == username) {
         	 if ( null == yzmcode)
              {
