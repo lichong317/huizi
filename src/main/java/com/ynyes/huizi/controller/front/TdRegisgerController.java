@@ -138,6 +138,10 @@ public class TdRegisgerController {
                 {
                     map.addAttribute("error", "验证码错误");
                 }
+                else if (errCode.equals(5))
+                {
+                    map.addAttribute("error", "验证码错误");
+                }
                 map.addAttribute("errCode", errCode);
             }
             
@@ -249,11 +253,11 @@ public class TdRegisgerController {
             {
                 if (null == shareId)
                 {
-                    return "redirect:/reg?errCode=4" + "&username1=" + username + "&mobile=" + mobile +"&email=" + email;
+                    return "redirect:/reg?errCode=5" + "&username1=" + username + "&mobile=" + mobile +"&email=" + email;
                 }
                 else
                 {
-                    return "redirect:/reg?errCode=4&shareId=" + shareId + "&username1=" + username + "&mobile=" + mobile  +"&email=" + email;
+                    return "redirect:/reg?errCode=5&shareId=" + shareId + "&username1=" + username + "&mobile=" + mobile  +"&email=" + email;
                 }
             }
 		}

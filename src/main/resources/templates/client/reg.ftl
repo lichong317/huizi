@@ -391,8 +391,13 @@ div {
 <div class="login_wrap">
             <div class="zhuce-tab">
                 <ul id="tableLogin">
-                    <li class="xz">快速注册</li>
-                    <li class="">账号注册</li>
+                    <#if username1??>
+                        <li class="">快速注册</li>
+                        <li class="xz">账号注册</li>
+                    <#else>
+                        <li class="xz">快速注册</li>
+                        <li class="">账号注册</li>
+                    </#if>                    
                 </ul>
             </div>
 			<script>
@@ -412,18 +417,9 @@ div {
             
             
             <div class="xxknr" id="xxknr">
-                <form id = "form1" method="post" action="/reg">
-                        <span style="color: #F00"><#if errCode??>
-                        <#if errCode==1>
-                            短信验证码错误
-                        <#elseif errCode==4>
-                            验证码错误               
-                        <#elseif errCode==3>
-                            用户名已存在             
-                        </#if>
-                    </#if></span>
+                <form id = "form1" method="post" action="/reg">                      
                     <input name="shareId" type="hidden" value="${share_id!''}">
-                <div class="reg tableLoginreg" style="display: block;">
+                <div class="reg tableLoginreg" <#if username1??>style="display: none;"<#else>style="display: block;"</#if>>
                     <dl>
                         <dt><i>*</i>手机号码</dt>
                         <dd>
@@ -434,25 +430,29 @@ div {
                      <dl id="codedl">
                         <dt><i>*</i>验证码</dt>
                         <dd>
-                            <input type="text" name="yzmcode"  id="yzmcode" style="width: 120px;" >
-                            <img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = '/code?date='+Math.random();">
-                            <span  id="yzmerror" style="color:red; display:none; margin-left:10px">验证码错误</span>
+                            <input type="text" name="yzmcode"  id="yzmcode" style="width: 120px;float:left;" >
+                            <img id="vCodeImg" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;float:left;" onclick="this.src = '/code?date='+Math.random();">
+                            <#if errCode?? && errCode==4>
+                                <span  id="yzmerror" style="color:red; display:block; margin-left:10px;float:left;">验证码错误</span>
+                            </#if>
                         </dd>
                     </dl>
                     <dl>
                         <dt><i>*</i>短信验证码</dt>
                         <dd>
-                            <input type="text" id="phonecode" name="smscode" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符">
+                            <input type="text" id="phonecode" name="smscode" style="width: 120px;float:left;" datatype="s4-4" errormsg="请填写4位字符">
                             <#--><a class="btn" id="getCode" href=""><span id="dyMobileButton">获取短信验证码</span></a>-->
-                            <input id="dyMobileButton" type="button" class="sub" value="发送验证码" style="text-align:center;width: 15%; border-radius: 3px; margin-left:10px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" />
+                            <input id="dyMobileButton" type="button" class="sub" value="发送验证码" style="text-align:center;width: 15%; border-radius: 3px;float:left; margin-left:10px; background: #1c2b38; color: #fff; line-height: 35px; height: 35px;" />
+                            <#if errCode?? && errCode==1>
+                                <span  id="yzmerror" style="color:red; display:block; margin-left:10px;float:left;">短信验证码错误</span>
+                            </#if>
                             </dd>
                     </dl>
-
 
                     <dl>
                         <dt></dt>
                         <dd>
-                            <input name="" id="mmprovision" type="checkbox"  nullmsg="请阅读协议！" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                            <input name="" id="mmprovision" type="checkbox"  nullmsg="请阅读协议！" datatype="*" checked="checked" style="margin-right: 5px; vertical-align: middle;">
                             <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                     </dl>
                     <dl>
@@ -466,7 +466,7 @@ div {
                 <form id = "form2" method="post" action="/reg">
  
                     <input name="shareId" type="hidden" value="${share_id!''}">
-                    <div class="reg tableLoginreg" style="display: none;">
+                    <div class="reg tableLoginreg" <#if username1??>style="display: block;"<#else>style="display: none;"</#if>>
                         <dl>
                             <dt><i>*</i>用户名</dt>
                             <dd>
@@ -506,12 +506,17 @@ div {
                         <dl>
                             <dt>验证码</dt>
                             <dd>
-                                <input type="text" id="yzmcode2" name="code" style="width: 120px;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;" onclick="this.src = '/code?date='+Math.random();"><a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 ">看不清楚？换一张</a></dd>
+                                <input type="text" id="yzmcode2" name="code" style="width: 120px; float:left;" datatype="s4-4" errormsg="请填写4位字符"><img id="vCodeImg2" src="/code" width="80" height="30" style="margin: 0 10px; vertical-align: middle;float:left;" onclick="this.src = '/code?date='+Math.random();">
+                                <a href="javascript:void(0)" onclick=" document.getElementById('vCodeImg2').src = '/code?date='+Math.random() * 100 " style="float:left;">看不清楚？换一张</a>
+                                <#if errCode?? && errCode==5>
+                                    <span style="color:red; display:block; margin-left:10px;float:left;">验证码错误</span>
+                                </#if>
+                            </dd>
                         </dl>
                         <dl>
                             <dt></dt>
                             <dd>
-                                <input name="" id="mmprovision2"   nullmsg="请阅读协议！" type="checkbox" checked="checked" style="margin-right: 5px; vertical-align: middle;">
+                                <input name="" id="mmprovision2"   nullmsg="请阅读协议！" type="checkbox" datatype="*" checked="checked" style="margin-right: 5px; vertical-align: middle;">
                                 <label for="mmprovision" style="color: #999;">注册表示阅读并同意<a href="javascript:checkwindowshow();" class="showyhzt" style="color: #39f; margin: 0 5px;">《惠之店用户协议》</a></label></dd>
                         </dl>
                         <dl>

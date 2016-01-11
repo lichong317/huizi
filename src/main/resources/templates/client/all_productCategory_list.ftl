@@ -15,7 +15,7 @@
 <script src="/client/js/jquery-1.9.1.min.js"></script>
     <!--html5兼容-->
     <!--[if lt ie 9]> 
-        <script src="js/html5.js"></script> 
+        <script src="/client/js/html5.js"></script> 
     <![endif]-->
     <!--html5兼容结束-->
 

@@ -1069,6 +1069,7 @@ height: 104px;}
 }
 .u_lottery_right .c_lucky ol li {
     height: 37px;
+    overflow: hidden;    
     line-height: 37px;
     border-bottom: 1px solid #e2e2e2
 }

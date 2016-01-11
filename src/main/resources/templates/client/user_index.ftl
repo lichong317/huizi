@@ -94,6 +94,7 @@ function orderReceive(id)
       <table>
         <tr>
           <th width="150" rowspan="2">
+          <img src="/client/images/asa.png" style="position: absolute; ">
           <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a></th>
                <script>
                         function changeHeads(){
@@ -112,7 +113,7 @@ function orderReceive(id)
           </th>
         </tr>
         <tr>
-          <td><a href="/user/order/list/4"><img src="/client/images/mymember/buy03.png" />待收货：<span>${total_unreceived!'0'}</span></a></td>
+          <td><a href="/user/order/list/4"><img src="/client/images/mymember/buy03.png" style="margin-right:8px;" />待收货：<span>${total_unreceived!'0'}</span></a></td>
           <td><a href="/user/order/list/6"><img src="/client/images/mymember/buy04.png" />已完成：<span>${total_finished!'0'}</span></a></td>
         </tr>
       </table>
@@ -195,7 +196,7 @@ function orderReceive(id)
                         <#if order.statusId == 1 ||order.statusId ==2>
                         	<p><a href="/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()">取消订单</a></p>
                         <#elseif order.statusId==3>
-                            <p><a href="/user/cancel/edit?id=${order.id?c}">取消订单</a></p>	
+                           <#-- <p><a href="/user/cancel/edit?id=${order.id?c}">取消订单</a></p>	-->
                         <#elseif order.statusId==4>
                             <p><a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()">确认收货</a></p>	 
                         <#elseif order.statusId==5>

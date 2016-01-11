@@ -121,7 +121,7 @@ function orderReceive(id)
     <#if order_page??>
         <#list order_page.content as order>
             <div class="myorder_list">        
-                <h2>订单编号&nbsp;<a href="/touch/user/order?id=${order.id?c}"> ${order.orderNumber!''}</a><span><#if order.orderTime??>${order.orderTime[0..8]?default("")}</#if></span></h2>
+                <h2>订单编号&nbsp;<a href="/touch/user/order?id=${order.id?c}"> ${order.orderNumber!''}</a><span><#if order.orderTime??>${order.orderTime?string("yyyy-MM-dd")}</#if></span></h2>
                 <#if order.orderGoodsList??>
                     <#list order.orderGoodsList as ordergoods>
                         <a class="a1" href="/touch/goods/${ordergoods.goodsId?c}">

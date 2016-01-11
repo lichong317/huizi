@@ -84,13 +84,27 @@
 <menu class="main memberlist">
 <#--  <a href="/touch/user/order/list/0">全部订单<img style="float:right; margin-top:13px;" src="/touch/images/arrow04.png" /></a>
   <a href="/touch/user/point/list">我的积分（${user.totalPoints!0}）<img style="float:right; margin-top:13px;" src="" /></a>
-  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="" /></a> -->
+  <a href="/touch/user/coupon/list/0">我的优惠券<img style="float:right; margin-top:13px;" src="" /></a> 
   <a href="/touch/user/collect/list">我的收藏<img style="float:right; margin-top:13px;" src="" /></a>
-<#-->  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="" /></a> -->
+  <a href="/touch/user/redenvelope/list">我的红包<img style="float:right; margin-top:13px;" src="" /></a> 
   <a href="/touch/user/info">个人信息设置<img style="float:right; margin-top:13px;" src="" /></a>
 <#--  <#if user?? && user.roleId?? && user.roleId == 1> -->
-    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
-    <a href="/touch/user/password">密码修改<img style="float:right; margin-top:13px;" src="" /></a>
+<#--    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
+    <a href="/touch/user/password">密码修改<img style="float:right; margin-top:13px;" src="" /></a> -->
+    
+    <a href="#">
+        <img src="/touch/images/shoucang.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">我的收藏
+        <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
+    </a>
+    <a href="#">
+        <img src="/touch/images/geren.png" style="position: relative; width: 20px;height: 20px;top: 3px;left: -15px;">个人信息设置
+        <img src="/touch/images/arrow04.png" style="position: relative;float: right; right: -15px;top: 11px;">
+    </a>
+    <a href="#">
+        <img src="/touch/images/erweima.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">我的二维码
+        <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
+    </a>
+       
 
 </menu> 
 <div class=" tuichu main">

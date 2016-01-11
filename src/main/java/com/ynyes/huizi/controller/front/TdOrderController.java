@@ -1843,6 +1843,7 @@ public class TdOrderController extends AbstractPaytypeController{
         tdCommonService.setHeader(map, req);
 
         return "/client/order_pay_success";
+
     }
     
     /**
@@ -2291,7 +2292,7 @@ public class TdOrderController extends AbstractPaytypeController{
     }
 
     @RequestMapping(value = "/wx_notify")
-    public void wx_notify(HttpServletResponse response,
+    public void wx_notify(HttpServletResponse response, ModelMap map,
             HttpServletRequest request) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 request.getInputStream()));
@@ -2301,7 +2302,7 @@ public class TdOrderController extends AbstractPaytypeController{
         String result_code = null;
         String noncestr = null;
         String out_trade_no = null;
-
+        
         try {
             while ((line = br.readLine()) != null) {
                 System.out.print("Sharon: notify" + line + "\n");
@@ -2324,12 +2325,11 @@ public class TdOrderController extends AbstractPaytypeController{
                     null != out_trade_no)
             {
                 TdOrder order = tdOrderService.findByOrderNumber(out_trade_no.substring(0, out_trade_no.length() - 1));
-                
+
                 if (null != order)
                 {
                     afterPaySuccess(order);
                 }
-                
                 noncestr = RandomStringGenerator.getRandomStringByLength(32);
                 String sa = "appid=" + Configure.getAppid()
                         + "&mch_id=" + Configure.getMchid()
@@ -2366,13 +2366,15 @@ public class TdOrderController extends AbstractPaytypeController{
                     os.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }                              
             }
+                       
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             br.close();
         }
+       
     }
 
     @RequestMapping(value = "/payqrcode", method = RequestMethod.GET)

@@ -215,7 +215,7 @@ function orderReceive(id)
                         <#if order.statusId == 1||order.statusId ==2>
                         	<p><a href="/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()">取消订单</a></p>
                         <#elseif order.statusId==3>
-                            <p><a href="/user/cancel/edit?id=${order.id?c}">取消订单</a></p>	
+                          <#--  <p><a href="/user/cancel/edit?id=${order.id?c}">取消订单</a></p>-->	
                         <#elseif order.statusId==4>
                             <p><a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()">确认收货</a></p>	 
                         <#elseif order.statusId==5>

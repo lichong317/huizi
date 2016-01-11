@@ -86,7 +86,8 @@ function signin(){
          <a href="/user" target="_blank">查看详细&gt;&gt;</a> 
          <#if tdUserLevelnext??>
            </span> <i><em class="J_range" data-max="300" data-val="112" style="width: <#if tdUserLevelnext.requiredConsumption?? && user.totalSpendCash??>${user.totalSpendCash/tdUserLevelnext.requiredConsumption}</#if>%;"></em></i>         
-           <p>还差<em><#if tdUserLevelnext.requiredConsumption?? && user.totalSpendCash??>${tdUserLevelnext.requiredConsumption - user.totalSpendCash}</#if></em>成长值升级为<em>${tdUserLevelnext.title!''}</em>，升级后，每天可领取<em>积分${tdUserLevelnext.signinPoints!''}个</em>。</p>
+           <#--><p>还差<em><#if tdUserLevelnext.requiredConsumption?? && user.totalSpendCash??>${tdUserLevelnext.requiredConsumption - user.totalSpendCash}</#if></em>成长值升级为<em>${tdUserLevelnext.title!''}</em>，升级后，每天可领取<em>积分${tdUserLevelnext.signinPoints!''}个</em>。</p>-->
+           <p>还差<em>99</em>成长值升级为<em>${tdUserLevelnext.title!''}</em>，升级后，每天可领取<em>积分${tdUserLevelnext.signinPoints!'1'}个</em>。</p>
          <#else>
             </span> <i><em class="J_range" data-max="300" data-val="112" style="width: 100%;"></em></i>  
          </#if>

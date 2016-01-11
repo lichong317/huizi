@@ -62,8 +62,9 @@
                     <h2>支付清单</h2>
                     <span class="icon_wrapper"><i class="icon60_pay"></i></span>
                 </div>
+                <a href="/user" class="sub"><b style="font-size:20px">返回<<</b></a>
                 <div class="area_bd">
-                    <h3 class="pay_money"><span>¥</span>${total_price}</h3>
+                    <h3 class="pay_money"><span>¥</span>${total_price!''}</h3>
                     <div class="pay_bill_unit no_extra">
                         <dl>
                             <dt>惠之店</dt>
