@@ -66,7 +66,7 @@ function goNext(goodsNum)
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
   <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
-<div class="clear70"></div>
 </#if>
+<div class="clear70" style="z-index:55"></div>
 </body>
 </html>

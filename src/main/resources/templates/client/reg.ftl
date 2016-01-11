@@ -325,7 +325,7 @@ function checkwindowhide()
 .login_wrap {
   background: #fff url(/client/images/dsds.png) no-repeat right center;
   border: solid 8px #f0f0f0;
-  height: 380px;
+  height: 427px;
   margin-bottom: 20px;
   width:1050px;
   margin:0 auto;

@@ -353,9 +353,9 @@ function formsubmit(){
   <#--><p class="address ta-r">共${totalQuantity!'0'}件商品，合计<span class="red">￥${totalPrice?string("0.00")}</span></p> -->
 </div><!--main END-->
 <div class="clear70"></div>
-<footer class="orderfoot">
+<footer class="orderfoot" style="z-index:56">
 <div class="main" style="background:#35424e;">
-<section class="car_price">
+<section class="car_price" >
     
     <input type="hidden" name="totalPostage" value="${totalPostage!'0'}">
     
@@ -374,6 +374,6 @@ function formsubmit(){
   </div>
   </footer>
  </form>
- <div style="height:130px;display:block"></div>
+ <div style="height:130px;display:block; z-index:55" ></div>
 </body>
 </html>

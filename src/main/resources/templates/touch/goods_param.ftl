@@ -32,6 +32,7 @@ $(document).ready(function(){
 </header>
 <!--header END-->
 <table>
+<tbody style="font-size: 0.8em;line-height: 40px;">
 <#if goods.paramList??>
     <#list goods.paramList as param>
         <#if param_index % 3 == 0 >
@@ -47,6 +48,7 @@ $(document).ready(function(){
         </#if>
     </#list>
 </#if>
+</tbody>
 </table>
 <div class="clear"></div>
 

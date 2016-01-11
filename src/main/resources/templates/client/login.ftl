@@ -290,7 +290,7 @@
 .login_wrap {
   background: #fff url(/client/images/dsds.png) no-repeat 540px center;
   border: solid 8px #f0f0f0;
-  height: 380px;
+  height: 400px;
   margin-bottom: 20px;
   width:1000px;
   margin:0 auto;

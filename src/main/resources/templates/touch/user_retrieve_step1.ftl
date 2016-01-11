@@ -73,7 +73,7 @@
 <!--main-->
 <div class="main">
     <div class="logintext">
-        <input type="text" class="logintext01" value="" id="txt_loginId" name="username" placeholder="请输入用户名"/>
+        <input type="text" class="logintext01" value="" id="txt_loginId" name="username" placeholder="请输入用户名/手机号"/>
     </div>
     <div class="logintext logintext_y">
         <input type="text" class="logintext_p" id="code" name="code" value="" placeholder="请输入验证码"/>

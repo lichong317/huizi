@@ -37,12 +37,12 @@
 <!--main-->
 <div class="main">
  <form id="form1" method="post" action="/touch/login/retrieve_step3">
-    <p>请输入新密码</p>
+    <p style="margin-left:10px">请输入新密码</p>
     <div class="logintext logintext_y" style="width:86%; background:#FFF;">
     <input name="password" type="password" class="" value="" />
     </div>
     <div class="clear h20"></div>
-    <p>请确认输入密码</p>
+    <p style="margin-left:10px">请确认输入密码</p>
     <div class="logintext logintext_y" style="width:86%; background:#FFF;">
     <input type="password" datatype="*" recheck="password" class="" value="" />
     </div>

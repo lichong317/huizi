@@ -30,6 +30,7 @@
 
 <section class="memberhead main">
    <#if user??>
+   
       <a onclick="changeHeads();"><img src="${user.headImageUri!''}" width="100px" height="100px"/></a>
                      <script>
                         function changeHeads(){
@@ -42,7 +43,7 @@
                         }
                     </script>
                     <form id="uploadImgForm" enctype="multipart/form-data" action="/touch/user/center/headImg" method="post">
-                        <input style="display:none" name="Filedata" type="file" onchange="getFile();" id="filebutton">
+                        <input style="display:none" name="Filedata" type="file"  capture="camera" accept="image/*" onchange="getFile();" id="filebutton">
                     </from>
       <p class="white fs08 lh20 ta-c">${user.username!''}</p>
    </#if>

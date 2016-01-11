@@ -41,12 +41,13 @@
             if (data.code==0)
             {
                 alert("修改成功");
-                window.location.reload();
+                //window.location.reload();
+                window.location.href="/user";
             }
             else
             {
                 alert(data.msg);
-                window.location.href="/login"
+                window.location.href="/login";
             }
         }
     });

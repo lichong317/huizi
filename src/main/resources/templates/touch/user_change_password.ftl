@@ -24,12 +24,13 @@
             if (data.code==0)
             {
                 alert("修改成功");
-                window.location.reload();
+                //window.location.reload();
+                window.location.href="/touch/user"
             }
             else
             {
                 alert(data.msg);
-                window.location.href="/touch/login"
+                window.location.href="/touch/login";
             }
         }
     });
@@ -49,18 +50,18 @@
 
 <!--main-->
 <div class="main">
- <form id="form1" action="/touch/user/password" method="post">
+ <form id="form1" action="/touch/user/password" method="post" style="margin:0 10px;">
      <input name="__STATE" type="hidden" value="${user.password}"/>
-    <p>原始密码</p>
+    <p style="margin-left:10px">原始密码</p>
     <div class="logintext " style="width:86%; background:#FFF;">
         <input name="oldPassword" type="password" class="" value="" datatype="*" errormsg="原始密码不正确" recheck="__STATE"/>
     </div>
     <div class="clear h20"></div>
-    <p>新密码</p>
+    <p style="margin-left:10px">新密码</p>
     <div class="logintext " style="width:86%; background:#FFF;">
         <input name="newPassword" type="password" datatype="*"  class="" value="" />
     </div>
-    <p>确认密码</p>
+    <p style="margin-left:10px">确认密码</p>
     <div class="logintext " style="width:86%; background:#FFF;">
         <input type="password" datatype="*" recheck="newPassword" class="" value="" />
     </div>

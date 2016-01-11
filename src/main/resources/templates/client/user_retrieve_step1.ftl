@@ -132,7 +132,7 @@
   
   <section class="l_loginbox">
     <div>
-    <p>请输入用户名</p>
+    <p>请输入用户名/手机号</p>
     <input id="txt_loginId" class="text" type="text" />
     <p>请输入验证码</p>
     </div>

@@ -98,9 +98,9 @@
   
   <section class="l_loginbox">
     <form id="form1" method="post" action="/login/retrieve_step3">
-        <p>新密码：</p>
+        <p >新密码：</p>
         <input class="text" name="password" type="password" datatype="s6-20"/>
-        <p>确认新密码：</p>
+        <p >确认新密码：</p>
         <input class="text" type="password" datatype="*" recheck="password"/>
         <div class="clear h15"></div>
         

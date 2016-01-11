@@ -381,14 +381,24 @@ public class TdTouchLoginController {
 				return res;
 			 }
 			 
-			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
-			if (null != user) {
-				
-				request.getSession().setAttribute("retrieve_username", user.getUsername());
+//			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+			
+	        TdUser userMobile = tdUserService.findByMobileAndIsEnabled(username);
+	        TdUser userUsername=tdUserService.findByUsernameAndIsEnabled(username);
+	        TdUser user=null;
+	        if( userUsername!=null){
+	        	user=userUsername;
+	        	request.getSession().setAttribute("retrieve_username", user.getUsername());
+	            
+				res.put("code", 0);
+	        }
+	        else if (null != userMobile) {
+	        	user=userMobile;
+	        	request.getSession().setAttribute("retrieve_username", user.getUsername());
 	            
 				res.put("code", 0);
 			}
-			else {
+	        else {
 				res.put("msg", "用户不存在");
 			}
 			

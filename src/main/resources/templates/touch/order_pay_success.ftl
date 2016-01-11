@@ -29,7 +29,7 @@ $(document).ready(function(){
 <header class="maintop">
   <div class="main">
     <p>支付成功</p>
-    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
+    <a class="a1" href="/touch/user/order/list/0"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
     <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
   </div>
 </header>

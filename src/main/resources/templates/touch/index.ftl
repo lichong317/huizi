@@ -44,14 +44,15 @@
         <td><a class="a7" href="/touch/list/7">家用电器</a></td>
         <td><a class="a8" href="/touch/list/17">电脑办公</a></td>
         <td><a class="a9" href="/touch/list/6">摄影摄像</a></td>
-        <td><a class="a10" href="/touch/list/1">手机大全</a></td>
+        
       </tr>
       <tr>
+        <td><a class="a10" href="/touch/list/1">手机大全</a></td>
         <td><a class="a1" href="/touch/user">会员中心</a></td>
-        <td><a class="a2" href="/touch/user/order/list/0">我的订单</a></td>
+        <#--<td><a class="a2" href="/touch/user/order/list/0">我的订单</a></td> -->
         <td><a class="a3" href="/touch/cart">购物车</a></td>
         <td><a class="a4" href="/touch/shop/list">门店查询</a></td>
-        <td><a class="a5" href="#">客户端</a></td>
+        <#--<td><a class="a5" href="#">客户端</a></td> -->
       </tr>
     </table>
   </section>

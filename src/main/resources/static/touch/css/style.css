@@ -7,7 +7,7 @@ input[type="button"], input[type="submit"], input[type="reset"] {-webkit-appeara
 	height:40px;
 	width:80%;
 	padding-left:14%;
-	margin:15px auto 0;
+	margin:0px auto 15px;
 	background:#fff url(../images/denglutubiao_03.png) no-repeat 12px center;
 	background-size:auto 20px;
 	border-radius:3px;
@@ -734,7 +734,7 @@ font-size: 0.7em;
 /*=====================浠ヤ笅閮ㄥ垎鏄疺alidform蹇呴』鐨�====================*/
 .Validform_checktip{ margin-left:8px; line-height:20px; height:20px; overflow:hidden; color:#999; font-size:12px; }
 .Validform_right{ color:#22A011; padding-left:20px; background:url(valid_icons.png) no-repeat -40px -20px; }
-.Validform_wrong{ color:#EA5D0E; padding-left:20px; white-space:nowrap; background:url(valid_icons.png) no-repeat -20px -40px; }
+.Validform_wrong{ color:#EA5D0E; padding-left:20px; white-space:nowrap; background:url(valid_icons.png) no-repeat -20px -40px;float:right; }
 .Validform_loading{ padding-left:20px; background:url(icon_onload.gif) no-repeat left center; }
 .Validform_error{ background:#FEFBD3; }
 
