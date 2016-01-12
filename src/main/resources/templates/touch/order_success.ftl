@@ -34,7 +34,7 @@ $(document).ready(function(){
 <!--header END-->
 
 <div id="main" class="page-main">
-    <div class="car_success">
+    <div class="car_success" style="text-align: center">
         <p class="fc fs30 lh40 pb10">订单提交成功! </p>
         <p> 订单号：<a href="/touch/user/order?id=${order.id?c!''}" style="color: #FF0000;">${order.orderNumber!''}</a></p>
         <p> 货到付款：<strong class="f24" style="color:red"><#if order??>${order.totalPrice?string("0.00")}</#if></strong>元</p>       

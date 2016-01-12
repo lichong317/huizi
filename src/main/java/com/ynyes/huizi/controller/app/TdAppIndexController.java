@@ -29,6 +29,7 @@ import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.service.TdAdService;
 import com.ynyes.huizi.service.TdAdTypeService;
+import com.ynyes.huizi.service.TdAppMenuService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdSettingService;
@@ -57,6 +58,9 @@ public class TdAppIndexController {
     
     @Autowired
     private TdSettingService tdSettingService;
+    
+    @Autowired
+    private TdAppMenuService tdAppMenuService;
 
     // app引导页
     @RequestMapping(value="index/getGuideImg")
@@ -72,6 +76,42 @@ public class TdAppIndexController {
         if (null != tdAdType) {
         	res.put("data", tdAdService.findByTypeId(tdAdType.getId()));
 		}
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
+    // app启动页
+    @RequestMapping(value="index/getStartImg")
+    @ResponseBody
+    public Map<String, Object> getStartImg(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        TdAdType tdAdType = tdAdTypeService.findByTitle("App启动页");
+
+        if (null != tdAdType) {
+        	res.put("data", tdAdService.findByTypeId(tdAdType.getId()));
+		}
+        
+        res.put("code", 0);
+        
+        return res;
+    }
+    
+    // app首页菜单图标
+    @RequestMapping(value="index/getMenuIcon")
+    @ResponseBody
+    public Map<String, Object> getMenuIcon(ModelMap map,
+			  								HttpServletRequest req){
+    	Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+
+        res.put("data", tdAppMenuService.findByIsEnableTrueOrderBySortIdAsc());
         
         res.put("code", 0);
         

@@ -7,7 +7,7 @@ input[type="button"], input[type="submit"], input[type="reset"] {-webkit-appeara
 	height:40px;
 	width:80%;
 	padding-left:14%;
-	margin:0px auto 15px;
+	margin:0px auto 20px;
 	background:#fff url(../images/denglutubiao_03.png) no-repeat 12px center;
 	background-size:auto 20px;
 	border-radius:3px;
@@ -865,7 +865,7 @@ a.protext .sp1, .protext .check01 { color: #fff; background: #4fbba1; padding: 0
 a.protext .sp2 { position: absolute; right: 9%; top: 12px; color: #999; }
 div.protext { border-top:1px solid #eee;border-bottom:1px solid #eee;}
 div.protext table { width: 100%; }
-div.protext th { font-weight: 400; font-size: 0.8em; vertical-align: top; text-align:right;line-height:30px; width:12%; padding-top:5px;}
+div.protext th { font-weight: 400; font-size: 0.8em; vertical-align: top; text-align:right;line-height:30px; width:16%; padding-top:5px;}
 div.protext td { font-size: 0.8em; vertical-align: top; padding-bottom:10px;}
 div.protext td p { line-height: 16px; padding: 0 0 10px; color: #999; }
 div.protext td select { height:30px; width:100%; }

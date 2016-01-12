@@ -499,7 +499,7 @@ div {
                         <dl>
                             <dt>邮箱地址</dt>
                             <dd>
-                                <input type="text" id="usermail" name="email" value="${email!''}" >
+                                <input type="text" id="usermail" name="email"  value="${email!''}" >
                                 <span class="Validform_checktip">请填写邮箱，用于找回密码</span>
                             </dd>
                         </dl>

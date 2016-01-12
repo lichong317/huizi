@@ -308,11 +308,11 @@ $(function () {
   </dl>
   <dl>
     <dt>用户返现金额</dt>
-    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>提现冻结金额</dt>
-    <dd><input name="cashRewardsFrozen" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.cashRewardsFrozen??>${user.cashRewardsFrozen?string("0.00")}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="cashRewardsFrozen" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.cashRewardsFrozen??>${user.cashRewardsFrozen?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   </#if>
   <dl>
@@ -342,11 +342,11 @@ $(function () {
   <#if !user?? || user?? && user.roleId?? && user.roleId == 2>
   <dl>
     <dt>虚拟币余额</dt>
-    <dd><input name="virtualCurrency" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.virtualCurrency!""}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="virtualCurrency" type="text" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.virtualCurrency??>${user.virtualCurrency?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>冻结金额</dt>
-    <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user??>${user.frozenCapital!""}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.frozenCapital??>${user.frozenCapital?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
   </#if>

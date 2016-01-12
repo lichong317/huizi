@@ -92,19 +92,23 @@
 <#--    <a href="/touch/user/center/qrcode">我的二维码<img style="float:right; margin-top:13px;" src="" /></a>
     <a href="/touch/user/password">密码修改<img style="float:right; margin-top:13px;" src="" /></a> -->
     
-    <a href="#">
+    <a href="/touch/user/collect/list">
         <img src="/touch/images/shoucang.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">我的收藏
         <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
     </a>
-    <a href="#">
+    <a href="/touch/user/info">
         <img src="/touch/images/geren.png" style="position: relative; width: 20px;height: 20px;top: 3px;left: -15px;">个人信息设置
         <img src="/touch/images/arrow04.png" style="position: relative;float: right; right: -15px;top: 11px;">
     </a>
-    <a href="#">
+    <a href="/touch/user/center/qrcode">
         <img src="/touch/images/erweima.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">我的二维码
         <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
     </a>
-       
+    <a href="/touch/user/password">
+        <img src="/touch/images/erweima.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">密码修改
+        <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
+    </a>
+   
 
 </menu> 
 <div class=" tuichu main">

@@ -59,7 +59,7 @@ $(document).ready(function(){
         <input placeholder="请确认密码" datatype="*" recheck="password" class="login_ts02" type="password" value="" style="font-family:'微软雅黑';" />
     </div>
     <div class="logintext logintext01" style="background:none;">
-        <input placeholder="手机验证" name="mobile" datatype="m" ajaxurl="/reg/check/mobile" class="login_ts02" style="background:none;" type="text" value="${mobile!''}" style="font-family:'微软雅黑';" />
+        <input placeholder="手机号码" name="mobile" datatype="m" ajaxurl="/reg/check/mobile" class="login_ts02" style="background:none;" type="text" value="${mobile!''}" style="font-family:'微软雅黑';" />
     </div>
     <div class="logintext logintext01" style="background:none;">
         <input placeholder="请输入邮箱" name="email" value="${email!''}" class="login_ts02" type="text" style="font-family:'微软雅黑';" />

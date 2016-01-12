@@ -1841,7 +1841,8 @@ public class TdOrderController extends AbstractPaytypeController{
     public String paySuccess(ModelMap map, HttpServletRequest req) {
 
         tdCommonService.setHeader(map, req);
-
+        
+//        map.addAttribute("order", tdOrderService.findOne(20L));
         return "/client/order_pay_success";
 
     }
@@ -2364,9 +2365,10 @@ public class TdOrderController extends AbstractPaytypeController{
 
                     os.flush();
                     os.close();
+                    response.sendRedirect("www.huizhidian.com/order/pay/success");
                 } catch (IOException e) {
                     e.printStackTrace();
-                }                              
+                }               
             }
                        
         } catch (Exception e) {

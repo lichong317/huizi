@@ -135,7 +135,7 @@ a.white:hover { color:#ff7d43;}
 .combox { background:#fff;border-bottom:2px solid #e9e9e9;padding:10px 3%;width:94%;}
 /* JS相关 */
 #box {position:relative;width:100%;height:auto;margin:0 auto;overflow:hidden;}
-#box img {width:100%;}
+#box img {width:100%;height: auto;}
 #sum {width:99999px;position:relative;top:0;left:0;}
 #sum li {float:left;width:300px;}
 #num {z-index:10;position:absolute;width:100%;height:20px;text-align:center;bottom:5px;left:0;}

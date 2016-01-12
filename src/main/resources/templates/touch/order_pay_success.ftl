@@ -38,7 +38,7 @@ $(document).ready(function(){
 <section class="loginbox">
   <div class="main pt20 pb40">
     <p class="ta-c fs10 pt20"><img src="/touch/images/transsucc.png" /></p>
-    <p class="fs10 ta-l pt20">订单号：${order.orderNumber!''}</p>
+    <p class="fs10 ta-l pt20">订单号：<a href="/touch/user/order?id=${order.id?c}">${order.orderNumber!''}</a></p>
     <p class="ta-l fs10 pt20">支付金额：${order.totalPrice?string('0.00')}元</p>
     <p class="ta-l fs10 pt20">支付方式：${order.payTypeTitle!''}</p>
     <p class="ta-l fs10 pt20">订单状态：</p>

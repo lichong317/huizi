@@ -36,7 +36,7 @@
         <tr>
                 <td>日期</td>
                 <td>收入/支出</td>
-                <td>涉及订单号</td>
+             <#--   <td>涉及订单号</td> -->
                 <td>详细说明</td>
         </tr>
 
@@ -47,7 +47,7 @@
                         <td>
                             <#if point.point??><#if point.point gt 0>+</#if>${point.point}</#if>                                                          </td>
                         </td>
-                        <td>${point.orderNumber!''}</td>
+                     <#--   <td>${point.orderNumber!''}</td> -->
                         <td>${point.detail!''}</td>
                    </tr>
             </#list>

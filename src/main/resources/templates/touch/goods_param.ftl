@@ -35,17 +35,17 @@ $(document).ready(function(){
 <tbody style="font-size: 0.8em;line-height: 40px;">
 <#if goods.paramList??>
     <#list goods.paramList as param>
-        <#if param_index % 3 == 0 >
-            <tr>
-                <td>${param.paramName!''}: ${param.value!''}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <#if goods.paramList?size gt param_index+1 >
+     <#--   <#if param_index % 3 == 0 > -->
+            <tr >
+                <td style="padding-left:10px">${param.paramName!''}: ${param.value!''}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <#--    <#if goods.paramList?size gt param_index+1 >
                     <td>${goods.paramList[param_index+1].paramName!''}: ${goods.paramList[param_index+1].value!''}&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 </#if>
                 <#if goods.paramList?size gt param_index+2 >
                     <td>${goods.paramList[param_index+2].paramName!''}: ${goods.paramList[param_index+2].value!''}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                </#if>
+                </#if> -->
             </tr>  
-        </#if>
+
     </#list>
 </#if>
 </tbody>

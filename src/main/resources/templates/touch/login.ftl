@@ -129,7 +129,7 @@ function saveUserInfo() {
   <p class="center c9 fs08 pt15">其他方式登录</p>
   <table class="login_check">
     <tr>
-      <td><img style="margin-left:40%;" src="/touch/images/dddl_03.png" /><a href="#">微信登录</a></td>
+      <#-- <td><img style="margin-left:40%;" src="/touch/images/dddl_03.png" /><a href="#">微信登录</a></td> -->
       <td><img style="margin-left:40%;" src="/touch/images/dddl_06.png" /><a href="/login/alipay_login">支付宝登录</a></td>
       <td><img style="margin-left:40%;" src="/touch/images/dddl_09.png" /><a href="/qq/login">QQ登录</a></td>
     </tr>

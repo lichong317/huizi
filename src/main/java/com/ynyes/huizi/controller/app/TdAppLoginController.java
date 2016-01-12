@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.MD5;
 
@@ -27,6 +28,9 @@ import com.ynyes.huizi.util.MD5;
 public class TdAppLoginController {
     @Autowired
     private TdUserService tdUserService;
+    
+    @Autowired
+    private TdOrderService tdOrderService;
     /**
 	 * @author lc
 	 * @注释：app 登录接口
@@ -114,5 +118,28 @@ public class TdAppLoginController {
         return res;
     }
     
-    
+    /**
+  	 * @author lc
+  	 * @注释：app 个人中心计数接口
+  	 */
+     @RequestMapping(value="/user/count",method = RequestMethod.GET)
+     @ResponseBody
+     public Map<String, Object> appUserCount(ModelMap map, String username, 
+  			  								HttpServletRequest req){
+      	Map<String, Object> res = new HashMap<String, Object>();
+          
+        res.put("code", 1);       
+        
+//        TdUser userUsername = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        res.put("total_unpayed", tdOrderService.countByUsernameAndStatusId(username, 2));
+        res.put("total_undelivered", tdOrderService.countByUsernameAndStatusId(username, 3));
+        res.put("total_unreceived", tdOrderService.countByUsernameAndStatusId(username, 4));
+        res.put("total_uncommented", tdOrderService.countByUsernameAndStatusId(username, 5));
+        res.put("total_finished", tdOrderService.countByUsernameAndStatusId(username, 6));
+        
+        res.put("code", 0);
+          
+        return res;
+     }
 }
