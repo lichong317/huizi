@@ -197,7 +197,7 @@ textarea { resize:none;}
 	width: 100px;
   height: 100px;
   overflow: hidden;
-  border-radius: 82%;}
+  /*border-radius: 82%;*/}
 .mymember_fen {border-left:1px solid #eee;padding-left:30px;}
 .mymember_fen a {
 	display:block;

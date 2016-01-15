@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.print.DocFlavor.STRING;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -243,6 +244,10 @@ public class TdUser {
     @Column
     private Double frozenCapital;
     
+    // 微信openid
+    @Column
+    private String openid;
+    
     public Long getId() {
         return id;
     }
@@ -275,7 +280,15 @@ public class TdUser {
         this.headImageUri = headImageUri;
     }
 
-    public String getQrCodeUri() {
+    public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public String getQrCodeUri() {
 		return qrCodeUri;
 	}
 

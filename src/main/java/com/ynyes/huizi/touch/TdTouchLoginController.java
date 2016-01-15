@@ -61,7 +61,7 @@ public class TdTouchLoginController {
 	        
 	        if (null == referer)
 	        {
-	            referer = "/touch/";
+	            referer = "/touch/user";
 	        }	     
 	        
 	        return "redirect:" + referer;
@@ -87,7 +87,7 @@ public class TdTouchLoginController {
 	        
 	        if (null == referer)
 	        {
-	            referer = "/touch/";
+	            referer = "/touch/user";
 	        }
 	        
 	        return "redirect:" + referer;
@@ -274,7 +274,7 @@ public class TdTouchLoginController {
 						user.setLastLoginTime(new Date());
 						tdUserService.save(user);
 						request.getSession().setAttribute("username", user.getUsername());
-						return "redirect:/touch/";
+						return "redirect:/touch/user";
 					}
 					return "redirect:/touch/";
 			}else{
@@ -284,7 +284,7 @@ public class TdTouchLoginController {
 					tdUserService.save(user);
 					request.getSession().setAttribute("username", user.getUsername());
 					//request.getSession().setAttribute("usermobile", user.getMobile());
-					return "redirect:/touch/";
+					return "redirect:/touch/user";
 				}
 				
 		}
@@ -313,7 +313,7 @@ public class TdTouchLoginController {
 				request.getSession().setAttribute("username", user.getUsername());
 				//request.getSession().setAttribute("usermobile", user.getMobile());
 
-				return "redirect:/touch/";
+				return "redirect:/touch/user";
 			} else { //新建用户 用户名随机
 				String newUsername = randomUsername();
 			    user = tdUserService.addNewUser(null, newUsername, "huizhidian", null, null);
@@ -325,7 +325,7 @@ public class TdTouchLoginController {
 					user.setLastLoginTime(new Date());
 					tdUserService.save(user);
 					request.getSession().setAttribute("username", user.getUsername());
-					return "redirect:/touch/";
+					return "redirect:/touch/user";
 				}
 				
 			}

@@ -1,5 +1,8 @@
 package com.ynyes.huizi.controller.management;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -764,8 +767,41 @@ public class TdManagerOrderController {
                     order.setExpressNumber(expressNumber);
                     
                     TdDeliveryType tdDeliveryType = tdDeliveryTypeService.findOne(deliverTypeId);
-                    if (null != tdDeliveryType.getTitle()) {
+                    if (null != tdDeliveryType && null != tdDeliveryType.getTitle()) {
                     	order.setDeliverTypeTitle(tdDeliveryType.getTitle());
+                    	
+                    	// 快递100 物流查询 返回链接
+                    	String content = "";
+                        try
+                        {
+                            URL url = new URL("http://www.kuaidi100.com/applyurl?key=" + "d6d6c0bf0672af64" + "&com=" + tdDeliveryType.getCode()
+                                              + "&nu=" + expressNumber);
+                            URLConnection con = url.openConnection();
+                            con.setAllowUserInteraction(false);
+                            InputStream urlStream = url.openStream();
+                            byte b[] = new byte[10000];
+                            int numRead = urlStream.read(b);
+                            content = new String(b, 0, numRead);
+                            while (numRead != -1)
+                            {
+                                numRead = urlStream.read(b);
+                                if (numRead != -1)
+                                {
+                                    // String newContent = new String(b, 0, numRead);
+                                    String newContent = new String(b, 0, numRead, "UTF-8");
+                                    content += newContent;
+                                }
+                            }
+                            urlStream.close();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+//                            log.error("快递查询错误");
+                        }
+                    	
+                        order.setExpressUri(content);
+                    	
 					}                   
                     order.setStatusId(4L);
                     order.setSendTime(new Date());

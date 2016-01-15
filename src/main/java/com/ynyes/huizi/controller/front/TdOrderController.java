@@ -140,7 +140,7 @@ public class TdOrderController extends AbstractPaytypeController{
     
     @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> login(String province, String city, String disctrict, Long addressId,
+    public Map<String, Object> codDistrict(String province, String city, String disctrict, Long addressId,
                 HttpServletRequest request) {
         Map<String, Object> res = new HashMap<String, Object>();
         
@@ -190,6 +190,42 @@ public class TdOrderController extends AbstractPaytypeController{
     			}
     		}
             res.put("msg", "已选收货地址不支持货到付款");      
+            return res;
+		}
+        
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：快递查询
+	 */
+    @RequestMapping(value="/recruitment",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> recruitment(Long orderid,
+                HttpServletRequest request) {
+        Map<String, Object> res = new HashMap<String, Object>();
+        
+        res.put("code", 1);
+        
+        if (null == orderid) {       	
+            res.put("msg", "查询失败！");      
+            return res;
+		}else {
+			TdOrder tdOrder = tdOrderService.findOne(orderid);
+			
+			if (null == tdOrder) {
+				res.put("msg", "订单不存在！");      
+	            return res;
+			}
+
+			if (null == tdOrder.getExpressUri()) {
+				res.put("msg", "订单物流信息不存在！");      
+	            return res;
+			}
+    
+			res.put("expressUri", tdOrder.getExpressUri());
+			res.put("code", 0);
+			
             return res;
 		}
         

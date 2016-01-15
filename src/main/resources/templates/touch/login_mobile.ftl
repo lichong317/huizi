@@ -92,7 +92,7 @@ $(document).ready(function(){
                                     if(undefined==url || ""==url){
                                         window.location.href="/touch";
                                     }else{
-                                        window.location.href = "/touch"; 
+                                        window.location.href = url; 
                                     }
                                 } else {
                                     alert(data.msg);

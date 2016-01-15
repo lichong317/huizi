@@ -70,7 +70,7 @@ public class TdTouchRegController {
             }           
             return "/touch/reg_quick";
         }
-        return "redirect:/touch";
+        return "redirect:/touch/user";
     }
     
     @RequestMapping(value="/touch/regquick",method=RequestMethod.POST)
@@ -273,7 +273,7 @@ public class TdTouchRegController {
             map.addAttribute("email", email);
             return "/touch/reg";
         }
-        return "redirect:/touch";
+        return "redirect:/touch/user";
     }
     
     @RequestMapping(value="/touch/regid",method=RequestMethod.POST)

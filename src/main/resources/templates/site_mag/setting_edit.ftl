@@ -144,6 +144,13 @@ $(function () {
         </dd>
     </dl>
     <dl>
+        <dt>ios当前版本</dt>
+        <dd>
+            <input name="iosVersion" type="text" value="<#if setting??>${setting.iosVersion!""}</#if>" class="input normal" datatype="*0-100" sucmsg=" ">
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
+    <dl>
         <dt>苹果App二维码</dt>
         <dd>
             <input id="iOsImgUrl" name="iOsQrCode" type="text" datatype="*0-255" value="<#if setting??>${setting.iOsQrCode!""}</#if>" class="input normal upload-path">

@@ -675,7 +675,11 @@ public class TdLoginController {
 		} catch (QQConnectException e) {
 			
 		}
-		return "/client/error_404";
+		
+		if (device.isMobile() || device.isTablet()) {
+            return "/touch/error_login";
+        }
+		return "/client/error_login";
 	}
 	
 	/**

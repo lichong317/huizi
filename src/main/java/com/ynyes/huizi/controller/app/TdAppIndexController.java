@@ -77,6 +77,12 @@ public class TdAppIndexController {
         	res.put("data", tdAdService.findByTypeId(tdAdType.getId()));
 		}
         
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        
+        if (null != tdSetting.getAndroidVersion()) {
+			res.put("androidVersion", tdSetting.getAndroidVersion());
+		}
+        
         res.put("code", 0);
         
         return res;
@@ -111,7 +117,7 @@ public class TdAppIndexController {
         
         res.put("code", 1);
 
-        res.put("data", tdAppMenuService.findByIsEnableTrueOrderBySortIdAsc());
+        res.put("data", tdAppMenuService.findByIsEnableTrueOrderBySortIdAsc());        
         
         res.put("code", 0);
         
@@ -125,9 +131,11 @@ public class TdAppIndexController {
 			  								HttpServletRequest req){
     	Map<String, Object> res = new HashMap<String, Object>();
         
-//        res.put("code", 1);
-//        
-//        res.put("data", tdGoodsService.findByIsNewTrueAndIsOnSaleTrueOrderByIdDesc(0, 4));
+    	TdSetting tdSetting = tdSettingService.findTopBy();
+        
+        if (null != tdSetting.getIosVersion()) {
+			res.put("version", tdSetting.getIosVersion());
+		}
         
         res.put("code", 0);
         

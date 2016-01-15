@@ -94,7 +94,7 @@ public class TdManagerAppViewController {
         
         if (null == tdAppMenu.getId())
         {
-            tdManagerLogService.addLog("add", "修改App菜单图标", req);
+            tdManagerLogService.addLog("add", "添加App菜单图标", req);
         }
         else
         {

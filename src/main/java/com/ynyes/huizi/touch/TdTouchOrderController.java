@@ -2,7 +2,11 @@ package com.ynyes.huizi.touch;
 
 import static org.apache.commons.lang3.StringUtils.leftPad;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +36,7 @@ import com.ibm.icu.util.Calendar;
 import com.tencent.common.Configure;
 import com.tencent.common.MD5;
 import com.tencent.common.RandomStringGenerator;
+import com.tencent.common.Signature;
 import com.ynyes.huizi.entity.TdCartGoods;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
@@ -62,6 +69,9 @@ import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
+import com.ynyes.huizi.util.HttpRequest;
+
+import net.sf.json.JSONObject;
 
 /**
  * 订单
@@ -1542,139 +1552,139 @@ public class TdTouchOrderController {
         return "/touch/order_pay_success";
     }
     
-    @RequestMapping(value = "/dopay/{orderId}")
-    public String payOrder(@PathVariable Long orderId, ModelMap map,
-            HttpServletRequest req) {
-        String username = (String) req.getSession().getAttribute("username");
-
-        if (null == username) {
-            return "redirect:/touch/login";
-        }
-
-        tdCommonService.setHeader(map, req);
-
-        if (null == orderId) {
-            return "/touch/error_404";
-        }
-
-        TdOrder order = tdOrderService.findOne(orderId);
-
-        if (null == order) {
-            return "/touch/error_404";
-        }
-
-        // 根据订单类型来判断支付时间是否过期
-//        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
-//            Date cur = new Date();
-//            long temp = cur.getTime() - order.getOrderTime().getTime();
-//            // System.out.println(temp);
-//            if (temp > 1000 * 60 * 30) {
-//                return "/touch/overtime";
-//            }
-//        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
-//                                                                                   // 
-//            Date cur = new Date();
-//            long temp = 0L;
-//           
-//            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
-//            if (null != tdGoods) {
-//				if (order.getTypeId().equals(4L)) {
-//					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
-//				}else if (order.getTypeId().equals(5L)) {
-//					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
-//				}
-//				if (temp > 0) {
-//                    return "/client/overtime";
-//                }
-//			}
-//        } else { // 普通 订单提交后24小时内
-//            Date cur = new Date();
-//            long temp = cur.getTime() - order.getOrderTime().getTime();
-//            if (temp > 1000 * 3600 * 24) {
-//                return "/touch/overtime";
-//            }
+//    @RequestMapping(value = "/dopay/{orderId}")
+//    public String payOrder(@PathVariable Long orderId, ModelMap map,
+//            HttpServletRequest req) {
+//        String username = (String) req.getSession().getAttribute("username");
+//
+//        if (null == username) {
+//            return "redirect:/touch/login";
 //        }
-
-        // 待付款
-        if (!order.getStatusId().equals(2L)) {
-            return "/touch/error_404";
-        }
-
-        String amount = order.getTotalPrice().toString();
-        req.setAttribute("totalPrice", amount);
-
-        String payForm = "";
-
-        Long payId = order.getPayTypeId();
-        TdPayType payType = tdPayTypeService.findOne(payId);
-        if (payType != null) {
-            TdPayRecord record = new TdPayRecord();
-            record.setCreateTime(new Date());
-            record.setOrderId(order.getId());
-            record.setPayTypeId(payType.getId());
-            record.setStatusCode(1);
-            record.setCreateTime(new Date());
-            record = payRecordService.save(record);
-
-            String payRecordId = record.getId().toString();
-            int recordLength = payRecordId.length();
-            if (recordLength > 6) {
-                payRecordId = payRecordId.substring(recordLength - 6);
-            } else {
-                payRecordId = leftPad(payRecordId, 6, "0");
-            }
-            req.setAttribute("payRecordId", payRecordId);
-
-            req.setAttribute("orderNumber", order.getOrderNumber());
-
-            String payCode = payType.getCode();
-            if (PAYMENT_ALI.equals(payCode)) {
-            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
-                payForm = payChannelAlipay.getPayFormData(req);
-                map.addAttribute("charset", AlipayConfig.CHARSET);
-            } else if (PAYMENT_WX.equals(payCode)) {
-                map.addAttribute("order_number", order.getOrderNumber());
-                map.addAttribute("total_price", order.getTotalPrice());
-
-                String sa = "appid=" + Configure.getAppid() + "&mch_id="
-                        + Configure.getMchid() + "&nonce_str="
-                        + RandomStringGenerator.getRandomStringByLength(32)
-                        + "&product_id=" + order.getId() + "&time_stamp="
-                        + System.currentTimeMillis() / 1000;
-
-                String sign = MD5.MD5Encode(
-                        sa + "&key=192006250b4c09247ec02edce69f6acy")
-                        .toUpperCase();
-
-                System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
-                        + "&sign=" + sign + "\n");
-
-                req.getSession().setAttribute("WXPAYURLSESSEION",
-                        "weixin://wxpay/bizpayurl?" + sa + "&sign=" + sign);
-                // "weixin://wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
-                return "/touch/order_pay_wx";
-//            } 
-//            else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
-//                    payCode)) {
-//                req.setAttribute("payMethod", payCode);
-//                payForm = payChannelCEB.getPayFormData(req);
-//                map.addAttribute("charset", "GBK");
-            } else {
-                // 其他目前未实现的支付方式
-                return "/touch/error_404";
-            }
-        } else {
-            return "/touch/error_404";
-        }
-
-        order.setPayTime(new Date());
-
-        tdOrderService.save(order);
-
-        map.addAttribute("payForm", payForm);
-
-        return "/touch/order_pay_form";
-    }
+//
+//        tdCommonService.setHeader(map, req);
+//
+//        if (null == orderId) {
+//            return "/touch/error_404";
+//        }
+//
+//        TdOrder order = tdOrderService.findOne(orderId);
+//
+//        if (null == order) {
+//            return "/touch/error_404";
+//        }
+//
+//        // 根据订单类型来判断支付时间是否过期
+////        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+////            Date cur = new Date();
+////            long temp = cur.getTime() - order.getOrderTime().getTime();
+////            // System.out.println(temp);
+////            if (temp > 1000 * 60 * 30) {
+////                return "/touch/overtime";
+////            }
+////        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+////                                                                                   // 
+////            Date cur = new Date();
+////            long temp = 0L;
+////           
+////            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
+////            if (null != tdGoods) {
+////				if (order.getTypeId().equals(4L)) {
+////					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
+////				}else if (order.getTypeId().equals(5L)) {
+////					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
+////				}
+////				if (temp > 0) {
+////                    return "/client/overtime";
+////                }
+////			}
+////        } else { // 普通 订单提交后24小时内
+////            Date cur = new Date();
+////            long temp = cur.getTime() - order.getOrderTime().getTime();
+////            if (temp > 1000 * 3600 * 24) {
+////                return "/touch/overtime";
+////            }
+////        }
+//
+//        // 待付款
+//        if (!order.getStatusId().equals(2L)) {
+//            return "/touch/error_404";
+//        }
+//
+//        String amount = order.getTotalPrice().toString();
+//        req.setAttribute("totalPrice", amount);
+//
+//        String payForm = "";
+//
+//        Long payId = order.getPayTypeId();
+//        TdPayType payType = tdPayTypeService.findOne(payId);
+//        if (payType != null) {
+//            TdPayRecord record = new TdPayRecord();
+//            record.setCreateTime(new Date());
+//            record.setOrderId(order.getId());
+//            record.setPayTypeId(payType.getId());
+//            record.setStatusCode(1);
+//            record.setCreateTime(new Date());
+//            record = payRecordService.save(record);
+//
+//            String payRecordId = record.getId().toString();
+//            int recordLength = payRecordId.length();
+//            if (recordLength > 6) {
+//                payRecordId = payRecordId.substring(recordLength - 6);
+//            } else {
+//                payRecordId = leftPad(payRecordId, 6, "0");
+//            }
+//            req.setAttribute("payRecordId", payRecordId);
+//
+//            req.setAttribute("orderNumber", order.getOrderNumber());
+//
+//            String payCode = payType.getCode();
+//            if (PAYMENT_ALI.equals(payCode)) {
+//            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+//                payForm = payChannelAlipay.getPayFormData(req);
+//                map.addAttribute("charset", AlipayConfig.CHARSET);
+//            } else if (PAYMENT_WX.equals(payCode)) {
+//                map.addAttribute("order_number", order.getOrderNumber());
+//                map.addAttribute("total_price", order.getTotalPrice());
+//
+//                String sa = "appid=" + Configure.getAppid() + "&mch_id="
+//                        + Configure.getMchid() + "&nonce_str="
+//                        + RandomStringGenerator.getRandomStringByLength(32)
+//                        + "&product_id=" + order.getId() + "&time_stamp="
+//                        + System.currentTimeMillis() / 1000;
+//
+//                String sign = MD5.MD5Encode(
+//                        sa + "&key=192006250b4c09247ec02edce69f6acy")
+//                        .toUpperCase();
+//
+//                System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
+//                        + "&sign=" + sign + "\n");
+//
+//                req.getSession().setAttribute("WXPAYURLSESSEION",
+//                        "weixin://wxpay/bizpayurl?" + sa + "&sign=" + sign);
+//                // "weixin://wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
+//                return "/touch/order_pay_wx";
+////            } 
+////            else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
+////                    payCode)) {
+////                req.setAttribute("payMethod", payCode);
+////                payForm = payChannelCEB.getPayFormData(req);
+////                map.addAttribute("charset", "GBK");
+//            } else {
+//                // 其他目前未实现的支付方式
+//                return "/touch/error_404";
+//            }
+//        } else {
+//            return "/touch/error_404";
+//        }
+//
+//        order.setPayTime(new Date());
+//
+//        tdOrderService.save(order);
+//
+//        map.addAttribute("payForm", payForm);
+//
+//        return "/touch/order_pay_form";
+//    }
     
     @RequestMapping(value = "/pay/notify")
     public String payNotify(ModelMap map, HttpServletRequest req) {
@@ -1707,9 +1717,290 @@ public class TdTouchOrderController {
 //            HttpServletResponse resp) {
 //        payChannelCEB.doResponse(req, resp);
 //    }
-
-    /*
   
+    /**
+     * 触屏微信支付
+     * 
+     * @param orderId
+     * @param map
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/dopay")
+    public String payOrder(Long orderId, ModelMap map,HttpServletRequest req,Long state,String code)
+    {
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        TdUser user = tdUserService.findByUsername(username);
+
+        tdCommonService.setHeader(map, req);
+
+        String openId = "";
+        if (null == state) 
+        {
+            return "/touch/error_404";
+        }
+        if (user.getOpenid() == null)
+        {
+            if (code != null)
+        	{
+        		System.out.println("Madejing: code = " + code);
+        		
+    			String accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Configure.getAppid() +"&secret=" + Configure.getKey() +"&code=" + code + "&grant_type=authorization_code";
+    			
+    			System.out.println("Madejing: accessTokenUrl = " + accessTokenUrl);
+    			
+    			String result = HttpRequest.sendGet(accessTokenUrl, null);
+    			
+    			System.out.println("madjeing: result =" + result);
+    			
+    		    openId = JSONObject.fromObject(result).getString("openid");
+    		    TdUser user2 = tdUserService.findByOpenid(openId);
+    		    if (user2 == null && user.getOpenid() == null)
+    		    {
+    		    	user.setOpenid(JSONObject.fromObject(result).getString("openid"));
+				}
+    		    
+    		    System.out.println("Madejing: openid = " + openId);
+    		}
+		}
+
+
+        TdOrder order = tdOrderService.findOne(state);
+
+        if (null == order)
+        {
+            return "/client/error_404";
+        }
+
+        // 根据订单类型来判断支付时间是否过期
+        // 普通 订单提交后30分钟内
+//        Date cur = new Date();
+//        long temp = cur.getTime() - order.getOrderTime().getTime();
+
+        // 待付款
+        if (!order.getStatusId().equals(2L))
+        {
+            return "/touch/error_404";
+        }
+
+        String amount = order.getTotalPrice().toString();
+        req.setAttribute("totalPrice", amount);
+
+        String payForm = "";
+        map.addAttribute("order", order);
+        map.addAttribute("order_number", order.getOrderNumber());
+		map.addAttribute("total_price", order.getTotalPrice());
+
+		Calendar calExpire = Calendar.getInstance();
+		calExpire.setTime(order.getOrderTime());
+
+
+		//统一支付接口
+		String noncestr = RandomStringGenerator.getRandomStringByLength(32);
+		ModelMap signMap = new ModelMap();
+		signMap.addAttribute("appid", Configure.getAppid());
+		signMap.addAttribute("attach", "订单支付");
+		signMap.addAttribute("body", "支付订单" + order.getOrderNumber());
+		signMap.addAttribute("mch_id", Configure.getMchid());
+		signMap.addAttribute("nonce_str",noncestr);
+		signMap.addAttribute("out_trade_no", order.getOrderNumber());
+		signMap.addAttribute("total_fee", Math.round(order.getTotalPrice() * 100));
+		signMap.addAttribute("spbill_create_ip", "116.55.230.207");
+		signMap.addAttribute("notify_url", "http://www.huizhidian.com/touch/order/wx_notify");
+		signMap.addAttribute("trade_type", "JSAPI");
+		signMap.addAttribute("openid", user.getOpenid());
+
+		String mysign = Signature.getSign(signMap);
+
+		String content = "<xml>\n" + "<appid>"
+				+ Configure.getAppid()
+				+ "</appid>\n"
+				+ "<attach>订单支付</attach>\n"
+				+ "<body>支付订单"
+				+ order.getOrderNumber()
+				+ "</body>\n"
+				+ "<mch_id>"
+				+ Configure.getMchid()
+				+ "</mch_id>\n"
+				+ "<nonce_str>"
+				+ noncestr
+				+ "</nonce_str>\n"
+				+ "<notify_url>http://www.huizhidian.com/touch/order/wx_notify</notify_url>\n"
+				+ "<out_trade_no>" + order.getOrderNumber() + "</out_trade_no>\n"
+				+ "<spbill_create_ip>116.55.230.207</spbill_create_ip>\n"
+				+ "<total_fee>" + Math.round(order.getTotalPrice() * 100)
+				+ "</total_fee>\n" + "<trade_type>JSAPI</trade_type>\n"
+				+ "<sign>" + mysign + "</sign>\n"
+				+ "<openid>" + user.getOpenid() + "</openid>\n" + "</xml>\n";
+		System.out.print("MDJ: xml=" + content + "\n");
+
+		String return_code = null;
+		String prepay_id = null;
+		String result_code = null;
+		String line = null;
+		HttpsURLConnection urlCon = null;
+		try
+		{
+			urlCon = (HttpsURLConnection) (new URL("https://api.mch.weixin.qq.com/pay/unifiedorder")).openConnection();
+			urlCon.setDoInput(true);
+			urlCon.setDoOutput(true);
+			urlCon.setRequestMethod("POST");
+			urlCon.setRequestProperty("Content-Length",String.valueOf(content.getBytes().length));
+			urlCon.setUseCaches(false);
+			// 设置为gbk可以解决服务器接收时读取的数据中文乱码问题
+			urlCon.getOutputStream().write(content.getBytes("utf-8"));
+			urlCon.getOutputStream().flush();
+			urlCon.getOutputStream().close();
+			BufferedReader in = new BufferedReader(new InputStreamReader(urlCon.getInputStream()));
+
+			while ((line = in.readLine()) != null)
+			{
+				System.out.println(": rline: " + line);
+				if (line.contains("<return_code>"))
+				{
+					return_code = line.replaceAll(
+							"<xml><return_code><\\!\\[CDATA\\[", "")
+							.replaceAll("\\]\\]></return_code>", "");
+				} 
+				else if (line.contains("<prepay_id>")) 
+				{
+					prepay_id = line.replaceAll("<prepay_id><\\!\\[CDATA\\[",
+							"").replaceAll("\\]\\]></prepay_id>", "");
+				}
+				else if (line.contains("<result_code>"))
+				{
+					result_code = line.replaceAll(
+							"<result_code><\\!\\[CDATA\\[", "").replaceAll(
+									"\\]\\]></result_code>", "");
+				}
+			}
+
+			System.out.println("MDJ: return_code: " + return_code + "\n");
+			System.out.println("MDJ: prepay_id: " + prepay_id + "\n");
+			System.out.println("MDJ: result_code: " + result_code + "\n");
+
+			if ("SUCCESS".equalsIgnoreCase(return_code)
+					&& "SUCCESS".equalsIgnoreCase(result_code)
+					&& null != prepay_id)
+			{
+				noncestr = RandomStringGenerator.getRandomStringByLength(32);
+
+				String timeStamp = String.valueOf(System.currentTimeMillis() / 1000);
+				String packageString = "prepay_id=" + prepay_id;
+				String signType = "MD5";
+				ModelMap returnsignmap = new ModelMap();
+				returnsignmap.addAttribute("appId", Configure.getAppid());
+				returnsignmap.addAttribute("timeStamp", timeStamp);
+				returnsignmap.addAttribute("nonceStr", noncestr);
+				returnsignmap.addAttribute("package", packageString);
+				returnsignmap.addAttribute("signType", signType);
+
+				
+				String returnsign = Signature.getSign(returnsignmap);
+				content = "<xml>\n" + 
+				"<appid>" + Configure.getAppid() + "</appid>\n" + 
+				"<timeStamp>" + timeStamp + "</timeStamp>\n" +
+				"<nonceStr>" + noncestr + "</nonceStr>\n" + 
+				"<package>" + packageString + "</package>\n" + 
+				"<signType>" + signType + "</signType>\n" + 
+				"<signType>" + returnsign + "</signType>\n" + 
+				"</xml>\n";
+
+				System.out.print(": returnPayData xml=" + content);
+				map.addAttribute("appId", Configure.getAppid());
+				map.addAttribute("timeStamp", timeStamp);
+				map.addAttribute("nonceStr", noncestr);
+				map.addAttribute("package", packageString);
+				map.addAttribute("signType", signType);
+				map.addAttribute("paySign", returnsign);
+				map.addAttribute("orderId", state);
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+        tdOrderService.save(order);
+
+        map.addAttribute("payForm", payForm);
+
+        return "/touch/pay_order";
+    }
+    
+    @RequestMapping(value = "/wx_notify")
+    public void wx_notify(HttpServletResponse response,HttpServletRequest request) throws IOException
+    {
+    	System.out.println("MDJ: 回调方法触发！\n");
+		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+
+		String line = null;
+		String return_code = null;
+		String result_code = null;
+		String noncestr = null;
+		String out_trade_no = null;
+
+		try {
+			while ((line = br.readLine()) != null) {
+				System.out.print("MDJ: notify" + line + "\n");
+
+				if (line.contains("<return_code>")) {
+					return_code = line.replaceAll("<return_code><\\!\\[CDATA\\[", "") .replaceAll("\\]\\]></return_code>", "");
+				} else if (line.contains("<out_trade_no>")) {
+					out_trade_no = line.replaceAll("<out_trade_no><\\!\\[CDATA\\[", "").replaceAll("\\]\\]></out_trade_no>", "");
+				} else if (line.contains("<result_code>")) {
+					result_code = line.replaceAll("<result_code><\\!\\[CDATA\\[", "").replaceAll("\\]\\]></result_code>", "");
+				}
+			}
+
+			System.out.println("MDJ: notify return_code: " + return_code + "\n");
+			System.out.println("MDJ: notify out_trade_no: " + out_trade_no + "\n");
+			System.out.println("MDJ: notify result_code: " + result_code + "\n");
+
+			if (return_code.contains("SUCCESS") && 
+					result_code.contains("SUCCESS") && 
+					null != out_trade_no)
+			{
+				TdOrder order = tdOrderService.findByOrderNumber(out_trade_no);
+
+				if (null != order)
+				{
+					afterPaySuccess(order);
+				}
+				
+				String content = "<xml>\n"
+						+ "<result_code>SUCCESS</result_code>\n"
+						+ "<return_code></return_code>\n"
+						+ "</xml>\n";
+
+				System.out.print("MDJ: return xml=" + content + "\n");
+
+				try {
+					// 把xml字符串写入响应
+					byte[] xmlData = content.getBytes();
+
+					response.setContentType("text/xml");
+					response.setContentLength(xmlData.length);
+
+					ServletOutputStream os = response.getOutputStream();
+					os.write(xmlData);
+
+					os.flush();
+					os.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			br.close();
+		}
+    }
     
     /**
      * 订单支付成功后步骤

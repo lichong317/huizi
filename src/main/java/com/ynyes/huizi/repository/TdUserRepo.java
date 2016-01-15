@@ -65,4 +65,6 @@ public interface TdUserRepo extends
     TdUser findByQqUserId(String qqUserId);
     
     TdUser findByWeixinUserId(String weiUserId);
+    
+    TdUser findByOpenid(String openid);
 }

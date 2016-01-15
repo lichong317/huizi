@@ -43,7 +43,13 @@ $(document).ready(function(){
             <span style="color:red">无须支付</span></p>
         <#else>
             <p>应付金额￥${order.totalPrice?string('0.00')} 
-            <a class="blue" href="/touch/order/dopay/${order.id?c}" style="color: #FF0000;">点击支付</a></p>
+                <#--<a class="blue" href="/touch/order/dopay/${order.id?c}" style="color: #FF0000;">点击支付</a> -->
+                <#if order.payTypeTitle == "微信支付">
+                       <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb309b01e273cd1cf&redirect_uri=http://www.huizhidian.com/touch/order/dopay&response_type=code&scope=snsapi_base&state=${order.id?c}#wechat_redirect" class="blue" style="color: #FF0000;">点击支付</a>
+                <#else>
+                       <a href="/order/dopay/${order.id?c}" class="blue" style="color: #FF0000;">点击支付</a>
+                </#if>
+            </p>
         </#if>
         <p>您还可以
             <a class="blue" style="color: #FF0000;" href="/touch/user/order?id=${order.id?c!''}">查看订单详情</a></p>

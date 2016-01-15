@@ -1,9 +1,5 @@
 package com.ynyes.huizi.util;
 
-import java.util.Properties;
-
-import org.apache.xml.resolver.helpers.PublicId;
-
 /**
  * 后台常用常量
  * @author Sharon

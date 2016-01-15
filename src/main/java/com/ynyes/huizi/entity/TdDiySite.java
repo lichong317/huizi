@@ -19,7 +19,7 @@ public class TdDiySite {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
- // 自提点名称
+    // 自提点名称
     @Column
     private String title;
     

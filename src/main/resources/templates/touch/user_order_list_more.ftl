@@ -16,7 +16,11 @@
                 <p style="width:90%; float:left; margin:10px; font-size:0.8em;">共<span>${order.orderGoodsList?size}</span>件商品，合计:&nbsp;&nbsp;<span class="red">¥<#if order.totalPrice??>${order.totalPrice?string("0.00")}</#if></span>元</p>
                 <span style="width:100%; float:left; ">
                 <#if order.statusId==2 >
-                    <a href="/order/dopay/${order.id?c}" class="a2">去付款</a>
+                    <#if order.payTypeTitle == "微信支付">
+                        <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb309b01e273cd1cf&redirect_uri=http://www.huizhidian.com/touch/order/dopay&response_type=code&scope=snsapi_base&state=${order.id?c}#wechat_redirect" class="a2">去付款</a>
+                    <#else>
+                        <a href="/order/dopay/${order.id?c}" class="a2">去付款</a>
+                    </#if>
                     <a href="/touch/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()" class="a2">取消订单</a>
                 <#elseif order.statusId==1>
                     <a href="/touch/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()" class="a2">取消订单</a>  

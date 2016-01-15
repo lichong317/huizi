@@ -1,5 +1,22 @@
 ﻿<!DOCTYPE html>
 <head>
+
+<style>
+#add_id{
+    position:fixed;
+    left:0px;
+    top:0px;
+    z-index:999999;
+    width:100%;
+    height:100%
+}
+#kuaidi100{
+    margin:auto;
+    margin-top:300px;
+};
+
+</style>
+
 <meta charset="utf-8">
 <title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
@@ -33,7 +50,9 @@
 	
 	chooseMoreShow();
 	
-	
+	$("#add_id").click(function(){
+         $(this).css({display:'none'});
+    })
 });
 
 function receiveConfirm() {
@@ -74,9 +93,38 @@ function orderReceive(id)
             }
         });
 }
+
+function recruitment(orderId){
+
+     $.ajax({
+            type:"post",
+            url:"/order/recruitment",
+            data:{
+                "orderid":orderId
+            },
+            success:function(res) {
+                if (0 == res.code)
+                {
+                    $("#kuaidi100").attr('src',res.expressUri);
+                    $("#add_id").css("display", "block");
+                }
+                else
+                {
+                    alert(res.msg);                    
+                }
+            }
+        });
+}
+
 </script>
 </head>
 <body>
+
+<div id='add_id' style="display:none;">    
+     <iframe style="display:block;" name="kuaidi100" id="kuaidi100" src="http://www.kuaidi100.com/kuaidiresult?id=22601109" width="550" height="380" marginwidth="0" marginheight="0" 
+          hspace="0" vspace="0" frameborder="0" scrolling="no">
+     </iframe>
+</div>
 <#include "/client/common_header.ftl" />
 
 <div class="myclear"></div>
@@ -94,7 +142,7 @@ function orderReceive(id)
       <table>
         <tr>
           <th width="150" rowspan="2">
-          <img src="/client/images/asa.png" style="position: absolute; ">
+      <#--    <img src="/client/images/asa.png" style="position: absolute; "> -->
           <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a></th>
                <script>
                         function changeHeads(){
@@ -158,24 +206,7 @@ function orderReceive(id)
                             <#elseif order.statusId==3>
                                 待发货
                             <#elseif order.statusId==4>
-                                <h4>正在出库</h4>
-                                    <a class="mymember_infotab_show" href="#" onMouseOver="hoverShowInfo('showinfo01')">进度</a>
-                                    <div class="mymember_info_show" id="showinfo01">
-                                      <i><img src="/client/images/mymember/arrow04.gif" /></i>
-                                      <a href="javascript:closeShowInfo();"><img src="/client/images/mymember/close.png" /></a>
-                                      <h5>
-                                        <span>处理时间</span>
-                                        处理信息              </h5>
-                                      <p>
-                                        <span>2015-02-23 13:11:28</span>
-                                        您提交了订单，请等待系统进行确认。              </p>
-                                      <p>
-                                        <span>2015-02-23 13:11:28</span>
-                                        您提交了订单，请等待系统进行确认。              </p>
-                                      <p>
-                                        <span>2015-02-23 13:11:28</span>
-                                        您提交了订单，请等待系统进行确认。              </p>
-                                    </div>        
+                                <h4><a href="javascript:recruitment(${order.id?c});" style="color:red">快递查询</a></h4>       
                             <#elseif order.statusId==5>
                                 待评价
                             <#elseif order.statusId==6>

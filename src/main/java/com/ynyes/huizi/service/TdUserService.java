@@ -339,13 +339,23 @@ public class TdUserService {
     
     /**
 	 * @author lc
-	 * @注释：通过微信openId查找
+	 * @注释：通过微信openId查找 登录时使用
 	 */
     public TdUser findByWeixinUserId(String weiUserId){
     	if (null == weiUserId) {
 			return null;
 		}
     	return repository.findByWeixinUserId(weiUserId);
+    }
+    
+    /**
+     * 通过openid 查找用户 支付时使用
+     * @param openid
+     * @return
+     */
+    public TdUser findByOpenid(String openid)
+    {
+    	return repository.findByOpenid(openid);
     }
     
     /**

@@ -105,7 +105,7 @@
         <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
     </a>
     <a href="/touch/user/password">
-        <img src="/touch/images/erweima.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">密码修改
+        <img src="/touch/images/mima.png" style="position: relative;width: 20px;height: 20px;top: 3px;left: -15px;">密码修改
         <img src="/touch/images/arrow04.png" style="position: relative;float: right;right: -15px;top: 11px;">
     </a>
    

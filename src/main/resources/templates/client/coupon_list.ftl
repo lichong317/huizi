@@ -53,9 +53,12 @@
     });
 });
 
-function showDialog(id)
+function showDialog(id, count)
 {
-        
+    if(0 == count){
+        alert("优惠券已被领完！");
+        return;
+    }    
     $("#couponId").val(id);
     
     $("#checkDialog").css("display", "block");
@@ -135,7 +138,7 @@ function hideDialog()
             <div class="linquanniu">
             <#if ("coupon_" + item.id + "_list")?eval?? >                               
                    <#list ("coupon_" + item.id + "_list")?eval as coupon>                                                                 
-                            <a href="javascript:showDialog(${coupon.id?c});">点击领取</a> </div>
+                            <a href="javascript:showDialog(${coupon.id?c}, ${couponCount!'0'});">点击领取</a> </div>
                    </#list>
             </#if>
               

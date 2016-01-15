@@ -24,7 +24,11 @@ public class TdAppMenu {
 	 // 图片地址
 	 @Column
 	 private String iconUri;
-	    
+	 
+	 // 选中后图片地址
+	 @Column
+	 private String isSelectIconUri;
+	 
 	 // 排序号
 	 @Column
 	 private Long sortId;
@@ -47,6 +51,14 @@ public class TdAppMenu {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getIsSelectIconUri() {
+		return isSelectIconUri;
+	}
+
+	public void setIsSelectIconUri(String isSelectIconUri) {
+		this.isSelectIconUri = isSelectIconUri;
 	}
 
 	public String getIconUri() {

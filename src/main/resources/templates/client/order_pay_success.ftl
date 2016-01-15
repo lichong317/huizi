@@ -39,7 +39,7 @@
 <#include "/client/common_header.ftl" />
   <div class="main">
     <#if order??>
-    <h3>订单号:${order.orderNumber!''}</h3>
+    <h3>订单号:<a href="/user/order?id=${order.id?c}" style="color: #ff4454;">${order.orderNumber!''}</a></h3>
     <h3>支付金额:${order.totalPrice?string('0.00')}</h3>
     <h3>支付方式:${order.payTypeTitle!''}</h3>
     </#if>

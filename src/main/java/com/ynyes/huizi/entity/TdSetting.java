@@ -145,6 +145,9 @@ public class TdSetting {
     // Android文件名
     private String androidApk;
     
+    // ios 最新版本
+    private String iosVersion;
+    
     public Long getId() {
         return id;
     }
@@ -159,6 +162,14 @@ public class TdSetting {
 
 	public void setAndroidApk(String androidApk) {
 		this.androidApk = androidApk;
+	}
+
+	public String getIosVersion() {
+		return iosVersion;
+	}
+
+	public void setIosVersion(String iosVersion) {
+		this.iosVersion = iosVersion;
 	}
 
 	public String getAndroidVersion() {

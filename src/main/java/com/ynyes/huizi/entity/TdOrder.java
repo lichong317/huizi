@@ -81,7 +81,7 @@ public class TdOrder {
     @Column(scale=2)
     private Double deliverTypeFee;
     
-    // 快递公司
+    // 快递公司编号
     @Column
     private String expressCampany;
     

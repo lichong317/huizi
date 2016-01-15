@@ -14,6 +14,16 @@
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
+<script>
+
+function cancelConfirm() {
+    if (!confirm("未付款可直接取消，是否确认取消订单？")) {
+        window.event.returnValue = false;
+    }
+}
+
+</script>
+
 </head>
 
 <body>
@@ -122,8 +132,16 @@
 </#if>
 <footer class="buyfoot">
   <div class="mainbox">
-    <a class="fl" href="/order/dopay/${order.id?c}">去付款</a>
-    <a class="fr" href="#">取消订单</a>
+    <#if order.statusId==2>
+        <#if order.payTypeTitle == "微信支付">
+               <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb309b01e273cd1cf&redirect_uri=http://www.huizhidian.com/touch/order/dopay&response_type=code&scope=snsapi_base&state=${order.id?c}#wechat_redirect" class="fl">去付款</a>
+        <#else>
+               <a href="/order/dopay/${order.id?c}" class="fl">去付款</a>
+        </#if>
+    </#if>
+    <#if order.statusId==2 || order.statusId==1>
+        <a class="fr" href="/touch/user/cancel/direct?id=${order.id?c}" onClick="cancelConfirm()">取消订单</a>
+    </#if>
     <div class="clear"></div>
   </div>
 </#if>

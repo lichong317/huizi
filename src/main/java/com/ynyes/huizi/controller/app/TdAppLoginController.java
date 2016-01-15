@@ -89,7 +89,9 @@ public class TdAppLoginController {
         Map<String, Object> data=new HashMap<String, Object>();
         data.put("username", user.getUsername());
         
-        data.put("password", MD5.md5(password, 32) );       
+        data.put("password", MD5.md5(password, 32) ); 
+        
+        data.put("headImageUri", user.getHeadImageUri());
         
         tdUserService.save(user);
         res.put("data", data);
@@ -130,6 +132,9 @@ public class TdAppLoginController {
           
         res.put("code", 1);       
         
+        if (null != username) {
+        	req.getSession().setAttribute("username", username);
+		}
 //        TdUser userUsername = tdUserService.findByUsernameAndIsEnabled(username);
         
         res.put("total_unpayed", tdOrderService.countByUsernameAndStatusId(username, 2));
