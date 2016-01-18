@@ -38,6 +38,11 @@
             <a class="a1" href="/touch/user/collect/del?id=${cg.goodsId?c!''}"><img src="/touch/images/delete.png" width="30" /></a>
         </section>
     </#list>
+<#else>
+    <div>
+        <p style="text-align:center">您还没有收藏商品哦！</p>
+        <p style="text-align:center"><a class="blue" href="/touch/">马上去购物>>  </a></p>
+    </div>
 </#if>
       
 <!--main END-->

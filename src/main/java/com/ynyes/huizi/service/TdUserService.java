@@ -309,7 +309,7 @@ public class TdUserService {
         
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUpperUsernameAndStatusIdOrderByIdDesc(username, 1L, pageRequest);
+        return repository.findByUpperUsernameAndStatusIdOrUpperUsernameAndStatusIdOrderByIdDesc(username, 1L, username, 0L, pageRequest);
     }
     
     /**

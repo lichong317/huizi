@@ -54,7 +54,7 @@ public interface TdUserRepo extends
     
     TdUser findByUsernameAndIdNot(String username, Long id);
     
-    Page<TdUser> findByUpperUsernameAndStatusIdOrderByIdDesc(String upperUsername, Long statusId, Pageable page);
+    Page<TdUser> findByUpperUsernameAndStatusIdOrUpperUsernameAndStatusIdOrderByIdDesc(String upperUsername, Long statusId, String upperUsername1, Long statusId1, Pageable page);
     
     Page<TdUser> findByUserLevelIdOrderByIdDesc(Long userlevelId, Pageable page);
     

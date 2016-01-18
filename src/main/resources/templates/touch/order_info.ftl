@@ -283,11 +283,14 @@ function formsubmit(){
   <ul class="paystyle">
     <#if pay_type_list??>
         <#list pay_type_list as pay_type>
-            <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>>
-                <input  tn="${pay_type.title!''}" type="radio" <#if pay_type.title="支付宝支付">checked="checked"</#if> name="payTypeId" datatype="n"  value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
-                <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
-                <span>${pay_type.title!''}</span>
-            </li>
+            <#if app?? && pay_type.title="微信支付">
+            <#else>
+                <li <#if pay_type.title="货到付款">id="idPayFaceToFace"</#if>>
+                    <input  tn="${pay_type.title!''}" type="radio" <#if pay_type.title="支付宝支付">checked="checked"</#if> name="payTypeId" datatype="n"  value="${pay_type.id?c}" nullmsg="请选择支付方式!" />
+                    <#--<span><img src="${pay_type.coverImageUri!''}" height="30" /></span> -->
+                    <span>${pay_type.title!''}</span>
+                </li>
+            </#if>
         </#list>
         <script>
                                     function changepaytype(paytype){
