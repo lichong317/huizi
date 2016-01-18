@@ -16,6 +16,9 @@
 <script src="/client/js/mymember.js"></script>
 <script src="/touch/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -58,6 +61,7 @@ $(document).ready(function(){
         if (parseInt(point) > ${point_limit!'0'})
         {
             alert("最多可使用(${point_limit!'0'})个积分");
+            
             $(this).val(0);
             if(couponFee + virtualCurrency> currentPrice + deliPrice){
                 $("#totalPrice").html(0);

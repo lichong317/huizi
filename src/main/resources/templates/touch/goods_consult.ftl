@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -20,9 +23,12 @@ $(document).ready(function(){
         var goodsId = $("#goodsId").val();
         var content = $("#content").val();
         
-        if (content.length < 1 )
+        if (content.length < 1)
         {
-            alert("请输入咨询内容！");
+            ct.alert({
+                    text: "请输入咨询内容！",
+                    type: "alert"
+            });
             return;
         }
         
@@ -33,9 +39,17 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
-                       alert("提交成功！请等待审核");
+                       //alert("提交成功！请等待审核");
+                       ct.alert({
+                             text: "提交成功！请等待审核",
+                             type: "alert"
+                       });
                     } else {
-                        alert(data.message);
+                        //alert(data.message);
+                        ct.alert({
+                             text: data.message,
+                             type: "alert"
+                       });
                     }
                 }
             });
@@ -127,6 +141,7 @@ function changeName(p)
      <p style="color: #F00"><#if res??>${res.message!''}</#if></p>
      <input id="goodsId" name="goodsId" value="<#if goodsId??>${goodsId?c}</#if>" type="hidden"> 
      <textarea id="content" name="content" placeholder="请输入咨询内容。。。">
+     
      </textarea>
      <div class="clear10"></div>
      <input id="btn_submit" type="submit" value="提交" class="sub" />

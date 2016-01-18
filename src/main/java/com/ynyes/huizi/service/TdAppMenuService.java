@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ynyes.huizi.entity.TdAppMenu;
 import com.ynyes.huizi.entity.TdNaviBarItem;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.repository.TdAppMenuRepo;
 
 @Service
@@ -19,6 +20,9 @@ import com.ynyes.huizi.repository.TdAppMenuRepo;
 public class TdAppMenuService {
 	@Autowired
 	TdAppMenuRepo repository;
+	
+	@Autowired
+	TdSettingService tdSettingService;
 	
 	/**
      * 删除
@@ -111,6 +115,16 @@ public class TdAppMenuService {
      */
     public TdAppMenu save(TdAppMenu e)
     {
+    	TdSetting tdSetting = tdSettingService.findTopBy();
+    	
+    	if (null != tdSetting ) {
+			if (null != tdSetting.getUpdateNumber()) {
+				tdSetting.setUpdateNumber(tdSetting.getUpdateNumber() + 1);
+			}else {
+				tdSetting.setUpdateNumber(0L);
+			}
+		}
+    	
         return repository.save(e);
     }
     

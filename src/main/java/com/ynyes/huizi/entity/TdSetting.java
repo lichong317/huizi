@@ -148,6 +148,10 @@ public class TdSetting {
     // ios 最新版本
     private String iosVersion;
     
+    // app菜单图标当前上传次数
+	@Column
+	private Long updateNumber;
+	 
     public Long getId() {
         return id;
     }
@@ -162,6 +166,14 @@ public class TdSetting {
 
 	public void setAndroidApk(String androidApk) {
 		this.androidApk = androidApk;
+	}
+
+	public Long getUpdateNumber() {
+		return updateNumber;
+	}
+
+	public void setUpdateNumber(Long updateNumber) {
+		this.updateNumber = updateNumber;
 	}
 
 	public String getIosVersion() {

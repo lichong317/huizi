@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -35,7 +38,11 @@ $(document).ready(function(){
         var re = /^1\d{10}$/;
         
         if (!re.test(mob)) {
-            alert("请输入正确的手机号");
+            //alert("请输入正确的手机号");
+            ct.alert({
+                    text: "请输入正确的手机号",
+                    type: "alert"
+            });
             return;
         }
         
@@ -57,7 +64,11 @@ $(document).ready(function(){
                                     },  
                                error : function(XMLHttpRequest, textStatus,  
                                             errorThrown) {  
-                                        alert("发送失败");
+                                        //alert("发送失败");
+                                        ct.alert({
+                                                text: "发送失败",
+                                                type: "alert"
+                                        });
                                     }  
                           
                 });
@@ -73,7 +84,11 @@ $(document).ready(function(){
                     var re = /^1\d{10}$/;
         
                     if (!re.test(mobile)) {
-                        alert("请输入正确的手机号");
+                        //alert("请输入正确的手机号");
+                        ct.alert({
+                                text: "请输入正确的手机号",
+                                type: "alert"
+                        });
                         return;
                     }
                     
@@ -85,7 +100,11 @@ $(document).ready(function(){
                             success: function (data) {
                                 if (data.code == 0) {
                                     if (data.hasRedenvelope == 1){
-                                        alert("有新红包！请到个人中心领取");
+                                        //alert("有新红包！请到个人中心领取");
+                                        ct.alert({
+                                                text: "有新红包！请到个人中心领取",
+                                                type: "alert"
+                                        });
                                     }        
                                     var url = document.referrer;
 
@@ -95,7 +114,11 @@ $(document).ready(function(){
                                         window.location.href = url; 
                                     }
                                 } else {
-                                    alert(data.msg);
+                                    //alert(data.msg);
+                                    ct.alert({
+                                            text: "有新红包！请到个人中心领取",
+                                            type: "alert"
+                                    });
                                 }
                             }
                         });

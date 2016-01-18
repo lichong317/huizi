@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -37,7 +40,11 @@
         
         if (username.length < 6 )
         {
-            alert("用户名长度输入不足");
+            //alert("用户名长度输入不足");
+            ct.alert({
+                    text: "用户名长度输入不足",
+                    type: "alert"
+            });
             return;
         }
         $.ajax({
@@ -52,7 +59,11 @@
                             window.location.href="/touch/login/retrieve_step2";
                
                     } else {
-                        alert(data.msg);
+                        //alert(data.msg);
+                        ct.alert({
+                                text: data.msg,
+                                type: "alert"
+                        });
                     }
                 }
             });
@@ -71,14 +82,14 @@
 </header>
 
 <!--main-->
-<div class="main">
+<div class="main" style="width:90%">
     <div class="logintext">
         <input type="text" class="logintext01" value="" id="txt_loginId" name="username" placeholder="请输入用户名/手机号"/>
     </div>
     <div class="logintext logintext_y">
         <input type="text" class="logintext_p" id="code" name="code" value="" placeholder="请输入验证码"/>
     </div>
-        <a href="#" class="login_yzm"><img src="/code"  onclick="this.src = '/code?date='+Math.random();"/></a>
+        <a href="#" class="login_yzm" style=" margin-top: 10px" ><img src="/code"  onclick="this.src = '/code?date='+Math.random();"/></a>
     <div class="clear"></div>
     <input id="btn_nextstep" type="submit" class="loginbtn" value="下一步" />
 </div>

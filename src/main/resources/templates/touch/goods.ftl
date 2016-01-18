@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
@@ -39,6 +42,10 @@ $(document).ready(function(){
             else
             {
                 alert("已达到库存最大值");
+                //ct.alert({
+                    //text: "已达到库存最大值",
+                    //type: "alert"
+                //});
             }
         <#else>
             $("#quantity").val(q+1);
@@ -67,6 +74,10 @@ function addCollect(goodsId)
                 
             }
             alert(res.message);
+            //ct.alert({
+                    //text: res.message,
+                    //type: "alert"
+           // });
             
             // 需登录
             if (res.code==1)

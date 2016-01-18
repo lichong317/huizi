@@ -14,6 +14,9 @@
 <script src="/touch/js/order_info.js"></script>
 <script src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -165,12 +168,20 @@ function formsubmit(){
                                                         if (data.code == 0) {
                                                           
                                                         } else {
-                                                            alert(data.msg);
+                                                            //alert(data.msg);
+                                                            ct.alert({
+                                                                    text: data.msg,
+                                                                    type: "alert"
+                                                            });
                                                         }
                                                     }
                                                 });
                                            }else{
-                                               alert("请选择收货地址！");
+                                               //alert("请选择收货地址！");
+                                               ct.alert({
+                                                      text: "请选择收货地址！",
+                                                      type: "alert"
+                                               });
                                            }
                                        }
                                     }

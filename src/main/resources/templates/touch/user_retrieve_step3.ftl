@@ -35,7 +35,7 @@
 </header>
 
 <!--main-->
-<div class="main">
+<div class="main"  style="width:90%">
  <form id="form1" method="post" action="/touch/login/retrieve_step3">
     <p style="margin-left:10px">请输入新密码</p>
     <div class="logintext logintext_y" style="width:86%; background:#FFF;">

@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -70,12 +73,20 @@ function orderReceive(id)
             success:function(res) {
                 if (0 == res.code)
                 {
-                    alert(res.message);
+                    //alert(res.message);
+                    ct.alert({
+                        text: res.message,
+                        type: "alert"
+                    });
                     window.location.reload();
                 }
                 else
                 {
-                    alert(res.message);
+                    //alert(res.message);
+                    ct.alert({
+                        text: res.message,
+                        type: "alert"
+                    });
                     if (res.message = "请登录！！")
                     {
                     window.location.href="/login"

@@ -14,8 +14,7 @@
 <script src="/client/js/ljs-v1.01.js"></script>
 
 
-<#--<script type="text/javascript" src="/client/js/jQueryRotate.2.2cj.js"></script> -->
-<script type="text/javascript" src="/client/js/awardRotate.js"></script>
+<script type="text/javascript" src="/client/js/jQueryRotate.2.2cj.js"></script>
 <script type="text/javascript" src="/client/js/script_cj.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.js"></script>
@@ -62,9 +61,8 @@ function signin(){
 </script>
 
 <style type="text/css">
-.turntable-bg{width:480px;float:left;margin-left:226px;}
-.pointer{width:100%;height:480px;position: absolute;left:0px;top:0px;z-index:9999;}
-.pointer img{margin-left:184px;margin-top:128px;}
+.rotate-con-pan{background:url(/client/images/disk.jpg) no-repeat 0 0;background-size:100% 100%;position:relative;width:480px;height:480px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; float:left; margin-left:180px;}
+.rotate-con-zhen{width:112px;height:224px;background:url(/client/images/start.png) no-repeat 0 0;background-size:100% 100%;cursor:pointer;position:absolute;left:180px;top:140px;}
 </style>
 
 
@@ -126,14 +124,9 @@ function signin(){
   
   
 
-<!--<div class="rotate-con-pan" >
-        <div class="rotate-con-zhen" ></div>
-</div>  -->
-
-<div class="turntable-bg"> 
-  <div class="pointer"><img src="/client/images/start.png" alt="pointer"/></div>
-  <div class="rotate" ><img id="rotate" src="/client/images/disk.jpg" alt="turntable"/></div>
-</div>
+<div class="rotate-con-pan">
+        <div class="rotate-con-zhen"></div>
+    </div>  
   
 <div class="u_lottery_right">
         <header>
@@ -172,7 +165,6 @@ function signin(){
 <script type="text/javascript">
 $(function(){
     var animatetemp = 0;
-    var bRotate = false; 
     var data1;
     $.ajax({
              type: "post",
@@ -187,57 +179,35 @@ $(function(){
                  }
              }
      });
-         
-    
-    $('.pointer').click(function (){
-
-        if(bRotate)return;
-        var a = runzp(data1);
-
-        bRotate = !bRotate;
-        $('#rotate').stopRotate();
-        $('#rotate').rotate({
-            angle:0,
-            animateTo:a.angle+1800,
-            duration:8000,
-            callback:function (){
-                if(a.isOver == true){
-                     alert("奖品已抽完！");
-                }else{
-                     alert(a.prize+a.message);//简单的弹出获奖信息
-                     animatetemp = a.angle;
-                     if(a.isWin){
-                           window.location.reload();
-                     }
-                }   
-                bRotate = !bRotate;
-            }
-        })
-
-        console.log(a);
-    });
      
-        
-     var rotateTimeOut = function (){
-        $('#rotate').rotate({
-            angle:0,
-            animateTo:2160,
-            duration:8000,
-            callback:function (){
-                alert('网络超时，请检查您的网络设置！');
+    $(".rotate-con-zhen").rotate({
+        bind:{
+            click:function(){                 
+                var a = runzp(data1);                
+                $(this).rotate({
+                       duration:3000,               //转动时间
+                       angle: animatetemp,          //起始角度
+                       animateTo:720+a.angle,      //结束的角度
+                       //easing: $.easing.easeOutSine,//动画效果，需加jquery.easing.min.js
+                       // easing: $.easing.easeInOutExpo,
+                       callback: function(){
+                            // alert(a.isOver);
+                             if(a.isOver == true){
+                                alert("奖品已抽完！");
+                             }else{
+                                alert(a.prize+a.message);//简单的弹出获奖信息
+                                animatetemp = a.angle;
+                                if(a.isWin){
+                                    window.location.reload();
+                                }
+                             }                             
+                             
+                       }
+                });                                     
             }
-        });
-    };
-   
-    
+        }
+    });
 });
-function rnd(n, m){
-    return Math.floor(Math.random()*(m-n+1)+n)
-}
-    
-
-   
-
 </script>
 </#if>
 <div class="clear"></div>

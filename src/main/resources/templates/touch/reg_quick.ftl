@@ -12,6 +12,9 @@
 <script src="/touch/js/common.js"></script>
 <script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -32,7 +35,11 @@ $(document).ready(function(){
         var re = /^1\d{10}$/;
         
         if (!re.test(mob)) {
-            alert("请输入正确的手机号");
+            //alert("请输入正确的手机号");
+            ct.alert({
+                  text: "请输入正确的手机号",
+                  type: "alert"
+            });
             return;
         }
         
@@ -63,13 +70,21 @@ $(document).ready(function(){
                             },  
                             error : function(XMLHttpRequest, textStatus,  
                                     errorThrown) {  
-                                alert("发送失败");
+                                //alert("发送失败");
+                                ct.alert({
+                                      text: "发送失败",
+                                      type: "alert"
+                                });
                             }  
                   
                         });
                 }else{
                     //$("#yzmerror").css("display", "block");
-                    alert("您输入的图片验证码不正确");
+                    //alert("您输入的图片验证码不正确");
+                    ct.alert({
+                         text: "您输入的图片验证码不正确",
+                         type: "alert"
+                    });
                 }
              
             }

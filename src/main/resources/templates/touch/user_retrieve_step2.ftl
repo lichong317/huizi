@@ -12,6 +12,9 @@
 <script src="/touch/js/common.js"></script>
 <script src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -67,7 +70,11 @@ $(document).ready(function(){
         var re = /^1\d{10}$/;
         
         if (!re.test(mob)) {
-            alert("请输入正确的手机号");
+            //alert("请输入正确的手机号");
+            ct.alert({
+                    text: "请输入正确的手机号",
+                    type: "alert"
+            });
             return;
         }
         
@@ -91,7 +98,11 @@ $(document).ready(function(){
             },  
             error : function(XMLHttpRequest, textStatus,  
                     errorThrown) {  
-                alert("error");
+                //alert("error");
+                ct.alert({
+                    text: "error",
+                    type: "alert"
+                });
             }  
   
         });
@@ -132,7 +143,7 @@ function tip()
 </header>
 
 <!--main-->
-<div class="main">
+<div class="main"  style="width:90%">
 <span style="color: #F00"><#if errCode??>
             <#if errCode==1>
                 验证码错误

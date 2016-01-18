@@ -13,6 +13,9 @@
 <script type="text/javascript" src="/client/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -51,7 +54,11 @@
         
         if (username.length < 6 || password.length < 6)
         {
-            alert("用户名或密码长度输入不足");
+            //alert("用户名或密码长度输入不足");
+            ct.alert({
+                    text: "用户名或密码长度输入不足",
+                    type: "alert"
+            });
             return;
         }
         
@@ -69,7 +76,11 @@
                             window.location.href = url; 
                         }
                     } else {
-                        alert(data.msg);
+                        //alert(data.msg);
+                        ct.alert({
+                                text: data.msg,
+                                type: "alert"
+                        });
                     }
                 }
             });

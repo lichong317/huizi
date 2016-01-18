@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -26,10 +29,17 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
-                       alert("领取成功！");
+                        ct.alert({
+                            text: "修改成功",
+                            type: "alert"
+                        });
                        location.reload();
                     } else {
-                        alert(data.message);
+                        //alert(data.message);
+                        ct.alert({
+                            text: data.message,
+                            type: "alert"
+                        });
                     }
                 }
             });

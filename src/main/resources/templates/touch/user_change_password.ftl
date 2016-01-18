@@ -12,6 +12,9 @@
 <script src="/touch/js/common.js"></script>
 <script src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -23,13 +26,21 @@
         callback: function(data) {
             if (data.code==0)
             {
-                alert("修改成功");
+               //alert("修改成功");
                 //window.location.reload();
+                ct.alert({
+                    text: "修改成功",
+                    type: "alert"
+                });
                 window.location.href="/touch/user"
             }
             else
             {
-                alert(data.msg);
+                ct.alert({
+                    text: data.msg,
+                    type: "alert"
+                });
+                //win_yes(data.msg);   
                 window.location.href="/touch/login";
             }
         }
@@ -39,6 +50,9 @@
 </head>
 
 <body>
+
+<#include "/touch/tip_box.ftl" />
+
 <div class="maintop_bg"></div>
 <header class="maintop">
   <div class="main">
@@ -53,16 +67,16 @@
  <form id="form1" action="/touch/user/password" method="post" style="margin:0 10px;">
      <input name="__STATE" type="hidden" value="${user.password}"/>
     <p style="margin-left:10px">原始密码</p>
-    <div class="logintext " style="width:86%; background:#FFF;">
+    <div class="logintext " style="width:95%; background:#FFF;padding-left: 0;">
         <input name="oldPassword" type="password" class="" value="" datatype="*" errormsg="原始密码不正确" recheck="__STATE"/>
     </div>
     <div class="clear h20"></div>
     <p style="margin-left:10px">新密码</p>
-    <div class="logintext " style="width:86%; background:#FFF;">
+    <div class="logintext " style="width:95%; background:#FFF;padding-left: 0;">
         <input name="newPassword" type="password" datatype="*"  class="" value="" />
     </div>
     <p style="margin-left:10px">确认密码</p>
-    <div class="logintext " style="width:86%; background:#FFF;">
+    <div class="logintext " style="width:95%; background:#FFF;padding-left: 0;">
         <input type="password" datatype="*" recheck="newPassword" class="" value="" />
     </div>
     <div class="clear"></div>

@@ -11,6 +11,9 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -32,7 +35,11 @@ function redEnvelopeGet(){
                             $("#getRedenvelopeFalse").css("display", "block");
                         }                                               
                     } else {
-                        alert(data.message);
+                        //alert(data.message);
+                        ct.alert({
+                            text: data.message,
+                            type: "alert"
+                        });
                     }
                 }
      });

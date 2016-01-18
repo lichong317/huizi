@@ -12,6 +12,9 @@
 <script src="/touch/js/common.js"></script>
 <script src="/client/js/Validform_v5.3.2_min.js"></script>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -24,12 +27,21 @@ $(document).ready(function(){
         callback: function(data) {
             if (data.code==0)
             {
-                alert("提交评论成功");
+                //alert("提交评论成功");
+                ct.alert({
+                    text: "提交评论成功",
+                    type: "alert"
+                });
+                
                 window.location.reload();
             }
             else
             {
-                alert(data.message);
+                //alert(data.message);
+                ct.alert({
+                    text: data.message,
+                    type: "alert"
+                });
             }
         }
     });

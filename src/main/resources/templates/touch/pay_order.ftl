@@ -10,6 +10,9 @@
 <link rel="stylesheet" type="text/css" href="/touch/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="/touch/css/style.css"/>
 
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 <script language="javascript" src="http://res.mail.qq.com/mmr/static/lib/js/jquery.js" type="text/javascript"></script>
@@ -28,17 +31,30 @@ function onBridgeReady(){
        'getBrandWCPayRequest', data,
        function(res){
            if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-            alert("支付成功");
+            //alert("支付成功");
+            ct.alert({
+                    text: "支付成功",
+                    type: "alert"
+            });
+            
             window.location.href="/touch/user/order?id=${orderId?c}";
              // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
            }
            else if (res.err_msg == "get_brand_wcpay_request:cancel")
            {
-               alert("取消支付！");
+               //alert("取消支付！");
+               ct.alert({
+                    text: "取消支付！",
+                    type: "alert"
+               });
                window.location.href="/touch/user/order?id=${orderId?c}";
            }
            else{
-               alert("支付失败！");
+               //alert("支付失败！");
+               ct.alert({
+                    text: "支付失败！",
+                    type: "alert"
+               });
                window.location.href="/touch/user/order?id=${orderId?c}";
            }
        }

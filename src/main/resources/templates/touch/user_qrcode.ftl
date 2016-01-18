@@ -56,8 +56,9 @@
 <menu class="main memberlist" style="text-align:center;">
     <img src="${user.qrCodeUri!''}" >
 </menu>
-<div class=" tuichu main">
-
+<div class="tuichu  main">
+<a href="/touch/logout" onclick="logout()">退出</a>
+</div>
 
 <!--main END-->
 <#if !app??>
@@ -67,8 +68,7 @@
     <a class="fs09" href="/user">电脑版</a>
   </p>
   <p class="ta-c fs08 c7">${site.copyright!''}</p> 
-  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
+  <p class="ta-c fs08 c7">${site.icpNumber!''}</p>                                                                                   
 </#if>
 </body>
 </html>
-s

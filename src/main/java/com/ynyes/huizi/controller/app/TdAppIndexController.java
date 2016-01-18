@@ -116,6 +116,10 @@ public class TdAppIndexController {
     	Map<String, Object> res = new HashMap<String, Object>();
         
         res.put("code", 1);
+        
+        TdSetting tdSetting =  tdSettingService.findTopBy();
+        
+        res.put("version", tdSetting.getUpdateNumber());
 
         res.put("data", tdAppMenuService.findByIsEnableTrueOrderBySortIdAsc());        
         
@@ -170,6 +174,21 @@ public class TdAppIndexController {
     public String getApk(@PathVariable String filename, HttpServletRequest req, ModelMap map, HttpServletResponse resp){
     	
     	String url = SiteMagConstant.apkPath;
+    	if (download(filename+".apk", url, resp)) {
+			return null;
+		}    	
+    	return null ;
+    }
+    
+    // 扫二维码下载Android apk
+    @RequestMapping(value="android/apk/QRcode")    
+    public String getApk1(HttpServletRequest req, ModelMap map, HttpServletResponse resp){
+    	
+    	String url = SiteMagConstant.apkPath;
+    	TdSetting tdSetting = tdSettingService.findTopBy();
+    	
+    	String filename = tdSetting.getAndroidApk();
+    	
     	if (download(filename, url, resp)) {
 			return null;
 		}    	
@@ -185,13 +204,13 @@ public class TdAppIndexController {
        	 OutputStream os;
    		 try {
    				os = resp.getOutputStream();
-   				File file = new File(exportUrl + filename +".apk");   				
+   				File file = new File(exportUrl + filename);   				
                 if (file.exists())
                     {
                       try {
                             resp.reset();
                             resp.setHeader("Content-Disposition", "attachment; filename="
-                                    + filename +".apk");
+                                    + filename );
                             resp.setContentType("application/octet-stream; charset=utf-8");
                             os.write(FileUtils.readFileToByteArray(file));
                             os.flush();
@@ -206,7 +225,7 @@ public class TdAppIndexController {
    				e.printStackTrace();
    		 }
    		 return true;	
-    }
+    }   
     
     // 新品推荐
     @RequestMapping(value="index/getNewProduct")
