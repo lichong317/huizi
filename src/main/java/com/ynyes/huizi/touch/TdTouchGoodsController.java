@@ -19,6 +19,7 @@ import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCollect;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.service.TdCommonService;
@@ -86,6 +87,12 @@ public class TdTouchGoodsController {
 
         String username = (String) req.getSession().getAttribute("username");
 
+        // 判断是否收藏该商品
+        TdUserCollect tdUserCollect =  tdUserCollectService.findByUsernameAndGoodsId(username, goodsId);
+        if (null != tdUserCollect) {
+        	map.addAttribute("tdUserCollect",
+        			tdUserCollect);
+		}
         // 添加浏览记录
         if (null != username) {
         	 TdUserRecentVisit recentVisit = tdUserRecentVisitService.findByUsernameAndGoodsId(username,goodsId);

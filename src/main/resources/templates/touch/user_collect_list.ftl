@@ -28,7 +28,7 @@
 
 <div class="main">
 
-<#if collect_page??>
+<#if collect_page?? && collect_page.content?size gt 0>
     <#list collect_page.content as cg>
         <section class="carlist">
             <a href="/touch/goods/${cg.goodsId?c}"><b><img src="${cg.goodsCoverImageUri!''}" width="97" height="97"/></b></a>

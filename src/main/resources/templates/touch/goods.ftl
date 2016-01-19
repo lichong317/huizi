@@ -73,7 +73,7 @@ function addCollect(goodsId)
                 $("#addCollect").addClass("pro_share1");
                 
             }
-            alert(res.message);
+            //alert(res.message);
             //ct.alert({
                     //text: res.message,
                     //type: "alert"
@@ -289,7 +289,7 @@ function checkTime(i)
 </script>
 </#if>
   <#if goods??>
-      <a class="pro_share" href="javascript:addCollect(${goods.id?c});">关注</a>
+      <a  class="<#if tdUserCollect??>pro_share1<#else>pro_share</#if>" id="addCollect" href="javascript:addCollect(${goods.id?c});">关注</a>
       <#if qiang?? && qiang==1 && goods.flashSaleStartTime < .now && goods.flashSaleStopTime gt .now>
           <h3 class="protext red">抢拍价：￥<#if goods.flashSalePrice??>${goods.flashSalePrice?string("0.00")}</#if><del class="unl-lt c9 fs07 ml10">￥<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></del></h3>
       <#elseif qiang?? && qiang != 1 && goods.groupSaleStartTime?? && goods.groupSaleStartTime < .now && goods.groupSaleStopTime?? && goods.groupSaleStopTime gt .now>

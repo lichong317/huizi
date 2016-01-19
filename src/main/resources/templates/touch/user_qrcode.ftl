@@ -56,9 +56,9 @@
 <menu class="main memberlist" style="text-align:center;">
     <img src="${user.qrCodeUri!''}" >
 </menu>
-<div class="tuichu  main">
+<#--<div class="tuichu  main">
 <a href="/touch/logout" onclick="logout()">退出</a>
-</div>
+</div> -->
 
 <!--main END-->
 <#if !app??>
