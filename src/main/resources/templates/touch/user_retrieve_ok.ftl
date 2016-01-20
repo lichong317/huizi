@@ -29,7 +29,7 @@
 <!--main-->
 <div class="main">
   <div class="myorder_success">
-    <p class="fc">已成功修改密码并登陆</p>
+    <p class="fc">已成功修改密码,请登录</p>
   </div>
 </div>
 <div class="clear40"></div>

@@ -332,8 +332,8 @@ $(function () {
     <dd>
       <div class="rule-multi-radio multi-radio">
         <span>
-            <input type="radio" name="isBankCardVerified" value="1"  <#if user?? && user.isBankCardVerified?? && user.isBankCardVerified==1>checked="checked"</#if>><label>已验证</label>
-            <input type="radio" name="isBankCardVerified" value="0"  <#if user?? && user.isBankCardVerified?? && user.isBankCardVerified==0>checked="checked"</#if>><label>未验证</label>
+            <input type="radio" name="isBankCardVerified" value="1"  <#if user?? && user.isBankCardVerified?? && user.isBankCardVerified>checked="checked"</#if>><label>已验证</label>
+            <input type="radio" name="isBankCardVerified" value="0"  <#if user?? && user.isBankCardVerified?? && !user.isBankCardVerified>checked="checked"</#if>><label>未验证</label>
         </span>
       </div>
       <span class="Validform_checktip"></span>

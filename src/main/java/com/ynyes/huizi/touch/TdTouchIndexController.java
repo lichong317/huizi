@@ -79,6 +79,15 @@ public class TdTouchIndexController {
                     tdAdService.findByTypeId(tdAdType.getId()));
         }                 
         
+        // 商品推荐广告位
+
+        tdAdType = tdAdTypeService.findByTitle("触屏商品分类广告");
+        
+        if (null != tdAdType) {
+            map.addAttribute("goodsCategory_ad_list",
+                    tdAdService.findByTypeId(tdAdType.getId()));
+        } 
+        
         // 精选分类广告位
         tdAdType = tdAdTypeService.findByTitle("触屏精选分类广告");
         

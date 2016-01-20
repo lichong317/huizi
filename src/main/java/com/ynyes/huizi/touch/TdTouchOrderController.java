@@ -1552,139 +1552,119 @@ public class TdTouchOrderController {
         return "/touch/order_pay_success";
     }
     
-//    @RequestMapping(value = "/dopay/{orderId}")
-//    public String payOrder(@PathVariable Long orderId, ModelMap map,
-//            HttpServletRequest req) {
-//        String username = (String) req.getSession().getAttribute("username");
-//
-//        if (null == username) {
-//            return "redirect:/touch/login";
-//        }
-//
-//        tdCommonService.setHeader(map, req);
-//
-//        if (null == orderId) {
-//            return "/touch/error_404";
-//        }
-//
-//        TdOrder order = tdOrderService.findOne(orderId);
-//
-//        if (null == order) {
-//            return "/touch/error_404";
-//        }
-//
-//        // 根据订单类型来判断支付时间是否过期
-////        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
-////            Date cur = new Date();
-////            long temp = cur.getTime() - order.getOrderTime().getTime();
-////            // System.out.println(temp);
-////            if (temp > 1000 * 60 * 30) {
-////                return "/touch/overtime";
-////            }
-////        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
-////                                                                                   // 
-////            Date cur = new Date();
-////            long temp = 0L;
-////           
-////            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
-////            if (null != tdGoods) {
-////				if (order.getTypeId().equals(4L)) {
-////					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
-////				}else if (order.getTypeId().equals(5L)) {
-////					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
-////				}
-////				if (temp > 0) {
-////                    return "/client/overtime";
-////                }
-////			}
-////        } else { // 普通 订单提交后24小时内
-////            Date cur = new Date();
-////            long temp = cur.getTime() - order.getOrderTime().getTime();
-////            if (temp > 1000 * 3600 * 24) {
-////                return "/touch/overtime";
-////            }
-////        }
-//
-//        // 待付款
-//        if (!order.getStatusId().equals(2L)) {
-//            return "/touch/error_404";
-//        }
-//
-//        String amount = order.getTotalPrice().toString();
-//        req.setAttribute("totalPrice", amount);
-//
-//        String payForm = "";
-//
-//        Long payId = order.getPayTypeId();
-//        TdPayType payType = tdPayTypeService.findOne(payId);
-//        if (payType != null) {
-//            TdPayRecord record = new TdPayRecord();
-//            record.setCreateTime(new Date());
-//            record.setOrderId(order.getId());
-//            record.setPayTypeId(payType.getId());
-//            record.setStatusCode(1);
-//            record.setCreateTime(new Date());
-//            record = payRecordService.save(record);
-//
-//            String payRecordId = record.getId().toString();
-//            int recordLength = payRecordId.length();
-//            if (recordLength > 6) {
-//                payRecordId = payRecordId.substring(recordLength - 6);
-//            } else {
-//                payRecordId = leftPad(payRecordId, 6, "0");
+    @RequestMapping(value = "/dopay/{orderId}")
+    public String payOrder(@PathVariable Long orderId, ModelMap map,
+            HttpServletRequest req) {
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+            return "redirect:/touch/login";
+        }
+
+        tdCommonService.setHeader(map, req);
+
+        if (null == orderId) {
+            return "/touch/error_404";
+        }
+
+        TdOrder order = tdOrderService.findOne(orderId);
+
+        if (null == order) {
+            return "/touch/error_404";
+        }
+
+        // 根据订单类型来判断支付时间是否过期
+//        if (order.getTypeId().equals(3L)) { // 抢拍 订单提交后30分钟内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            // System.out.println(temp);
+//            if (temp > 1000 * 60 * 30) {
+//                return "/touch/overtime";
 //            }
-//            req.setAttribute("payRecordId", payRecordId);
-//
-//            req.setAttribute("orderNumber", order.getOrderNumber());
-//
-//            String payCode = payType.getCode();
-//            if (PAYMENT_ALI.equals(payCode)) {
-//            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
-//                payForm = payChannelAlipay.getPayFormData(req);
-//                map.addAttribute("charset", AlipayConfig.CHARSET);
-//            } else if (PAYMENT_WX.equals(payCode)) {
-//                map.addAttribute("order_number", order.getOrderNumber());
-//                map.addAttribute("total_price", order.getTotalPrice());
-//
-//                String sa = "appid=" + Configure.getAppid() + "&mch_id="
-//                        + Configure.getMchid() + "&nonce_str="
-//                        + RandomStringGenerator.getRandomStringByLength(32)
-//                        + "&product_id=" + order.getId() + "&time_stamp="
-//                        + System.currentTimeMillis() / 1000;
-//
-//                String sign = MD5.MD5Encode(
-//                        sa + "&key=192006250b4c09247ec02edce69f6acy")
-//                        .toUpperCase();
-//
-//                System.out.print("Sharon: weixin://wxpay/bizpayurl?" + sa
-//                        + "&sign=" + sign + "\n");
-//
-//                req.getSession().setAttribute("WXPAYURLSESSEION",
-//                        "weixin://wxpay/bizpayurl?" + sa + "&sign=" + sign);
-//                // "weixin://wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D");
-//                return "/touch/order_pay_wx";
-////            } 
-////            else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
-////                    payCode)) {
-////                req.setAttribute("payMethod", payCode);
-////                payForm = payChannelCEB.getPayFormData(req);
-////                map.addAttribute("charset", "GBK");
-//            } else {
-//                // 其他目前未实现的支付方式
-//                return "/touch/error_404";
+//        } else if (order.getTypeId().equals(4L) || order.getTypeId().equals(5L)) { // 团购
+//                                                                                   // 
+//            Date cur = new Date();
+//            long temp = 0L;
+//           
+//            TdGoods tdGoods = tdGoodsService.findOne(order.getOrderGoodsList().get(0).getGoodsId());
+//            if (null != tdGoods) {
+//				if (order.getTypeId().equals(4L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleStopTime().getTime();
+//				}else if (order.getTypeId().equals(5L)) {
+//					temp = cur.getTime() - tdGoods.getGroupSaleHundredStopTime().getTime();
+//				}
+//				if (temp > 0) {
+//                    return "/client/overtime";
+//                }
+//			}
+//        } else { // 普通 订单提交后24小时内
+//            Date cur = new Date();
+//            long temp = cur.getTime() - order.getOrderTime().getTime();
+//            if (temp > 1000 * 3600 * 24) {
+//                return "/touch/overtime";
 //            }
-//        } else {
-//            return "/touch/error_404";
 //        }
-//
-//        order.setPayTime(new Date());
-//
-//        tdOrderService.save(order);
-//
-//        map.addAttribute("payForm", payForm);
-//
-//        return "/touch/order_pay_form";
-//    }
+
+        // 待付款
+        if (!order.getStatusId().equals(2L)) {
+            return "/touch/error_404";
+        }
+
+        String amount = order.getTotalPrice().toString();
+        req.setAttribute("totalPrice", amount);
+
+        String payForm = "";
+
+        Long payId = order.getPayTypeId();
+        TdPayType payType = tdPayTypeService.findOne(payId);
+        if (payType != null) {
+            TdPayRecord record = new TdPayRecord();
+            record.setCreateTime(new Date());
+            record.setOrderId(order.getId());
+            record.setPayTypeId(payType.getId());
+            record.setStatusCode(1);
+            record.setCreateTime(new Date());
+            record = payRecordService.save(record);
+
+            String payRecordId = record.getId().toString();
+            int recordLength = payRecordId.length();
+            if (recordLength > 6) {
+                payRecordId = payRecordId.substring(recordLength - 6);
+            } else {
+                payRecordId = leftPad(payRecordId, 6, "0");
+            }
+            req.setAttribute("payRecordId", payRecordId);
+
+            req.setAttribute("orderNumber", order.getOrderNumber());
+
+            String payCode = payType.getCode();
+            if (PAYMENT_ALI.equals(payCode)) {
+            	PaymentChannelAlipay payChannelAlipay = new PaymentChannelAlipay();
+                payForm = payChannelAlipay.getPayFormData(req);
+                map.addAttribute("charset", AlipayConfig.CHARSET);
+            } 
+//            } 
+//            else if (CEBPayConfig.INTER_B2C_BANK_CONFIG.keySet().contains(
+//                    payCode)) {
+//                req.setAttribute("payMethod", payCode);
+//                payForm = payChannelCEB.getPayFormData(req);
+//                map.addAttribute("charset", "GBK");
+            else {
+                // 其他目前未实现的支付方式
+                return "/touch/error_404";
+            }
+        } else {
+            return "/touch/error_404";
+        }
+
+        order.setPayTime(new Date());
+
+        tdOrderService.save(order);
+
+        map.addAttribute("payForm", payForm);
+
+        return "/touch/order_pay_form";
+    }
     
     @RequestMapping(value = "/pay/notify")
     public String payNotify(ModelMap map, HttpServletRequest req) {

@@ -144,6 +144,23 @@
   </section>
   
   <section class="index_part">
+  
+     <table class="index_list">
+      <tbody><tr>
+        <td>
+                  <a href="http://www.huizhidian.com/touch/list/7">
+                    <p class="ta-c"><img src="/touch/images/www.png" ></p>
+                  </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+                  <a href="http://www.huizhidian.com/touch/list/17">
+                    <p class="ta-l"><img src="/touch/images/wwe.png" ></p>
+                  </a>
+        </td>
+      </tr>
+    </tbody></table>
     <h3 class="index_tit">
       <b></b>
       商品推荐
@@ -187,6 +204,23 @@
   
   
     <section class="index_part">
+    
+    <table class="index_list">
+      <tbody><tr>
+        <td>
+                  <a href="http://www.huizhidian.com/touch/list/1">
+                    <p class="ta-c"><img src="/touch/images/wwb.png" ></p>
+                  </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+                  <a href="http://www.huizhidian.com/touch/list/6">
+                    <p class="ta-l"><img src="/touch/images/wwc.png" ></p>
+                  </a>
+        </td>
+      </tr>
+    </tbody></table>
     <h3 class="index_tit">
       <b></b>
       <span class="fl">热卖排行</span>

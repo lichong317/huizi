@@ -211,7 +211,7 @@ public class TdTouchUserController {
 	}
     
     @RequestMapping(value = "/user/center/qrcode", method = RequestMethod.GET)
-   	public String getqrcode( HttpServletRequest req,String username, ModelMap map) {
+   	public String getqrcode( HttpServletRequest req,String username, ModelMap map, Integer app) {
 //   		String username = (String) req.getSession().getAttribute("username");
 //   		if (null == username) {
 //   			return "redirect:/touch/login";
@@ -251,10 +251,15 @@ public class TdTouchUserController {
 		}
    	
    		//判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+   		if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
+        
    		
    		return "/touch/user_qrcode";
 
@@ -263,7 +268,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/redenvelope/list")
     public String redenvelopeList( Integer statusId, 
                         Integer page, String username,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -305,9 +310,13 @@ public class TdTouchUserController {
         map.addAttribute("redenvelope_page", redenvelopePage);       
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_redenvelope_list";
@@ -315,7 +324,7 @@ public class TdTouchUserController {
     
     @RequestMapping(value = "/user/redenvelope/edit")
     public String redenvelopeList( Long redenvelopeId,                         
-                        HttpServletRequest req, String username,
+                        HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -341,9 +350,13 @@ public class TdTouchUserController {
         map.addAttribute("tdRedEnvelope", tdRedEnvelope);
            
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_redenvelope_edit";
@@ -471,7 +484,7 @@ public class TdTouchUserController {
                         String keywords,
                         Integer timeId,
                         HttpServletRequest req, 
-                        String username,
+                        String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -540,9 +553,13 @@ public class TdTouchUserController {
         map.addAttribute("order_page", orderPage);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_order_list";
@@ -555,7 +572,7 @@ public class TdTouchUserController {
                         Integer page,
                         String keywords,
                         Integer timeId, String username,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -613,9 +630,13 @@ public class TdTouchUserController {
         map.addAttribute("order_page", orderPage);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_order_list_more";
@@ -670,7 +691,7 @@ public class TdTouchUserController {
     public String returnList(HttpServletRequest req, 
     					Integer timeId,
                         Integer page,
-                        String keywords, String username,
+                        String keywords, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -692,7 +713,7 @@ public class TdTouchUserController {
             page = 0;
         }
        
-  TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", tdUser);
         map.addAttribute("time_id", timeId);
@@ -713,9 +734,13 @@ public class TdTouchUserController {
         map.addAttribute("keywords", keywords);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_return_list";
@@ -730,7 +755,7 @@ public class TdTouchUserController {
      */
     @RequestMapping(value = "/user/cancel/list")
     public String orderList( Integer page,
-                        HttpServletRequest req, String username,
+                        HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -812,9 +837,13 @@ public class TdTouchUserController {
         map.addAttribute("cancel_page", cancelPage);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_cancel_list";
@@ -822,7 +851,7 @@ public class TdTouchUserController {
     
     @RequestMapping(value = "/user/cancel")
     public String cancel(Long id,
-                        HttpServletRequest req, String username,
+                        HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -844,9 +873,13 @@ public class TdTouchUserController {
         }
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_cancel_detail";
@@ -862,7 +895,7 @@ public class TdTouchUserController {
      */
     @RequestMapping(value = "/user/cancel/edit")
     public String cancelEdit(Long id, 
-                        HttpServletRequest req, String username,
+                        HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -937,9 +970,13 @@ public class TdTouchUserController {
 	        if (1L == statusId||2L == statusId||3L == statusId)
 	        {
 	        	//判断是否为app链接
-	            Integer isApp = (Integer) req.getSession().getAttribute("app");
-	            if (null != isApp) {
-	            	map.addAttribute("app", isApp);
+	        	if (null == app) {
+	       			Integer isApp = (Integer) req.getSession().getAttribute("app");
+	       	        if (null != isApp) {
+	       	        	map.addAttribute("app", isApp);
+	       			}
+	    		}else {
+	    			map.addAttribute("app", app);
 	    		}
 	        	
 	        	map.addAttribute("orderId", id);
@@ -1157,7 +1194,7 @@ public class TdTouchUserController {
     
     @RequestMapping(value = "/user/order")
     public String order(Long id,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         if (null == username)
@@ -1177,9 +1214,13 @@ public class TdTouchUserController {
         }
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_order_detail";
@@ -1188,7 +1229,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/collect/list")
     public String collectList(HttpServletRequest req, 
                         Integer page,
-                        String keywords, String username,
+                        String keywords, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -1278,9 +1319,13 @@ public class TdTouchUserController {
         map.addAttribute("keywords", keywords);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_collect_list";
@@ -1372,7 +1417,7 @@ public class TdTouchUserController {
     public String recentList(HttpServletRequest req, 
     					Long categoryId,
                         Integer page,
-                        String keywords,
+                        String keywords, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -1426,9 +1471,13 @@ public class TdTouchUserController {
         map.addAttribute("keywords", keywords);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_recent_list";
@@ -1468,7 +1517,7 @@ public class TdTouchUserController {
     
     //listId 0-全部，1-未使用，2-已使用，3-已过期 
     @RequestMapping(value = "/user/coupon/list/{listId}")
-    public String couponList(HttpServletRequest req, Integer page,@PathVariable Integer listId, String username,
+    public String couponList(HttpServletRequest req, Integer page,@PathVariable Integer listId, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -1583,9 +1632,13 @@ public class TdTouchUserController {
         map.addAttribute("coupan_list", coupanList);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_coupon_list";
@@ -1596,7 +1649,7 @@ public class TdTouchUserController {
      * @zhangji
      */
     @RequestMapping(value = "/user/coupon/del")
-    public String couponDel(HttpServletRequest req, Integer listId,Long id,
+    public String couponDel(HttpServletRequest req, Integer listId,Long id, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -1653,16 +1706,20 @@ public class TdTouchUserController {
         map.addAttribute("coupan_list", coupanList);
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_coupon_list_detail";
     }
         
     @RequestMapping(value = "/user/point/list")
-    public String pointList(HttpServletRequest req, Integer page, String username,
+    public String pointList(HttpServletRequest req, Integer page, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -1743,9 +1800,13 @@ public class TdTouchUserController {
         map.addAttribute("point_page", pointPage);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_point_list";
@@ -1755,7 +1816,7 @@ public class TdTouchUserController {
     public String userReturn(HttpServletRequest req, 
                         @PathVariable Long orderId,
                         Long id, // 商品ID
-                        String method,
+                        String method, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -1826,9 +1887,13 @@ public class TdTouchUserController {
         map.addAttribute("telephone", tdUser.getMobile());
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         if (null != orderId)
@@ -2028,20 +2093,24 @@ public class TdTouchUserController {
         return res;
     }
     @RequestMapping(value = "/user/comment/sec")
-    public String commentSec(HttpServletRequest req, Long commentId,
+    public String commentSec(HttpServletRequest req, Long commentId, Integer app,
             ModelMap map) {
     	
     	//判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+    	if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
     	
         return "/touch/comment_sec";
     }
     
     @RequestMapping(value = "/user/comment/edit")
-    public String commentedit(Long goodsId, Long orderId,
+    public String commentedit(Long goodsId, Long orderId, Integer app,
     		                  HttpServletRequest req, ModelMap map){
     	String username = (String) req.getSession().getAttribute("username");
         
@@ -2069,16 +2138,20 @@ public class TdTouchUserController {
         }
         
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_comment_edit";
     }
     
     @RequestMapping(value = "/user/comment/list")
-    public String commentList(HttpServletRequest req, Integer page,
+    public String commentList(HttpServletRequest req, Integer page, Integer app,
             Integer statusId, // 0表示未评价, 1表示已评价
             String keywords,
             ModelMap map) {
@@ -2172,9 +2245,13 @@ public class TdTouchUserController {
         map.addAttribute("statusId", statusId);
 
         //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_comment_list";
@@ -2255,7 +2332,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/consult/list")
     public String consultList(HttpServletRequest req, 
                         Integer page,
-                        String keywords,
+                        String keywords, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2290,9 +2367,13 @@ public class TdTouchUserController {
         map.addAttribute("keywords", keywords);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_consult_list";
@@ -2305,7 +2386,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/complain/list")
     public String complainList(HttpServletRequest req, 
                         Integer page,
-                        String keywords,
+                        String keywords, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2393,9 +2474,13 @@ public class TdTouchUserController {
         map.addAttribute("keywords", keywords);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_complain_list";
@@ -2510,7 +2595,7 @@ public class TdTouchUserController {
     public String address(HttpServletRequest req, 
                         @PathVariable String method,
                         Long id,
-                        TdShippingAddress tdShippingAddress,
+                        TdShippingAddress tdShippingAddress, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2584,9 +2669,13 @@ public class TdTouchUserController {
         }
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_address_list";
@@ -2594,7 +2683,7 @@ public class TdTouchUserController {
     
     @RequestMapping(value = "/user/distributor/return")
     public String distributorReturnList(HttpServletRequest req, 
-                        Integer page,
+                        Integer page, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2616,16 +2705,20 @@ public class TdTouchUserController {
         map.addAttribute("reward_page", tdUserCashRewardService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_distributor_return";
     }
     
     @RequestMapping(value = "/user/distributor/lower")
-    public String distributorLowerList(HttpServletRequest req, 
+    public String distributorLowerList(HttpServletRequest req, Integer app,
                         Integer page,
                         ModelMap map){
         
@@ -2649,16 +2742,20 @@ public class TdTouchUserController {
         map.addAttribute("lower_page", tdUserService.findByUpperUsernameAndIsEnabled(username, page, ClientConstant.pageSize));
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_distributor_lower";
     }
     
     @RequestMapping(value = "/user/distributor/bankcard")
-    public String distributorLowerList(HttpServletRequest req,
+    public String distributorLowerList(HttpServletRequest req, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2674,9 +2771,13 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_distributor_bankcard";
@@ -2693,7 +2794,7 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/distributor/goods")
     public String distributorGoodsList(HttpServletRequest req, 
                         String keywords,
-                        Integer page,
+                        Integer page, Integer app,
                         ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
@@ -2722,17 +2823,21 @@ public class TdTouchUserController {
             map.addAttribute("goods_page", tdGoodsService.findByReturnPriceNotZeroAndSearchAndIsOnSaleTrue(page, ClientConstant.pageSize, keywords));
         }
         
-      //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        //判断是否为app链接
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_distributor_goods";
     }
     
     @RequestMapping(value = "/user/info", method=RequestMethod.GET)
-    public String userInfo(HttpServletRequest req, String username,
+    public String userInfo(HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -2751,9 +2856,13 @@ public class TdTouchUserController {
         map.addAttribute("recommend_goods_page", tdGoodsService.findByIsRecommendTypeTrueAndIsOnSaleTrueOrderByIdDesc(0, ClientConstant.pageSize));
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_info";
@@ -2795,7 +2904,7 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/password", method=RequestMethod.GET)
-    public String userPassword(HttpServletRequest req, String username,
+    public String userPassword(HttpServletRequest req, String username, Integer app,
                         ModelMap map){
     	if (null == username) {
     		username = (String) req.getSession().getAttribute("username");
@@ -2812,9 +2921,13 @@ public class TdTouchUserController {
         map.addAttribute("user", user);
         
       //判断是否为app链接
-        Integer isApp = (Integer) req.getSession().getAttribute("app");
-        if (null != isApp) {
-        	map.addAttribute("app", isApp);
+        if (null == app) {
+   			Integer isApp = (Integer) req.getSession().getAttribute("app");
+   	        if (null != isApp) {
+   	        	map.addAttribute("app", isApp);
+   			}
+		}else {
+			map.addAttribute("app", app);
 		}
         
         return "/touch/user_change_password";
