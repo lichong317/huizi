@@ -514,6 +514,14 @@ function del_goods_comb(obj) {
                 </div>
             </dd>
         </dl>
+        
+        <dl>
+            <dt>详细参数</dt>
+            <dd>
+                <textarea name="paramDetail" class="editor"><#if goods??>${goods.paramDetail!""}</#if></textarea>
+            </dd>
+        </dl>
+        
         <dl>
             <dt>详细描述</dt>
             <dd>

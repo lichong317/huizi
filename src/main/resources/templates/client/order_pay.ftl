@@ -49,10 +49,25 @@
         <p> 支付方式：${order.payTypeTitle!''}</p>
         <#if order.totalPrice == 0>
             <p>订单金额￥${order.totalPrice?string('0.00')} <span style="color:red">无须支付</span></p>
-            <p>您可以 <a class="blue" href="/user/order/list/0">查看订单</a></p>
+            <p>您可以 <a class="blue" href="/user/order/list/0" style="
+                background: #46a6d6;
+                color: #FFF;
+                padding: 3px 17px;
+                border-radius: 5px;
+                margin-left: 15px;
+            ">查看订单</a></p>
         <#else>
-            <p>应付金额￥${order.totalPrice?string('0.00')} <a class="blue" href="/order/dopay/${order.id?c}">点击支付</a></p>
-            <p>您可以 <a class="blue" href="/user/order/list/0">查看订单</a></p>
+            <p>应付金额￥${order.totalPrice?string('0.00')} <a class="blue" href="/order/dopay/${order.id?c}" style="background: #ff4454;color: #FFF;text-align: center;padding: 3px 17px;
+                border-radius: 5px;
+                margin-left: 18px;
+            ">点击支付</a></p>
+            <p>您可以 <a class="blue" href="/user/order/list/0" style="
+                background: #46a6d6;
+                color: #FFF;
+                padding: 3px 17px;
+                border-radius: 5px;
+                margin-left: 8px;
+            ">查看订单</a></p>
         </#if>
     </div>
   

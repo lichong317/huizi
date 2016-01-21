@@ -15,6 +15,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import scala.annotation.meta.param;
+
 /**
  * 商品信息表
  * 
@@ -83,6 +85,10 @@ public class TdGoods {
     // 配送区域
     @Column
     private String deliveryArea;
+    
+    // 详细参数
+    @Column
+    private String paramDetail;
     
     // 商品详情
     @Column
@@ -383,6 +389,14 @@ public class TdGoods {
 
 	public void setPostage(Double postage) {
 		this.postage = postage;
+	}
+
+	public String getParamDetail() {
+		return paramDetail;
+	}
+
+	public void setParamDetail(String paramDetail) {
+		this.paramDetail = paramDetail;
 	}
 
 	public Long getId() {

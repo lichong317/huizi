@@ -7,11 +7,37 @@
 <script type="text/javascript" src="/mag/js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript" src="/mag/js/lhgdialog.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
+<script src="/touch/js/jquery.swipebox.min.js"></script>
+<script src="/client/js/ljs-v1.01.js"></script>
+
+<link rel="stylesheet" href="/touch/css/swipebox.css">
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
     $(function () {
         //初始化表单验证
         $("#form1").initValidform();
+               
+    });
+
+    $(document).ready(function(){ 
+         var the_one = {
+              "boxid":"onebox", //最外层id
+              "sumid":"onesum", //包裹列表的id
+              "stylename":"onepart",//内部滚动的标签class
+              "boxwidth":60,//外层宽
+              "boxheight":60,//外层高
+              "objwidth":60,//单个个体宽度
+              "objheight":60,//单个个体高度
+              "autogo":true,//是否开启自动滚动
+              "gospeed":2000,//滚动速度
+              "speed":200, // 滚动间隔速度
+              "leftid":"oneleft",//左箭头id
+              "rightid":"oneright"//右箭头id
+            };//the_one END
+            $.ljs_gundong.oneLeft(the_one);
+    });   
+    jQuery(function($) {
+           $(".swipebox").swipebox();
     });
 </script>
 </head>
@@ -71,6 +97,18 @@
   <dl>
     <dt>评论时间</dt>
     <dd><#if user_comment??>${user_comment.commentTime!""}</#if></dd>
+  </dl>
+  <dl>
+     <dt>评论图片</dt>
+  <#if user_comment.showPictures??>
+                  <#list user_comment.showPictures?split(",") as uri>
+                         <#if ""!=uri>
+                               <a href="${uri}" class="swipebox" title="My Caption">
+                                    <img src="${uri}" width="80px;" height="80px;" alt="image">
+                               </a>
+                         </#if>
+                </#list>
+  </#if>
   </dl>
   <dl>
     <dt>审核状态</dt>

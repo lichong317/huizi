@@ -465,7 +465,7 @@ div {
                 <tr><td><a style="text-decoration:none" href="/weixin/login"><i class="weixin"></i>&nbsp;&nbsp;微信</a></td>
                     <td><a style="text-decoration:none" href="/qq/login"><i class="qq"></i>&nbsp;&nbsp;QQ</a></td>
                     <!-- <td><a style="text-decoration:none" href="user.php?act=oath&type=weibo"><i class="sina"></i>&nbsp;&nbsp;新浪</a></td> -->
-                    <td><a style="text-decoration:none" href="/login/alipay_login"><i class="alipay"></i>&nbsp;&nbsp;支付宝</a></td> 
+                    <#--><td><a style="text-decoration:none" href="/login/alipay_login"><i class="alipay"></i>&nbsp;&nbsp;支付宝</a></td> -->
                   </tr>
                 </tbody></table>
              </div>

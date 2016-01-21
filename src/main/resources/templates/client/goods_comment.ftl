@@ -1,3 +1,29 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+<#if comment_page??>
+<#list comment_page.content as item>
+    <#if item.showPictures??>
+    var the_one${item_index} = {
+          "boxid":"onebox${item_index}", //最外层id
+          "sumid":"onesum${item_index}", //包裹列表的id
+          "stylename":"onepart",//内部滚动的标签class
+          "boxwidth":60,//外层宽
+          "boxheight":60,//外层高
+          "objwidth":60,//单个个体宽度
+          "objheight":60,//单个个体高度
+          "autogo":true,//是否开启自动滚动
+          "gospeed":2000,//滚动速度
+          "speed":200, // 滚动间隔速度
+          "leftid":"oneleft",//左箭头id
+          "rightid":"oneright"//右箭头id
+        };//the_one END
+        $.ljs_gundong.oneLeft(the_one${item_index});
+        </#if>
+</#list>
+</#if>
+});
+</script>
 <div id="comment-list"> 
     <menu class="pro_eval w100">
         <h3 class="tit">
@@ -9,13 +35,30 @@
         
         <#if comment_page??>
             <#list comment_page.content as item>
-            <li>
-                <a class="a1" href="javascript:;"><img src="${item.userHeadUri!''}" width="85" height="85"/><p class="userName">${item.username!''}</p></a>
-                <p class="pb10">${item.content!''}</p>
+            <script type="text/javascript">
+                jQuery(function($) {
+                    $(".swipebox${item_index}").swipebox();
+                });
+            </script>
+            <li style="padding: 20px 1px 15px 13%;width: 87%;">
+                <a class="a1" href="javascript:;" style="width: 90px;"><img src="${item.userHeadUri!''}" width="85" height="85"/><p class="userName">${item.username!''}</p></a>
+                <p class="pb10" style="height: 51px;overflow: hidden;">${item.content!''}</p>
                 <#if item.isReplied?? && item.isReplied>
-                    <p class="ta-r red pt10">商家回复：${item.reply!''}</p>
+                    <p class="ta-r red pt10" style="text-align: left;padding-top: 3px;">商家回复：${item.reply!''}</p>
                 </#if>
-                <span class="c9 ml20">${item.commentTime?string("yyyy-MM-dd")}</span>
+                <p class="c9 ml20" style="text-align: right;">${item.commentTime?string("yyyy-MM-dd")}</p>
+                
+                <#if item.showPictures??>
+                  <#list item.showPictures?split(",") as uri>
+                         <#if ""!=uri>
+
+                               <a href="${uri}" class="swipebox${item_index}" title="My Caption">
+                                    <img src="${uri}" width="80px;" height="80px;" alt="image">
+                               </a>
+                         
+                         </#if>
+                </#list>
+            </#if>
             </li>
             </#list>
         </#if>      

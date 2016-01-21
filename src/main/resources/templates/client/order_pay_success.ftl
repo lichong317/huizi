@@ -37,18 +37,22 @@
 </head>
 <body>
 <#include "/client/common_header.ftl" />
-  <div class="main">
+  <div class="main" style="line-height: 40px;font-size: 14px;text-align: center;padding: 90px 0 0 0;">
     <#if order??>
-    <h3>订单号:<a href="/user/order?id=${order.id?c}" style="color: #ff4454;">${order.orderNumber!''}</a></h3>
-    <h3>支付金额:${order.totalPrice?string('0.00')}</h3>
-    <h3>支付方式:${order.payTypeTitle!''}</h3>
+    <h3 style=" font-weight: normal;">订单号:<a href="/user/order?id=${order.id?c}" style="color: #FFF;background: #ff4454;padding: 3px 17px;border-radius: 15px;margin-left: 36px;">${order.orderNumber!''}</a><span style="
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 15px;
+">点击此订单账号,可查看此订单详情</span></h3>
+    <h3 style=" font-weight: normal;">支付金额:${order.totalPrice?string('0.00')}</h3>
+    <h3 style=" font-weight: normal;">支付方式:${order.payTypeTitle!''}</h3>
     </#if>
-    <h3>订单状态</h3>
+    <h3 style=" font-weight: normal;">订单状态</h3>
     <div class="clear h20"></div>
     <div id="trans-status">
-        <div class="notice-title status-success">
+        <div class="notice-title status-success" style="background: none;border: none;">
             <img class="notice-icon" title="付款成功" src="/client/img/transsucc.png"></img>
-            <span class="notice-content">付款成功！</span>
+            <span class="notice-content" style="position: relative;">付款成功！</span>
         </div>
     </div>
     <div class="clear h40"></div>

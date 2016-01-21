@@ -17,6 +17,10 @@
 <script src="/client/js/goods.js"></script>
 <script src="/client/js/goods_comment_consult.js"></script>
 
+<script src="/touch/js/jquery.swipebox.min.js"></script>
+
+<link rel="stylesheet" href="/touch/css/swipebox.css">
+
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
@@ -726,7 +730,7 @@ function checkTime(i)
     </div>
         
     <div id="tab1" class="php_z" style="display:none;">
-        <table class="detail_tab">
+ <#--       <table class="detail_tab">
             <#if goods.paramList??>
                 <#list goods.paramList as param>
                     <#if param_index % 3 == 0 >
@@ -742,7 +746,8 @@ function checkTime(i)
                     </#if>
                 </#list>
             </#if>
-        </table>
+        </table> -->
+        ${goods.paramDetail!''}
     </div>
     
     <div id="tab2" class="php_z" style="display:none;">

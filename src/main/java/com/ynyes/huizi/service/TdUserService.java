@@ -447,7 +447,9 @@ public class TdUserService {
      */
     public TdUser save(TdUser e)
     {
-        
+        if (null == e.getTotalPoints()) {
+			e.setTotalPoints(0L);
+		}
         if (null != e.getUserLevelId())
         {
             TdUserLevel level = tdUserLevelService.findByLevelIdAndIsEnableTrue(e.getUserLevelId());

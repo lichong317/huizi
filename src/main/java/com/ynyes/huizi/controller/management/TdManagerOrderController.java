@@ -693,6 +693,8 @@ public class TdManagerOrderController {
                     order.setStatusId(3L);
                     order.setPayTime(new Date());
                     
+                    //返现
+                    
                     TdUser tdUser = tdUserService.findByUsername(order.getUsername());
                     if (null != tdUser && null != tdUser.getUpperUsername()) {
                     	
@@ -742,9 +744,29 @@ public class TdManagerOrderController {
 						}else {
 							tdUser.setTotalCashRewardsToUpuser((long) (order.getTotalPrice()*tdSetting.getReturnRation()));
 						}
+                    	
+                    	tdUserService.save(tdUser);
 					}
                     
-                    
+                    // 虚拟货币扣除
+                    if (null != order.getVirtualCurrencyUse()) {
+            			if (null != tdUser.getRoleId()) {
+            				if (tdUser.getRoleId().equals(1L) && null != tdUser.getTotalCashRewards()) {
+            					if (tdUser.getTotalCashRewards() > order.getVirtualCurrencyUse()) {
+            						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - order.getVirtualCurrencyUse()));
+            					}else {
+            						tdUser.setTotalCashRewards(0L);
+            					}
+            				}else if (tdUser.getRoleId().equals(2L) && null != tdUser.getVirtualCurrency()) {
+            					if (tdUser.getVirtualCurrency() > order.getVirtualCurrencyUse()) {
+            						tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - order.getVirtualCurrencyUse());
+            					}else {
+            						tdUser.setVirtualCurrency(0.0);
+            					}
+            				}
+            				tdUserService.save(tdUser);
+            			}
+            		}
                    
                 }
             }

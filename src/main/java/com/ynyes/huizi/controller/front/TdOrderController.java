@@ -53,6 +53,7 @@ import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.service.TdCartGoodsService;
 import com.ynyes.huizi.service.TdCommonService;
@@ -68,6 +69,7 @@ import com.ynyes.huizi.service.TdPayTypeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdShippingAddressService;
+import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
@@ -132,6 +134,8 @@ public class TdOrderController extends AbstractPaytypeController{
     @Autowired
     private TdPayRecordService tdPayRecordService;
     
+    @Autowired
+    TdUserCashRewardService tdUserCashRewardService;
 //    @Autowired
 //    private PaymentChannelAlipay payChannelAlipay;
     
@@ -1113,9 +1117,10 @@ public class TdOrderController extends AbstractPaytypeController{
                 TdCoupon coupon = tdCouponService.findOne(couponId);
 
                 if (null != coupon) {
+                	
                     TdCouponType couponType = tdCouponTypeService
                             .findOne(coupon.getId());
-
+                    tdOrder.setCouponUse(couponType.getPrice());
                     couponFee = couponType.getPrice();
                     coupon.setIsUsed(true);
                     tdCouponService.save(coupon);
@@ -1163,6 +1168,12 @@ public class TdOrderController extends AbstractPaytypeController{
             tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
         }
 
+        if(tdOrder.getTotalPrice() < 0){
+        	tdOrder.setTotalPrice(0.0);
+        }
+        
+        // 虚拟币使用
+        tdOrder.setVirtualCurrencyUse(virtualCurrency);
 //    	// 总价
 //        
 //        tdOrder.setTotalPrice(totalGoodsPrice + payTypeFee + deliveryTypeFee + totalPostage);
@@ -2475,13 +2486,32 @@ public class TdOrderController extends AbstractPaytypeController{
         tdOrder = tdOrderService.save(tdOrder);       
 
         // 虚拟货币扣除
-        if (null != tdOrder.getVirtualCurrencyUse() && null != tdUser.getVirtualCurrency()) {
-        	if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
-				tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
-			}else {
-				tdUser.setVirtualCurrency(0.0);
+//        if (null != tdOrder.getVirtualCurrencyUse() && null != tdUser.getVirtualCurrency()) {
+//        	if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+//				tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
+//			}else {
+//				tdUser.setVirtualCurrency(0.0);
+//			}
+//        	tdUserService.save(tdUser);
+//		}
+        // 虚拟货币扣除
+        if (null != tdOrder.getVirtualCurrencyUse()) {
+			if (null != tdUser.getRoleId()) {
+				if (tdUser.getRoleId().equals(1L) && null != tdUser.getTotalCashRewards()) {
+					if (tdUser.getTotalCashRewards() > tdOrder.getVirtualCurrencyUse()) {
+						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdOrder.getVirtualCurrencyUse()));
+					}else {
+						tdUser.setTotalCashRewards(0L);
+					}
+				}else if (tdUser.getRoleId().equals(2L) && null != tdUser.getVirtualCurrency()) {
+					if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+						tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
+					}else {
+						tdUser.setVirtualCurrency(0.0);
+					}
+				}
+				tdUserService.save(tdUser);
 			}
-        	tdUserService.save(tdUser);
 		}
         
         // 分享用户
@@ -2490,6 +2520,33 @@ public class TdOrderController extends AbstractPaytypeController{
         if (null != tdUser.getUpperUsername()) {
 			TdSetting tdSetting = tdSettingService.findTopBy();
 			if (null != tdSetting && null != tdSetting.getReturnRation()) {
+				// 返现记录
+				TdUserCashReward tdUserCashReward = new TdUserCashReward();
+                
+                tdUserCashReward.setLowerUsername(tdOrder.getUsername());
+            	tdUserCashReward.setUsername(tdUser.getUpperUsername());
+            	tdUserCashReward.setRewardTime(new Date());
+            	tdUserCashReward.setCashReward(tdOrder.getTotalPrice()*tdSetting.getReturnRation());
+            	if (null != tdUser.getTotalCashRewards()) {
+            		tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards() + tdOrder.getTotalPrice()*tdSetting.getReturnRation()));
+				}else {
+					tdUserCashReward.setTotalCashReward((long) (tdOrder.getTotalPrice()*tdSetting.getReturnRation()));
+				}
+            	tdUserCashReward.setOrderNumber(tdOrder.getOrderNumber());
+            	
+            	if (null != tdUser.getBankTitle()) {
+					tdUserCashReward.setBankName(tdUser.getBankTitle());
+				}
+            	if (null != tdUser.getBankCardCode()) {
+					tdUserCashReward.setBankCardNumber(tdUser.getBankCardCode());
+				}
+            	
+            	tdUserCashReward.setOrderPrice(tdOrder.getTotalPrice());
+            	tdUserCashReward.setSortId(99L);
+            	
+            	tdUserCashRewardService.save(tdUserCashReward);
+				
+				
 				Double totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
 				
 				if (totalReturn < 0) {
@@ -2512,12 +2569,17 @@ public class TdOrderController extends AbstractPaytypeController{
 						upperuser.setTotalCashRewards((long) (totalReturn + 0L));
 					}
 				}
+				
+				tdUserService.save(upperuser);
+				
 				// 返现给上级用户总数
 				if (null != tdUser.getTotalCashRewardsToUpuser()) {
 					tdUser.setTotalCashRewardsToUpuser((long) (tdUser.getTotalCashRewardsToUpuser() + totalReturn));
 				}else {
 					tdUser.setTotalCashRewardsToUpuser((long) (totalReturn + 0L));
 				}
+				
+				tdUserService.save(tdUser);
 			}			
 		}
     }
