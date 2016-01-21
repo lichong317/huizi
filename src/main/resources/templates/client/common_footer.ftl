@@ -8,7 +8,7 @@
                         <#list service_item_list as item>
                             <#if item_index <4>
                             <td>
-                                <a href="javascript:;"><img src="${item.logo!''}" width="55" height="55"/>${item.title!''}<br>${item.description!''}</a>
+                                <a href="/info/content/22?mid=12"><img src="${item.logo!''}" width="55" height="55"/>${item.title!''}<br>${item.description!''}</a>
                             </td>
                             </#if>
                         </#list>

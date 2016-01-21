@@ -3,6 +3,7 @@ package com.ynyes.huizi.controller.management;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -356,6 +357,7 @@ public class TdManagerOrderController {
                                 @PathVariable Long statusId,
                                 Integer page, 
                                 Integer size,
+                                Integer timeId,
                                 String __EVENTTARGET,
                                 String __EVENTARGUMENT,
                                 String __VIEWSTATE,
@@ -402,24 +404,189 @@ public class TdManagerOrderController {
         {
             size = SiteMagConstant.pageSize;;
         }
+           
+        if (null == timeId) {
+			timeId = 0;
+		}
         
-        if (null != statusId)
-        {
+        if (timeId.equals(0)) {
+	        if (null != statusId)
+	        {
+	            if (statusId.equals(0L)) // 全部订单
+	            {  
+	            	if (null == keywords) {
+	            		map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
+					}else {
+						map.addAttribute("order_page", tdOrderService.searchAll(keywords, page, size));
+					}
+	                
+	            }
+	            else
+	            {
+	            	if (null == keywords) {
+	            		map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+					}else {
+						map.addAttribute("order_page", tdOrderService.searchByStatusId(keywords, statusId, page, size));
+					}
+	                
+	            }
+	        }
+        }
+        else if (timeId.equals(1)) {
+        	Date cur = new Date(); 
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+          //  calendar.add(Calendar.MONTH, -1);// 月份减一
+          //  calendar.add(Calendar.DAY_OF_MONTH, -1);
+            Date time = calendar.getTime();
+            time.setHours(0);
+            time.setMinutes(0); 
+            
             if (statusId.equals(0L)) // 全部订单
             {  
             	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
 				}else {
-					map.addAttribute("order_page", tdOrderService.searchAll(keywords, page, size));
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
 				}
                 
             }
             else
             {
             	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
 				}else {
-					map.addAttribute("order_page", tdOrderService.searchByStatusId(keywords, statusId, page, size));
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+				}
+                
+            }
+        }    
+        else if (timeId.equals(2)) {
+        	Date cur = new Date();
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+          //  calendar.add(Calendar.MONTH, -1);// 月份减一
+            calendar.add(Calendar.DAY_OF_MONTH, -7);
+            Date time = calendar.getTime(); 
+            if (statusId.equals(0L)) // 全部订单
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+				}
+                
+            }
+            else
+            {
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+				}
+                
+            }
+        } 
+        else if (timeId.equals(3)) {
+        	Date cur = new Date();
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+            calendar.add(Calendar.MONTH, -1);// 月份减一
+           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+            Date time = calendar.getTime();
+            if (statusId.equals(0L)) // 全部订单
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+				}
+                
+            }
+            else
+            {
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+				}
+                
+            }
+        }
+        else if (timeId.equals(4)) {
+        	Date cur = new Date();
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+            calendar.add(Calendar.MONTH, -3);// 月份减一
+           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+            Date time = calendar.getTime();
+            if (statusId.equals(0L)) // 全部订单
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+				}
+                
+            }
+            else
+            {
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+				}
+                
+            }
+        }    
+        else if (timeId.equals(6)) {
+        	Date cur = new Date();
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+            calendar.add(Calendar.MONTH, -6);// 月份减一
+           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+            Date time = calendar.getTime();
+            if (statusId.equals(0L)) // 全部订单
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+				}
+                
+            }
+            else
+            {
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+				}
+                
+            }
+        }
+        else if (timeId.equals(12)) {
+        	Date cur = new Date();
+            Calendar calendar = Calendar.getInstance();// 日历对象
+            calendar.setTime(cur);// 设置当前日期
+            calendar.add(Calendar.MONTH, -12);// 月份减一
+           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+            Date time = calendar.getTime();
+            if (statusId.equals(0L)) // 全部订单
+            {  
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+				}
+                
+            }
+            else
+            {
+            	if (null == keywords) {
+            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+				}else {
+					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
 				}
                 
             }
@@ -430,6 +597,7 @@ public class TdManagerOrderController {
         map.addAttribute("size", size);
         map.addAttribute("keywords", keywords);
         map.addAttribute("statusId", statusId);
+        map.addAttribute("time_id", timeId);
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);

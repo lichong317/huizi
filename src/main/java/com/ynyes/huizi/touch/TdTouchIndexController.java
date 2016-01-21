@@ -53,7 +53,7 @@ public class TdTouchIndexController {
 
         if (null != tdAdType) {
             map.addAttribute("banner_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }
         
         // 顶部广告1
@@ -61,7 +61,7 @@ public class TdTouchIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("top_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }                      
         
         // 热卖推荐商品
@@ -76,7 +76,7 @@ public class TdTouchIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("goodsRecommend_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }                 
         
         // 商品推荐广告位
@@ -85,7 +85,7 @@ public class TdTouchIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("goodsCategory_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         } 
         
         // 精选分类广告位
@@ -93,7 +93,7 @@ public class TdTouchIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("selection_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }   
         
         // app标志位

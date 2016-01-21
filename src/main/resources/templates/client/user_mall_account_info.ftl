@@ -84,7 +84,7 @@ function hideDialog()
                 <p><b style="color: #FF0000;">*</b> 开户行</p>
                 <input class="text" name="bankTitle" value="<#if user??>${user.bankTitle!''}</#if>" type="text" datatype="*" nullmsg="请输入开户行" />
                 <p><b style="color: #FF0000;">*</b> 银行卡号</p>
-                <input class="text" name="bankCardCode" value="<#if user??>${user.bankCardCode!''}</#if>" type="text" datatype="n" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
+                <input class="text" name="bankCardCode" value="<#if user??>${user.bankCardCode!''}</#if>" type="password" datatype="n" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
                 <p><b style="color: #FF0000;">*</b> 手机号</p>
                 <input class="text" name="mobile" value="<#if user??>${user.mobile!''}</#if>" type="text" datatype="m" nullmsg="请输入手机号" errormsg="请输入正确的手机号"/>
                          
@@ -113,10 +113,10 @@ function hideDialog()
                 </div>
                <#if user??> 
                     <p style="padding-top:10px">虚拟币余额:&nbsp;&nbsp;￥<b class="red"><#if user.virtualCurrency??>${user.virtualCurrency?string("0.00")}</#if></b></p>
-                    <p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.frozenCapital??>${user.frozenCapital?string("0.00")}</#if></b></p>
+                    <#--><p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.frozenCapital??>${user.frozenCapital?string("0.00")}</#if></b></p> -->
                     <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.virtualCurrency?? &&  user.frozenCapital??>${(user.virtualCurrency - user.frozenCapital)?string("0.00")}</#if></b></p>
                     <HR style="BORDER-RIGHT: 1px dashed; BORDER-TOP: 1px dashed; BORDER-LEFT: 1px dashed; WIDTH: 590px; BORDER-BOTTOM: 1px dashed" color=#ffffff SIZE=3 align=center>
-                    <p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;${user.bankCardCode!''}</p>           
+                    <p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if></p>           
                     <p style="padding-top:10px">默认开户行名称:&nbsp;&nbsp;${user.bankTitle!''}</p>
                     <a style="width:120px; margin:10px 20%; height:30px; text-align:center;padding-top:3px;
                               background:#13b5b1; color:#FFF; border-radius:20px; 

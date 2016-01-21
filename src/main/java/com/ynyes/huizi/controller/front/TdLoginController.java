@@ -101,7 +101,7 @@ public class TdLoginController {
         
         if (null != tdAdType) {
             map.addAttribute("login_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }
         
         if (null == username) 

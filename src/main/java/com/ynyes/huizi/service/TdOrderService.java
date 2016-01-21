@@ -100,6 +100,44 @@ public class TdOrderService {
      * @param ids
      * @return
      */
+    
+    /**
+   	 * @author lc
+   	 * @注释 按时间、订单类型和订单状态查询
+   	 */
+       public Page<TdOrder> findByTimeAfterOrderByIdDesc(Date time, int page, int size)
+       {
+           PageRequest pageRequest = new PageRequest(page, size);
+           
+           return repository.findByOrderTimeAfterOrderByIdDesc(time, pageRequest);
+       }
+       public List<TdOrder> findByTimeAfterOrderByIdDesc(Date time){
+       	return repository.findByOrderTimeAfterOrderByIdDesc(time);
+       }
+       
+       public Page<TdOrder> findByStatusIdAndTypeIdAndTimeAfterOrderByIdDesc(long statusId, long typeId, Date time, int page, int size){
+       	PageRequest pageRequest = new PageRequest(page, size);
+       	return repository.findByStatusIdAndTypeIdAndOrderTimeAfterOrderByIdDesc(statusId, typeId, time, pageRequest);
+       }
+       public List<TdOrder> findByStatusAndTypeIdAndTimeAfterOrderByIdDesc(long statusId, long typeId, Date time){
+       	return repository.findByStatusIdAndTypeIdAndOrderTimeAfterOrderByIdDesc(statusId, typeId, time);
+       }
+       public Page<TdOrder> findByStatusAndTimeAfterOrderByIdDesc(long StatusId, Date time, int page, int size){
+       	PageRequest pageRequest = new PageRequest(page, size);
+       	return repository.findByStatusIdAndOrderTimeAfterOrderByIdDesc(StatusId, time, pageRequest);
+       }
+       public List<TdOrder> findByStatusAndTimeAfterOrderByIdDesc(long StatusId, Date time){
+       	return repository.findByStatusIdAndOrderTimeAfterOrderByIdDesc(StatusId, time);
+       }
+       public Page<TdOrder> findBytypeIdAndTimeAfterOrderByIdDesc(long typeId, Date time, int page, int size){
+       	PageRequest pageRequest = new PageRequest(page, size);
+       	return repository.findBytypeIdAndOrderTimeAfterOrderByIdDesc(typeId, time, pageRequest);
+       }
+       public List<TdOrder> findBytypeIdAndTimeAfterOrderByIdDesc(long typeId, Date time){
+       	return repository.findBytypeIdAndOrderTimeAfterOrderByIdDesc(typeId, time);
+       }
+    
+    
     public List<TdOrder> findAll(Iterable<Long> ids)
     {
         return (List<TdOrder>) repository.findAll(ids);
@@ -288,6 +326,24 @@ public class TdOrderService {
     
     public Long countByStatusId(Long statusId){
     	return repository.countByStatusId(statusId);
+    }
+    
+    public Page<TdOrder> searchByOrderNumberAndTimeAfterOrderByIdDesc(String orderNumber,Date time, int page, int size)
+    {
+    	if(null == orderNumber){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
+        
+        return repository.findByOrderNumberContainingIgnoreCaseAndOrderTimeAfterOrUsernameContainingIgnoreCaseAndOrderTimeAfterOrPayTypeTitleContainingIgnoreCaseAndOrderTimeAfter(orderNumber, time, orderNumber, time, orderNumber, time, pageRequest);
+    }
+    
+    public Page<TdOrder> searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(String orderNumber,long StatusId, Date time, int page, int size){
+    	if(null == orderNumber){
+    		return null;
+    	}
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
+    	return repository.findByOrderNumberContainingIgnoreCaseAndStatusIdAndOrderTimeAfterOrUsernameContainingIgnoreCaseAndStatusIdAndOrderTimeAfterOrPayTypeTitleContainingIgnoreCaseAndStatusIdAndOrderTimeAfter(orderNumber,StatusId, time, orderNumber,StatusId, time, orderNumber,StatusId, time, pageRequest);
     }
     /**
      * 保存

@@ -88,7 +88,9 @@
                       <#if user?? && user.roleId?? && user.roleId == 1>
                       <li class="title">银行卡号：</li>
 	                      <li class="xxlr">
-	                        <input type="text" name="bankCardCode" datatype="n" class="xxinp" id="textfield" value="${user.bankCardCode!''}"/>
+	                        <input type="text" name="bankCardCode" datatype="n" class="xxinp" id="textfield" value="<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}
+	                                                                                                               <#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if> "/>
+
 	                        <span class="Validform_checktip">*银行卡号</span>
 	                      </li>
 	                  <li class="title">开户行：</li>
