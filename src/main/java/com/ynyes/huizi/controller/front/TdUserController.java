@@ -522,19 +522,41 @@ public class TdUserController {
     }
     
     @RequestMapping(value = "/user/withdraw/request",method = RequestMethod.POST)
-    public String cashreward(Double withdraw,String realName,
+    @ResponseBody
+    public  Map<String, Object> cashreward(Double withdraw,String realName,
     						 String bankTitle,String bankCardCode,
     						 String mobile,
                         HttpServletRequest req, 
                         ModelMap map){
+    	Map<String, Object> res = new HashMap<String, Object>();
+         
+        res.put("code", 1);
         String username = (String) req.getSession().getAttribute("username");
         
         if (null == username)
         {
-            return "redirect:/login";
+        	res.put("msg", "请重新登录！");
+            return res;
         }
         
-        tdCommonService.setHeader(map, req);
+        if (null == withdraw) {
+        	res.put("msg", "提交失败！");
+            return res;
+		}
+        
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMinWithdraw()) {
+        	if (withdraw < tdSetting.getMinWithdraw()) {
+        		res.put("msg", "提现金额必须大于"+ tdSetting.getMinWithdraw());
+                return res;
+    		}
+        	if (withdraw%100 != 0) {
+        		res.put("msg", "提现金额必须为100的整数倍");
+                return res;
+			}
+		}
+                
+//        tdCommonService.setHeader(map, req);
         TdUser tdUser = tdUserService.findByUsername(username);
         
         map.addAttribute("user", tdUser);
@@ -565,7 +587,9 @@ public class TdUserController {
 						tdUserWithdraw.setStatusId(0L);
 						tdUserWithdraw.setRoleId(1L);
 						tdUserWithdrawService.save(tdUserWithdraw);
-						return "redirect:/user/account/info";
+						
+						res.put("code", 0);
+						return res;
 //						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
 //						tdUserService.save(tdUser);
 					}
@@ -601,13 +625,14 @@ public class TdUserController {
 						tdUserWithdraw.setRoleId(2L);
 						tdUserWithdrawService.save(tdUserWithdraw);
 						
-						return "redirect:/user/mall/account/info";
+						res.put("code", 0);
+						return res;
 					}
 				}
 			}
 			
 		}
-        return "redirect:/user/account/info";
+        return res;
     }
     
     
@@ -2748,6 +2773,43 @@ public class TdUserController {
         return res;
     }
     
+    @RequestMapping(value = "/user/change/mobile", method=RequestMethod.GET)
+    public String userChangemobile(HttpServletRequest req,
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", user);
+        
+        return "/client/user_change_mobile";
+    }
+    
+    @RequestMapping(value = "/user/change/mobile", method=RequestMethod.POST)
+    public String userChangemobile1(HttpServletRequest req,String mobile, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", user);
+        
+        return "/client/user_change_mobile2";
+    }
     
     @ModelAttribute
     public void getModel(@RequestParam(value = "addressId", required = false) Long addressId,

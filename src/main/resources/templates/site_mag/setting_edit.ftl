@@ -352,7 +352,13 @@ $(function () {
                 <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例)</span>
             </dd>
         </dl>
-    
+     <dl>
+            <dt>充值奖励比例</dt>
+            <dd>
+                <input name="rechargeRation" type="text" value="<#if setting??>${setting.rechargeRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
+                <span class="Validform_checktip">填写小数(计算为充值总金额*比例)</span>
+            </dd>
+        </dl>
      <dl>
             <dt>满额免邮</dt>
             <dd>

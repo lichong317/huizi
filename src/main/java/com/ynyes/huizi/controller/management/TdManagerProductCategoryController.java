@@ -38,7 +38,7 @@ public class TdManagerProductCategoryController {
 
     @RequestMapping(value = "/list")
     public String categoryList(String __EVENTTARGET, String __EVENTARGUMENT,
-            String __VIEWSTATE, Long[] listId, Integer[] listChkId,
+            String __VIEWSTATE, Long[] listId, Integer[] listChkId, String keywords,
             Long[] listSortId, ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("manager");
         if (null == username) {
@@ -59,7 +59,12 @@ public class TdManagerProductCategoryController {
             }
         }
 
-        map.addAttribute("category_list", tdProductCategoryService.findAll());
+        if (null == keywords) {
+        	map.addAttribute("category_list", tdProductCategoryService.findAll());
+		}else {
+			map.addAttribute("category_list", tdProductCategoryService.findAll());
+		}
+        
 
         // 参数注回
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);

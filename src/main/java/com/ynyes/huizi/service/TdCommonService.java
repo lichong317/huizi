@@ -183,7 +183,7 @@ public class TdCommonService {
         if (null != tdAdTypes) {
         	for(int i = 0; i < 9 && i < tdAdTypes.size(); i++){
         		map.addAttribute("nav_"+i+"_ad_list",
-                        tdAdService.findByTypeId((tdAdTypes.get(i)).getId()));
+                        tdAdService.findByTypeIdAndEndtimeAfter((tdAdTypes.get(i)).getId()));
             }
          }
         

@@ -93,11 +93,26 @@ function btnPageSubmit()
                 </#if>
         </menu>
         <div class="wenzhangliebiao">
+<style>
+.wenzhangliebiao{width: 948px;}
+.wenzhangliebiao img{width: 150px; height: 150px; float: left;}
+.wenzhangliebiao a{width:446px !important; float: left;}
+.wenzhangliebiao li{background: #f9f9f9; border-bottom: none !important; width: 446px; height: 150px; float: left; margin:10px 10px; line-height: 30px;}
+.wenzhangliebiao li:hover{background: #FF4454; color: #fff;}
+.wenzhangliebiao a:hover{color: #FFF;}
+.wenzhangliebiao p{width: 285px; float:right;}
+    </style>
             <ul>
                 <#if info_page??>
                     <#list info_page.content as item>
                         <li>
-                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">${item.title!''}</a>${item.createTime!''}&nbsp;&nbsp;&nbsp;<span>浏览次数：${item.viewCount!'0'}</span>
+                            <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">
+                                <img src="${item.imgUrl!''}">
+                                <p style="height: 60px; overflow: hidden; font-weight: bold;"> ${item.title!''}</p>
+                                <p style="height: 60px; overflow: hidden;">${item.brief!''}</p>
+                                <p style="text-align: right; padding-right: 10px;">${item.createTime!''}</p>
+                                <#--&nbsp;&nbsp;&nbsp;<span>浏览次数：${item.viewCount!'0'}</span> -->
+                            </a>
                         </li>
                     </#list>
                 </#if>           

@@ -80,7 +80,7 @@ public class TdIndexController {
 
         if (null != tdAdType) {
             map.addAttribute("banner_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }
         
         // 首页浮动窗口广告
@@ -88,7 +88,7 @@ public class TdIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("float_window_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }
         
         /**
@@ -99,7 +99,7 @@ public class TdIndexController {
         
         if (null != tdAdType) {
             map.addAttribute("top_ad_list",
-                    tdAdService.findByTypeId(tdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
         }
         
         /*****1F家用电器******/ 
@@ -126,7 +126,7 @@ public class TdIndexController {
 
         if (null != OneFtdAdType) {
             map.addAttribute("OneFlittle_ad_list",
-                    tdAdService.findByTypeId(OneFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(OneFtdAdType.getId()));
         }
         
         //1F 4个横向广告
@@ -134,7 +134,7 @@ public class TdIndexController {
 
         if (null != OneFtdAdType) {
             map.addAttribute("OneFtransverse_ad_list",
-                    tdAdService.findByTypeId(OneFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(OneFtdAdType.getId()));
         }
         
         //1F 竖向广告
@@ -142,14 +142,14 @@ public class TdIndexController {
 
         if (null != OneFtdAdType) {
             map.addAttribute("OneFvertical_ad_list",
-                    tdAdService.findByTypeId(OneFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(OneFtdAdType.getId()));
         }
         //1F 底层广告
         OneFtdAdType = tdAdTypeService.findByTitle("1F底层广告");
 
         if (null != OneFtdAdType) {
             map.addAttribute("OneFbottom_ad_list",
-                    tdAdService.findByTypeId(OneFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(OneFtdAdType.getId()));
         }
         /*****1F家用电器******/
         
@@ -177,7 +177,7 @@ public class TdIndexController {
 
         if (null != twoFtdAdType) {
             map.addAttribute("twoFlittle_ad_list",
-                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(twoFtdAdType.getId()));
         }
         
         //2F 4个横向广告
@@ -185,7 +185,7 @@ public class TdIndexController {
 
         if (null != twoFtdAdType) {
             map.addAttribute("twoFtransverse_ad_list",
-                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(twoFtdAdType.getId()));
         }
         
         //2F 竖向广告
@@ -193,14 +193,14 @@ public class TdIndexController {
 
         if (null != twoFtdAdType) {
             map.addAttribute("twoFvertical_ad_list",
-                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(twoFtdAdType.getId()));
         }
         //2F 底层广告
         twoFtdAdType = tdAdTypeService.findByTitle("2F底层广告");
 
         if (null != twoFtdAdType) {
             map.addAttribute("twoFbottom_ad_list",
-                    tdAdService.findByTypeId(twoFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(twoFtdAdType.getId()));
         }
         /*****2F电脑******/
         
@@ -228,7 +228,7 @@ public class TdIndexController {
 
         if (null != threeFtdAdType) {
             map.addAttribute("threeFlittle_ad_list",
-                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(threeFtdAdType.getId()));
         }
         
         //3F 4个横向广告
@@ -236,7 +236,7 @@ public class TdIndexController {
 
         if (null != threeFtdAdType) {
             map.addAttribute("threeFtransverse_ad_list",
-                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(threeFtdAdType.getId()));
         }
         
         //3F 竖向广告
@@ -244,14 +244,14 @@ public class TdIndexController {
 
         if (null != threeFtdAdType) {
             map.addAttribute("threeFvertical_ad_list",
-                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(threeFtdAdType.getId()));
         }
         //3F 底层广告
         threeFtdAdType = tdAdTypeService.findByTitle("3F底层广告");
 
         if (null != threeFtdAdType) {
             map.addAttribute("threeFbottom_ad_list",
-                    tdAdService.findByTypeId(threeFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(threeFtdAdType.getId()));
         }
         /*****3F电脑******/
         
@@ -279,7 +279,7 @@ public class TdIndexController {
 
         if (null != FourtdAdType) {
             map.addAttribute("fourFlittle_ad_list",
-                    tdAdService.findByTypeId(FourtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(FourtdAdType.getId()));
         }
         
         //4F 4个横向广告
@@ -287,7 +287,7 @@ public class TdIndexController {
 
         if (null != FourtdAdType) {
             map.addAttribute("fourFtransverse_ad_list",
-                    tdAdService.findByTypeId(FourtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(FourtdAdType.getId()));
         }
         
         //4F 竖向广告
@@ -295,14 +295,14 @@ public class TdIndexController {
 
         if (null != FourtdAdType) {
             map.addAttribute("fourFvertical_ad_list",
-                    tdAdService.findByTypeId(FourtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(FourtdAdType.getId()));
         }
         //4F 底层广告
         FourtdAdType = tdAdTypeService.findByTitle("4F底层广告");
 
         if (null != FourtdAdType) {
             map.addAttribute("fourFbottom_ad_list",
-                    tdAdService.findByTypeId(FourtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(FourtdAdType.getId()));
         }
         /*****4F食品酒水******/
         
@@ -330,7 +330,7 @@ public class TdIndexController {
 
         if (null != fiveFtdAdType) {
             map.addAttribute("fiveFlittle_ad_list",
-                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(fiveFtdAdType.getId()));
         }
         
         //5F 4个横向广告
@@ -338,7 +338,7 @@ public class TdIndexController {
 
         if (null != fiveFtdAdType) {
             map.addAttribute("fiveFtransverse_ad_list",
-                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(fiveFtdAdType.getId()));
         }
         
         //5F 竖向广告
@@ -346,14 +346,14 @@ public class TdIndexController {
 
         if (null != fiveFtdAdType) {
             map.addAttribute("fiveFvertical_ad_list",
-                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(fiveFtdAdType.getId()));
         }
         //5F 底层广告
         fiveFtdAdType = tdAdTypeService.findByTitle("5F底层广告");
 
         if (null != fiveFtdAdType) {
             map.addAttribute("fiveFbottom_ad_list",
-                    tdAdService.findByTypeId(fiveFtdAdType.getId()));
+                    tdAdService.findByTypeIdAndEndtimeAfter(fiveFtdAdType.getId()));
         }
         /*****5F手机******/
         

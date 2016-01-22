@@ -47,14 +47,15 @@
         <div class="weizhi">
             <span><a href="/">首页</a></span>><span><a href="/info/list/${mid!''}" >${menu_name!''}</a> > <a href="javascrip:;" class="hover_zy">内容</a></span>
         </div>
-        <div class="clear h15"></div>
-        <div class="wenzhangxiangxi">            
-            <h3>${info.title!''}</h3>
-            <p style="text-align:center">作者：${info.author!''}&nbsp;&nbsp;&nbsp;来源：${info.source!''}</p>
-            <p style="text-align:center">${info.createTime!''}　</p>
-            <p>${info.content!''}</p>   
-        </div>
-    
+        <#if info??>
+            <div class="clear h15"></div>
+            <div class="wenzhangxiangxi">            
+                <h3>${info.title!''}</h3>
+                <p style="text-align:center">作者：${info.author!''}&nbsp;&nbsp;&nbsp;来源：${info.source!''}</p>
+                <p style="text-align:center">${info.createTime!''}　</p>
+                <p>${info.content!''}</p>   
+            </div>
+        </#if>
         <div class="clear h30"></div>
         <div class="next">
             <div class="shang"><#if prev_info??><a href="/info/content/${prev_info.id?c}?mid=${prev_info.menuId?c}">上一篇:${prev_info.title!''}</a></#if></div>

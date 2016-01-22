@@ -121,6 +121,10 @@ public class TdSetting {
     @Column(scale=2)
     private Double returnRation;
     
+    // 充值奖励比例
+    @Column(scale=2)
+    private Double rechargeRation;
+    
     // 微信二维码
     @Column
     private String wxQrCode;
@@ -166,6 +170,14 @@ public class TdSetting {
 
 	public void setAndroidApk(String androidApk) {
 		this.androidApk = androidApk;
+	}
+
+	public Double getRechargeRation() {
+		return rechargeRation;
+	}
+
+	public void setRechargeRation(Double rechargeRation) {
+		this.rechargeRation = rechargeRation;
 	}
 
 	public Long getUpdateNumber() {

@@ -54,56 +54,19 @@
             <div class="usermain04">
                 <div class="separationInfo sepBasic">
                  <h4>
-                     基本信息<span id="TellToUser"></span>
+                     原手机号<span id="TellToUser"></span>
                  </h4>
                 </div>
                 <form id="form1" action="/user/info" method="post">
                 <div class="zhanghao_dlxx main2">
                     <ul>
-                      <li class="title">真实姓名：</li>
-                      <li class="xxlr">
-                        <input name="realName" type="text"  class="xxinp" id="textfield" value="${user.realName!''}" size="33"/>
-                        <span class="Validform_checktip">真实姓名</span>
-                      </li>
-                      <li class="title">性别：</li>
-                      <li class="xxlr">
-                        <input type="radio" id="pcUserman" name="sex" class="pcUserRaman" value="男" <#if user.sex?? && user.sex=="男">checked="checked" </#if>/>
-                        <label for="pcUserman">&nbsp;男</label>
-                        
-                        <input type="radio" id="pcUserwoman" name="sex" value="女" <#if user.sex?? && user.sex=="女">checked="checked" </#if>/>
-                        <label for="pcUserwoman">&nbsp;女</label>
-                        
-                        <span class="Validform_checktip"></span>
-                      </li>
-                      <li class="title">电子邮箱：</li>
-                      <li class="xxlr">
-                        <input type="text" name="email" datatype="e" class="xxinp" id="textfield2" value="${user.email!''}"/>
-                        <span class="Validform_checktip">*邮箱地址</span>
-                      </li>
+                     
                       <li class="title">手机：</li>
                       <li class="xxlr">
                         <input type="text" name="mobile" datatype="m" class="xxinp" id="textfield" value="${user.mobile!''}"/>
                         <span class="Validform_checktip">*手机号码</span>
                       </li>
-                      <#if user?? && user.roleId?? && user.roleId == 1>
-                      <li class="title">银行卡号：</li>
-	                      <li class="xxlr">
-	                        <input type="text" name="bankCardCode" datatype="n" class="xxinp" id="textfield" value="<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}
-	                                                                                                               <#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if> "/>
-
-	                        <span class="Validform_checktip">*银行卡号</span>
-	                      </li>
-	                  <li class="title">开户行：</li>
-	                      <li class="xxlr">
-	                        <input type="text" name="bankTitle" datatype="*" class="xxinp" id="textfield" value="${user.bankTitle!''}"/>
-	                        <span class="Validform_checktip">*开户行名称</span>
-	                      </li>
-                      </#if>
-                      <li class="title2 gray">注册时间：</li>
-                      <li class="xxlr2 gray">${user.registerTime!''}</li>
-                      <li class="title2 gray">最后登录时间：</li>
-                      <li class="xxlr2 gray">${user.lastLoginTime!''}</li>
-                      <li class="title main2">&nbsp;</li>
+                     
                       <li class="xxlr3 main2"><span class="tijiaobox">
                         <input type="submit" value="确认" style="margin:0;"  class="submit-button btn_07 pulse-shrink"/>
                       </span></li>

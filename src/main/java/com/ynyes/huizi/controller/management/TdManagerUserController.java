@@ -47,6 +47,7 @@ import com.ynyes.huizi.service.TdPrizeCategoryService;
 import com.ynyes.huizi.service.TdPrizeService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
+import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
 import com.ynyes.huizi.service.TdUserCommentService;
@@ -130,6 +131,9 @@ public class TdManagerUserController {
     
     @Autowired
     TdGoodsService tdGoodsService;
+    
+    @Autowired
+    TdSettingService tdSettingService;
     
     @RequestMapping(value="/check", method = RequestMethod.POST)
     @ResponseBody
@@ -649,12 +653,13 @@ public class TdManagerUserController {
 			res.put("message", "请重新登录");
 			return res;
 		}
-		if (null != userId && null != type && !type.isEmpty() && null != isBackgroundShow) {
+		if (null != userId && null != type && !type.isEmpty() ) {
 			TdUser tdUser = tdUserService.findOne(userId);
 
-			if (type.equalsIgnoreCase("editPoint")) {
+			if (type.equalsIgnoreCase("editPoint") && null != isBackgroundShow) {
 				if (null != totalPoints) {
 					tdUser.setTotalPoints(totalPoints);
+					tdUserService.save(tdUser);
 					TdUserPoint userPoint = new TdUserPoint();
 
 					userPoint.setIsBackgroundShow(isBackgroundShow);
@@ -669,6 +674,49 @@ public class TdManagerUserController {
 					res.put("code", 0);
 					return res;
 				}
+			}
+			else if (type.equalsIgnoreCase("editTotalCashRewards") ) {
+				TdUser tdUser1 = tdUserService.findOne(userId);
+				TdSetting tdSetting = tdSettingService.findTopBy();
+				
+				Double recharge = Double.parseDouble(data);
+				
+				Double prize = recharge * tdSetting.getRechargeRation();
+				
+				if (null != tdUser1.getRoleId()) {
+					if (tdUser1.getRoleId().equals(1L)) {
+						// 返现金额充值
+						if (null != tdUser1.getTotalCashRewards()) {
+							tdUser1.setTotalCashRewards((long) (recharge + prize + tdUser1.getTotalCashRewards()));
+						}else {
+							tdUser1.setTotalCashRewards((long) (recharge + prize));
+						}
+						
+						// 冻结金额改变
+						if (null != tdUser1.getCashRewardsFrozen()) {
+							tdUser1.setCashRewardsFrozen((long) (recharge + prize + tdUser1.getCashRewardsFrozen()));
+						}else {
+							tdUser1.setCashRewardsFrozen((long) (recharge + prize));
+						}
+					}else if (tdUser1.getRoleId().equals(2L)) {
+						// 返现金额充值
+						if (null != tdUser1.getVirtualCurrency()) {
+							tdUser1.setVirtualCurrency (recharge + prize + tdUser1.getVirtualCurrency());
+						}else {
+							tdUser1.setVirtualCurrency(recharge + prize);
+						}
+						
+						// 冻结金额改变
+						if (null != tdUser1.getFrozenCapital()) {
+							tdUser1.setFrozenCapital(recharge + prize + tdUser1.getFrozenCapital());
+						}else {
+							tdUser1.setFrozenCapital(recharge + prize);
+						}
+					}
+				}
+				res.put("code", 0);
+				tdUserService.save(tdUser1);
+				return res;
 			}
 		}
 

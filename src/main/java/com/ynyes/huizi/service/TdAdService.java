@@ -94,9 +94,9 @@ public class TdAdService {
         return (List<TdAd>) repository.findAll();
     }
     
-    public List<TdAd> findByTypeId(Long typeId)
+    public List<TdAd> findByTypeIdAndEndtimeAfter(Long typeId)
     {
-        return repository.findByTypeIdOrderBySortIdAsc(typeId);
+        return repository.findByTypeIdAndEndTimeAfterOrderBySortIdAsc(typeId, new Date());
     }
     
     public Page<TdAd> findAllOrderBySortIdAsc(int page, int size)

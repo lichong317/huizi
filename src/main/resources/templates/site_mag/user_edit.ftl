@@ -56,6 +56,10 @@ $(function () {
     }); 
     
     $("#btnEditRemark").click(function () { EditOrderRemark(); });    //修改积分备注 
+    
+    $("#recharge").click(function () { EditRealAmount(); });    //充值返现
+    $("#recharge1").click(function () { EditRealAmount(); });    //充值虚拟币
+
 });   
 
  //修改粮草备注
@@ -83,6 +87,34 @@ $(function () {
                 cancel: true
             });
         }
+        
+        //充值金额
+        function EditRealAmount() {
+            var pop = $.dialog.prompt('请输入充值金额',
+            function (val) {
+                if (!checkIsMoney(val)) {
+                    $.dialog.alert('对不起，请输入正确的金额！', function () { }, pop);
+                    return false;
+                }
+                var userId = $("#userId").val();
+                var postData = { "userId": userId, "type": "editTotalCashRewards", "data": val };
+                //发送AJAX请求
+                sendAjaxUrl(pop, postData, "/Verwalter/user/param/edit");
+                return false;
+            },
+            $.trim($("#totalCashRewards").val())
+        );
+        }
+        
+         //检查是否货币格式
+        function checkIsMoney(val) {
+            var regtxt = /^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/;
+            if (!regtxt.test(val)) {
+                return false;
+            }
+            return true;
+        }
+        
     //发送AJAX请求
         function sendAjaxUrl(winObj, postData, sendUrl) {
             $.ajax({
@@ -303,12 +335,22 @@ $(function () {
 <div class="tab-content" style="display:none;">
   <#if !user?? || user?? && user.roleId?? && user.roleId == 1>
   <dl>
+       <dt>分销商返利比例</dt>
+       <dd>
+             <input name="returnRation" type="text" value="<#if user??>${user.returnRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
+             <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例) *优先计算个人返利比例</span>
+       </dd>
+  </dl>
+  <dl>
     <dt>下级用户总数</dt>
     <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user?? && user.totalLowerUsers??>${user.totalLowerUsers?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   <dl>
     <dt>用户返现金额</dt>
-    <dd><input name="totalCashRewards" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?c}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="totalCashRewards" type="text" disabled="disabled" id="totalCashRewards" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?c}</#if>"> 
+    <span class="Validform_checktip"></span>
+    <input  type="button" id="recharge" class="ibtn" value="充值" style="margin-top: -3px;">
+    </dd>
   </dl>
   <dl>
     <dt>提现冻结金额</dt>
@@ -342,7 +384,10 @@ $(function () {
   <#if !user?? || user?? && user.roleId?? && user.roleId == 2>
   <dl>
     <dt>虚拟币余额</dt>
-    <dd><input name="virtualCurrency" type="text" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.virtualCurrency??>${user.virtualCurrency?c}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="virtualCurrency" type="text" disabled="disabled" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.virtualCurrency??>${user.virtualCurrency?c}</#if>"> 
+    <span class="Validform_checktip"></span>
+    <input  type="button" id="recharge1" class="ibtn" value="充值" style="margin-top: -3px;">
+    </dd>
   </dl>
   <dl>
     <dt>冻结金额</dt>

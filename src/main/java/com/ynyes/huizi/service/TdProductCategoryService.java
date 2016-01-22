@@ -61,12 +61,12 @@ public class TdProductCategoryService {
             return null;
         }
         
-        return repository.findByParentIdOrderBySortIdAsc(parentId);
+        return repository.findByParentIdAndIsEnableTrueOrderBySortIdAsc(parentId);
     }
     
     public List<TdProductCategory> findByParentIdIsNullOrderBySortIdAsc()
     {
-        return repository.findByParentIdIsNullOrderBySortIdAsc();
+        return repository.findByParentIdIsNullAndIsEnableTrueOrderBySortIdAsc();
     }
     
     
@@ -105,6 +105,14 @@ public class TdProductCategoryService {
         
         return resList;
     }
+    
+    /**
+	 * @author lc
+	 * @注释：搜索商品类别
+	 */
+//    public List<TdProductCategory> searchAll(String keywords){
+//    	  	
+//    }
     
     /**
      * 删除

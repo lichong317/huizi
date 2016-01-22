@@ -79,6 +79,10 @@ public class TdProductCategory {
     @Column
     private String seoDescription;
     
+    // 是否使能
+    @Column
+    private Boolean isEnable;
+    
 	public Long getId() {
         return id;
     }
@@ -103,7 +107,15 @@ public class TdProductCategory {
         this.parentId = parentId;
     }
 
-    public String getParentTree() {
+    public Boolean getIsEnable() {
+		return isEnable;
+	}
+
+	public void setIsEnable(Boolean isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	public String getParentTree() {
         return parentTree;
     }
 

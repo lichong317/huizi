@@ -1,5 +1,6 @@
 package com.ynyes.huizi.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -21,5 +22,5 @@ public interface TdAdRepo extends
 		JpaSpecificationExecutor<TdAd> 
 {
     Page<TdAd> findByIsEnableTrueOrderBySortIdAsc(Pageable page);
-    List<TdAd> findByTypeIdOrderBySortIdAsc(Long typeId);
+    List<TdAd> findByTypeIdAndEndTimeAfterOrderBySortIdAsc(Long typeId, Date time);
 }

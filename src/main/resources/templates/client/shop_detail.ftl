@@ -180,10 +180,21 @@ input[type="button"], input[type="submit"], input[type="reset"] {-webkit-appeara
           <td colspan="2">
             <!--<input type="submit" class="sub" value="立即购买" />-->
             <a id="sendAddress" href="javascript:showDialog();" class="sub" style="text-align:center;">地址发送到手机</a>
+                    
             <div class="clear"></div>
           </td>
         </tr>
       </table>
+      <div class="bdsharebuttonbox" style="margin-left:20px">
+<a href="#" class="bds_more" data-cmd="more"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"惠之店##${shop.title!''}",bdUrl:"http://www.huizhidian.com/touch/shop/${shop.id?c}","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","renren","weixin","sqq"],"viewText":"分享到：","viewSize":"24"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+            
     </#if>  
     </section><!--proinfo_right END-->
     <div class="clear h20"></div>

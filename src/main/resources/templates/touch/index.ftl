@@ -146,20 +146,20 @@
   <section class="index_part">
   
      <table class="index_list">
-      <tbody><tr>
-        <td>
-                  <a href="http://www.huizhidian.com/touch/list/7">
-                    <p class="ta-c"><img src="/touch/images/www.png" ></p>
-                  </a>
-        </td>
-      </tr>
-      <tr>
-        <td>
-                  <a href="http://www.huizhidian.com/touch/list/17">
-                    <p class="ta-l"><img src="/touch/images/wwe.png" ></p>
-                  </a>
-        </td>
-      </tr>
+      <tbody>
+        <#if goodsCategory_ad_list??>
+            <#list goodsCategory_ad_list as item>
+                <#if item_index < 2>
+                <tr>
+                    <td>
+                          <a href="${item.linkUri!''}">
+                               <p class="ta-c"><img src="${item.fileUri!''}" ></p>
+                          </a>
+                    </td>
+                </tr>
+                </#if>
+            </#list>
+        </#if>
     </tbody></table>
     <h3 class="index_tit">
       <b></b>
@@ -206,20 +206,20 @@
     <section class="index_part">
     
     <table class="index_list">
-      <tbody><tr>
-        <td>
-                  <a href="http://www.huizhidian.com/touch/list/1">
-                    <p class="ta-c"><img src="/touch/images/wwb.png" ></p>
-                  </a>
-        </td>
-      </tr>
-      <tr>
-        <td>
-                  <a href="http://www.huizhidian.com/touch/list/6">
-                    <p class="ta-l"><img src="/touch/images/wwc.png" ></p>
-                  </a>
-        </td>
-      </tr>
+      <tbody>
+        <#if goodsCategory_ad_list??>
+            <#list goodsCategory_ad_list as item>
+                <#if item_index < 4 && item_index gt 1>
+                <tr>
+                    <td>
+                          <a href="${item.linkUri!''}">
+                               <p class="ta-c"><img src="${item.fileUri!''}" ></p>
+                          </a>
+                    </td>
+                </tr>
+                </#if>
+            </#list>
+        </#if>
     </tbody></table>
     <h3 class="index_tit">
       <b></b>
