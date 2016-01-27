@@ -66,6 +66,7 @@ public class TdManagerLoginController {
                         ip = request.getRemoteAddr();
                     }
                     
+                    request.getSession().setMaxInactiveInterval(60 * 60 * 6); // 设置时长  Max
                     manager.setIp(ip);
                     manager.setLoginTime(new Date());
                     

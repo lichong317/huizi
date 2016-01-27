@@ -92,15 +92,16 @@ function btnPageSubmit()
                     </#list>
                 </#if>
         </menu>
+
         <div class="wenzhangliebiao">
-<style>
-.wenzhangliebiao{width: 948px;}
-.wenzhangliebiao img{width: 150px; height: 150px; float: left;}
-.wenzhangliebiao a{width:446px !important; float: left;}
-.wenzhangliebiao li{background: #f9f9f9; border-bottom: none !important; width: 446px; height: 150px; float: left; margin:10px 10px; line-height: 30px;}
-.wenzhangliebiao li:hover{background: #FF4454; color: #fff;}
-.wenzhangliebiao a:hover{color: #FFF;}
-.wenzhangliebiao p{width: 285px; float:right;}
+    <style>
+    .wenzhangliebiao{width: 948px;}
+    .wenzhangliebiao img{width: 150px; height: 150px; float: left;}
+    .wenzhangliebiao a{width:446px !important; float: left;}
+    .wenzhangliebiao li{background: #f9f9f9; border-bottom: none !important; width: 446px; height: 150px; float: left; margin:10px 10px; line-height: 30px;}
+    .wenzhangliebiao li:hover{background: #FF4454; color: #fff;}
+    .wenzhangliebiao a:hover{color: #FFF;}
+    .wenzhangliebiao p{width: 285px; float:right;}
     </style>
             <ul>
                 <#if info_page??>

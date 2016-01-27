@@ -183,6 +183,14 @@ public class TdLotteryController {
 	     
 	     TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
 	     
+	     // Max   抽奖减积分
+	     if(null == tdUser.getTotalPoints() || tdUser.getTotalPoints()<20)
+	     {
+	    	 res.put("msg", "积分不足");
+	    	 return res;
+	     }
+	     tdUser.setTotalPoints(tdUser.getTotalPoints()-20);
+	     
 	     if (null != tdPrizeCategory && null != tdUser) {
 			if (tdPrizeCategory.getLeftNumber().equals(0L)) {
 				 res.put("msg", "奖品已抽完！");

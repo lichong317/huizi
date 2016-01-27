@@ -30,6 +30,42 @@ function __doPostBack(eventTarget, eventArgument) {
         theForm.submit();
     }
 }
+
+//$(function () {
+  //  $("#isEnable").click(function () { changeEnable(); });   //确认订单
+//})；
+
+ //确认订单
+    function changeEnable(id) {
+        var dialog = $.dialog.confirm('确认后将修改该类别显示状态，确认要继续吗？', function () {
+            var postData = { "id": id};
+            //发送AJAX请求
+            sendAjaxUrl(dialog, postData, "/Verwalter/product/category/param/edit");
+            return false;
+        });
+    }
+
+//发送AJAX请求
+    function sendAjaxUrl(winObj, postData, sendUrl) {
+        $.ajax({
+            type: "post",
+            url: sendUrl,
+            data: postData,
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.dialog.alert('尝试发送失败，错误信息：' + errorThrown, function () { }, winObj);
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    winObj.close();
+                    $.dialog.tips(data.msg, 2, '32X32/succ.png', function () { location.reload(); }); //刷新页面
+                } else {
+                    $.dialog.alert('错误提示：' + data.message, function () { }, winObj);
+                }
+            }
+        });
+    }
+
 </script>
 
 <!--导航栏-->
@@ -70,6 +106,7 @@ function __doPostBack(eventTarget, eventArgument) {
         <th align="left">类别名称</th>
         <th align="left" width="12%">调用别名</th>
         <th align="left" width="12%">排序</th>
+        <th align="left">显示/隐藏</th>
         <th width="12%">操作</th>
     </tr>
 
@@ -93,6 +130,7 @@ function __doPostBack(eventTarget, eventArgument) {
             </td>
             <td>${cat.callIndex!""}</td>
             <td><input name="listSortId" type="text" value="${cat.sortId!""}" class="sort" onkeydown="return checkNumber(event);"></td>
+            <td><a href="javascript:;" id="isEnable" onclick="changeEnable(${cat.id?c})"><#if cat.isEnable?? && cat.isEnable>显示<#else>隐藏</#if></a></td>
             <td align="center">
                 <a href="/Verwalter/product/category/edit?id=${cat.id!""}&sub=1">添加子类</a>
                 <a href="/Verwalter/product/category/edit?id=${cat.id!""}">修改</a>

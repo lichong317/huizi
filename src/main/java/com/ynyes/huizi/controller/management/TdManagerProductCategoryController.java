@@ -159,6 +159,48 @@ public class TdManagerProductCategoryController {
 
         return res;
     }
+    
+    /**
+     * 修改分类显示/隐藏状态
+     * @author Max
+     * 
+     */
+    @RequestMapping(value="/param/edit",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> changeEnable(Long id,HttpServletRequest req)
+    {
+    	Map<String,Object> res = new HashMap<>();
+    	res.put("code", 1);
+    	
+    	String username = (String) req.getSession().getAttribute("manager");
+        if (null == username)
+        {
+            res.put("message", "请重新登录");
+            return res;
+        }
+    	
+        if(null != id)
+        {
+        	TdProductCategory category = tdProductCategoryService.findOne(id);
+        	if(null != category)
+        	{
+        		if(category.getIsEnable())
+        		{
+        			category.setIsEnable(false);
+        		}else{
+        			category.setIsEnable(true);
+        		}
+        		tdProductCategoryService.save(category);
+        		
+        		res.put("code", 0);
+        		res.put("message", "修改成功");
+        		return res;
+        	}
+        }
+    	res.put("message", "参数错误");
+    	
+    	return res;
+    }
 
     private void productCategoryBtnSave(Long[] ids, Long[] sortIds) {
         if (null == ids || null == sortIds || ids.length < 1
