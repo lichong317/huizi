@@ -89,9 +89,23 @@
 			                      <td>
 				                      <a href="/goods/${og.goodsId?c!'' }"><img width="50" height="50" src="${og.goodsCoverImageUri!''}" title="${og.goodsTitle!''}"/></a><br/>
 				                      <#if og.isReturnApplied?? &&og.isReturnApplied>
-				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击查看详情">已申请</a>
+				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击查看详情" style="
+    background: #46a6d6;
+    color: #FFF;
+    padding: 3px 15px;
+    border-radius: 8px;
+    top: -18px;
+    margin-left: 23px;
+">已申请</a>
 				                      <#else>	
-				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击申请退换货">申请</a>
+				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击申请退换货" style="
+    background: #46a6d6;
+    color: #FFF;
+    padding: 3px 15px;
+    border-radius: 8px;
+    top: -18px;
+    margin-left: 23px;
+">申请</a>
 				                      </#if>	
 			                      </td>
 			                    </#list>

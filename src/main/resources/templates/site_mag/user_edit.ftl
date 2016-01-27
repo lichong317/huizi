@@ -349,7 +349,9 @@ $(function () {
     <dt>用户返现金额</dt>
     <dd><input name="totalCashRewards" type="text" disabled="disabled" id="totalCashRewards" class="input normal"sucmsg=" " value="<#if user?? && user.totalCashRewards??>${user.totalCashRewards?c}</#if>"> 
     <span class="Validform_checktip"></span>
-    <input  type="button" id="recharge" class="ibtn" value="充值" style="margin-top: -3px;">
+        <#if user?? && user.roleId?? && user.roleId==2>
+            <input  type="button" id="recharge" class="ibtn" value="充值" style="margin-top: -3px;">
+        </#if>
     </dd>
   </dl>
   <dl>

@@ -121,7 +121,7 @@ function hideDialog()
                  </h4>
                 </div>
                <#if user??> 
-               		<p style="padding-top:10px">累计返现:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></b></p>
+               		<p style="padding-top:10px">可消费金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></b></p>
                		<#--<p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.cashRewardsFrozen??>${user.cashRewardsFrozen?string("0.00")}</#if></b></p> -->
 
                     <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards?? &&  user.cashRewardsFrozen??>${(user.totalCashRewards - user.cashRewardsFrozen)?string("0.00")}</#if></b></p>

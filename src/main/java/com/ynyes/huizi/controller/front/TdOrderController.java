@@ -1269,7 +1269,7 @@ public class TdOrderController extends AbstractPaytypeController{
         tdOrder = tdOrderService.save(tdOrder);
         
         // 向管理员发送信息
-        HashMap<String, Object> smsmap = SMSUtil.send("", "63634" ,null);
+//        HashMap<String, Object> smsmap = SMSUtil.send("", "63634" ,null);
 
          if (tdOrder.getIsOnlinePay()) {
         	 if (tdOrder.getTotalPrice() == 0) {

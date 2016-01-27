@@ -43,7 +43,7 @@
 
 <div class="main">
    
-    <div class="car_success">
+    <div class="car_success" style="line-height: 40px;">
         <p class="fc fs30 lh40 pb10">订单提交成功! </p>
         <p> 订单号：<a href="/user/order?id=${order.id?c}">${order.orderNumber!''}</a></p>
         <p> 支付方式：${order.payTypeTitle!''}</p>
@@ -66,7 +66,7 @@
                 color: #FFF;
                 padding: 3px 17px;
                 border-radius: 5px;
-                margin-left: 8px;
+                margin-left: 15px;
             ">查看订单</a></p>
         </#if>
     </div>

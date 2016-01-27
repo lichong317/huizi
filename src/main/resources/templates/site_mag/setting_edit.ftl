@@ -349,14 +349,14 @@ $(function () {
             <dt>分销商返利比例</dt>
             <dd>
                 <input name="returnRation" type="text" value="<#if setting??>${setting.returnRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
-                <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例)</span>
+                <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例，住：0.01计算时为1%)</span>
             </dd>
         </dl>
      <dl>
             <dt>充值奖励比例</dt>
             <dd>
                 <input name="rechargeRation" type="text" value="<#if setting??>${setting.rechargeRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
-                <span class="Validform_checktip">填写小数(计算为充值总金额*比例)</span>
+                <span class="Validform_checktip">填写小数(计算为充值总金额*比例，注：0.01计算时为1%)</span>
             </dd>
         </dl>
      <dl>
