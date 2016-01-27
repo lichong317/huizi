@@ -24,7 +24,7 @@
                 <#list help_level0_cat_list as items>
                     <li class="downli"><a href="/info/list/${help_id!'1'}?catId=${items.id?c!''}">${items.title!''}</a>
                            <ul>
-                                 <#if items_index <7 >
+                                 <#if items_index < 6 >
                                        <#if ("help_"+items_index+"_article_list")?eval?? >
                                                 <#list ("help_"+items_index+"_article_list")?eval as item> 
                                                         <li><a href="/info/content/${item.id?c!''}?mid=${help_id!'1'}">${item.title!''}</a></li>

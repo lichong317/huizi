@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletOutputStream;
@@ -2697,5 +2699,55 @@ public class TdOrderController extends AbstractPaytypeController{
 //				tdUserService.save(tdUser);
 			}	
 		}
+        
+        //购买商品积分奖励
+        Long totalPoints = 0L; // 总用户返利
+        // 返利总额
+        List<TdOrderGoods> tdOrderGoodsList = tdOrder.getOrderGoodsList();
+        if (null != tdOrderGoodsList) {
+            for (TdOrderGoods tog : tdOrderGoodsList) {
+                 TdGoods tdGoods = tdGoodsService.findOne(tog.getGoodsId());
+
+                 if (null != tdGoods && null != tdGoods.getReturnPoints()) {
+                        totalPoints += tdGoods.getReturnPoints()
+                                * tog.getQuantity();
+                       
+                 }
+            }
+
+            final Long totalPointsDely = totalPoints;
+            final TdUser tdUserDely = tdUser;
+            final TdOrder tdOrderDely = tdOrder;
+            // 用户返利
+            if (null != tdUser) {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        // System.out.println("-------设定要指定任务--------");
+                        TdUserPoint userPoint = new TdUserPoint();
+                        TdOrder tdOrder1 = tdOrderService
+                                .findByOrderNumber(tdOrderDely.getOrderNumber());
+
+                        userPoint.setDetail("购买商品赠送积分");
+                        userPoint.setOrderNumber(tdOrderDely.getOrderNumber());
+                        userPoint.setPoint(totalPointsDely);
+                        userPoint.setPointTime(new Date());
+                        userPoint.setTotalPoint(tdUserDely.getTotalPoints()
+                                + totalPointsDely);
+                        userPoint.setUsername(tdUserDely.getUsername());
+
+                        userPoint = tdUserPointService.save(userPoint);
+
+                        tdUserDely.setTotalPoints(userPoint.getTotalPoint());
+
+//                        tdOrder1.setIsReturnPoints(true);
+                        tdOrderService.save(tdOrder1);
+                        tdUserService.save(tdUserDely);
+                    }
+                }, 0);// 设定指定的时间time,
+
+            }
+        }
+        
     }
 }

@@ -209,7 +209,7 @@ textarea { resize:none;}
 	padding:20px 0 0;
 	background:#fff;
 	margin-bottom:20px;}
-.mymember_info01 table{width:100%;}
+.mymember_info01 table{width:100%;padding-top: 23px;}
 .mymember_header {
   display: block;
   position: relative;
