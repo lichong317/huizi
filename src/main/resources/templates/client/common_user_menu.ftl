@@ -52,6 +52,7 @@
         <div>
             <a href="/user/info">个人信息</a>
             <a href="/user/password">修改密码</a>
+            <a href="#">修改绑定手机</a>
             <a href="/user/address/list">收货地址</a>
         </div>
     </div>
