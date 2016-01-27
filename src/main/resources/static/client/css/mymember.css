@@ -209,7 +209,7 @@ textarea { resize:none;}
 	font-weight:400;
 	font-size:14px;}
 .mymember_fen a p span {color:#ff8800;}
-.mymember_info01 td {width:140px;}
+.mymember_info01 td {width:140px;padding-top: 23px;}
 .mymember_info01 td a {
 	display:block;
 	position:relative;

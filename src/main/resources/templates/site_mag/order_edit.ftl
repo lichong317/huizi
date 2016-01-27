@@ -837,7 +837,7 @@
                     </tr>
                     <tr>
                         <th>
-                            订单总金额
+                            实际支付金额
                         </th>
                         <td>
                             ${order.totalPrice?string("0.00")}元</td>

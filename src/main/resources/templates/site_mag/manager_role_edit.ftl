@@ -21,6 +21,27 @@ $(function () {
         }
     });
 });
+
+ function selectAll(thisform)  
+  {  
+    // 遍历 form  
+    for ( var i = 0; i < thisform.elements.length; i++)  
+    {  
+      // 提取控件  
+      var checkbox = thisform.elements[i];  
+      // 检查是否是指定的控件  
+      if (checkbox.type === "checkbox" && checkbox.checked === false)  
+      {  
+        // 正选  
+        checkbox.checked = true;  
+      }  
+      else if (checkbox.type === "checkbox" && checkbox.checked === true)  
+      {  
+        // 反选  
+        checkbox.checked = false;  
+      }  
+    }  
+  } 
 </script>
 </head>
 
@@ -73,12 +94,12 @@ $(function () {
   <dl>
     <dt>管理权限</dt>
     <dd>
-      <table border="0" cellspacing="0" cellpadding="0" class="border-table" width="98%">
+      <table border="0" cellspacing="0" cellpadding="0" class="border-table" name="table" width="98%">
         <thead>
           <tr>
             <th width="30%">导航名称</th>
             <th>权限分配</th>
-            <th width="10%">全选</th>
+            <th width="10%">全选<#--<input type="checkbox" onclick="selectAll(this.form)" >--></th>
           </tr>
         </thead>
         <tbody>

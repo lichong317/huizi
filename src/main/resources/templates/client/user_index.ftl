@@ -144,12 +144,17 @@ function recruitment(orderId){
           <th width="150" rowspan="2">
       <#--    <img src="/client/images/asa.png" style="position: absolute; "> -->
           <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a>
-          <b style="
-    color: #ff9100;
-    line-height: 30px;
-          "><a href="#" style="
-    color: #ff9100;
-">${user.userLevelTitle!''}</a></b>
+          <#--
+          <b style="color: #ff9100;line-height: 30px;">
+            <a href="#" style="">${user.userLevelTitle!''}</a></b>
+            -->
+            <b style="
+                color: #ff9100;
+                line-height: 30px;
+                position: absolute;
+                top: -19px;
+                left: 148px;">
+            <a href="#" style="color: #ff9100;"><#if user.roleId?? && user.roleId==1>分销商<#elseif user.roleId==2>商城会员<#else>普通会员</#if>&nbsp;${user.userLevelTitle!''}</a></b>
           </th>
                <script>
                         function changeHeads(){
@@ -295,6 +300,26 @@ function recruitment(orderId){
     </div><!--mymember_hot_part END-->
     
     <div class="mymember_hot_part">
+      <h3>浏览历史</h3>
+      <h4 id="mymember_right_menu">
+      </h4>
+      <ul id="mymember_right_check">
+        <li style="display: block;">
+            <#if recent_page??>
+                <#list recent_page.content as rgoods>
+                      <a class="mymember_hot_list" href="/goods/${rgoods.goodsId}">
+                        <img src="${rgoods.goodsCoverImageUri!''}">
+                        <p style="overflow: hidden;height: 40px;">${rgoods.goodsTitle!''}</p>
+                        <b>￥${rgoods.goodsSalePrice?string("#.##")}</b>
+                      </a>
+                 </#list>
+            </#if>                
+        </li>
+      </ul>
+    </div></div>
+    
+    <#--
+    <div class="mymember_hot_part">
         <h3>浏览历史</h3>
         <div id="mymember_storybox">
             <ul>
@@ -313,7 +338,9 @@ function recruitment(orderId){
             <a id="mymember_story_next" href="javascript:;"><img src="/client/images/mymember/arrow02.jpg" /></a>
         </div>
         <div class="myclear"></div>
-    </div><!--mymember_hot_part END-->
+    </div>
+    -->
+    <!--mymember_hot_part END-->
 </div><!--mymember_hot END-->
     
 <div class="myclear"></div>

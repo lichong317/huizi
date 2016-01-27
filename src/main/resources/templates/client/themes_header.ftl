@@ -60,6 +60,7 @@ function move()
 .weizhi span:hover ul a{ border:none;}
 .weizhi span:hover a{ border:none; border-bottom:1px solid #fff;}
 .weizhi span ul{ position:absolute; z-index:3; display:none; left:0px; top:27px; border:none; background-color:#fff; font-size:12px; white-space:nowrap; line-height:30px;}
+.weizhi span li {line-height: 36px;}
 </style>
 
 

@@ -305,6 +305,7 @@ public class TdManagerManagerController {
      		}
 		}
         //将为空的权限设为false
+        System.err.println(tdNavigationMenuService.findAllIsEnableTrue());
         int totalsize = tdNavigationMenuService.findAllIsEnableTrue().size();
 		for (int i = 0; i < totalsize; i++) {			
 			if (i < tdManagerRole.getPermissionList().size()) {

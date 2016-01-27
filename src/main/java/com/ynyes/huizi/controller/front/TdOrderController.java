@@ -74,6 +74,7 @@ import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.ClientConstant;
 import com.ynyes.huizi.util.QRCodeUtils;
+import com.ynyes.huizi.util.SMSUtil;
 
 /**
  * 订单
@@ -1264,6 +1265,9 @@ public class TdOrderController extends AbstractPaytypeController{
 		}
                   
         tdOrder = tdOrderService.save(tdOrder);
+        
+        // 向管理员发送信息
+        HashMap<String, Object> smsmap = SMSUtil.send("", "63634" ,null);
 
          if (tdOrder.getIsOnlinePay()) {
         	 if (tdOrder.getTotalPrice() == 0) {
