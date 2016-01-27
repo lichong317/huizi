@@ -47,6 +47,7 @@ import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdGoodsCombination;
 import com.ynyes.huizi.entity.TdGoodsDto;
+import com.ynyes.huizi.entity.TdManager;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdPayRecord;
@@ -64,6 +65,7 @@ import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdDeliveryTypeService;
 import com.ynyes.huizi.service.TdGoodsCombinationService;
 import com.ynyes.huizi.service.TdGoodsService;
+import com.ynyes.huizi.service.TdManagerService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdPayRecordService;
@@ -144,6 +146,9 @@ public class TdOrderController extends AbstractPaytypeController{
     
 //    @Autowired
 //    private PaymentChannelCEB payChannelCEB;
+    
+    @Autowired
+    TdManagerService tdManagerService;
     
     @RequestMapping(value="/codDistrict",method = RequestMethod.POST)
     @ResponseBody
@@ -1268,9 +1273,14 @@ public class TdOrderController extends AbstractPaytypeController{
                   
         tdOrder = tdOrderService.save(tdOrder);
         
-        // 向管理员发送信息
-//        HashMap<String, Object> smsmap = SMSUtil.send("", "63634" ,null);
-
+        TdManager manager = tdManagerService.findByUsernameAndIsEnableTrue("tdadmin");
+//      
+      if(null !=manager.getTelephone())
+      {
+      	// 向管理员发送信息
+          SMSUtil.send(manager.getTelephone(), "63634" ,null);
+      }
+        
          if (tdOrder.getIsOnlinePay()) {
         	 if (tdOrder.getTotalPrice() == 0) {
      			afterPaySuccess(tdOrder);
