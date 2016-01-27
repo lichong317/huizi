@@ -13,6 +13,7 @@ $(function () {
     $("#form1").initValidform();
     
     //权限全选
+    
     $("input[name='checkAll']").click(function () {
         if ($(this).prop("checked") == true) {
             $(this).parent().siblings("td").find("input[type='checkbox']").prop("checked", true);
