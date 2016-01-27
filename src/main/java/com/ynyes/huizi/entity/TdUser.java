@@ -220,6 +220,10 @@ public class TdUser {
  	@Column
  	private String qrCodeUri;
     
+ 	// 分销商返利比例
+ 	 @Column(scale=2)
+     private Double returnRation;
+ 	
     // 累计消费额度
     @Column(scale=2)
     private Double totalSpendCash;
@@ -256,7 +260,15 @@ public class TdUser {
         this.id = id;
     }
 
-    public Date getLastFlashBuyTime() {
+    public Double getReturnRation() {
+		return returnRation;
+	}
+
+	public void setReturnRation(Double returnRation) {
+		this.returnRation = returnRation;
+	}
+
+	public Date getLastFlashBuyTime() {
 		return lastFlashBuyTime;
 	}
 

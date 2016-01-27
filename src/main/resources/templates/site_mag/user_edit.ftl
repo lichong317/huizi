@@ -335,6 +335,13 @@ $(function () {
 <div class="tab-content" style="display:none;">
   <#if !user?? || user?? && user.roleId?? && user.roleId == 1>
   <dl>
+       <dt>分销商返利比例</dt>
+       <dd>
+             <input name="returnRation" type="text" value="<#if user??>${user.returnRation!"0"}<#else>0</#if>" class="input normal"  sucmsg=" ">
+             <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例) *优先计算个人返利比例</span>
+       </dd>
+  </dl>
+  <dl>
     <dt>下级用户总数</dt>
     <dd><input name="totalLowerUsers" type="text" id="txtPay_Password" class="input normal" sucmsg=" " value="<#if user?? && user.totalLowerUsers??>${user.totalLowerUsers?c}</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>

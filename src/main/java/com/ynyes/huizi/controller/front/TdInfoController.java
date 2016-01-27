@@ -96,7 +96,7 @@ public class TdInfoController {
 	            catId = catList.get(0).getId();
 	        }
 	        
-	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(mid, catId, page, ClientConstant.pageSize));
+	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderByIdDesc(mid, catId, page, ClientConstant.pageSize));
 	    }
         
 	    //资讯类别

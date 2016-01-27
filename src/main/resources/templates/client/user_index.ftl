@@ -143,7 +143,14 @@ function recruitment(orderId){
         <tr>
           <th width="150" rowspan="2">
       <#--    <img src="/client/images/asa.png" style="position: absolute; "> -->
-          <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a></th>
+          <a class="mymember_header" onclick="changeHeads();"><img src="${user.headImageUri!'/mag/style/user_avatar.png'}" width="100px" height="100px"/></a>
+          <b style="
+    color: #ff9100;
+    line-height: 30px;
+          "><a href="#" style="
+    color: #ff9100;
+">${user.userLevelTitle!''}</a></b>
+          </th>
                <script>
                         function changeHeads(){
                             var filebutton = document.getElementById("filebutton");
