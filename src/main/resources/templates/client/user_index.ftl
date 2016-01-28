@@ -140,8 +140,6 @@ function recruitment(orderId){
   <div class="mymember_center">
     <div class="mymember_info mymember_info01">
       <table>
-      <b style="color: #ff9100;line-height: 30px;position: absolute;top: -4px;left: 148px;"><a href="#" style="color: #ff9100;">${user.userLevelTitle!''}</a></b>
-      <b style="color: #ff9100;line-height: 30px;position: absolute;top: -4px;left: 230px;"><a href="#" style="color: #ff9100;"><#if user.roleId == 1>分销商会员<#elseif user.roleId == 2>商城会员</#if></a></b>
         <tr>
           <th width="150" rowspan="2">
       <#--    <img src="/client/images/asa.png" style="position: absolute; "> -->
