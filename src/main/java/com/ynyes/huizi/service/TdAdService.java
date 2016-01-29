@@ -101,7 +101,7 @@ public class TdAdService {
     
     public Page<TdAd> findAllOrderBySortIdAsc(int page, int size)
     {
-        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));
+        PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId").and(new Sort(Direction.DESC,"createTime")));
         
         return repository.findAll(pageRequest);
     }

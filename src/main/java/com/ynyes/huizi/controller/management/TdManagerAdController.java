@@ -1,5 +1,9 @@
 package com.ynyes.huizi.controller.management;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdAd;
 import com.ynyes.huizi.service.TdAdService;
@@ -145,6 +151,40 @@ public class TdManagerAdController {
         tdManagerLogService.addLog(type, "用户修改广告", req);
         
         return "redirect:/Verwalter/ad/list";
+    }
+    
+    @RequestMapping(value="/param/edit",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> adTop(Long id,HttpServletRequest req)
+    {
+    	String username = (String) req.getSession().getAttribute("manager");
+    	
+    	Map<String,Object> res= new HashMap<>();
+    	res.put("code", 1);
+    	
+    	if(null == username)
+    	{
+    		res.put("message", "请重新登录");
+    		return res;
+    	}
+    	
+    	if(null != id)
+    	{
+    		TdAd ad = tdAdService.findOne(id);
+    		if(null != ad)
+    		{
+    			ad.setSortId(1L);
+    			ad.setCreateTime(new Date());
+    			tdAdService.save(ad);
+    			
+    			res.put("code", 0);
+    			res.put("message", "置顶成功");
+    			return res;
+    		}
+    	}
+    	
+    	res.put("message", "参数错误");
+    	return res;
     }
 
     @ModelAttribute

@@ -178,7 +178,7 @@
                         </li>
                     </ul>
                 </div>
-                <span class="Validform_checktip">*图片尺寸为正方形</span>
+                <span class="Validform_checktip">*图片最佳尺寸960*540</span>
             </dd>
         </dl>
         <dl>

@@ -1275,7 +1275,7 @@ public class TdOrderController extends AbstractPaytypeController{
         
         TdManager manager = tdManagerService.findByUsernameAndIsEnableTrue("tdadmin");
 //      
-      if(null !=manager.getTelephone())
+      if(null !=manager.getTelephone() && !"".equals(manager.getTelephone().trim()))
       {
       	// 向管理员发送信息
           SMSUtil.send(manager.getTelephone(), "63634" ,null);

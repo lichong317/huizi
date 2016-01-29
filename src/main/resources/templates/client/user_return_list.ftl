@@ -94,10 +94,11 @@
     color: #FFF;
     padding: 3px 15px;
     border-radius: 8px;
-    top: -18px;
-    margin-left: 23px;
+    margin-top: 12px;
+    height: 23px;
+    width: 40px;
 ">已申请</a>
-				                      <#else>	
+				                      <#else><#--	
 				                      	<a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击申请退换货" style="
     background: #46a6d6;
     color: #FFF;
@@ -105,7 +106,16 @@
     border-radius: 8px;
     top: -18px;
     margin-left: 23px;
-">申请</a>
+">申请</a>-->
+                                        <a href="/user/return/${return.id?c}?id=${og.id?c}" title="点击申请退换货" style="
+                                            background: #46a6d6;
+                                            color: #FFF;
+                                            padding: 3px 15px;
+                                            border-radius: 8px;
+                                            margin-top: 12px;
+                                            height: 23px;
+                                            width: 40px;
+                                        ">申请</a>
 				                      </#if>	
 			                      </td>
 			                    </#list>

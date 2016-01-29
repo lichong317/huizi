@@ -7,6 +7,7 @@
 <script type="text/javascript" src="/mag/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/mag/js/lhgdialog.js"></script>
 <script type="text/javascript" src="/mag/js/layout.js"></script>
+<script type="text/javascript" src="/mag/js/WdatePicker.js"></script>
 <link href="/mag/style/pagination.css" rel="stylesheet" type="text/css">
 <link href="/mag/style/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -79,6 +80,24 @@ function __doPostBack(eventTarget, eventArgument) {
                     </li>
                     </#if>
                 </ul>
+                <div class="menu-list">
+                    <div class="rule-single-select">
+                        <select name="typeId" onchange="javascript:setTimeout(__doPostBack('typeId',''), 0)">
+                             <option value="" <#if !typeId?? || typeId==0>selected="selected"</#if>>所有类别</option>
+                        </select>
+                    </div>
+                </div>
+                <ul class="icon-list">
+                    <li><a>订单时间</a></li>
+                    <li>
+                        <input name="start" type="text" value="<#if startime??>${startime?string('yyyy-MM-dd HH:mm:ss')}</#if>" class="input date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',lang:'zh-cn'})">
+                    </li>
+                    <li><a>至</a></li>
+                    <li>
+                        <input name="end" type="text" value="<#if endTime??>${endTime?string('yyy-MM-dd HH:mm:ss')}</#if>" class="input date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',lang:'zh-cn'})">
+                    </li>
+                </ul>
+                <#--
                 <div class="rule-single-select">
                         <select name="timeId" onchange="javascript:setTimeout(__doPostBack('btnTime',''), 0)">
                             <option value="0" <#if !time_id?? || time_id==0>selected="selected"</#if>>所有订单</option>
@@ -89,7 +108,8 @@ function __doPostBack(eventTarget, eventArgument) {
                             <option value="6" <#if time_id?? && time_id==6>selected="selected"</#if>>最近半年</option>
                             <option value="12" <#if time_id?? && time_id==12>selected="selected"</#if>>最近一年</option> 
                         </select>
-                    </div> 
+                    </div>
+                    --> 
             </div>
             <div class="r-list">
                 <input name="keywords" type="text" class="keyword">

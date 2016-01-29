@@ -35,7 +35,7 @@ function __doPostBack(eventTarget, eventArgument) {
   //  $("#isEnable").click(function () { changeEnable(); });   //确认订单
 //})；
 
- //确认订单
+    //隐藏分类
     function changeEnable(id) {
         var dialog = $.dialog.confirm('确认后将修改该类别显示状态，确认要继续吗？', function () {
             var postData = { "id": id};

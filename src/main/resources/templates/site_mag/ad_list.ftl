@@ -32,6 +32,38 @@ var theForm = document.forms['form1'];
             theForm.submit();
         }
     }
+    
+     //广告置顶
+    function toTop(id) {
+        var dialog = $.dialog.confirm('确定要将此广告放到顶部？', function () {
+            var postData = { "id": id};
+            //发送AJAX请求
+            sendAjaxUrl(dialog, postData, "/Verwalter/ad/param/edit");
+            return false;
+        });
+    }
+
+//发送AJAX请求
+    function sendAjaxUrl(winObj, postData, sendUrl) {
+        $.ajax({
+            type: "post",
+            url: sendUrl,
+            data: postData,
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.dialog.alert('尝试发送失败，错误信息：' + errorThrown, function () { }, winObj);
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    winObj.close();
+                    $.dialog.tips(data.msg, 2, '32X32/succ.png', function () { location.reload(); }); //刷新页面
+                } else {
+                    $.dialog.alert('错误提示：' + data.message, function () { }, winObj);
+                }
+            }
+        });
+    }    
+    
 </script>
 <!--导航栏-->
 <div class="location" style="position: static; top: 0px;">
@@ -70,7 +102,7 @@ var theForm = document.forms['form1'];
     <th align="center" width="15%">到期时间</th>
     <th align="center" width="10%">链接</th>
     <th align="center" width="8%">状态</th>
-    <th align="center" width="15%">发布时间</th>
+    <th align="center" width="15%">修改时间</th>
     <th width="8%">排序</th>
     <th width="6%">操作</th>
   </tr>
@@ -94,6 +126,7 @@ var theForm = document.forms['form1'];
                     <input name="listSortId" type="text" value="${item.sortId?c!""}" class="sort" onkeydown="return checkNumber(event);">
                 </td>
                 <td align="center">
+                    <a href="javascript:;" onclick="toTop(${item.id?c});">置顶</a>&nbsp;/&nbsp;
                     <a href="/Verwalter/ad/edit?id=${item.id?c}">修改</a>
                 </td>
             </tr>
