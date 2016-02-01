@@ -3,6 +3,8 @@ package com.ynyes.huizi.controller.management;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import java.util.TimerTask;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -367,7 +370,8 @@ public class TdManagerOrderController {
                                 @PathVariable Long statusId,
                                 Integer page, 
                                 Integer size,
-                                Integer timeId,
+                                String start,
+                                String end,
                                 String __EVENTTARGET,
                                 String __EVENTARGUMENT,
                                 String __VIEWSTATE,
@@ -415,199 +419,349 @@ public class TdManagerOrderController {
             size = SiteMagConstant.pageSize;;
         }
            
-        if (null == timeId) {
-			timeId = 0;
-		}
+        Date startTime =null; // 起始时间
+        Date endTime = null; // 截止时间
+        if(null != start && !"".equals(start.trim()))
+        {
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	try {
+				startTime = sdf.parse(start);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+        }
         
-        if (timeId.equals(0)) {
-	        if (null != statusId)
-	        {
-	            if (statusId.equals(0L)) // 全部订单
-	            {  
-	            	if (null == keywords) {
-	            		map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
-					}else {
-						map.addAttribute("order_page", tdOrderService.searchAll(keywords, page, size));
-					}
-	                
-	            }
-	            else
-	            {
-	            	if (null == keywords) {
-	            		map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
-					}else {
-						map.addAttribute("order_page", tdOrderService.searchByStatusId(keywords, statusId, page, size));
-					}
-	                
-	            }
-	        }
+        if(null != end && !"".equals(end.trim()))
+        {
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	try {
+				endTime = sdf.parse(end);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
         }
-        else if (timeId.equals(1)) {
-        	Date cur = new Date(); 
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-          //  calendar.add(Calendar.MONTH, -1);// 月份减一
-          //  calendar.add(Calendar.DAY_OF_MONTH, -1);
-            Date time = calendar.getTime();
-            time.setHours(0);
-            time.setMinutes(0); 
-            
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        }    
-        else if (timeId.equals(2)) {
-        	Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-          //  calendar.add(Calendar.MONTH, -1);// 月份减一
-            calendar.add(Calendar.DAY_OF_MONTH, -7);
-            Date time = calendar.getTime(); 
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        } 
-        else if (timeId.equals(3)) {
-        	Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-            calendar.add(Calendar.MONTH, -1);// 月份减一
-           // calendar.add(Calendar.DAY_OF_MONTH, -7);
-            Date time = calendar.getTime();
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        }
-        else if (timeId.equals(4)) {
-        	Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-            calendar.add(Calendar.MONTH, -3);// 月份减一
-           // calendar.add(Calendar.DAY_OF_MONTH, -7);
-            Date time = calendar.getTime();
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        }    
-        else if (timeId.equals(6)) {
-        	Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-            calendar.add(Calendar.MONTH, -6);// 月份减一
-           // calendar.add(Calendar.DAY_OF_MONTH, -7);
-            Date time = calendar.getTime();
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        }
-        else if (timeId.equals(12)) {
-        	Date cur = new Date();
-            Calendar calendar = Calendar.getInstance();// 日历对象
-            calendar.setTime(cur);// 设置当前日期
-            calendar.add(Calendar.MONTH, -12);// 月份减一
-           // calendar.add(Calendar.DAY_OF_MONTH, -7);
-            Date time = calendar.getTime();
-            if (statusId.equals(0L)) // 全部订单
-            {  
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
-				}
-                
-            }
-            else
-            {
-            	if (null == keywords) {
-            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
-				}else {
-					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
-				}
-                
-            }
-        }
+        
+
+    	if(null == startTime)
+        {
+        	if(null == endTime)
+        	{
+        		if(null != statusId)
+        		{
+        			if(statusId.equals(0L))
+        			{
+        				if(null != keywords)
+        				{
+        					map.addAttribute("order_page",
+        							tdOrderService.searchByOrderNumber(keywords, page, size));
+        				} // 关键字订单筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findAllOrderByIdDesc(page, size));
+        				} // 所有订单END
+        			}// 所有状态END
+        			else
+        			{
+        				if(null !=keywords)
+        				{
+        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusOrderByIdDesc(keywords, statusId, page, size));
+        					
+        				} // 各状态关键字筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+        				} // 各状态所有订单								
+        			}
+        		}
+        	} // 未选结尾时间END
+        	else
+        	{
+        		if(null != statusId)
+        		{
+        			if(statusId.equals(0L))
+        			{
+        				if(null != keywords)
+        				{
+        					map.addAttribute("order_page",
+        							tdOrderService.searchByOrderNumberAndOrderTimeBefore(keywords, endTime, page, size));
+        				} // 关键字+时间截止日期订单筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByOrderTimeBeforeOrderByIdDesc(endTime, page, size));
+        				} // 所有订单+时间截止筛选END
+        			}// 所有状态+时间截止 END
+        			else
+        			{
+        				if(null !=keywords)
+        				{
+        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBeforeOrderByIdDesc(keywords, statusId,endTime, page, size));
+        					
+        				} // 各状态+关键字+截止时间筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBeforeOrderByIdDesc(statusId,endTime, page, size));
+        					
+        				} // 各状态所有订单+ 截止时间筛选END
+        			}
+        		}
+        	} // 截止时间END
+        }// 未选开始时间筛选END
+        else
+        {
+        	if(null == endTime)
+        	{
+        		if(null != statusId)
+        		{
+        			if(statusId.equals(0L))
+        			{
+        				if(null != keywords)
+        				{
+        					map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeAfter(keywords,startTime, page, size));
+        				} // 关键字订单+ 起始时间筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByOrderTimeAfterOrderByIdDesc(startTime,page, size));
+        				} // 所有订单+起始时间END
+        			}// 所有状态END
+        			else
+        			{
+        				if(null !=keywords)
+        				{
+        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeAfterOrderByIdDesc(keywords, statusId,startTime, page, size));
+        					
+        				} // 各状态关键字+起始时间筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeAfterOrderByIdDesc(statusId, startTime,page, size));
+        					
+        				} // 各状态所有订单+起始时间
+        			}
+        		}
+        	} // 起始时间+未选结尾时间END
+        	else
+        	{
+        		if(null != statusId)
+        		{
+        			if(statusId.equals(0L))
+        			{
+        				if(null != keywords)
+        				{
+        					map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeDetween(keywords,startTime, endTime, page, size));
+        				} // 起始时间+关键字+时间截止日期订单筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByOrderTimeBetweenOrderByIdDesc(startTime,endTime, page, size));
+        				} // 所有订单+起始时间+时间截止筛选END
+        			}// 所有状态+起始时间+时间截止 END
+        			else
+        			{
+        				if(null !=keywords)
+        				{
+        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBetweenOrderByIdDesc(keywords, statusId,startTime,endTime, page, size));
+        					
+        				} // 各状态+关键字+起始时间+截止时间筛选END
+        				else
+        				{
+        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBetweenOrderByIdDesc(statusId,startTime,endTime, page, size));
+        					
+        				} // 各状态所有订单+ 截止时间筛选END
+        			}
+        		}
+        	} // 截止时间END
+        }// 起始时间+。。。END 
+        
+        
+        
+//        if (timeId.equals(0)) {
+//	        if (null != statusId)
+//	        {
+//	            if (statusId.equals(0L)) // 全部订单
+//	            {  
+//	            	if (null == keywords) {
+//	            		map.addAttribute("order_page", tdOrderService.findAllOrderByIdDesc(page, size));
+//					}else {
+//						map.addAttribute("order_page", tdOrderService.searchAll(keywords, page, size));
+//					}
+//	                
+//	            }
+//	            else
+//	            {
+//	            	if (null == keywords) {
+//	            		map.addAttribute("order_page", tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+//					}else {
+//						map.addAttribute("order_page", tdOrderService.searchByStatusId(keywords, statusId, page, size));
+//					}
+//	                
+//	            }
+//	        }
+//        }
+//        else if (timeId.equals(1)) {
+//        	Date cur = new Date(); 
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//          //  calendar.add(Calendar.MONTH, -1);// 月份减一
+//          //  calendar.add(Calendar.DAY_OF_MONTH, -1);
+//            Date time = calendar.getTime();
+//            time.setHours(0);
+//            time.setMinutes(0); 
+//            
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        }    
+//        else if (timeId.equals(2)) {
+//        	Date cur = new Date();
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//          //  calendar.add(Calendar.MONTH, -1);// 月份减一
+//            calendar.add(Calendar.DAY_OF_MONTH, -7);
+//            Date time = calendar.getTime(); 
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        } 
+//        else if (timeId.equals(3)) {
+//        	Date cur = new Date();
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//            calendar.add(Calendar.MONTH, -1);// 月份减一
+//           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+//            Date time = calendar.getTime();
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        }
+//        else if (timeId.equals(4)) {
+//        	Date cur = new Date();
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//            calendar.add(Calendar.MONTH, -3);// 月份减一
+//           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+//            Date time = calendar.getTime();
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        }    
+//        else if (timeId.equals(6)) {
+//        	Date cur = new Date();
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//            calendar.add(Calendar.MONTH, -6);// 月份减一
+//           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+//            Date time = calendar.getTime();
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        }
+//        else if (timeId.equals(12)) {
+//        	Date cur = new Date();
+//            Calendar calendar = Calendar.getInstance();// 日历对象
+//            calendar.setTime(cur);// 设置当前日期
+//            calendar.add(Calendar.MONTH, -12);// 月份减一
+//           // calendar.add(Calendar.DAY_OF_MONTH, -7);
+//            Date time = calendar.getTime();
+//            if (statusId.equals(0L)) // 全部订单
+//            {  
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByTimeAfterOrderByIdDesc(time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndTimeAfterOrderByIdDesc(keywords,time, page, size));
+//				}
+//                
+//            }
+//            else
+//            {
+//            	if (null == keywords) {
+//            		map.addAttribute("order_page", tdOrderService.findByStatusAndTimeAfterOrderByIdDesc(statusId, time, page, size));
+//				}else {
+//					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndTimeAfterOrderByIdDesc(keywords, statusId, time, page, size));
+//				}
+//                
+//            }
+//        }
         
         // 参数注回
         map.addAttribute("page", page);
         map.addAttribute("size", size);
         map.addAttribute("keywords", keywords);
         map.addAttribute("statusId", statusId);
-        map.addAttribute("time_id", timeId);
+        map.addAttribute("startime", startTime);
+        map.addAttribute("endTime", endTime);
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
