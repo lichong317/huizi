@@ -45,17 +45,17 @@ function signin(){
     
     var username = $("#username").text();
      $.ajax({
-                type: "post",
-                url: "/lottery/signin",
-                data: { "username": username },
-                dataType: "json",
-                success: function (data) {
-                    if (data.code == 0) {
-                       window.location.reload();
-                    } else {
-                        alert(data.msg);
-                    }
+            type: "post",
+            url: "/lottery/signin",
+            data: { "username": username },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                   window.location.reload();
+                } else {
+                    alert(data.msg);
                 }
+            }
     });
 }
 
