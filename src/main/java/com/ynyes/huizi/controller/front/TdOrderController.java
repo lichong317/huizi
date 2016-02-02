@@ -24,6 +24,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.solr.common.util.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
@@ -2015,7 +2016,8 @@ public class TdOrderController extends AbstractPaytypeController{
             } else if (PAYMENT_WX.equals(payCode)) {
                 map.addAttribute("order_number", order.getOrderNumber());
                 map.addAttribute("total_price", order.getTotalPrice());
-
+                map.addAttribute("order", order); //Max
+                
                 String sa = "appid=" + Configure.getAppid() + "&mch_id="
                         + Configure.getMchid() + "&nonce_str="
                         + RandomStringGenerator.getRandomStringByLength(32)
@@ -2453,6 +2455,31 @@ public class TdOrderController extends AbstractPaytypeController{
         String url = (String) request.getSession().getAttribute(
                 "WXPAYURLSESSEION");
         qr.getQRCode(url, 300, response);
+    }
+    
+    /**
+     * 轮询微信支付结果
+     * @author Max
+     */
+    @RequestMapping(value="/remind",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> remind(Long id,HttpServletRequest req)
+    {
+    	Map<String,Object> res = new HashMap<>();
+    	res.put("code",1);
+    	if(null != id)
+    	{
+    		TdOrder order = tdOrderService.findOne(id);
+    		if(null != order)
+    		{
+    			if(order.getStatusId()==3)
+    			{
+    				res.put("code", 0);
+    			}
+    		}
+    	}
+    	
+    	return res;
     }
     
     /**

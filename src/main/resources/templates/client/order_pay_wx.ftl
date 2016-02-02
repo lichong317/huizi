@@ -29,6 +29,23 @@
     navDownList("navdown","li",".nav_showbox");
     menuDownList("mainnavdown","#navdown",".a2","sel");
 });
+
+  $(document).ready(function () {
+        setInterval("remind()",30000);
+  });
+ 
+ function remind(){
+    var id = $("#orderId").val();
+     $.ajax({
+        type: "post",
+        url: "/order/remind",
+        data: {"id":id},
+        dataType: "json",
+        success: function (data) {   
+             if (data.code == 0) {
+                window.location.href="/order/pay/success"; 
+         }
+ }
 </script>
 </head>
 <body>
@@ -38,6 +55,7 @@
     <div class="mail_box_inner">
         <div class="area primary">
             <div class="pay_msg qr_default" id="payMsg">
+                <input type="hidden" value="<#if order??>${order.id?c}</#if>" id="orderId">
                 <div class="area_bd" id="qr_normal" style="display: block;">
                     <span class="qr_img_wrapper">
                         <img class="qrcode" alt="二维码" id="QRcode" src="/order/payqrcode">
