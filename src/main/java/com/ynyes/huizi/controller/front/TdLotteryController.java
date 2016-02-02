@@ -161,6 +161,37 @@ public class TdLotteryController {
 	     return res;
 	}
 	
+	@RequestMapping(value="/lottery/minPoint",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> minPoint(HttpServletRequest req)
+	{
+		String username = (String)req.getSession().getAttribute("username");
+		
+		Map<String,Object> res = new HashMap<>();
+		res.put("code", 1);
+		if(null == username)
+		{
+			res.put("msg", "请重新登录");
+			return res;
+		}
+		TdUser tdUser = tdUserService.findByUsername(username);
+		// Max   抽奖减积分
+	    if(null != tdUser)
+	    {
+	    	if(null == tdUser.getTotalPoints() || tdUser.getTotalPoints()<20)
+	    	{
+	    		res.put("msg", "积分不足");
+	    		return res;
+	    	}
+	    	tdUser.setTotalPoints(tdUser.getTotalPoints()-20);
+	    	tdUserService.save(tdUser);
+	    	res.put("code",0);
+	    } 
+	     res.put("msg", "参数错误");
+		
+		return res;
+	}
+	
 	@RequestMapping(value="/lottery/getPrize",method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getPrize(String username, Long id,
@@ -183,13 +214,6 @@ public class TdLotteryController {
 	     
 	     TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
 	     
-	     // Max   抽奖减积分
-	     if(null == tdUser.getTotalPoints() || tdUser.getTotalPoints()<20)
-	     {
-	    	 res.put("msg", "积分不足");
-	    	 return res;
-	     }
-	     tdUser.setTotalPoints(tdUser.getTotalPoints()-20);
 	     
 	     if (null != tdPrizeCategory && null != tdUser) {
 			if (tdPrizeCategory.getLeftNumber().equals(0L)) {

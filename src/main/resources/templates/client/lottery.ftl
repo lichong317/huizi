@@ -190,7 +190,22 @@ $(function(){
          
     
     $('.pointer').click(function (){
-
+        
+        $.ajax({
+            type : 'post',
+            url : '/lottery/minPoint',
+            data :{ },
+            dateType : "json",
+            success :function(data)
+            {
+               if(data.code==1)
+                {
+                    alert(data.msg);
+                    return;
+               } 
+            }
+        })
+        
         if(bRotate)return;
         var a = runzp(data1);
 
@@ -206,14 +221,14 @@ $(function(){
                 }else{
                      alert(a.prize+a.message);//简单的弹出获奖信息
                      animatetemp = a.angle;
-                     if(a.isWin){
+                    // if(a.isWin){
                            window.location.reload();
-                     }
+                   //  }
                 }   
                 bRotate = !bRotate;
             }
         })
-
+       
         console.log(a);
     });
      
