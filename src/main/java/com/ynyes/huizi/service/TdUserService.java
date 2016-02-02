@@ -100,6 +100,7 @@ public class TdUserService {
         {
             user.setPointGetByShareGoods(0L);
             user.setIsSignin(false);
+            user.setLotteryNumber(0L);
         }
         
         repository.save(userList);

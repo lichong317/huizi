@@ -240,6 +240,10 @@ public class TdUser {
     @Column
     private Boolean isSignin;
     
+    // 今日抽奖次数
+    @Column
+    private Long lotteryNumber;
+    
     // 虚拟货币
     @Column
     private Double virtualCurrency;
@@ -336,7 +340,15 @@ public class TdUser {
         return username;
     }
 
-    public void setUsername(String username) {
+    public Long getLotteryNumber() {
+		return lotteryNumber;
+	}
+
+	public void setLotteryNumber(Long lotteryNumber) {
+		this.lotteryNumber = lotteryNumber;
+	}
+
+	public void setUsername(String username) {
         this.username = username;
     }
 

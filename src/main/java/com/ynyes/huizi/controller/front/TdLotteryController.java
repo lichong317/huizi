@@ -184,6 +184,17 @@ public class TdLotteryController {
 	    		return res;
 	    	}
 	    	tdUser.setTotalPoints(tdUser.getTotalPoints()-20);
+	    	if(null != tdUser.getLotteryNumber())
+	    	{
+	    		if(tdUser.getLotteryNumber() >5)
+	    		{
+	    			res.put("msg", "您今日已经抽奖五次，请明天再来");
+	    			return res;
+	    		}
+	    		tdUser.setLotteryNumber(tdUser.getLotteryNumber()+1);
+	    	}else{
+	    		tdUser.setLotteryNumber(1L);
+	    	}
 	    	tdUserService.save(tdUser);
 	    	res.put("code",0);
 	    } 
