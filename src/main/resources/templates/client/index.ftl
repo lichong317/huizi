@@ -241,7 +241,7 @@ function delItem(id)
             <ul class="navlistout" id="navdown">
                 <#if top_cat_list??>
                     <#list top_cat_list as item>
-                       <#if item_index < 10>
+                       <#if item_index < 9>
                         <li>
                             <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/themes?categoryId=${item.id?c}">${item.title!''}</a></h3>
                 
