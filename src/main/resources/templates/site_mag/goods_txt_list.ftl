@@ -183,7 +183,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <input type="hidden" name="listId" id="listId" value="${content.id?c}">
             </td>
             <td>${content.id?c}</td>
-            <td><a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id!""}&__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></td>
+            <td><a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id?c}&__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></td>
             <td>
                 <#if category_list?? && content.categoryId??>
                     <#list category_list as cat>
@@ -201,8 +201,8 @@ function __doPostBack(eventTarget, eventArgument) {
             <td>
               <div class="btn-tools">
                 <a title="上架/下架" class="hot <#if content.isOnSale?? && content.isOnSale>selected</#if>" href="javascript:__doPostBack('btnOnSale','${content.id?c!''}')"></a>
-                <a title="改价" class="change" href="javascript:showDialogChangePrice('${content.id!""}')"></a>
-                <a title="改价记录" class="record" href="javascript:showDialogPriceLog('${content.id!""}')"></a>
+                <a title="改价" class="change" href="javascript:showDialogChangePrice('${content.id?c}')"></a>
+                <a title="改价记录" class="record" href="javascript:showDialogPriceLog('${content.id?c}')"></a>
                 <#--
                 <a id="rptList1_ctl01_lbtnIsTop" title="设置置顶" class="top" href="javascript:__doPostBack('rptList1$ctl01$lbtnIsTop','')"></a>
                 <a id="rptList1_ctl01_lbtnIsRed" title="设置推荐" class="red" href="javascript:__doPostBack('rptList1$ctl01$lbtnIsRed','')"></a>
@@ -212,7 +212,7 @@ function __doPostBack(eventTarget, eventArgument) {
               </div>
             </td>
             <td align="center">
-                <a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id!""}&__VIEWSTATE=${__VIEWSTATE!""}">修改</a>
+                <a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id?c}&__VIEWSTATE=${__VIEWSTATE!""}">修改</a>
             </td>
         </tr>
     </#list>

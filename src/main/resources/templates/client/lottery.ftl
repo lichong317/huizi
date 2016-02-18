@@ -203,32 +203,32 @@ $(function(){
                     alert(data.msg);
                     return;
                } 
-            }
-        })
+               if(bRotate)return;
+                var a = runzp(data1);
         
-        if(bRotate)return;
-        var a = runzp(data1);
-
-        bRotate = !bRotate;
-        $('#rotate').stopRotate();
-        $('#rotate').rotate({
-            angle:0,
-            animateTo:a.angle+1800,
-            duration:8000,
-            callback:function (){
-                if(a.isOver == true){
-                     alert("奖品已抽完！");
-                }else{
-                     alert(a.prize+a.message);//简单的弹出获奖信息
-                     animatetemp = a.angle;
-                    // if(a.isWin){
-                           window.location.reload();
-                   //  }
-                }   
                 bRotate = !bRotate;
+                $('#rotate').stopRotate();
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:a.angle+1800,
+                    duration:8000,
+                    callback:function (){
+                        if(a.isOver == true){
+                             alert("奖品已抽完！");
+                        }else{
+                             alert(a.prize+a.message);//简单的弹出获奖信息
+                             animatetemp = a.angle;
+                            // if(a.isWin){
+                                   window.location.reload();
+                           //  }
+                        }   
+                        bRotate = !bRotate;
+                    }
+                })
             }
         })
-       
+
+          
         console.log(a);
     });
      

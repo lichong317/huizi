@@ -62,7 +62,7 @@ public class TdManagerProductCategoryController {
         if (null == keywords) {
         	map.addAttribute("category_list", tdProductCategoryService.findAll());
 		}else {
-			map.addAttribute("category_list", tdProductCategoryService.findAll());
+			map.addAttribute("category_list", tdProductCategoryService.searchAll(keywords));
 		}
         
 
