@@ -44,7 +44,9 @@
         success: function (data) {   
              if (data.code == 0) {
                 window.location.href="/order/pay/success"; 
-         }
+             }
+        }
+     });
  }
 </script>
 </head>

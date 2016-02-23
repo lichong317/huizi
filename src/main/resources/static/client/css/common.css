@@ -366,7 +366,7 @@ a.white:hover { color:#ff7d43;}
 	line-height:16px;
 	border-right:1px solid #eee;}
 .shopping_box {
-	z-index:20;
+	z-index:11;
 	width:169px;
 	float:right;
 	_float:right;

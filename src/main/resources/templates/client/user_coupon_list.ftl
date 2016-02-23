@@ -9,9 +9,10 @@
 <!--[if IE]>
    <script src="/client/js/html5.js"></script>
 <![endif]-->
-<link href="/client/css/common.css" rel="stylesheet" type="text/css" />
+
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/client/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/mymember.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <!--<link href="/client/css/member.css" rel="stylesheet" type="text/css" />-->

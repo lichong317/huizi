@@ -163,7 +163,7 @@ $(document).ready(function(){
         <tr>
           <th>订单总额</th>
           <td>
-          <#if order.typeId == 5>
+          <#if order.typeId?? && order.typeId == 5>
             总额：                 <font color="#ff1000">￥<#if order??>${order.totalPrice?string("0.00")}</#if></font>
             &nbsp;&nbsp;=&nbsp;&nbsp;商品兑换积分:￥${order.orderGoodsList[0].pointUse!''}
             &nbsp;&nbsp;+&nbsp;&nbsp;配送费用:￥${order.deliverTypeFee?string("0.00")}
