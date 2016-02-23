@@ -188,13 +188,13 @@ function confirmCopy(id)
             </div>
             <i class="absbg"></i>
             </#if>
-            <h1><span><a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id!""}&__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></span></h1>
+            <h1><span><a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id?c}&__VIEWSTATE=${__VIEWSTATE!""}">${content.title!""}</a></span></h1>
             <div class="remark">${content.subTitle!""}</div>
             <div class="tools">
                 
                 <a title="上架/下架" class="hot <#if content.isOnSale?? && content.isOnSale>selected</#if>" href="javascript:__doPostBack('btnOnSale','${content.id?c!''}')"></a>
-                <a title="改价" class="change" href="javascript:showDialogChangePrice('${content.id!""}')"></a>
-                <a title="改价记录" class="record" href="javascript:showDialogPriceLog('${content.id!""}')"></a>
+                <a title="改价" class="change" href="javascript:showDialogChangePrice('${content.id?c}')"></a>
+                <a title="改价记录" class="record" href="javascript:showDialogPriceLog('${content.id?c}')"></a>
                 <input name="listSortId" type="text" value="${content.sortId!""}" class="sort" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)));">
               
               <#--
@@ -208,7 +208,7 @@ function confirmCopy(id)
             </div>
             <div class="foot">
               <p class="time"><#if content.onSaleTime??>${content.onSaleTime?string("yyyy-MM-dd HH:mm:ss")}</#if></p>
-              <a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id!""}&__VIEWSTATE=${__VIEWSTATE!""}" title="编辑" class="edit">编辑</a>
+              <a href="/Verwalter/goods/edit?cid=${cid!""}&mid=${mid!""}&id=${content.id?c}&__VIEWSTATE=${__VIEWSTATE!""}" title="编辑" class="edit">编辑</a>
               <a href="javascript:confirmCopy(${content.id?c});" title="复制商品" class="show">复制</a>
             </div>
         </div>

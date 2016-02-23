@@ -1284,7 +1284,12 @@ public class TdOrderController extends AbstractPaytypeController{
         
          if (tdOrder.getIsOnlinePay()) {
         	 if (tdOrder.getTotalPrice() == 0) {
-     			afterPaySuccess(tdOrder);
+        		if (tdOrder.getTypeId().equals(5L)) {
+					pointOrderafterPaySuccess(tdOrder);
+				}else{
+					afterPaySuccess(tdOrder);
+				}
+     			
      		}
         	 return "redirect:/order/pay?orderId=" + tdOrder.getId();
          }
@@ -1856,7 +1861,11 @@ public class TdOrderController extends AbstractPaytypeController{
         if (tdOrder.getIsOnlinePay()) {
         	
         	if (tdOrder.getTotalPrice() == 0) {
-    			afterPaySuccess(tdOrder);
+        		if (tdOrder.getTypeId().equals(5L)) {
+					pointOrderafterPaySuccess(tdOrder);
+				}else{
+					afterPaySuccess(tdOrder);
+				}
     		}
             return "redirect:/order/pay?orderId=" + tdOrder.getId();
         }
@@ -2127,7 +2136,11 @@ public class TdOrderController extends AbstractPaytypeController{
             if ("TRADE_SUCCESS".equals(trade_status)) {
 
                 // 订单支付成功
-                afterPaySuccess(order);
+            	if (order.getTypeId().equals(5L)) {
+					pointOrderafterPaySuccess(order);
+				}else{
+					afterPaySuccess(order);
+				}
                 // 触屏
                 if (device.isMobile() || device.isTablet()) {
                     return "/touch/order_pay_success";
@@ -2394,7 +2407,11 @@ public class TdOrderController extends AbstractPaytypeController{
 
                 if (null != order)
                 {
-                    afterPaySuccess(order);
+                	if (order.getTypeId().equals(5L)) {
+    					pointOrderafterPaySuccess(order);
+    				}else{
+    					afterPaySuccess(order);
+    				}
                 }
                 noncestr = RandomStringGenerator.getRandomStringByLength(32);
                 String sa = "appid=" + Configure.getAppid()
@@ -2472,7 +2489,7 @@ public class TdOrderController extends AbstractPaytypeController{
     		TdOrder order = tdOrderService.findOne(id);
     		if(null != order)
     		{
-    			if(order.getStatusId()==3)
+    			if(order.getStatusId().equals(3L))
     			{
     				res.put("code", 0);
     			}
@@ -2786,5 +2803,64 @@ public class TdOrderController extends AbstractPaytypeController{
             }
         }
         
+    }
+    
+    /**
+     * 积分商品订单支付成功后步骤
+     * 
+     * @param tdOrder
+     *            订单
+     */
+    private void pointOrderafterPaySuccess(TdOrder tdOrder) {
+        if (null == tdOrder) 
+        {
+            return;
+        }
+
+        // 用户
+        TdUser tdUser = tdUserService.findByUsername(tdOrder.getUsername());
+        
+        if (null == tdUser)
+        {
+            return;
+        }       
+      
+        
+        // 设置抢购最后时间
+       	        
+        if (tdOrder.getStatusId().equals(2L))
+        {
+            tdOrder.setPayTime(new Date()); // 设置付款时间
+        }
+       
+      
+        // 待发货
+        tdOrder.setStatusId(3L);
+        tdOrder = tdOrderService.save(tdOrder);       
+
+        Long pointUse = 0L;
+        
+        if (null != tdOrder.getOrderGoodsList().get(0).getPointUse()) {
+        	pointUse = tdOrder.getOrderGoodsList().get(0).getPointUse();
+		}
+        
+       	// 积分扣除        
+        if (null != tdUser) {
+        if (pointUse.compareTo(0L) >= 0
+                && tdUser.getTotalPoints().compareTo(pointUse) >= 0) {
+            TdUserPoint userPoint = new TdUserPoint();
+            userPoint.setDetail("积分兑换商品");
+            userPoint.setOrderNumber(tdOrder.getOrderNumber());
+            userPoint.setPoint(0 - pointUse);
+            userPoint.setPointTime(new Date());
+            userPoint.setUsername(tdUser.getUsername());
+            userPoint.setTotalPoint(tdUser.getTotalPoints() - pointUse);
+            tdUserPointService.save(userPoint);
+
+            tdUser.setTotalPoints(tdUser.getTotalPoints() - pointUse);
+            tdUserService.save(tdUser);
+        	}
+        }
+       
     }
 }

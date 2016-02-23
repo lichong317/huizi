@@ -526,7 +526,7 @@ var forPaymentFllow = true;
                     <input id="idTotalPriceSteady" type="hidden" value="${(totalPrice)?string("#.##")}" />
                     <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
                      + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
-                     - 积分抵扣（<span>￥<input id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
+                     - 积分抵扣（<span>￥<input disabled="disabled" id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
                      = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+totalPostage!0)?string("0.00")}</b></span> </p>
                 </div>
             </div>

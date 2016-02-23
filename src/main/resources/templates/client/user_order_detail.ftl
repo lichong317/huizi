@@ -163,6 +163,12 @@ $(document).ready(function(){
         <tr>
           <th>订单总额</th>
           <td>
+          <#if order.typeId == 5>
+            总额：                 <font color="#ff1000">￥<#if order??>${order.totalPrice?string("0.00")}</#if></font>
+            &nbsp;&nbsp;=&nbsp;&nbsp;商品兑换积分:￥${order.orderGoodsList[0].pointUse!''}
+            &nbsp;&nbsp;+&nbsp;&nbsp;配送费用:￥${order.deliverTypeFee?string("0.00")}
+          <#else>
+          
             总额:
             <font color="#ff1000">￥<#if order??>${order.totalPrice?string("0.00")}</#if></font>
             &nbsp;&nbsp;=&nbsp;&nbsp;商品总金额:￥${order.totalGoodsPrice?string("0.00")}
@@ -175,6 +181,7 @@ $(document).ready(function(){
             </#if>           
             &nbsp;&nbsp;-&nbsp;&nbsp;积分抵扣:￥${order.pointUse!'0'}
             &nbsp;&nbsp;&nbsp;&nbsp;支付方式：${order.payTypeTitle!''}
+          </#if>
           </td>
         </tr>
         <tr>

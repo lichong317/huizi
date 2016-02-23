@@ -81,6 +81,10 @@ public class TdOrderGoods {
     // 评论ID
     @Column
     private Long commentId;
+    
+    // 兑换商品使用积分数
+    @Column
+    private Long pointUse;
 
     public Boolean getIsCommented() {
 		return isCommented;
@@ -96,6 +100,14 @@ public class TdOrderGoods {
 
 	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
+	}
+
+	public Long getPointUse() {
+		return pointUse;
+	}
+
+	public void setPointUse(Long pointUse) {
+		this.pointUse = pointUse;
 	}
 
 	public Long getId() {

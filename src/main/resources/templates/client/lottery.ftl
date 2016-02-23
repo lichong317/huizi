@@ -132,7 +132,7 @@ function signin(){
 
 <div class="turntable-bg"> 
   <div class="pointer"><img src="/client/images/start.png" alt="pointer"/></div>
-  <div class="rotate" ><img id="rotate" src="/client/images/disk.jpg" alt="turntable"/></div>
+  <div class="rotate" ><img id="rotate" src="/client/images/disk.png" alt="turntable"/></div>
 </div>
   
 <div class="u_lottery_right">

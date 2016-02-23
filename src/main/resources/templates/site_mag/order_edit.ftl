@@ -738,7 +738,7 @@
                                         ${goods.goodsVersion!""}
                                         ${goods.goodsSaleType!""}
                                     </td>
-                                    <td>${goods.price?string("#.00")}</td>
+                                    <td>${goods.price?string("#.00")}<#if order.typeId == 5>(兑换积分：${goods.pointUse!'0'})</#if></td>
                                     <td>${goods.quantity!""}</td>
                                     <td>${(goods.price*goods.quantity)?string("#.00")}</td>
                                 </tr>
@@ -762,6 +762,13 @@
                                 <span id="spanRealAmountValue">
                                     <#if order.totalGoodsPrice??>${order.totalGoodsPrice?string("0.00")}</#if>
                                 </span> 元
+                                &nbsp <#if order.typeId == 5>
+                                        <#if order.orderGoodsList??>
+                                        <#list order.orderGoodsList as goods>
+                                            (兑换积分：${goods.pointUse!'0'})
+                                        </#list>
+                                        </#if>
+                                      </#if>
                                 <#if order.statusId==1 || order.statusId==2 && order.isOnlinePay>
                                 <input name="btnEditRealAmount" type="button" id="btnEditRealAmount" class="ibtn" value="调价">
                                 </#if>
