@@ -23,9 +23,20 @@
     -ms-transform: rotateY(360deg);
     transform: rotateY(360deg);}
 
-.banner{width: 1200px; margin: 0 auto;}
-.banner img{width: 100%;}
+/**.banner{width: 1200px; margin: 0 auto;}
+.banner img{width: 100%;}**/
 
+.banner {
+    width:1200px;
+    height:450px;
+    margin:0 auto;
+    overflow:hidden;}
+#indexbanner {width:100%;height:450px;}
+#indexbanner a {display:block;width:100%;height:450px;background-repeat:no-repeat;background-position:center center;position:absolute;left:0;top:0;}
+#bannernum {position:absolute;width:100%;bottom:15px;text-align:center;}
+#bannernum span { display:inline-block;width:15px;height:15px;background:#ccc; opacity:0.8; line-height:0px; font-size:0px; border-radius:50%; margin:0 8px;cursor: pointer;}
+#bannernum span.numsel { background:#fd3e3e;}   
+    
 /*.index_banner { float:right; margin-right:5px;_margin-right:5px; width:734px; height:320px; overflow:hidden;}
 #index_banner a { position:absolute;left:0; top:0;}
 #index_banner_num { position:absolute;bottom:0;left:0; background:url(../images/darkbg.png) repeat; width:100%; z-index:1;}

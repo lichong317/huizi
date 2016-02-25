@@ -31,7 +31,7 @@
 });
 
   $(document).ready(function () {
-        setInterval("remind()",30000);
+        setInterval("remind()",3000);
   });
  
  function remind(){

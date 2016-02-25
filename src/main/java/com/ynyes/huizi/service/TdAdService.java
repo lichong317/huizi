@@ -111,6 +111,18 @@ public class TdAdService {
         return (List<TdAd>) repository.findAll(new Sort(Direction.ASC, "sortId"));
     }
     
+    
+    /**
+	 * @author lc
+	 * @注释：搜索广告
+	 */
+    public Page<TdAd> searchAll(String keywords, int page ,int size){
+    	
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId").and(new Sort(Direction.DESC,"createTime")));
+        
+        return repository.findByTitleContainingOrSubtitleContaining(keywords, keywords, pageRequest);
+    }
+    
     /**
      * 保存
      * 

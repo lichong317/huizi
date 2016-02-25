@@ -14,6 +14,7 @@
 <script src="/client/js/common.js"></script>
 <script src="/client/js/ljs-v1.01.js"></script>
 <script src="/client/js/float_window.js"></script>
+<script src="/client/js/banner.js"></script>
 
 <link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />    
@@ -31,6 +32,8 @@
 	//menuDownList("mainnavdown","#navdown",".a2","sel");
 	
 	chooseMoreShow();
+	
+	bannerCartoon("indexbanner","a","bannernum",300,5000,"","");//banner
 	
 	//左右滚动幻灯片广告
     var the_three = {
@@ -243,7 +246,7 @@ function delItem(id)
                     <#list top_cat_list as item>
                        <#if item_index < 9>
                         <li>
-                            <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/themes?categoryId=${item.id?c}">${item.title!''}</a></h3>
+                            <h3 class="${item.callIndex}"><img src="${item.imgUrl}" /><a href="/list/${item.id?c}">${item.title!''}</a></h3>
                 
                             <div class="nav_showbox">
                                 <i class="bg"></i>
@@ -293,7 +296,7 @@ function delItem(id)
 </div>
 <div class="clear"></div>
 	<!--banner-->
-	<div class="banner">
+<#--	<div class="banner">
 		<#if banner_ad_list??>
                <#list banner_ad_list as item>
                     <#if item_index < 1>
@@ -301,8 +304,20 @@ function delItem(id)
                     </#if>
                </#list>
         </#if>
-    </div>   
-
+    </div>   -->
+    
+    <div class="banner">
+        <menu id="indexbanner">
+            <#if banner_ad_list??>
+                   <#list banner_ad_list as item>
+                        <#if item_index < 3>
+                            <a href="${item.linkUri!''}" style="display:block;background:url(${item.fileUri!''}) no-repeat center;width:1200px;height:450px; "></a>
+                        </#if>
+                   </#list>
+            </#if>             
+        </menu>
+        <div id="bannernum"></div>
+    </div>
   <#--  <div id="threebox" class="banner">
       <ul id="threesum">
         <li id="threeli01" style="width: 100% !important;height: 452px;overflow: hidden;text-align: center;">
@@ -348,24 +363,24 @@ function delItem(id)
 				<tbody>
 					<tr>
 						<td>
-							<a href="http://chongzhi.jd.com/" target="_Blank"><img src="client/images/hzd_66.png"><p>话费充值</p></a>
+							<a href="https://auth.alipay.com/login/index.htm?goto=https%3A%2F%2Febppprod.alipay.com%2Frecharge%2Frecharge.htm" target="_Blank"><img src="client/images/hzd_66.png"><p>话费充值</p></a>
 						</td>
 						<td>
-							<a href="http://movie.jd.com/index.html" target="_Blank"><img src="client/images/hzd_67.png"><p>电影票</p></a>
+							<a href="http://dianying.taobao.com/" target="_Blank"><img src="client/images/hzd_67.png"><p>电影票</p></a>
 						</td>
 						<td>
-							<a href="http://caipiao.jd.com/" target="_Blank"><img src="client/images/hzd_68.png"><p>彩票</p></a>
+							<a href="http://app.alipay.com/home/appGateway.htm?appId=1000000030" target="_Blank"><img src="client/images/hzd_68.png"><p>彩票</p></a>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<a href="http://chongzhi.jd.com/index.action?bussType=3" target="_Blank"><img src="client/images/hzd_69.png"><p>水电缴费</p></a>
+							<a href="https://jiaofei.alipay.com/jiaofei.htm?_pdType=aecfbbfgeabbifdfdieh&_scType=bacfajegafddadijhagd" target="_Blank"><img src="client/images/hzd_69.png"><p>水电缴费</p></a>
 						</td>
 						<td>
-							<a href="http://chongzhi.jd.com/index.action?bussType=3" target="_Blank"><img src="client/images/hzd_70.png"><p>宽带</p></a>
+							<a href="https://jiaofei.alipay.com/guhua.htm?_pdType=bbcjbfefaccjfbjdabhd" target="_Blank"><img src="client/images/hzd_70.png"><p>宽带</p></a>
 						</td>
 						<td>
-							<a href="http://tuan.jd.com/channel/virtual-kunming-2315-0-0-0-0-0-1-0-1.html?jdr=homevirtual-202" target="_Blank"><img src="client/images/hzd_71.png"><p>门票</p></a>
+							<a href="http://app.alipay.com/home/appGateway.htm?appId=1000000249" target="_Blank"><img src="client/images/hzd_71.png"><p>门票</p></a>
 						</td>
 					</tr>
 				</tbody>
@@ -416,7 +431,7 @@ function delItem(id)
 		</table>
 		<div class="clear"></div>
 		<!--1楼-->
-		<div class="index_onetit">1F&nbsp;&nbsp;&nbsp;&nbsp;家用电器</div>
+		<div class="index_onetit">1F&nbsp;&nbsp;&nbsp;&nbsp;平板电视</div>
 		<div class="index_one">
 			<menu class="index_one_list">
 			    <#if domesticAppliance_cat_list??>
@@ -495,7 +510,7 @@ function delItem(id)
 		   </#list>
 		</#if>
 		<!--2楼-->
-		<div class="index_twotit">2F&nbsp;&nbsp;&nbsp;&nbsp;电脑</div>
+		<div class="index_twotit">2F&nbsp;&nbsp;&nbsp;&nbsp;冰箱</div>
 		<div class="index_two">
 			<menu class="index_two_list">
 				 <#if computer_cat_list??>
@@ -567,7 +582,7 @@ function delItem(id)
 		</div>
 		<div class="clear"></div>
 		<!--3楼-->
-		<div class="index_threetit">3F&nbsp;&nbsp;&nbsp;&nbsp;摄影</div>
+		<div class="index_threetit">3F&nbsp;&nbsp;&nbsp;&nbsp;洗衣机</div>
 		<div class="index_three">
 			<menu class="index_three_list">
 				<#if shoot_cat_list??>
@@ -657,7 +672,7 @@ function delItem(id)
            </#list>
         </#if>
 		<!--4楼-->
-		<div class="index_fourtit">4F&nbsp;&nbsp;&nbsp;&nbsp;食品酒水</div>
+		<div class="index_fourtit">4F&nbsp;&nbsp;&nbsp;&nbsp;生活电器</div>
 		<div class="index_four">
 			<menu class="index_four_list">
 				<#if FoodDrinks_cat_list??>
@@ -729,7 +744,7 @@ function delItem(id)
 		</div>
 		<div class="clear"></div>
 		<!--5楼-->
-		<div class="index_fivetit">5F&nbsp;&nbsp;&nbsp;&nbsp;手机</div>
+		<div class="index_fivetit">5F&nbsp;&nbsp;&nbsp;&nbsp;厨电</div>
 		<div class="index_five">
 			<menu class="index_five_list">
 				<#if phone_cat_list??>

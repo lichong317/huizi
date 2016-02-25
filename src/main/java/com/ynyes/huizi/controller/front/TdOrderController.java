@@ -1911,11 +1911,13 @@ public class TdOrderController extends AbstractPaytypeController{
     }
 
     @RequestMapping(value = "/pay/success")
-    public String paySuccess(ModelMap map, HttpServletRequest req) {
+    public String paySuccess(Long orderId, ModelMap map, HttpServletRequest req) {
 
         tdCommonService.setHeader(map, req);
+        if (null != orderId) {
+        	map.addAttribute("order", tdOrderService.findOne(orderId));
+		}
         
-//        map.addAttribute("order", tdOrderService.findOne(20L));
         return "/client/order_pay_success";
 
     }

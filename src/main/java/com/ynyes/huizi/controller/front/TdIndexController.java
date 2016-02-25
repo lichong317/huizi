@@ -104,7 +104,7 @@ public class TdIndexController {
         
         /*****1F家用电器******/ 
         //家用电器分类 取两级
-        TdProductCategory domesticAppliance = tdProductCategoryService.findByTitle("家用电器");
+        TdProductCategory domesticAppliance = tdProductCategoryService.findByTitle("平板电视");
  
         List<TdProductCategory> domesticApplianceCatList = tdProductCategoryService
                 .findByParentIdOrderBySortIdAsc(domesticAppliance.getId());
@@ -155,7 +155,7 @@ public class TdIndexController {
         
         /*****2F电脑******/ 
         //电脑办公分类 取两级
-        TdProductCategory computer = tdProductCategoryService.findByTitle("电脑办公");
+        TdProductCategory computer = tdProductCategoryService.findByTitle("冰箱/冰柜");
  
         List<TdProductCategory> computerCatList = tdProductCategoryService
                 .findByParentIdOrderBySortIdAsc(computer.getId());
@@ -206,7 +206,7 @@ public class TdIndexController {
         
         /*****3F摄影******/ 
         //摄影分类 取两级
-        TdProductCategory shoot = tdProductCategoryService.findByTitle("摄影摄像");
+        TdProductCategory shoot = tdProductCategoryService.findByTitle("洗衣机");
  
         List<TdProductCategory> shootCatList = tdProductCategoryService
                 .findByParentIdOrderBySortIdAsc(shoot.getId());
@@ -257,7 +257,7 @@ public class TdIndexController {
         
         /*****4F食品酒水******/ 
         //食品酒水分类 取两级
-        TdProductCategory FoodDrinks = tdProductCategoryService.findByTitle("食品酒水");
+        TdProductCategory FoodDrinks = tdProductCategoryService.findByTitle("生活电器");
  
         List<TdProductCategory> FoodDrinksCatList = tdProductCategoryService
                 .findByParentIdOrderBySortIdAsc(FoodDrinks.getId());
@@ -308,7 +308,7 @@ public class TdIndexController {
         
         /*****5F手机******/ 
         //摄影分类 取两级
-        TdProductCategory phone = tdProductCategoryService.findByTitle("手机大全");
+        TdProductCategory phone = tdProductCategoryService.findByTitle("厨房电器");
  
         List<TdProductCategory> phoneCatList = tdProductCategoryService
                 .findByParentIdOrderBySortIdAsc(phone.getId());
