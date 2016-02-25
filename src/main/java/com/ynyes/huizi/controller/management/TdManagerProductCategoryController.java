@@ -1,6 +1,8 @@
 package com.ynyes.huizi.controller.management;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,7 @@ public class TdManagerProductCategoryController {
 
     @RequestMapping(value = "/list")
     public String categoryList(String __EVENTTARGET, String __EVENTARGUMENT,
-            String __VIEWSTATE, Long[] listId, Integer[] listChkId, String keywords,
+            String __VIEWSTATE, Long[] listId, Integer[] listChkId, String keywords,Long categoryId,
             Long[] listSortId, ModelMap map, HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("manager");
         if (null == username) {
@@ -56,13 +58,20 @@ public class TdManagerProductCategoryController {
                 productCategoryBtnDelete(listId, listChkId);
 
                 break;
+                
+            case "changeCategory":
+            	if (null != categoryId) {
+                	productCategoryChange(categoryId,listId, listChkId);
+				}
+
             }
+            
         }
 
-        if (null == keywords) {
-        	map.addAttribute("category_list", tdProductCategoryService.findAll());
+        if (null != keywords && !keywords.isEmpty()) {
+        	map.addAttribute("category_list", tdProductCategoryService.searchAll(keywords));        	
 		}else {
-			map.addAttribute("category_list", tdProductCategoryService.searchAll(keywords));
+			map.addAttribute("category_list", tdProductCategoryService.findAll());
 		}
         
 
@@ -70,7 +79,10 @@ public class TdManagerProductCategoryController {
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        map.addAttribute("keywords", keywords);
 
+        map.addAttribute("product_category_list", tdProductCategoryService.findAll());
+        
         return "/site_mag/product_category_list";
     }
 
@@ -232,5 +244,106 @@ public class TdManagerProductCategoryController {
                 tdProductCategoryService.delete(id);
             }
         }
+    }
+    
+    private void productCategoryChange(Long categoryId, Long[] ids, Integer[] chkIds){
+        if (null == ids || null == chkIds || ids.length < 1
+                || chkIds.length < 1) {
+            return;
+        }
+        
+        // 如果移动到的类别为第三层类别则直接返回
+        if (null == categoryId) {
+			return;
+		}
+
+		TdProductCategory tdProductCategory = tdProductCategoryService.findOne(categoryId);
+		if (null == tdProductCategory || null == tdProductCategory.getLayerCount()) {
+				return;
+		}
+			
+		if (tdProductCategory.getLayerCount().equals(3L)) {
+				return;
+		}					
+        
+        Long changeLayerCount = tdProductCategory.getLayerCount();
+        
+        Long checkLayerCount = 1L;
+        List<TdProductCategory> chirldList = new ArrayList<>();
+        List<TdProductCategory> secondChirldList = new ArrayList<>();
+        // 判断改变后层级是否超过三层 超过三层则直接返回 类别不发生改变
+        for (int chkId : chkIds) {
+            if (chkId >= 0 && ids.length > chkId) {
+                Long id = ids[chkId];
+                
+                if (id.equals(categoryId)) {
+					return;
+				}
+                
+                checkLayerCount = 1L;
+                
+                // 获取选中类别以下层级数
+                chirldList = tdProductCategoryService.findByParentIdOrderBySortIdAsc(id);
+                
+                if (null != chirldList && !chirldList.isEmpty()) {
+					checkLayerCount = 2L;
+					
+					for(TdProductCategory tdProductCategory2 : chirldList){
+						secondChirldList = tdProductCategoryService.findByParentIdOrderBySortIdAsc(tdProductCategory2.getId());
+						
+						if (null != secondChirldList && !secondChirldList.isEmpty()) {
+							checkLayerCount = 3L;
+						}
+					}
+				}
+                
+                if (changeLayerCount + checkLayerCount > 3) {
+					return;
+				}
+            }
+        }
+        
+        // 已经改变过的类别
+        List<Long> changedIdList = new ArrayList<>();
+        for(int chkId : chkIds) {
+            if (chkId >= 0 && ids.length > chkId) {
+                Long id = ids[chkId];
+                
+                TdProductCategory tdProductCategory2 = tdProductCategoryService.findOne(id);
+                if (null != tdProductCategory2) {
+                	
+                	// 如果父类别存在于已经修改过的类别列表中则跳出本次循环
+                	if (null != tdProductCategory2.getParentId() && changedIdList.contains(tdProductCategory2.getParentId())) {
+						continue;
+					}
+                	
+                	// 更换父类
+					tdProductCategory2.setParentId(categoryId);
+					
+					// 更换类别树
+					TdProductCategory parent = tdProductCategoryService.findOne(categoryId);
+					tdProductCategory2.setLayerCount(parent.getLayerCount() + 1L);
+					tdProductCategory2.setParentTree(parent.getParentTree() + ",[" + tdProductCategory2.getId() + "]");
+					
+					// 添加到已改变类别列表
+					changedIdList.add(tdProductCategory2.getId());
+					tdProductCategoryService.save(tdProductCategory2);
+					
+					// 处理子类别
+					chirldList = tdProductCategoryService.findByParentIdOrderBySortIdAsc(tdProductCategory2.getId());
+					
+					//最多出现两层
+					if (null != chirldList && !chirldList.isEmpty()) {
+						for(TdProductCategory tdProductCategory3: chirldList){
+							tdProductCategory3.setLayerCount(tdProductCategory2.getLayerCount() + 1L);
+							tdProductCategory3.setParentTree(tdProductCategory2.getParentTree() + ",[" + tdProductCategory3.getId() + "]");
+							
+							tdProductCategoryService.save(tdProductCategory3);
+						}
+					}
+				}
+            }
+        }
+        
     }
 }

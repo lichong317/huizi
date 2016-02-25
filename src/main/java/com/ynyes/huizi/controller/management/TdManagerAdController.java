@@ -48,6 +48,7 @@ public class TdManagerAdController {
                           String __EVENTARGUMENT,
                           String __VIEWSTATE,
                           String keywords,
+                          Long categoryId,
                           Long[] listId,
                           Integer[] listChkId,
                           Long[] listSortId,
@@ -90,16 +91,27 @@ public class TdManagerAdController {
             size = SiteMagConstant.pageSize;;
         }
         
+        // 广告位
+        map.addAttribute("ad_type_list", tdAdTypeService.findAllOrderBySortIdAsc());
+        
         map.addAttribute("page", page);
         map.addAttribute("size", size);
+        map.addAttribute("categoryId", categoryId);
+        map.addAttribute("keywords", keywords);
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
         
-        if (null == keywords) {
-            map.addAttribute("ad_page", tdAdService.findAllOrderBySortIdAsc(page, size));
-		}else{
-			map.addAttribute("ad_page", tdAdService.searchAll(keywords, page, size));
+        
+        if (null != keywords && !keywords.isEmpty()) {
+        	map.addAttribute("ad_page", tdAdService.searchAll(keywords, page, size));
+            
+		}else{			
+			if (null == categoryId) {
+        		map.addAttribute("ad_page", tdAdService.findAllOrderBySortIdAsc(page, size));
+			}else {
+				map.addAttribute("ad_page", tdAdService.findByTypeIdOrderBySortIdAsc(categoryId, page, size));
+			}
 		}
 
         

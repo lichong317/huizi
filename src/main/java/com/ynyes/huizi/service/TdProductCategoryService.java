@@ -261,6 +261,9 @@ public class TdProductCategoryService {
             e.setParentTree(parent.getParentTree() + ",[" + e.getId() + "]");
         }
         
+        // 处理子类别
+        
+        
         return repository.save(e);
     }
     

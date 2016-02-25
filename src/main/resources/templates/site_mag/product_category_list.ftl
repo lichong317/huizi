@@ -87,6 +87,22 @@ function __doPostBack(eventTarget, eventArgument) {
         <li><a class="all" href="javascript:;" onclick="checkAll(this);"><i></i><span>全选</span></a></li>
         <li><a onclick="return ExePostBack('btnDelete');" id="btnDelete" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除</span></a></li>
       </ul>
+      
+      <div class="menu-list">
+        <div class="rule-single-select">
+            <select name="categoryId" onchange="javascript:setTimeout(__doPostBack('changeCategory', ''), 0)">
+                <option <#if !categoryId??>selected="selected"</#if> value="">批量移动到</option>
+                <#if product_category_list??>
+                    <#list product_category_list as c>
+                        <#if c.layerCount?? && c.layerCount < 3>
+                            <option value="${c.id!""}" <#if categoryId?? && c.id==categoryId>selected="selected"</#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                        </#if>
+                    </#list>
+                </#if>
+            </select>
+        </div>
+      </div>
+      
     </div>
         
     <div class="r-list">
@@ -117,7 +133,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <span class="checkall" style="vertical-align:middle;">
                     <input id="rptList_ctl01_chkId" type="checkbox" name="listChkId" value="${cat_index}">
                 </span>
-                <input type="hidden" name="listId" id="listId" value="${cat.id}">
+                <input type="hidden" name="listId" id="listId" value="${cat.id?c}">
             </td>
             <td>${cat.id?c}</td>
             <td>
@@ -126,14 +142,14 @@ function __doPostBack(eventTarget, eventArgument) {
                     <span class="folder-line"></span>
                 </#if>
                 <span class="folder-open"></span>
-                <a href="/Verwalter/product/category/edit?id=${cat.id!""}">${cat.title!""}</a>
+                <a href="/Verwalter/product/category/edit?id=${cat.id?c}">${cat.title!""}</a>
             </td>
             <td>${cat.callIndex!""}</td>
-            <td><input name="listSortId" type="text" value="${cat.sortId!""}" class="sort" onkeydown="return checkNumber(event);"></td>
+            <td><input name="listSortId" type="text" value="${cat.sortId?c}" class="sort" onkeydown="return checkNumber(event);"></td>
             <td><a href="javascript:;" id="isEnable" onclick="changeEnable(${cat.id?c})"><#if cat.isEnable?? && cat.isEnable>显示<#else>隐藏</#if></a></td>
             <td align="center">
-                <a href="/Verwalter/product/category/edit?id=${cat.id!""}&sub=1">添加子类</a>
-                <a href="/Verwalter/product/category/edit?id=${cat.id!""}">修改</a>
+                <a href="/Verwalter/product/category/edit?id=${cat.id?c}&sub=1">添加子类</a>
+                <a href="/Verwalter/product/category/edit?id=${cat.id?c}">修改</a>
             </td>
         </tr>
     </#list>

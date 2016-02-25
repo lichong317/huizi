@@ -111,6 +111,11 @@ public class TdAdService {
         return (List<TdAd>) repository.findAll(new Sort(Direction.ASC, "sortId"));
     }
     
+    public Page<TdAd> findByTypeIdOrderBySortIdAsc(Long typeId, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId").and(new Sort(Direction.DESC,"createTime")));
+    	
+    	return repository.findByTypeId(typeId, pageRequest);
+    }
     
     /**
 	 * @author lc

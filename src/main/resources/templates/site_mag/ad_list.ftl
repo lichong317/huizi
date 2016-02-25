@@ -86,6 +86,20 @@ var theForm = document.forms['form1'];
         <li><a class="all" href="javascript:;" onclick="checkAll(this);"><i></i><span>全选</span></a></li>
         <li><a onclick="return ExePostBack('btnDelete');" id="btnDelete" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除</span></a></li>
       </ul>
+      
+      <div class="menu-list">
+        <div class="rule-single-select">
+            <select name="categoryId" onchange="javascript:setTimeout(__doPostBack('categoryId', ''), 0)">
+                <option <#if !categoryId??>selected="selected"</#if> value="">所有广告位</option>
+                <#if ad_type_list??>
+                    <#list ad_type_list as c>
+                        <option value="${c.id!""}" <#if categoryId?? && c.id==categoryId>selected="selected"</#if> >${c.title!""}</option>
+                    </#list>
+                </#if>
+            </select>
+        </div>
+      </div>
+      
     </div>
     
     <div class="r-list">

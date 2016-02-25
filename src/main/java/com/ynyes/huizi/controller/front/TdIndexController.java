@@ -106,20 +106,22 @@ public class TdIndexController {
         //家用电器分类 取两级
         TdProductCategory domesticAppliance = tdProductCategoryService.findByTitle("平板电视");
  
-        List<TdProductCategory> domesticApplianceCatList = tdProductCategoryService
-                .findByParentIdOrderBySortIdAsc(domesticAppliance.getId());
-        map.addAttribute("domesticAppliance_cat_list", domesticApplianceCatList);
+        if (null != domesticAppliance) {
+        	List<TdProductCategory> domesticApplianceCatList = tdProductCategoryService
+                    .findByParentIdOrderBySortIdAsc(domesticAppliance.getId());
+            map.addAttribute("domesticAppliance_cat_list", domesticApplianceCatList);
 
-        if (null != domesticApplianceCatList && domesticApplianceCatList.size() > 0) 
-        {
-            for (int i = 0; i < domesticApplianceCatList.size(); i++) 
+            if (null != domesticApplianceCatList && domesticApplianceCatList.size() > 0) 
             {
-                TdProductCategory topCat = domesticApplianceCatList.get(i);
-                List<TdProductCategory> secondLevelList = tdProductCategoryService
-                        .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "domesticAppliance_cat_list", secondLevelList);               
+                for (int i = 0; i < domesticApplianceCatList.size(); i++) 
+                {
+                    TdProductCategory topCat = domesticApplianceCatList.get(i);
+                    List<TdProductCategory> secondLevelList = tdProductCategoryService
+                            .findByParentIdOrderBySortIdAsc(topCat.getId());
+                    map.addAttribute("second_level_" + i + "domesticAppliance_cat_list", secondLevelList);               
+                }
             }
-        }
+		}        
         
         //1F小广告
         TdAdType OneFtdAdType = tdAdTypeService.findByTitle("1F小广告");
@@ -155,22 +157,25 @@ public class TdIndexController {
         
         /*****2F电脑******/ 
         //电脑办公分类 取两级
-        TdProductCategory computer = tdProductCategoryService.findByTitle("冰箱/冰柜");
- 
-        List<TdProductCategory> computerCatList = tdProductCategoryService
-                .findByParentIdOrderBySortIdAsc(computer.getId());
-        map.addAttribute("computer_cat_list", computerCatList);
+        TdProductCategory computer = tdProductCategoryService.findByTitle("冰箱/冷柜");
+        
+        if (null != computer) {
+        	 List<TdProductCategory> computerCatList = tdProductCategoryService
+                     .findByParentIdOrderBySortIdAsc(computer.getId());
+             map.addAttribute("computer_cat_list", computerCatList);
 
-        if (null != computerCatList && computerCatList.size() > 0) 
-        {
-            for (int i = 0; i < computerCatList.size(); i++) 
-            {
-                TdProductCategory topCat = computerCatList.get(i);
-                List<TdProductCategory> secondLevelList = tdProductCategoryService
-                        .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "computer_cat_list", secondLevelList);               
-            }
-        }
+             if (null != computerCatList && computerCatList.size() > 0) 
+             {
+                 for (int i = 0; i < computerCatList.size(); i++) 
+                 {
+                     TdProductCategory topCat = computerCatList.get(i);
+                     List<TdProductCategory> secondLevelList = tdProductCategoryService
+                             .findByParentIdOrderBySortIdAsc(topCat.getId());
+                     map.addAttribute("second_level_" + i + "computer_cat_list", secondLevelList);               
+                 }
+             }
+		}
+               
         
         //2F小广告
         TdAdType twoFtdAdType = tdAdTypeService.findByTitle("2F小广告");
@@ -208,20 +213,23 @@ public class TdIndexController {
         //摄影分类 取两级
         TdProductCategory shoot = tdProductCategoryService.findByTitle("洗衣机");
  
-        List<TdProductCategory> shootCatList = tdProductCategoryService
-                .findByParentIdOrderBySortIdAsc(shoot.getId());
-        map.addAttribute("shoot_cat_list", shootCatList);
+        if (null != shoot) {
+        	List<TdProductCategory> shootCatList = tdProductCategoryService
+                    .findByParentIdOrderBySortIdAsc(shoot.getId());
+            map.addAttribute("shoot_cat_list", shootCatList);
 
-        if (null != shootCatList && shootCatList.size() > 0) 
-        {
-            for (int i = 0; i < shootCatList.size(); i++) 
+            if (null != shootCatList && shootCatList.size() > 0) 
             {
-                TdProductCategory topCat = shootCatList.get(i);
-                List<TdProductCategory> secondLevelList = tdProductCategoryService
-                        .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "shoot_cat_list", secondLevelList);               
+                for (int i = 0; i < shootCatList.size(); i++) 
+                {
+                    TdProductCategory topCat = shootCatList.get(i);
+                    List<TdProductCategory> secondLevelList = tdProductCategoryService
+                            .findByParentIdOrderBySortIdAsc(topCat.getId());
+                    map.addAttribute("second_level_" + i + "shoot_cat_list", secondLevelList);               
+                }
             }
-        }
+		}
+        
         
         //3F小广告
         TdAdType threeFtdAdType = tdAdTypeService.findByTitle("3F小广告");
@@ -259,20 +267,23 @@ public class TdIndexController {
         //食品酒水分类 取两级
         TdProductCategory FoodDrinks = tdProductCategoryService.findByTitle("生活电器");
  
-        List<TdProductCategory> FoodDrinksCatList = tdProductCategoryService
-                .findByParentIdOrderBySortIdAsc(FoodDrinks.getId());
-        map.addAttribute("FoodDrinks_cat_list", FoodDrinksCatList);
+        if (null != FoodDrinks) {
+        	List<TdProductCategory> FoodDrinksCatList = tdProductCategoryService
+                    .findByParentIdOrderBySortIdAsc(FoodDrinks.getId());
+            map.addAttribute("FoodDrinks_cat_list", FoodDrinksCatList);
 
-        if (null != FoodDrinksCatList && FoodDrinksCatList.size() > 0) 
-        {
-            for (int i = 0; i < FoodDrinksCatList.size(); i++) 
+            if (null != FoodDrinksCatList && FoodDrinksCatList.size() > 0) 
             {
-                TdProductCategory topCat = FoodDrinksCatList.get(i);
-                List<TdProductCategory> secondLevelList = tdProductCategoryService
-                        .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "FoodDrinks_cat_list", secondLevelList);               
+                for (int i = 0; i < FoodDrinksCatList.size(); i++) 
+                {
+                    TdProductCategory topCat = FoodDrinksCatList.get(i);
+                    List<TdProductCategory> secondLevelList = tdProductCategoryService
+                            .findByParentIdOrderBySortIdAsc(topCat.getId());
+                    map.addAttribute("second_level_" + i + "FoodDrinks_cat_list", secondLevelList);               
+                }
             }
-        }
+		}
+        
         
         //4F小广告
         TdAdType FourtdAdType = tdAdTypeService.findByTitle("4F小广告");
@@ -310,20 +321,22 @@ public class TdIndexController {
         //摄影分类 取两级
         TdProductCategory phone = tdProductCategoryService.findByTitle("厨房电器");
  
-        List<TdProductCategory> phoneCatList = tdProductCategoryService
-                .findByParentIdOrderBySortIdAsc(phone.getId());
-        map.addAttribute("phone_cat_list", phoneCatList);
+        if (null != phone) {
+        	List<TdProductCategory> phoneCatList = tdProductCategoryService
+                    .findByParentIdOrderBySortIdAsc(phone.getId());
+            map.addAttribute("phone_cat_list", phoneCatList);
 
-        if (null != phoneCatList && phoneCatList.size() > 0) 
-        {
-            for (int i = 0; i < phoneCatList.size(); i++) 
+            if (null != phoneCatList && phoneCatList.size() > 0) 
             {
-                TdProductCategory topCat = phoneCatList.get(i);
-                List<TdProductCategory> secondLevelList = tdProductCategoryService
-                        .findByParentIdOrderBySortIdAsc(topCat.getId());
-                map.addAttribute("second_level_" + i + "phone_cat_list", secondLevelList);               
+                for (int i = 0; i < phoneCatList.size(); i++) 
+                {
+                    TdProductCategory topCat = phoneCatList.get(i);
+                    List<TdProductCategory> secondLevelList = tdProductCategoryService
+                            .findByParentIdOrderBySortIdAsc(topCat.getId());
+                    map.addAttribute("second_level_" + i + "phone_cat_list", secondLevelList);               
+                }
             }
-        }
+		}        
         
         //5F小广告
         TdAdType fiveFtdAdType = tdAdTypeService.findByTitle("5F小广告");

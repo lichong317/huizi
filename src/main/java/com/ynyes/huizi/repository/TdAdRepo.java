@@ -25,4 +25,6 @@ public interface TdAdRepo extends
     List<TdAd> findByTypeIdAndEndTimeAfterOrderBySortIdAsc(Long typeId, Date time);
     
     Page<TdAd> findByTitleContainingOrSubtitleContaining(String keywords, String keywords1,Pageable page);
+    
+    Page<TdAd> findByTypeId(Long typeId, Pageable page);
 }
