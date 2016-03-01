@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.ynyes.huizi.entity.TdGoods;
@@ -22,6 +23,8 @@ public interface TdGoodsRepo extends
 		JpaSpecificationExecutor<TdGoods> 
 {
 	TdGoods findByIdAndIsOnSaleTrue(Long id);
+	
+	List<TdGoods> findByCategoryId(Long categoryId);
 	
     Page<TdGoods> findByCategoryIdTreeContainingAndIsOnSaleTrue(String categoryId, Pageable page);
     
@@ -277,4 +280,6 @@ public interface TdGoodsRepo extends
     Page<TdGoods> findByCategoryIdTreeContainingAndTitleContainingIgnoreCaseAndIsOnSaleFalseAndIsGroupSaleTrueOrCategoryIdTreeContainingAndSubTitleContainingIgnoreCaseAndIsOnSaleTrueAndIsGroupSaleTrueOrCategoryIdTreeContainingAndDetailContainingIgnoreCaseAndIsOnSaleTrueAndIsGroupSaleTrue(String catId1,
             String keywords1, String catId2, String keywords2,String catId3, String keywords3, Pageable page);
     
+    
+
 }

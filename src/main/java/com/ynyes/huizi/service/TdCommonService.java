@@ -178,14 +178,25 @@ public class TdCommonService {
       	 * @author lc
       	 * @注释：导航菜单广告
       	 */
-        List<TdAdType> tdAdTypes = tdAdTypeService.findAllOrderBySortIdAsc();
-          
-        if (null != tdAdTypes) {
-        	for(int i = 0; i < 9 && i < tdAdTypes.size(); i++){
+//        List<TdAdType> tdAdTypes = tdAdTypeService.findAllOrderBySortIdAsc();
+//          
+//        if (null != tdAdTypes) {
+//        	for(int i = 0; i < 9 && i < tdAdTypes.size(); i++){
+//        		map.addAttribute("nav_"+i+"_ad_list",
+//                        tdAdService.findByTypeIdAndEndtimeAfter((tdAdTypes.get(i)).getId()));
+//            }
+//         }
+        for(int i = 0; i < 9 ; i++){
+        	TdAdType tdAdType = tdAdTypeService.findByTitle("商品分类"+(i+1)+"F广告位");
+        	if (null != tdAdType) {
         		map.addAttribute("nav_"+i+"_ad_list",
-                        tdAdService.findByTypeIdAndEndtimeAfter((tdAdTypes.get(i)).getId()));
-            }
-         }
+                        tdAdService.findByTypeIdAndEndtimeAfter(tdAdType.getId()));
+			}else{
+				map.addAttribute("nav_"+i+"_ad_list",
+                        null);
+			}
+    		
+        }
         
                
         // 友情链接

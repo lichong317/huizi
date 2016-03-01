@@ -77,21 +77,21 @@ $(function () {
     <dl>
         <dt>价格</dt>
         <dd>
-            <input name="price" type="text" value="<#if ad_type??>${ad_type.price!''}</#if>" class="input txt100" datatype="n0-100|." sucmsg=" ">
+            <input name="price" type="text" value="<#if ad_type?? && ad_type.price??>${ad_type.price?c}</#if>" class="input txt100" datatype="n0-100|." sucmsg=" ">
             <span class="Validform_checktip">元/月</span>
         </dd>
     </dl>
     <dl>
         <dt>宽度</dt>
         <dd>
-            <input name="width" type="text" value="<#if ad_type??>${ad_type.width!''}</#if>" class="input txt100" datatype="n1-100" sucmsg=" ">
+            <input name="width" type="text" value="<#if ad_type?? && ad_type.width??>${ad_type.width?c}</#if>" class="input txt100" datatype="n1-100" sucmsg=" ">
             <span class="Validform_checktip">*广告宽度</span>
         </dd>
     </dl>
     <dl>
         <dt>高度</dt>
         <dd>
-            <input name="heigth" type="text" value="<#if ad_type??>${ad_type.heigth!''}</#if>" class="input txt100" datatype="n1-100" sucmsg=" ">
+            <input name="heigth" type="text" value="<#if ad_type?? && ad_type.heigth??>${ad_type.heigth?c}</#if>" class="input txt100" datatype="n1-100" sucmsg=" ">
             <span class="Validform_checktip">*广告高度</span>
         </dd>
     </dl>

@@ -1,5 +1,6 @@
 package com.ynyes.huizi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.repository.TdOrderGoodsRepo;
 
@@ -26,6 +28,9 @@ public class TdOrderGoodsService {
     
     @Autowired
     TdOrderGoodsRepo repository;
+    
+    @Autowired
+    TdGoodsService tdGoodsService;
     
     /**
      * 删除
@@ -98,6 +103,37 @@ public class TdOrderGoodsService {
         PageRequest pageRequest = new PageRequest(page, size, new Sort(Direction.ASC, "sortId"));
         
         return repository.findAll(pageRequest);
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：查询特定商品类别的订单商品
+	 */
+    public List<TdOrderGoods> findByCategoryId(Long categoryId){
+    	List<TdGoods> tdGoodsList = tdGoodsService.findByCategoryId(categoryId);
+    	
+    	List<Long> tdGoodsId = new ArrayList<>();
+    	for(TdGoods tdGoods : tdGoodsList){
+    		tdGoodsId.add(tdGoods.getId());    		
+    	}
+    	
+    	if (!tdGoodsId.isEmpty()) {
+			return repository.findByGoodsIdIn(tdGoodsId);
+		}
+    	
+    	return null;
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：查询所属订单id
+	 */
+    public Long getOrderId(Long tdOrdergoodsId){
+    	
+    	if (null == repository.findById(tdOrdergoodsId)) {
+			return null;
+		}
+    	return (long)repository.findById(tdOrdergoodsId);
     }
     
     /**

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdParameterCategoryService;
 import com.ynyes.huizi.service.TdProductCategoryService;
@@ -37,6 +39,9 @@ public class TdManagerProductCategoryController {
     
     @Autowired
     TdParameterCategoryService tdParameterCategoryService;
+    
+    @Autowired
+    TdGoodsService tdGoodsService;
 
     @RequestMapping(value = "/list")
     public String categoryList(String __EVENTTARGET, String __EVENTARGUMENT,
@@ -325,6 +330,9 @@ public class TdManagerProductCategoryController {
 					tdProductCategory2.setLayerCount(parent.getLayerCount() + 1L);
 					tdProductCategory2.setParentTree(parent.getParentTree() + ",[" + tdProductCategory2.getId() + "]");
 					
+					// 处理商品类别树
+					changeProductTree(tdProductCategory2);
+					
 					// 添加到已改变类别列表
 					changedIdList.add(tdProductCategory2.getId());
 					tdProductCategoryService.save(tdProductCategory2);
@@ -339,11 +347,27 @@ public class TdManagerProductCategoryController {
 							tdProductCategory3.setParentTree(tdProductCategory2.getParentTree() + ",[" + tdProductCategory3.getId() + "]");
 							
 							tdProductCategoryService.save(tdProductCategory3);
+							
+							// 处理商品类别树
+							changeProductTree(tdProductCategory3);
 						}
 					}
 				}
             }
         }
         
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：修改所属类别的商品的类别树
+	 */
+    public void changeProductTree(TdProductCategory tdProductCategory){
+    	List<TdGoods> tdGoodsList = tdGoodsService.findByCategoryId(tdProductCategory.getId());
+
+		for(TdGoods tdGoods: tdGoodsList){
+			tdGoods.setCategoryIdTree(tdProductCategory.getParentTree());
+			tdGoodsService.save(tdGoods, "tdamin");
+		}
     }
 }

@@ -22,7 +22,7 @@ $(function () {
         <div class="rule-multi-radio">
             <span>
                 <#list product_list as product>
-                    <input type="radio" class="productIdRadio" name="productId" value="${product.id!""}" datatype="*0-255" <#if goods?? && goods.productId?? && goods.productId==product.id>checked="checked"</#if>>
+                    <input type="radio" class="productIdRadio" name="productId" value="${product.id!""}" datatype="*" <#if goods?? && goods.productId?? && goods.productId==product.id>checked="checked"</#if>>
                     <label>${product.title!""}</label>
                 </#list>
             </span>
@@ -63,7 +63,7 @@ $(function () {
                                     <input type="hidden" name="paramList[${param_index}].paramCategory" value="${param.categoryTitle!''}" />
                                     <#list param.valueList?split(",") as item>
                                         <#if item!="">
-                                        <input type="checkbox" name="paramList[${param_index}].value" value="${item?trim}" datatype="*0-255" <#if goods?? && goods.paramList?? && goods.paramList[param_index]?? && goods.paramList[param_index].value?? && goods.paramList[param_index].value?contains(item?trim)>checked="checked"</#if>> 
+                                        <input type="checkbox" name="paramList[${param_index}].value" value="${item?trim}" datatype="*" <#if goods?? && goods.paramList?? && goods.paramList[param_index]?? && goods.paramList[param_index].value?? && goods.paramList[param_index].value?contains(item?trim)>checked="checked"</#if>> 
                                         <label>${item?trim}</label>
                                         </#if>
                                     </#list>
@@ -84,7 +84,7 @@ $(function () {
                                     <input type="hidden" name="paramList[${param_index}].paramCategory" value="${param.categoryTitle!''}" />
                                     <#list param.valueList?split(",") as item>
                                         <#if item!="">
-                                        <input type="radio" name="paramList[${param_index}].value" datatype="*0-255" value="${item?trim}" <#if goods?? && goods.paramList?? && goods.paramList[param_index]?? && goods.paramList[param_index].value?? && goods.paramList[param_index].value?trim==item?trim>checked="checked"</#if>> 
+                                        <input type="radio" name="paramList[${param_index}].value" datatype="*" value="${item?trim}" <#if goods?? && goods.paramList?? && goods.paramList[param_index]?? && goods.paramList[param_index].value?? && goods.paramList[param_index].value?trim==item?trim>checked="checked"</#if>> 
                                         <label>${item?trim}</label>
                                         </#if>
                                     </#list>

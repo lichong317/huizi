@@ -1,5 +1,6 @@
 package com.ynyes.huizi.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ynyes.huizi.entity.TdOrder;
+import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.repository.TdOrderRepo;
 
@@ -28,6 +30,9 @@ import com.ynyes.huizi.repository.TdOrderRepo;
 public class TdOrderService {
     @Autowired
     TdOrderRepo repository;
+    
+    @Autowired
+    TdOrderGoodsService tdOrderGoodsService;
     
     /**
      * 删除
@@ -583,6 +588,44 @@ public class TdOrderService {
     
     
     
+    /**
+	 * @author lc
+	 * @注释：增加商品类别的筛选
+	 */
+    
+    // 通过商品类别id查询出订单id列表
+    public List<Long> findOrderByCategoryId(Long categoryId){
+    	List<TdOrderGoods> tdOrderGoodsList = tdOrderGoodsService.findByCategoryId(categoryId);
+    	
+    	if (null != tdOrderGoodsList) {
+    		List<Long> orderIdList = new ArrayList<>();
+        	
+    		Long tdorderIdTemp;
+        	for(TdOrderGoods tdOrderGoods : tdOrderGoodsList){
+        		
+        		tdorderIdTemp = tdOrderGoodsService.getOrderId(tdOrderGoods.getId());
+        		if (null != tdorderIdTemp && !orderIdList.contains(tdorderIdTemp)) {
+    				orderIdList.add(tdorderIdTemp);
+    			}
+        	}
+        	
+        	return orderIdList;
+		}
+    	return null;
+    }
+    
+    public Page<TdOrder> findByCategoryId( Long categoryId, int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size,new Sort(Direction.DESC, "id"));
+
+    	List<Long> orderIdList = findOrderByCategoryId(categoryId);
+    	
+    	if (null != orderIdList && !orderIdList.isEmpty()) {
+    		return repository.findByIdIn(orderIdList, pageRequest);
+		}
+    	
+    	return null;
+    	
+    }
     
     
     

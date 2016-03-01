@@ -82,8 +82,13 @@ function __doPostBack(eventTarget, eventArgument) {
                 </ul>
                 <div class="menu-list">
                     <div class="rule-single-select">
-                        <select name="typeId" onchange="javascript:setTimeout(__doPostBack('typeId',''), 0)">
-                             <option value="" <#if !typeId?? || typeId==0>selected="selected"</#if>>所有类别</option>
+                        <select name="categoryId" onchange="javascript:setTimeout(__doPostBack('categoryId',''), 0)">
+                             <option <#if categoryId??><#else>selected="selected"</#if> value="">所有类别</option>
+                             <#if category_list??>
+                                <#list category_list as c>
+                                    <option value="${c.id!""}" <#if categoryId?? && c.id==categoryId>selected="selected"</#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                                </#list>
+                            </#if>
                         </select>
                     </div>
                 </div>
@@ -200,8 +205,10 @@ function __doPostBack(eventTarget, eventArgument) {
         
 <!--/列表-->
 <!--内容底部-->
+<#if order_page??>
 <#assign PAGE_DATA=order_page />
 <#include "/site_mag/list_footer.ftl" />
+</#if>
 <!--/内容底部-->
 </form>
 

@@ -152,4 +152,6 @@ public interface TdOrderRepo extends
     
     Page<TdOrder> findByStatusIdAndOrderTimeBetween(Long statusId,Date startTime,Date endTime,Pageable page);
     
+    Page<TdOrder> findByIdIn(List<Long> orderId, Pageable page);
+    
 }

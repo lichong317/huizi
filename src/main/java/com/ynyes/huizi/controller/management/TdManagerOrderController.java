@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -372,6 +373,7 @@ public class TdManagerOrderController {
                                 Integer size,
                                 String start,
                                 String end,
+                                Long categoryId,
                                 String __EVENTTARGET,
                                 String __EVENTARGUMENT,
                                 String __VIEWSTATE,
@@ -452,24 +454,47 @@ public class TdManagerOrderController {
         			{
         				if(null != keywords)
         				{
-        					map.addAttribute("order_page",
-        							tdOrderService.searchByOrderNumber(keywords, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",
+	        							tdOrderService.searchByOrderNumber(keywords, page, size));
+							}
+        					
         				} // 关键字订单筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findAllOrderByIdDesc(page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findAllOrderByIdDesc(page, size));
+							}
+        					
         				} // 所有订单END
         			}// 所有状态END
         			else
         			{
         				if(null !=keywords)
         				{
-        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusOrderByIdDesc(keywords, statusId, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusOrderByIdDesc(keywords, statusId, page, size));
+							}        					
         					
         				} // 各状态关键字筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByStatusIdOrderByIdDesc(statusId, page, size));
+							}
+        					
         				} // 各状态所有订单								
         			}
         		}
@@ -482,24 +507,46 @@ public class TdManagerOrderController {
         			{
         				if(null != keywords)
         				{
-        					map.addAttribute("order_page",
-        							tdOrderService.searchByOrderNumberAndOrderTimeBefore(keywords, endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",
+	        							tdOrderService.searchByOrderNumberAndOrderTimeBefore(keywords, endTime, page, size));
+							}
+        					
         				} // 关键字+时间截止日期订单筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByOrderTimeBeforeOrderByIdDesc(endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByOrderTimeBeforeOrderByIdDesc(endTime, page, size));
+							}
+        					
         				} // 所有订单+时间截止筛选END
         			}// 所有状态+时间截止 END
         			else
         			{
         				if(null !=keywords)
         				{
-        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBeforeOrderByIdDesc(keywords, statusId,endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBeforeOrderByIdDesc(keywords, statusId,endTime, page, size));
+							}        					
         					
         				} // 各状态+关键字+截止时间筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBeforeOrderByIdDesc(statusId,endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBeforeOrderByIdDesc(statusId,endTime, page, size));
+							}       					
         					
         				} // 各状态所有订单+ 截止时间筛选END
         			}
@@ -516,24 +563,46 @@ public class TdManagerOrderController {
         			{
         				if(null != keywords)
         				{
-        					map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeAfter(keywords,startTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeAfter(keywords,startTime, page, size));
+							}
+        					
         				} // 关键字订单+ 起始时间筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByOrderTimeAfterOrderByIdDesc(startTime,page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByOrderTimeAfterOrderByIdDesc(startTime,page, size));
+							}
+        					
         				} // 所有订单+起始时间END
         			}// 所有状态END
         			else
         			{
         				if(null !=keywords)
         				{
-        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeAfterOrderByIdDesc(keywords, statusId,startTime, page, size));
-        					
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeAfterOrderByIdDesc(keywords, statusId,startTime, page, size));
+							}
+        					        					
         				} // 各状态关键字+起始时间筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeAfterOrderByIdDesc(statusId, startTime,page, size));
-        					
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeAfterOrderByIdDesc(statusId, startTime,page, size));
+							}
+        					        					
         				} // 各状态所有订单+起始时间
         			}
         		}
@@ -546,24 +615,46 @@ public class TdManagerOrderController {
         			{
         				if(null != keywords)
         				{
-        					map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeDetween(keywords,startTime, endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.searchByOrderNumberAndOrderTimeDetween(keywords,startTime, endTime, page, size));
+							}
+        					
         				} // 起始时间+关键字+时间截止日期订单筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByOrderTimeBetweenOrderByIdDesc(startTime,endTime, page, size));
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByOrderTimeBetweenOrderByIdDesc(startTime,endTime, page, size));
+							}
+        					
         				} // 所有订单+起始时间+时间截止筛选END
         			}// 所有状态+起始时间+时间截止 END
         			else
         			{
         				if(null !=keywords)
         				{
-        					map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBetweenOrderByIdDesc(keywords, statusId,startTime,endTime, page, size));
-        					
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page", tdOrderService.searchByOrderNumberAndStatusAndOrderTimeBetweenOrderByIdDesc(keywords, statusId,startTime,endTime, page, size));
+							}
+        					        					
         				} // 各状态+关键字+起始时间+截止时间筛选END
         				else
         				{
-        					map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBetweenOrderByIdDesc(statusId,startTime,endTime, page, size));
-        					
+        					if (null != categoryId) {
+        						map.addAttribute("order_page",
+	        							tdOrderService.findByCategoryId(categoryId, page, size));
+							}else {
+								map.addAttribute("order_page",tdOrderService.findByStatusAndOrderTimeBetweenOrderByIdDesc(statusId,startTime,endTime, page, size));
+							}
+        					        					
         				} // 各状态所有订单+ 截止时间筛选END
         			}
         		}
@@ -580,6 +671,8 @@ public class TdManagerOrderController {
         map.addAttribute("__EVENTTARGET", __EVENTTARGET);
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
+        map.addAttribute("categoryId", categoryId);
+        map.addAttribute("category_list", tdProductCategoryService.findAll());
         
         return "/site_mag/order_list";
     }

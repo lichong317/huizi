@@ -238,7 +238,7 @@ $(function () {
                 </td>
                 <td width="64">
                   <a href="/Verwalter/user/edit?id=${user.id?c}">
-                    <img width="64" height="64" src="${user.headImageUri!"/mag/style/user_avatar.png"}">
+                    <img width="64" height="64" src="<#if user.headImageUri?? && user.headImageUri ==''>/client/images/mymember/default.jpg<#else>${user.headImageUri!'/client/images/mymember/default.jpg'}</#if>">
                   </a>
                 </td>
                 <td>

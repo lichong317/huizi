@@ -107,6 +107,10 @@ public class TdGoodsService {
      * @param size
      * @return
      */
+    public List<TdGoods> findByCategoryId(Long categoryId){
+    	return repository.findByCategoryId(categoryId);
+    }
+    
     public TdGoods findByIdAndIsOnsaleTrue(Long id){
     	return repository.findByIdAndIsOnSaleTrue(id);
     }
