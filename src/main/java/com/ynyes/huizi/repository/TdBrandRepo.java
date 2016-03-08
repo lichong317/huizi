@@ -38,5 +38,7 @@ public interface TdBrandRepo extends
     
     TdBrand findByTitleAndIdNot(String title, Long id);
     
+    List<TdBrand> findByProductCategoryId(Long id);
+    
     Page<TdBrand> findByTitleContainingOrderBySortIdAsc(String keywords, Pageable page);
 }

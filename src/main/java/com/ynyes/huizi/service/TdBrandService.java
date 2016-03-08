@@ -154,6 +154,14 @@ public class TdBrandService {
         return repository.findByTitleAndIdNot(title, id);
     }
     
+    public List<TdBrand> findByProductCategoryId(Long id){
+    	if (null == id) {
+			return null;
+		}
+    	
+    	return repository.findByProductCategoryId(id);
+    }
+    
     /**
      * 查找
      * 

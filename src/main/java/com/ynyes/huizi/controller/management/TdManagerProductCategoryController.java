@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdBrand;
 import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.entity.TdProduct;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.service.TdBrandService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdParameterCategoryService;
 import com.ynyes.huizi.service.TdProductCategoryService;
+import com.ynyes.huizi.service.TdProductService;
 
 /**
  * 后台产品控制器
@@ -42,6 +46,12 @@ public class TdManagerProductCategoryController {
     
     @Autowired
     TdGoodsService tdGoodsService;
+    
+    @Autowired
+    TdBrandService tdBrandService;
+    
+    @Autowired
+    TdProductService tdProductService;
 
     @RequestMapping(value = "/list")
     public String categoryList(String __EVENTTARGET, String __EVENTARGUMENT,
@@ -67,6 +77,7 @@ public class TdManagerProductCategoryController {
             case "changeCategory":
             	if (null != categoryId) {
                 	productCategoryChange(categoryId,listId, listChkId);
+                	tdManagerLogService.addLog("edit", "批量移动商品类别", req);
 				}
 
             }
@@ -331,7 +342,13 @@ public class TdManagerProductCategoryController {
 					tdProductCategory2.setParentTree(parent.getParentTree() + ",[" + tdProductCategory2.getId() + "]");
 					
 					// 处理商品类别树
-					changeProductTree(tdProductCategory2);
+					changeProductTree(tdProductCategory2);			
+					
+					// 处理品牌类别树
+					changeBrandTree(tdProductCategory2);
+					
+					// 处理产品
+					changeProduct(tdProductCategory2);
 					
 					// 添加到已改变类别列表
 					changedIdList.add(tdProductCategory2.getId());
@@ -350,6 +367,12 @@ public class TdManagerProductCategoryController {
 							
 							// 处理商品类别树
 							changeProductTree(tdProductCategory3);
+							
+							// 处理品牌类别树
+							changeBrandTree(tdProductCategory3);
+							
+							// 处理产品
+							changeProduct(tdProductCategory3);
 						}
 					}
 				}
@@ -363,11 +386,47 @@ public class TdManagerProductCategoryController {
 	 * @注释：修改所属类别的商品的类别树
 	 */
     public void changeProductTree(TdProductCategory tdProductCategory){
-    	List<TdGoods> tdGoodsList = tdGoodsService.findByCategoryId(tdProductCategory.getId());
+    	if (null != tdProductCategory) {
+    		List<TdGoods> tdGoodsList = tdGoodsService.findByCategoryId(tdProductCategory.getId());
+    		if (null != tdGoodsList && !tdGoodsList.isEmpty()) {
+        		for(TdGoods tdGoods: tdGoodsList){
+        			tdGoods.setCategoryIdTree(tdProductCategory.getParentTree());
+        			tdGoodsService.save(tdGoods, "tdamin");
+        		}
+			}
+		}   	
+    }    
+    
+    /**
+	 * @author lc
+	 * @注释：处理品牌类别树
+	 */
+    public void changeBrandTree(TdProductCategory tdProductCategory){
+    	if (null != tdProductCategory) {
+        	List<TdBrand> tdBrandsList = tdBrandService.findByProductCategoryId(tdProductCategory.getId());       	
+        	if (null != tdBrandsList && !tdBrandsList.isEmpty()) {
+				for(TdBrand tdBrand : tdBrandsList){
+					tdBrand.setProductCategoryTree(tdProductCategory.getParentTree());
+					tdBrandService.save(tdBrand);
+				}
+			}
+		}
 
-		for(TdGoods tdGoods: tdGoodsList){
-			tdGoods.setCategoryIdTree(tdProductCategory.getParentTree());
-			tdGoodsService.save(tdGoods, "tdamin");
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：处理产品
+	 */
+    public void changeProduct(TdProductCategory tdProductCategory){
+    	if (null != tdProductCategory) {
+			List<TdProduct> tdProductsList = tdProductService.findByProductCategoryId(tdProductCategory.getId());
+			if (null != tdProductsList && ! tdProductsList.isEmpty()) {
+				for(TdProduct tdProduct : tdProductsList){
+					tdProduct.setProductCategoryTree(tdProductCategory.getParentTree());
+					tdProductService.save(tdProduct);
+				}
+			}
 		}
     }
 }

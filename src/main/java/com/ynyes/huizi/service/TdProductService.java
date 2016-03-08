@@ -131,6 +131,13 @@ public class TdProductService {
         return repository.findByTitleAndIdNot(title, id);
     }
     
+    public List<TdProduct> findByProductCategoryId(Long productCategoryId){
+    	if (null == productCategoryId) {
+			return null;
+		}
+    	return repository.findByProductCategoryId(productCategoryId);
+    }
+    
     /**
      * 查找
      * 

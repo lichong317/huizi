@@ -1,64 +1,73 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><#if goods??>${goods.seoTitle!''}</#if>-惠之店</title>
-<meta name="keywords" content="${goods.seoKeywords!''}">
-<meta name="description" content="${goods.seoDescription!''}">
+<meta charset="utf-8">
+<meta http-equiv="Content-Language" content="zh-CN">
+<title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
+<meta name="keywords" content="${site.seoKeywords!''}">
+<meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-
-<script src="/touch/js/jquery-1.9.1.min.js"></script>
-<script src="/touch/js/common.js"></script>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
+<script src="/touch/js/jquery-1.9.1.min.js"></script>
+<script src="/touch/js/common.js"></script>
+<style type="text/css">
+    .box li{display: none;}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
-  
+    var aBtn = $('.tabfix li');
+    var aBox = $('.box li');
+    aBtn.each(function(i){
+        aBtn.eq(i).click(function(){
+            aBox.hide();
+            aBox.eq(i).show();
+            aBtn.removeClass('sel');
+            aBtn.eq(i).addClass('sel');
+        });
+    });
 });
 </script>
 </head>
 
 <body>
-<div class="maintop_bg"></div>
-<header class="maintop">
-  <div class="main">
-    <p>图文详情</p>
-    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
-    <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
-  </div>
+<header class="comhead">
+  <h2>图文详情</h2>
+  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
 </header>
-<!--header END-->
+<div class="comheadbg"></div>
 
-${goods.detail!''}
-
-<div class="clear"></div>
-
-<#if !app??>
-<section class="botmain">
-  <div class="main">
-  <div class="center">
-   <#if username??>
-        <a href="/touch/user">${username!''}</a>
-        <span>|</span>
-        <a href="/touch/logout" onclick="logout()">退出</a>
-    <#else>
-        <a href="/touch/login">登录</a>
-        <span>|</span>
-        <a href="/touch/reg">注册</a>
-    </#if>    
-  </div>
-  </div>
+<section class="tabfix pro_mmenu pro_mmenu01 w100 mb20">
+  <menu>
+    <li class="sel"><a href="#">图文详情</a></li>
+    <li ><a href="#">规格参数</a></li>
+    <li><a href="#">售后服务</a></li>
+  </menu>
 </section>
-<p class="ta-c mb10">
-    <a class="fc fs09" href="#">触屏版</a>
-    <span>&nbsp;|&nbsp;</span>
-    <a class="fs09" href="/goods/<#if goodsId??>${goodsId?c}</#if>">电脑版</a>
-  </p>
-  <p class="ta-c fs08 c7">${site.copyright!''} </p> 
-  <p class="ta-c fs08 c7">${site.icpNumber!''}</p>
-</#if>
+<ul class="box">
+    <li style="display: block;">
+        <#if goods??>
+            ${goods.detail!''}
+        </#if>
+    </li>
+    <li>
+        <#if goods??>
+            ${goods.paramDetail!''}
+        </#if>
+    </li>
+    <li>
+        <#if goods??>
+            ${goods.afterMarketService!''}
+        </#if>
+    </li>
+</ul>
+<div class="clear"></div>
+  
 </body>
 </html>

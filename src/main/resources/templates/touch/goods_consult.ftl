@@ -1,82 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta http-equiv="Content-Language" content="zh-CN">
 <title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-
-<script src="/touch/js/jquery-1.9.1.min.js"></script>
-<script src="/touch/js/common.js"></script>
-
-<script src="/touch/js/message.js"></script>
-<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
+<script src="/touch/js/jquery-1.9.1.min.js"></script>
+<script src="/touch/js/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-   $("#btn_submit").click(function(){
-        var goodsId = $("#goodsId").val();
-        var content = $("#content").val();
-        
-        if (content.length < 1)
-        {
-            ct.alert({
-                    text: "请输入咨询内容！",
-                    type: "alert"
-            });
-            return;
-        }
-        
-        $.ajax({
-                type: "post",
-                url: "/touch/user/consult/add",
-                data: { "goodsId": goodsId, "content": content },
-                dataType: "json",
-                success: function (data) {
-                    if (data.code == 0) {
-                       //alert("提交成功！请等待审核");
-                       ct.alert({
-                             text: "提交成功！请等待审核",
-                             type: "alert"
-                       });
-                    } else {
-                        //alert(data.message);
-                        ct.alert({
-                             text: data.message,
-                             type: "alert"
-                       });
-                    }
-                }
-            });
-   });
+    
 });
-
-var pageIdx = 1;
-function loadMore()
-{
-    $.ajax({
-        type:"post",
-        url:"/touch/goods/consult/more/<#if goodsId??>${goodsId?c}</#if>",
-        data: { "page": pageIdx},
-        dataType: "json",
-        success:function(data){
-            if ("" == data)
-            {
-                $("#a-more").css("display", "none");
-            }
-            else
-            {
-                $("#goods-menu").append(data);
-                pageIdx++;
-            }
-        }
-    });
-}
 
   <!-- 用户名中间变为*号  2015-8-4 15:38:18 mdj  -->
 $(document).ready(function(){
@@ -121,76 +65,50 @@ function changeName(p)
     }
     return temp;
 }
-
 </script>
-
 </head>
 
-<body>
-<div class="maintop_bg"></div>
-<header class="maintop">
-  <div class="main">
-    <p>商品咨询</p>
-    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
-    <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
-  </div>
+<body class="eeebg">
+<header class="comhead">
+  <h2>商品咨询</h2>
+  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch" class="a1"><img src="/touch/images/home.png" /></a>
 </header>
-
-<div class="mainbox myassess pt20">
-<!-- <form id="form1" method="post" action="/touch/user/consult/add"> -->
-     <p style="color: #F00"><#if res??>${res.message!''}</#if></p>
-     <input id="goodsId" name="goodsId" value="<#if goodsId??>${goodsId?c}</#if>" type="hidden"> 
-     <textarea id="content" name="content" placeholder="请输入咨询内容。。。">
-     
-     </textarea>
-     <div class="clear10"></div>
-     <input id="btn_submit" type="submit" value="提交" class="sub" />
-     <div class="clear20"></div>
-<!--  </form> -->
-</div>
-
-<ul class="main myassesslist">
-    <menu id="goods-menu">
-        <#if consult_page??>
-            <#list consult_page.content as item>
-                 <li>
-                    <p class="p1"><b class="userName">${item.username!''}</b> ${item.content!''}</p>
-                    <#if item.isReplied?? && item.isReplied>
-                    <p class="p2">商家回复：${item.reply!''}</p>
-                    </#if>
-                 </li>
-            </#list>
-        </#if>
-    </menu>
-</ul>
-
-    <a id="a-more" class="grey_more" href="javascript:loadMore();"><img src="/touch/images/more.png" /></a>
-
-<!--main END-->
-<#if !app??>
-<section class="botmain">
-  <div class="main">
-  <div class="center">
-   <#if username??>
-        <a href="/touch/user">${username!''}</a>
-        <span>|</span>
-        <a href="/touch/logout">退出</a>
-    <#else>
-        <a href="/touch/login">登录</a>
-        <span>|</span>
-        <a href="/touch/reg">注册</a>
-    </#if>    
-  </div>
-  </div>
-</section>
-
-  <p class="ta-c mb10">
-    <a class="fc fs09" href="#">触屏版</a>
-    <span>&nbsp;|&nbsp;</span>
-    <a class="fs09" href="/goods/<#if goodsId??>${goodsId?c}</#if>">电脑版</a>
-  </p>
-  <p class="ta-c fs08 c7">${site.copyright!''} </p> 
-  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
-</#if>
+<div class="comheadbg"></div>
+    
+    <input id="goodsId" name="goodsId" value="<#if goodsId??>${goodsId?c}</#if>" type="hidden"> 
+    <p class="w90 mga c7 pt30 pb10 fs3">我要咨询：</p>
+    <textarea id="content" name="content" class="leave_area" placeholder="请输入咨询内容。。。"></textarea>
+    <input id="btn_submit" type="submit" class="h08 lh8 w90 white redbg block mga sub bor-rad mt20 fs3" value="提交" />
+    <div class="clear h04"></div>
+    
+    <#if consult_page??>
+         <#list consult_page.content as item>
+              <section class="pro_leave mainbox bot-border pt20 pb20 whitebg">
+                  <h3 class="c9 pb10"><b class="userName">${item.username!''}</b>&nbsp;&nbsp;&nbsp;&nbsp;<#if item.consultTime??>${item.consultTime?string("yyyy-MM-dd")}</#if></h3>
+                  <p class="pb10">${item.content!''}</p>
+                  <p class="pb10"><span class="red">商家回复：</span>${item.reply!''}</p>
+              </section>
+         </#list>
+    </#if>
+    
+<div class="clear h02"></div>
+<p class="center ta-r">
+    <#if consult_page??>
+        <#if consult_page.number+1 == 1>
+            <a class="c9 mr30" href="javascript:;"><span>上一页</span></a>
+        <#else>
+            <a href="/touch/goods/consult/${goodsId?c}?page=${consult_page.number-1}" class="mr30">上一页</a>
+        </#if>  
+        
+        <#if consult_page.number+1 == consult_page.totalPages || consult_page.totalPages==0>
+              <a  href="javascript:;"><span>下一页</span></a>
+        <#else>
+              <a href="/touch/goods/consult/${goodsId?c}?page=${consult_page.number+1}"><span>下一页</span></a>
+        </#if>  
+    </#if>
+</p>
+<div class="clear h03"></div>
+  
 </body>
 </html>

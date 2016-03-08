@@ -27,4 +27,6 @@ public interface TdAdRepo extends
     Page<TdAd> findByTitleContainingOrSubtitleContaining(String keywords, String keywords1,Pageable page);
     
     Page<TdAd> findByTypeId(Long typeId, Pageable page);
+    
+    List<TdAd> findByTypeId(Long typeId);
 }

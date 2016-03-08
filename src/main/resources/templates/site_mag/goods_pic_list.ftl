@@ -151,6 +151,18 @@ function confirmCopy(id)
                 <option value="groupSale" <#if saleType?? && saleType=="groupSale">selected="selected"</#if>>团购</option>
             </select>
         </div>
+        
+        <div class="rule-single-select">
+            <select name="changeCategoryId" onchange="javascript:setTimeout(__doPostBack('changeCategory', ''), 0)">
+                <option <#if !changeCategoryId??>selected="selected"</#if> value="">批量移动到</option>
+                <#if category_list??>
+                    <#list category_list as c>
+                         <option value="${c.id!""}" <#if changeCategoryId?? && c.id==changeCategoryId></#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                    </#list>
+                </#if>
+            </select>
+        </div>
+        
       </div>
     </div>
     <div class="r-list">

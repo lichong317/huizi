@@ -136,7 +136,9 @@ var theForm = document.forms['form1'];
                     </span>
                     <input type="hidden" name="listId" id="listId" value="${item.id?c}">
                 </td>
-                <td><a href="/Verwalter/ad/edit?id=${item.id?c}">${item.title!""}</a></td>
+                <td>
+                    <a href="/Verwalter/ad/edit?id=${item.id?c}">${item.title!""}</a>
+                </td>
                 <td align="center">${item.startTime!""}</td>
                 <td align="center">${item.endTime!""}</td>
                 <td align="center"><a target="_blank" href="${item.linkUri!""}">广告链接</a></td>

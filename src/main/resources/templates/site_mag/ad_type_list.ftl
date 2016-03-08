@@ -32,6 +32,37 @@ var theForm = document.forms['form1'];
             theForm.submit();
         }
     }
+    
+        //广告置顶
+    function toTop(id) {
+        var dialog = $.dialog.confirm('确定要将此广告放到顶部？', function () {
+            var postData = { "id": id};
+            //发送AJAX请求
+            sendAjaxUrl(dialog, postData, "/Verwalter/ad/param/edit");
+            return false;
+        });
+    }
+
+//发送AJAX请求
+    function sendAjaxUrl(winObj, postData, sendUrl) {
+        $.ajax({
+            type: "post",
+            url: sendUrl,
+            data: postData,
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.dialog.alert('尝试发送失败，错误信息：' + errorThrown, function () { }, winObj);
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    winObj.close();
+                    $.dialog.tips(data.msg, 2, '32X32/succ.png', function () { location.reload(); }); //刷新页面
+                } else {
+                    $.dialog.alert('错误提示：' + data.message, function () { }, winObj);
+                }
+            }
+        });
+    }    
 </script>
 <!--导航栏-->
 <div class="location" style="position: static; top: 0px;">
@@ -65,7 +96,7 @@ var theForm = document.forms['form1'];
   <tbody>
   <tr class="odd_bg">
     <th width="5%">选择</th>
-    <th align="center" width="10%">广告位名称</th>
+    <th align="left" width="15%">广告位名称</th>
     <th align="center" width="5%">数量</th>
     <th align="center" width="5%">价格</th>
     <th align="center" width="15%">尺寸</th>
@@ -83,7 +114,10 @@ var theForm = document.forms['form1'];
                     </span>
                     <input type="hidden" name="listId" id="listId" value="${item.id?c}">
                 </td>
-                <td align="center"><a href="/Verwalter/ad/type/edit?id=${item.id?c}">${item.title!""}</a></td>
+                <td >
+                    <a href="/Verwalter/ad/type/edit?id=${item.id?c}">${item.title!""}</a>
+                    <#--<a href="/Verwalter/ad/list?categoryId=${item.id?c}" style="float:right">查看广告内容</a> -->
+                </td>
                 <td align="center">${item.totalShows!""}</td>
                 <td align="center">${item.price!""}</td>
                 <td align="center">${item.width!""}×${item.heigth!""}</td>
@@ -95,6 +129,26 @@ var theForm = document.forms['form1'];
                     <a href="/Verwalter/ad/type/edit?id=${item.id?c}">修改</a>
                 </td>
             </tr>
+            <#if ("ad"+item_index+"list")?eval??>
+                <#list ("ad"+item_index+"list")?eval as aditem>
+                <tr>
+                    <td></td>
+                    <td >
+                        <span class="folder-line" style="margin-left:20px"></span>
+                        <a href="/Verwalter/ad/edit?id=${aditem.id?c}">${aditem.title!''}</a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td align="center">
+                        <a href="javascript:;" onclick="toTop(${aditem.id?c});">置顶</a>&nbsp;/&nbsp;
+                        <a href="/Verwalter/ad/edit?id=${aditem.id?c}">修改</a>
+                    </td>
+                </tr>
+                </#list>
+            </#if>
         </#list>
     </#if>
      

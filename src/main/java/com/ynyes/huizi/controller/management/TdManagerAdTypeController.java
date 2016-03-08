@@ -1,8 +1,11 @@
 package com.ynyes.huizi.controller.management;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ynyes.huizi.entity.TdAd;
 import com.ynyes.huizi.entity.TdAdType;
+import com.ynyes.huizi.service.TdAdService;
 import com.ynyes.huizi.service.TdAdTypeService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.util.SiteMagConstant;
@@ -30,6 +35,9 @@ public class TdManagerAdTypeController {
     
     @Autowired
     TdManagerLogService tdManagerLogService;
+    
+    @Autowired
+    TdAdService tdAdService;
     
     @RequestMapping(value="/list")
     public String setting(Integer page,
@@ -85,7 +93,17 @@ public class TdManagerAdTypeController {
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
         
-        map.addAttribute("ad_type_page", tdAdTypeService.findAllOrderBySortIdAsc(page, size));
+        Page<TdAdType> tdAdTypePage = tdAdTypeService.findAllOrderBySortIdAsc(page, size);
+        
+        map.addAttribute("ad_type_page", tdAdTypePage);
+        
+        if (null != tdAdTypePage) {
+			for(int i=0; i < tdAdTypePage.getContent().size(); i++){
+				List<TdAd> tdAdsList = tdAdService.findByTypeIdOrderBySortIdAsc(tdAdTypePage.getContent().get(i).getId());
+				
+				map.addAttribute("ad"+ i +"list", tdAdsList);
+			}
+		}
         
         return "/site_mag/ad_type_list";
     }

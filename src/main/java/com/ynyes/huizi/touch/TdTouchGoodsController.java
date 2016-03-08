@@ -198,7 +198,7 @@ public class TdTouchGoodsController {
 
         // 热卖
         map.addAttribute("hot_list",
-                tdGoodsService.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc());
+                tdGoodsService.findTop20ByIsOnSaleTrueOrderBySoldNumberDesc());
         
         // 同盟店
         map.addAttribute("diy_site_list",
@@ -206,7 +206,7 @@ public class TdTouchGoodsController {
         
         // 收藏总数
         map.addAttribute("total_collects", tdUserCollectService.countByGoodsId(goods.getId()));
-
+        
         // 查找类型
         TdProductCategory tdProductCategory = tdProductCategoryService
                 .findOne(goods.getCategoryId());

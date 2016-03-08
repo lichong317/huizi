@@ -51,7 +51,7 @@ $(function () {
         <dt>名称</dt>
         <dd>
             <input name="title" type="text" value="<#if ad_type??>${ad_type.title!""}</#if>" class="input normal" datatype="s" sucmsg=" ">
-            <span class="Validform_checktip">*广告位名称</span>
+            <span class="Validform_checktip">*广告位名称,添加后不可修改</span>
         </dd>
     </dl>
     <dl>

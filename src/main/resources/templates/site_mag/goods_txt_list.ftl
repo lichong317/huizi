@@ -144,6 +144,25 @@ function __doPostBack(eventTarget, eventArgument) {
             <select name="property" onchange="javascript:setTimeout(__doPostBack('property',''), 0)">
                 <option value="">所有属性</option>
                 <option value="isOnSale" <#if property?? && property=="isOnSale">selected="selected"</#if>>已上架</option>
+                <option value="isNotOnSale" <#if property?? && property=="isNotOnSale">selected="selected"</#if>>已下架</option>
+            </select>
+        </div>
+        <div class="rule-single-select">
+            <select name="saleType" onchange="javascript:setTimeout(__doPostBack('saleType',''), 0)">
+                <option value="">所有</option>
+                <option value="flashSale" <#if saleType?? && saleType=="flashSale">selected="selected"</#if>>抢拍</option>
+                <option value="groupSale" <#if saleType?? && saleType=="groupSale">selected="selected"</#if>>团购</option>
+            </select>
+        </div>
+        
+        <div class="rule-single-select">
+            <select name="changeCategoryId" onchange="javascript:setTimeout(__doPostBack('changeCategory', ''), 0)">
+                <option <#if !changeCategoryId??>selected="selected"</#if> value="">批量移动到</option>
+                <#if category_list??>
+                    <#list category_list as c>
+                         <option value="${c.id!""}" <#if changeCategoryId?? && c.id==changeCategoryId></#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                    </#list>
+                </#if>
             </select>
         </div>
       </div>

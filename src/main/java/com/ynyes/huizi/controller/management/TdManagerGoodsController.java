@@ -25,6 +25,7 @@ import com.ynyes.huizi.entity.TdPriceChangeLog;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.service.TdArticleService;
 import com.ynyes.huizi.service.TdBrandService;
+import com.ynyes.huizi.service.TdGoodsParameterService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdManagerLogService;
 import com.ynyes.huizi.service.TdParameterService;
@@ -70,6 +71,9 @@ public class TdManagerGoodsController {
     
     @Autowired
     TdPriceChangeLogService tdPriceChangeLogService;
+    
+    @Autowired
+    TdGoodsParameterService tdGoodsParameterService;
     
     @RequestMapping(value="/edit/parameter/{categoryId}", method = RequestMethod.POST)
     public String parameter(@PathVariable Long categoryId, ModelMap map,
@@ -212,6 +216,7 @@ public class TdManagerGoodsController {
     public String goodsList(Integer page, 
                               Integer size,
                               Long categoryId,
+                              Long changeCategoryId,
                               String property,
                               String __EVENTTARGET,
                               String __EVENTARGUMENT,
@@ -267,7 +272,14 @@ public class TdManagerGoodsController {
                     page = Integer.parseInt(__EVENTARGUMENT);
                 } 
                 break;
-            
+                
+            case "changeCategory":
+            	// 商品类别批量移动
+            	if (null != changeCategoryId) {
+					
+				}
+            	break;
+            	
             case "btnOnSale":
                 if (null != __EVENTARGUMENT)
                 {
@@ -341,7 +353,7 @@ public class TdManagerGoodsController {
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
         map.addAttribute("categoryId", categoryId);
         map.addAttribute("property", property);
-        
+
         // 文字列表模式
         if (null != __VIEWSTATE && __VIEWSTATE.equals("lbtnViewTxt"))
         {
@@ -356,6 +368,7 @@ public class TdManagerGoodsController {
     public String goodsListPost(Integer page, 
                               Integer size,
                               Long categoryId,
+                              Long changeCategoryId,
                               String property,
                               String saleType,
                               String __EVENTTARGET,
@@ -412,6 +425,13 @@ public class TdManagerGoodsController {
                     page = Integer.parseInt(__EVENTARGUMENT);
                 } 
                 break;
+                
+            case "changeCategory":
+            	// 商品类别批量移动
+            	if (null != changeCategoryId) {
+            		changeProductCategory(listId, listChkId, changeCategoryId);
+				}
+            	break;
                 
             case "btnOnSale":
                 if (null != __EVENTARGUMENT)
@@ -722,6 +742,7 @@ public class TdManagerGoodsController {
         map.addAttribute("categoryId", categoryId);
         map.addAttribute("property", property);
         map.addAttribute("saleType", saleType);
+
         // 文字列表模式
         if (null != __VIEWSTATE && __VIEWSTATE.equals("lbtnViewTxt"))
         {
@@ -1165,4 +1186,62 @@ public class TdManagerGoodsController {
         }
     }
     
+    /**
+	 * @author lc
+	 * @注释：商品类别批量移动
+	 */
+    private void changeProductCategory(Long[] ids, Integer[] chkIds, Long categoryId){
+    	if (null == ids || null == chkIds || null == categoryId
+                || ids.length < 1 || chkIds.length < 1)
+        {
+            return;
+        }
+    	
+    	TdProductCategory tdProductCategory = tdProductCategoryService.findOne(categoryId);
+    	
+    	if (null == tdProductCategory) {
+			return;
+		}
+    	
+        for (int chkId : chkIds)
+        {
+            if (chkId >=0 && ids.length > chkId)
+            {
+                Long id = ids[chkId];
+                
+                TdGoods tdGoods = tdGoodsService.findOne(id);
+                
+                if (null != tdGoods) {
+                	// 更换商品类别
+                	tdGoods.setCategoryId(categoryId);
+                	tdGoods.setCategoryIdTree(tdProductCategory.getParentTree());
+                	tdGoods.setCategoryTitle(tdProductCategory.getTitle());
+                	
+                	// 删除商品参数
+//                	tdGoods.setParamValueCollect(null);
+//                	if (null != tdGoods.getParamList()) {
+//						for(TdGoodsParameter tdGoodsParameter : tdGoods.getParamList()){
+//							tdGoodsParameterService.delete(tdGoodsParameter);
+//						}
+//					}
+                	
+                	// 删除产品
+                	tdGoods.setProductId(null);
+                	tdGoods.setSelectOneValue(null);
+                	tdGoods.setSelectTwoValue(null);
+                	tdGoods.setSelectThreeValue(null);
+                	
+                	// 删除品牌
+                	tdGoods.setBrandId(null);
+                	tdGoods.setBrandTitle(null);
+                	
+                	tdGoodsService.save(tdGoods, "tdadmin");
+				}
+                
+                
+            }
+        }
+    	
+    	
+    }
 }

@@ -362,20 +362,24 @@ public class TdTouchLoginController {
 	        if (null != isApp) {
 	        	map.addAttribute("app", isApp);
 			}
-			return "/touch/user_retrieve_step1";
+			return "/touch/user_retrieve";
 		}
 	    
 	    @RequestMapping(value = "/touch/login/password_retrieve", method = RequestMethod.POST)
-		@ResponseBody
-		public  Map<String, Object> Check(String username, String code, HttpServletRequest request){
+	    @ResponseBody
+		public  Map<String, Object> Check(String mobile, String code, String password, HttpServletRequest request){
 			Map<String, Object> res = new HashMap<String, Object>();
 			res.put("code", 1);
 			
-			if (username.isEmpty()) {
-				res.put("msg", "用户名不能为空");
+			if (mobile.isEmpty()) {
+				res.put("msg", "请输入手机号");
+				return res;
 			}
 			
-			String codeBack = (String) request.getSession().getAttribute("RANDOMVALIDATECODEKEY");
+			String codeBack = (String) request.getSession().getAttribute("SMSCODE");
+			if (null == codeBack) {
+				codeBack = "huizhidian";
+			}
 			if (!codeBack.equalsIgnoreCase(code)){
 				res.put("msg", "验证码错误");
 				return res;
@@ -383,19 +387,15 @@ public class TdTouchLoginController {
 			 
 //			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
 			
-	        TdUser userMobile = tdUserService.findByMobileAndIsEnabled(username);
-	        TdUser userUsername=tdUserService.findByUsernameAndIsEnabled(username);
-	        TdUser user=null;
-	        if( userUsername!=null){
-	        	user=userUsername;
-	        	request.getSession().setAttribute("retrieve_username", user.getUsername());
-	            
-				res.put("code", 0);
-	        }
-	        else if (null != userMobile) {
-	        	user=userMobile;
-	        	request.getSession().setAttribute("retrieve_username", user.getUsername());
-	            
+	        TdUser userMobile = tdUserService.findByMobileAndIsEnabled(mobile);
+
+	        if (null != userMobile) {
+	        	
+	        	userMobile.setPassword(password);
+	            tdUserService.save(userMobile);
+	        	
+	            request.getSession().setAttribute("username", userMobile.getUsername());
+	        	
 				res.put("code", 0);
 			}
 	        else {
@@ -405,77 +405,77 @@ public class TdTouchLoginController {
 			return res;
 		}
 	    
-	    @RequestMapping(value = "/touch/login/retrieve_step2", method = RequestMethod.GET)
-		public String Step2(Integer errCode, HttpServletRequest req, ModelMap map){
-			tdCommonService.setHeader(map, req);
-			String username = (String) req.getSession().getAttribute("retrieve_username");
-			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
-			
-			 if (null != errCode)
-	         {
-	             if (errCode.equals(1))
-	             {
-	                 map.addAttribute("error", "验证码错误");
-	             }
-	             
-	             map.addAttribute("errCode", errCode);
-	         }
-			 
-			map.put("user", user);
-			
-			//判断是否为app链接
-	        Integer isApp = (Integer) req.getSession().getAttribute("app");
-	        if (null != isApp) {
-	        	map.addAttribute("app", isApp);
-			}
-			
-			return "/touch/user_retrieve_step2";
-		}
-	    
-	    @RequestMapping(value = "/touch/login/retrieve_step2", method = RequestMethod.POST)
-		public String Step2(String smsCode,HttpServletRequest req, ModelMap map){
-			if (null == smsCode) {
-				return "redirect:/touch//login/retrieve_step2?errCode=4";
-			}
-			String smsCodeSave = (String) req.getSession().getAttribute("SMSCODE");
-			if (null == smsCodeSave) {
-				smsCodeSave = "1234566";
-			}
-			if (!smsCodeSave.equalsIgnoreCase(smsCode)) {
-				return "redirect:/touch//login/retrieve_step2?errCode=4";
-			}
-			String username = (String) req.getSession().getAttribute("retrieve_username");
-			map.put("retrieve_username", username);
-			tdCommonService.setHeader(map, req);
-			
-			//判断是否为app链接
-	        Integer isApp = (Integer) req.getSession().getAttribute("app");
-	        if (null != isApp) {
-	        	map.addAttribute("app", isApp);
-			}
-			
-			return "/touch/user_retrieve_step3";
-		}
-		
-		@RequestMapping(value = "/touch/login/retrieve_step3", method = RequestMethod.POST)
-		public String Step3(String password, HttpServletRequest req, ModelMap map){
-			String username = (String) req.getSession().getAttribute("retrieve_username");
-			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
-			if (null != password) {
-				user.setPassword(password);
-				tdUserService.save(user);
-				tdCommonService.setHeader(map, req);
-				req.getSession().setAttribute("username", user.getUsername());
-				//req.getSession().setAttribute("usermobile", user.getMobile());
-				
-				//判断是否为app链接
-		        Integer isApp = (Integer) req.getSession().getAttribute("app");
-		        if (null != isApp) {
-		        	map.addAttribute("app", isApp);
-				}
-				
-				return "/touch/user_retrieve_ok";
-			}
-			return "/touch/error_404";
-		}
+//	    @RequestMapping(value = "/touch/login/retrieve_step2", method = RequestMethod.GET)
+//		public String Step2(Integer errCode, HttpServletRequest req, ModelMap map){
+//			tdCommonService.setHeader(map, req);
+//			String username = (String) req.getSession().getAttribute("retrieve_username");
+//			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+//			
+//			 if (null != errCode)
+//	         {
+//	             if (errCode.equals(1))
+//	             {
+//	                 map.addAttribute("error", "验证码错误");
+//	             }
+//	             
+//	             map.addAttribute("errCode", errCode);
+//	         }
+//			 
+//			map.put("user", user);
+//			
+//			//判断是否为app链接
+//	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+//	        if (null != isApp) {
+//	        	map.addAttribute("app", isApp);
+//			}
+//			
+//			return "/touch/user_retrieve_step2";
+//		}
+//	    
+//	    @RequestMapping(value = "/touch/login/retrieve_step2", method = RequestMethod.POST)
+//		public String Step2(String smsCode,HttpServletRequest req, ModelMap map){
+//			if (null == smsCode) {
+//				return "redirect:/touch//login/retrieve_step2?errCode=4";
+//			}
+//			String smsCodeSave = (String) req.getSession().getAttribute("SMSCODE");
+//			if (null == smsCodeSave) {
+//				smsCodeSave = "1234566";
+//			}
+//			if (!smsCodeSave.equalsIgnoreCase(smsCode)) {
+//				return "redirect:/touch//login/retrieve_step2?errCode=4";
+//			}
+//			String username = (String) req.getSession().getAttribute("retrieve_username");
+//			map.put("retrieve_username", username);
+//			tdCommonService.setHeader(map, req);
+//			
+//			//判断是否为app链接
+//	        Integer isApp = (Integer) req.getSession().getAttribute("app");
+//	        if (null != isApp) {
+//	        	map.addAttribute("app", isApp);
+//			}
+//			
+//			return "/touch/user_retrieve_step3";
+//		}
+//		
+//		@RequestMapping(value = "/touch/login/retrieve_step3", method = RequestMethod.POST)
+//		public String Step3(String password, HttpServletRequest req, ModelMap map){
+//			String username = (String) req.getSession().getAttribute("retrieve_username");
+//			TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+//			if (null != password) {
+//				user.setPassword(password);
+//				tdUserService.save(user);
+//				tdCommonService.setHeader(map, req);
+//				req.getSession().setAttribute("username", user.getUsername());
+//				//req.getSession().setAttribute("usermobile", user.getMobile());
+//				
+//				//判断是否为app链接
+//		        Integer isApp = (Integer) req.getSession().getAttribute("app");
+//		        if (null != isApp) {
+//		        	map.addAttribute("app", isApp);
+//				}
+//				
+//				return "/touch/user_retrieve_ok";
+//			}
+//			return "/touch/error_404";
+//		}
 }

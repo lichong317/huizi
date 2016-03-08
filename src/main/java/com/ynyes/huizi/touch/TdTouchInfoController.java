@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdArticle;
 import com.ynyes.huizi.entity.TdArticleCategory;
 import com.ynyes.huizi.entity.TdNavigationMenu;
@@ -21,6 +22,8 @@ import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdNavigationMenuService;
 import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.util.ClientConstant;
+
+import scala.annotation.meta.beanGetter;
 
 @Controller
 @RequestMapping("/touch/info")
@@ -57,16 +60,6 @@ public class TdTouchInfoController {
         
         String username = (String) req.getSession().getAttribute("username");
         
-        // 读取浏览记录
-        if (null == username)
-        {
-            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(req.getSession().getId(), 0, ClientConstant.pageSize));
-        }
-        else
-        {
-            map.addAttribute("recent_page", tdUserRecentVisitService.findByUsernameOrderByVisitTimeDesc(username, 0, ClientConstant.pageSize));
-        }
-        
 	    if (null == mid)
 	    {
 	        return "/touch/error_404";
@@ -81,47 +74,31 @@ public class TdTouchInfoController {
 	    
 	    map.addAttribute("menu_name", menu.getTitle());
 	    
-	    List<TdArticleCategory> catList = tdArticleCategoryService.findByMenuId(mid);
+	    List<TdNavigationMenu> tdNavigationMenusList = tdNavigationMenuService.findByParentIdAndSort(1L);
 	    
-	    if (null !=catList && catList.size() > 0)
-	    {
-	        if (null == catId)
-	        {
-	            catId = catList.get(0).getId();
-	        }
+	    map.addAttribute("menu_list", tdNavigationMenusList);
+//	    List<TdArticleCategory> catList = tdArticleCategoryService.findByMenuId(mid);  
 	        
-	        map.addAttribute("info_page", tdArticleService.findByMenuIdAndCategoryIdAndIsEnableOrderBySortIdAsc(mid, catId, page, ClientConstant.pageSize));
-	    }
-        
-	    //资讯类别
-	    List<TdArticleCategory> informationcatList = tdArticleCategoryService.findByMenuId(10L);
-	    map.addAttribute("informationcatList", informationcatList);
-	    //帮助中心类别
-	    List<TdArticleCategory> helpcatList = tdArticleCategoryService.findByMenuId(12L);
-	    map.addAttribute("helpcatList", helpcatList);
-	    //关于我们类别
-	    List<TdArticleCategory> aboutuscatList = tdArticleCategoryService.findByMenuId(8L);
-	    map.addAttribute("aboutuscatList", aboutuscatList);
-	    //联系我们类别
-	    List<TdArticleCategory> contactuscatList = tdArticleCategoryService.findByMenuId(13L);
-	    map.addAttribute("contactuscatList", contactuscatList);
+	    map.addAttribute("info_page", tdArticleService.findByMenuId(mid, page, ClientConstant.pageSize));
+                
 	    
-//	    /**
-//		* @author lc
-//	    * @注释：
-//		*/
-//		// 文章列表页面广告
-//	    TdAdType adType = tdAdTypeService.findByTitle("文章列表页面广告");
-//
-//	    if (null != adType) {
-//	            map.addAttribute("Article_scroll_ad_list", tdAdService
-//	                    .findByTypeIdAndIsValidTrueOrderBySortIdAsc(adType.getId()));
-//	    }  
+	    /**
+		* @author lc
+	     * @注释：
+		*/
+		// 文章列表页面广告
+	    TdAdType adType = tdAdTypeService.findByTitle("触屏文章列表页面广告");
+
+	    if (null != adType) {
+	            map.addAttribute("Article_ad_list", tdAdService
+	                    .findByTypeIdOrderBySortIdAsc(adType.getId(), page, ClientConstant.pageSize).getContent());
+	    }  
+	    
 	    map.addAttribute("pageId", page);
 	    map.addAttribute("catId", catId);
 	    map.addAttribute("mid", mid);
-	    map.addAttribute("info_category_list", catList);
-	    map.addAttribute("latest_info_page", tdArticleService.findByMenuIdAndIsEnableOrderByIdDesc(mid, page, ClientConstant.pageSize));
+//	    map.addAttribute("info_category_list", catList);
+//	    map.addAttribute("latest_info_page", tdArticleService.findByMenuIdAndIsEnableOrderByIdDesc(mid, page, ClientConstant.pageSize));
 	    
 	  //判断是否为app链接
         Integer isApp = (Integer) req.getSession().getAttribute("app");

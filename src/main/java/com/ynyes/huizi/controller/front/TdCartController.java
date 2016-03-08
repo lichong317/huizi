@@ -138,7 +138,7 @@ public class TdCartController {
         
         if (m.equals(1)) { // 移动端浏览器
             
-            return "/touch/cart_add_res";
+            return "/touch/cart";
         }
         return "/client/cart_add_res";
     }

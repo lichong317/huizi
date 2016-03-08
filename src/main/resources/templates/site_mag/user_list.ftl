@@ -201,6 +201,10 @@ $(function () {
       <ul class="icon-list">
         <li><a class="folder" href="javascript:RedEnvelopetoAll()" ><i></i><span>发送红包给所有用户</span></a></li>
       </ul>
+      
+      <ul class="icon-list">
+        <li><a class="list" href="javascript:__doPostBack('exportAll','')" ><i></i><span>导出所有用户信息</span></a></li>
+      </ul>
     </div>
     <div class="r-list">
       <input name="keywords" type="text" class="keyword" value="${keywords!""}">

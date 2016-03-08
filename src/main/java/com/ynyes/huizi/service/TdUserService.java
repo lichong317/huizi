@@ -271,6 +271,10 @@ public class TdUserService {
     	return (List<TdUser>) repository.findByStatusId(1L);
     }
     
+    public List<TdUser> findAllStatus(){
+    	return (List<TdUser>) repository.findAll();
+    }
+    
     public TdUser findByUsernameAndIsEnabled(String username)
     {
         if (null == username)

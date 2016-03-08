@@ -1,109 +1,76 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta http-equiv="Content-Language" content="zh-CN">
 <title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
 <meta name="keywords" content="${site.seoKeywords!''}">
 <meta name="description" content="${site.seoDescription!''}">
 <meta name="copyright" content="${site.copyright!''}" />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-
-<script src="/touch/js/jquery-1.9.1.min.js"></script>
-<script src="/touch/js/common.js"></script>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
 
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
-<script>
-    function showCategory(index){
-        var id = index;
-        
-        if ($("#table"+id).css("display")=="none"){
-            $("#table"+id).css("display", "");
-        }else{
-            $("#table"+id).css("display", "none");
-        }
-        
-    }
+<script src="/touch/js/jquery-1.9.1.min.js"></script>
+<script src="/touch/js/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    menuClassHeight("#listclass",".mainfoot",".comhead");
+});
 </script>
-
 </head>
 
 <body>
-<div class="maintop_bg"></div>
-<header class="maintop">
-  <div class="main">
-    <p>商品类别</p>
-    <a class="a1" href="javascript:history.go(-1);"><img src="/touch/images/back.png" height="22" /><span style=" top:-5px !important;">返回</span></a>
-    <a class="a4" href="/touch"><img src="/touch/images/home.png" height="22" /></a>
-  </div>
+<header class="comhead">
+   <form action="/touch/search" method="get">
+      <section class="topsearch">   
+        <input name="keywords" type="text" class="text" placeholder="搜索关键字" />
+        <input type="submit" class="sub" value=" " /> 
+      </section>
+   </form>
+  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="#" class="a1"><img src="/touch/images/search02.png" /></a>
 </header>
+<div class="comheadbg"></div>
 
-<div class="main">
-  <#if top_cat_list??>
-       <#list top_cat_list as item>
-            <#if item_index < 4>
-            <a class="menu_tit menu_tit_sel" href="javascript:showCategory(${item_index});"><span>${item.title!''}</span></a>
-            <#if ("second_level_"+item_index+"_cat_list")?eval??>
-                <table id="table${item_index}" class="comtab menu_tab" style="display:none">
-                    <tr>
-                        <td><a href="/touch/list/${item.id?c}">全部</a></td>
-                    </tr>
-                    <#list ("second_level_"+item_index+"_cat_list")?eval as secondLevelItem>
-                        <#if secondLevelItem_index ==0>
-                             <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
-                        <#else>
-                             <tr>
-                                <td><a href="/touch/list/${secondLevelItem.id?c}">${secondLevelItem.title!''}</a></td>
-                             </tr>                       
-                        </#if>
-                        <#if ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval?? >
-                               <#list ("third_level_"+item_index+secondLevelItem_index+"_cat_list")?eval as thirdLevelItem>
-                                     <#if thirdLevelItem_index%3 ==0>
-                                         <tr>
-                                            <td><a href="/touch/list/${thirdLevelItem.id?c}">${thirdLevelItem.title!''}</a></td>
-                                    <#elseif thirdLevelItem_index%3 ==1>
-                                         <td><a href="/touch/list/${thirdLevelItem.id?c}">${thirdLevelItem.title!''}</a></td>
-                                    <#elseif thirdLevelItem_index%3 ==2>
-                                            <td><a href="/touch/list/${thirdLevelItem.id?c}">${thirdLevelItem.title!''}</a></td>
-                                         </tr>
-                                    </#if>
-                               </#list>
-                        </#if>
-                    </#list>
-                </table>
-            </#if>
-            </#if>
-       </#list>  
-  </#if>
-  
-  <div class="clear20"></div>
+<div class="listclass" id="listclass">
+    <#if top_cat_list??>
+        <#list top_cat_list as item>
+           <a <#if categoryId?? && item.id == categoryId>class="sel"<#elseif !categoryId?? && item_index == 0>class="sel"</#if> href="/touch/category/list?categoryId=${item.id?c}">${item.title!''}</a>
+        </#list>
+    </#if>
 </div>
-<!--main END-->
 
-<#if !app??>
-<section class="botmain">
-  <div class="main">
-  <div class="center">
-   <#if username??>
-        <a href="/touch/user">${username!''}</a>
-        <span>|</span>
-        <a href="/touch/logout" onclick="logout()">退出</a>
-    <#else>
-        <a href="/touch/login">登录</a>
-        <span>|</span>
-        <a href="/touch/reg">注册</a>
-    </#if> 
-  </div>
-  </div>
-</section>
-  <p class="ta-c mb10">
-    <a class="fc fs09" href="#">触屏版</a>
-    <span>&nbsp;|&nbsp;</span>
-    <a class="fs09" href="/">电脑版</a>
-  </p>
-  <p class="ta-c fs08 c7">${site.copyright!''} </p> 
-  <p class="ta-c fs08 c7">${site.icpNumber!''}</p> 
-</#if>
+<div class="classbox">
+    <#if second_level_cat_list??>
+        <#list second_level_cat_list as item>
+              <h3 class="red tit">${item.title!''}</h3>
+              <#if ("third_level_" + item_index + "_cat_list")?eval??>
+                   <#list ("third_level_" + item_index + "_cat_list")?eval as secitem>
+                        <a class="a1" href="/touch/list/${secitem.id?c}"><img src="${secitem.imgUrl!'/touch/images/pictures/img05.png'}" /><p>${secitem.title!''}</p></a>
+                   </#list>
+              </#if> 
+              <div class="clear"></div>            
+        </#list>
+        
+    </#if>
+      <div class="clear h02"></div>  
+</div>
+    
+<div class="mainfoot_bg"></div>
+<footer class="tabfix mainfoot">
+  <menu>
+    <a href="/touch/"><img src="/touch/images/foot01.png" /><p>首页</p></a>
+    <a href="/touch/info/list/10"><img src="/touch/images/foot02.png" /><p>资讯</p></a>
+    <a class="sel" href="#"><img src="/touch/images/foot03.png" /><p>分类搜索</p></a>
+    <a href="/touch/cart/"><img src="/touch/images/foot04.png" /><p>购物车</p></a>
+    <a href="/touch/user"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
+  </menu>
+</footer>
+  
 </body>
 </html>

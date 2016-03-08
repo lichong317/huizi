@@ -34,4 +34,6 @@ public interface TdProductRepo extends
     TdProduct findByTitleAndIdNot(String title, Long id);
     
     Page<TdProduct> findByTitleContainingOrderBySortIdAsc(String keywords, Pageable page);
+    
+    List<TdProduct> findByProductCategoryId(Long productCategoryId);
 }

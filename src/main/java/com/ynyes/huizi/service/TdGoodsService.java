@@ -152,6 +152,10 @@ public class TdGoodsService {
         return repository.findTop10ByIsOnSaleTrueOrderBySoldNumberDesc();
     }
 
+    public List<TdGoods> findTop20ByIsOnSaleTrueOrderBySoldNumberDesc() {
+        return repository.findTop20ByIsOnSaleTrueOrderBySoldNumberDesc();
+    }
+    
     public Page<TdGoods> searchAndOrderBySortIdAsc(String keywords, int page,
             int size) {
         PageRequest pageRequest = new PageRequest(page, size);
@@ -2213,7 +2217,7 @@ public class TdGoodsService {
         }
 
         // 保存品牌名称
-        if (null != e.getCategoryId()) {
+        if (null != e.getBrandId()) {
             TdBrand brand = tdBrandService.findOne(e.getBrandId());
 
             if (null != brand) {

@@ -49,7 +49,7 @@ public class TdTouchListController {
 	    private TdParameterService tdParameterService;
 	    
 	    // 组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[页号]_[价格低值]-[价格高值]
-	    //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[评价]-[页号]_[价格低值]-[价格高值]
+	    //新组成：typeID-brandIndex-[paramIndex]-[排序字段]-[销量排序标志]-[价格排序标志]-[上架时间排序标志]-[人气]-[页号]_[价格低值]-[价格高值]
 	    @RequestMapping("/list/{listStr}")
 	    public String list(@PathVariable String listStr, ModelMap map, HttpServletRequest req){
 	    	 tdCommonService.setHeader(map, req);
@@ -62,7 +62,7 @@ public class TdTouchListController {
 	         int totalSorts = 4;
 	         
 	         // 4个排序字段
-	         String[] sortName = {"onSaleTime", "salePrice", "soldNumber","totalComments"};
+	         String[] sortName = {"onSaleTime", "salePrice", "soldNumber"};
 	         
 	         Integer priceLow = null; // 价格低值
 	         Integer priceHigh = null; // 价格高值
@@ -240,16 +240,16 @@ public class TdTouchListController {
 	             }
 	         }
 	         
-	         // 排序字段3标志位，0：降序，1：升序
-	         if (numberGroup.length >= paramCount + 7)
-	         {
-	             String sortIdStr = numberGroup[6 + paramCount];
-	             
-	             if (null != sortIdStr)
-	             {
-	                 sortIds[3] = Integer.parseInt(sortIdStr);
-	             }
-	         }
+//	         // 排序字段3标志位，0：降序，1：升序
+//	         if (numberGroup.length >= paramCount + 7)
+//	         {
+//	             String sortIdStr = numberGroup[6 + paramCount];
+//	             
+//	             if (null != sortIdStr)
+//	             {
+//	                 sortIds[3] = Integer.parseInt(sortIdStr);
+//	             }
+//	         }
 	         
 //	         // 排序字段4标志位，0：降序，1：升序
 //	         if (numberGroup.length >= paramCount + 8)
@@ -267,9 +267,9 @@ public class TdTouchListController {
 	         // 页号
 	         Integer pageId = 0;
 	         
-	         if (numberGroup.length >= paramCount + 8)
+	         if (numberGroup.length >= paramCount + 7)
 	         {
-	             String pageIdStr = numberGroup[7 + paramCount];
+	             String pageIdStr = numberGroup[6 + paramCount];
 	             
 	             if (null != pageIdStr)
 	             {
@@ -282,9 +282,9 @@ public class TdTouchListController {
 	         // 是否有货
 	         Integer leftId = 0;
 	         
-	         if (numberGroup.length >= paramCount + 9)
+	         if (numberGroup.length >= paramCount + 8)
 	         {
-	             String leftIdStr = numberGroup[8 + paramCount];
+	             String leftIdStr = numberGroup[7 + paramCount];
 	             
 	             if (null != leftIdStr)
 	             {

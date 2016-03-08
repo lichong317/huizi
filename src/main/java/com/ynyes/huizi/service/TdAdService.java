@@ -117,6 +117,11 @@ public class TdAdService {
     	return repository.findByTypeId(typeId, pageRequest);
     }
     
+    public List<TdAd> findByTypeIdOrderBySortIdAsc(Long typeId){   	
+    	
+    	return repository.findByTypeId(typeId);
+    }
+    
     /**
 	 * @author lc
 	 * @注释：搜索广告

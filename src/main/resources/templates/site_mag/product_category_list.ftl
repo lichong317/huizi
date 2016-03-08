@@ -95,7 +95,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <#if product_category_list??>
                     <#list product_category_list as c>
                         <#if c.layerCount?? && c.layerCount < 3>
-                            <option value="${c.id!""}" <#if categoryId?? && c.id==categoryId>selected="selected"</#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                            <option value="${c.id!""}" <#if categoryId?? && c.id==categoryId></#if> ><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
                         </#if>
                     </#list>
                 </#if>

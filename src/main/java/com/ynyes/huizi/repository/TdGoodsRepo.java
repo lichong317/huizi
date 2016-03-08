@@ -42,6 +42,8 @@ public interface TdGoodsRepo extends
     
     List<TdGoods> findTop10ByIsOnSaleTrueOrderBySoldNumberDesc();
     
+    List<TdGoods> findTop20ByIsOnSaleTrueOrderBySoldNumberDesc();
+    
     Page<TdGoods> findByIsOnSaleTrue(Pageable page);
     
     Page<TdGoods> findByIsHotTrueAndIsOnSaleTrue(Pageable page);

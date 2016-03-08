@@ -1,5 +1,10 @@
 package com.ynyes.huizi.controller.management;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,7 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -291,13 +303,14 @@ public class TdManagerUserController {
                           String keywords,
                           Long roleId,
                           Long userLevelId,
+                          String exportAllUrl,
                           String __EVENTTARGET,
                           String __EVENTARGUMENT,
                           String __VIEWSTATE,
                           Long[] listId,
                           Integer[] listChkId,
                           ModelMap map,
-                          HttpServletRequest req){
+                          HttpServletRequest req, HttpServletResponse resp){
         String username = (String) req.getSession().getAttribute("manager");
         if (null == username) {
             return "redirect:/Verwalter/login";
@@ -315,6 +328,11 @@ public class TdManagerUserController {
             {
                 btnDelete("user", listId, listChkId);
                 tdManagerLogService.addLog("delete", "删除用户", req);
+            }
+            else if (__EVENTTARGET.equalsIgnoreCase("exportAll"))
+            {
+            	exportAllUrl = SiteMagConstant.backupPath;
+                tdManagerLogService.addLog("exportAll", "导出全部注册用户记录", req);
             }
         }
         
@@ -342,6 +360,115 @@ public class TdManagerUserController {
         map.addAttribute("__EVENTARGUMENT", __EVENTARGUMENT);
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
 
+		if (null != exportAllUrl) {//导出全部
+			 /**
+	 		 * @author lc
+	 		 * @注释：根据不同条件导出excel文件
+	 		 */
+	         // 第一步，创建一个webbook，对应一个Excel文件  
+	         HSSFWorkbook wb = new HSSFWorkbook();  
+	         // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
+	         HSSFSheet sheet = wb.createSheet("participant");  
+	         // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
+	         HSSFRow row = sheet.createRow((int) 0);  
+	         // 第四步，创建单元格，并设置值表头 设置表头居中  
+	         HSSFCellStyle style = wb.createCellStyle();  
+	         style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+	         
+	         HSSFCell cell = row.createCell((short) 0);  
+	         cell.setCellValue("用户名");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 1);  
+	         cell.setCellValue("支付宝登录名");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 2);  
+	         cell.setCellValue("qq登录名");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 3);  
+	         cell.setCellValue("昵称");  
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 4);  
+	         cell.setCellValue("真实姓名");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 5);  
+	         cell.setCellValue("性别");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 6);  
+	         cell.setCellValue("生日");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 7);  
+	         cell.setCellValue("注册时间");  
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 8);  
+	         cell.setCellValue("最后登录时间");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 9);  
+	         cell.setCellValue("上次抢拍时间");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 10);  
+	         cell.setCellValue("身份证");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 11);  
+	         cell.setCellValue("手机号");  
+	         cell.setCellStyle(style);  
+	         cell = row.createCell((short) 12);  
+	         cell.setCellValue("邮箱");  
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 13);  
+	         cell.setCellValue("详细地址");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 14);  
+	         cell.setCellValue("用户等级");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 15);  
+	         cell.setCellValue("收藏商品总数");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 16);  
+	         cell.setCellValue("积分总额");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 17);  
+	         cell.setCellValue("评论总数");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 18);  
+	         cell.setCellValue("用户类型");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 19);  
+	         cell.setCellValue("上级用户");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 20);  
+	         cell.setCellValue("下级用户总数");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 21);  
+	         cell.setCellValue("返现总数");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 22);  
+	         cell.setCellValue("冻结金额");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 23);  
+	         cell.setCellValue("返现给上级用户金额");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 24);  
+	         cell.setCellValue("银行卡号");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 25);  
+	         cell.setCellValue("银行");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 26);  
+	         cell.setCellValue("分销返利比例");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 27);  
+	         cell.setCellValue("虚拟货币");
+	         cell.setCellStyle(style);
+	         cell = row.createCell((short) 28);  
+	         cell.setCellValue("虚拟货币冻结金额");
+	         cell.setCellStyle(style);
+	         
+	 		 List<TdUser> tdUsers = tdUserService.findAllStatus();
+	 		    if (ImportAlluserData(tdUsers, row, cell, sheet)) {
+	 		    	downloaduser(wb, exportAllUrl, resp);
+	 			}
+	 		}
+        
         // 等级list
         map.addAttribute("userLevelId_list", tdUserLevelService.findIsEnableTrue());
         
@@ -406,6 +533,191 @@ public class TdManagerUserController {
         
         return "/site_mag/user_list";
     }
+    
+	 /**
+	 * @author lc
+	 * @注释：将list中的数据存入excel表格中
+	 */
+   @SuppressWarnings("deprecation")
+	public boolean ImportAlluserData(List<TdUser> tdUsers, HSSFRow row, HSSFCell cell, HSSFSheet sheet){
+   	
+   		for (int i = 0; i < tdUsers.size(); i++)  
+   		{  
+   	 				
+           row = sheet.createRow((int) i + 1);  
+           TdUser tdUser  = tdUsers.get(i);  
+           
+           // 第四步，创建单元格，并设置值  
+           if (null != tdUser.getUsername()) {
+           	row.createCell((short) 0).setCellValue(tdUser.getUsername());
+			}           
+           
+           if (null != tdUser.getAlipayUserId()) {
+           	row.createCell((short) 1).setCellValue(tdUser.getAlipayUserId());
+			}
+           
+           if (null != tdUser.getQqUserId()) {
+           	row.createCell((short) 2).setCellValue(tdUser.getQqUserId());
+			}
+           
+           if (null != tdUser.getNickname()) {
+           	row.createCell((short) 3).setCellValue(tdUser.getQqUserId());
+			}
+           
+           if (null != tdUser.getRealName()) {
+           	row.createCell((short) 4).setCellValue(tdUser.getRealName());
+			}
+           
+           if (null != tdUser.getSex()) {
+           	row.createCell((short) 5).setCellValue(tdUser.getSex());
+			}
+           
+           if (null != tdUser.getBirthday()) {
+           	cell = row.createCell((short) 6);
+           	cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tdUser.getBirthday()));
+			}
+           
+           if (null != tdUser.getRegisterTime()) {
+           	cell = row.createCell((short) 7);
+           	cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tdUser.getRegisterTime()));
+			}
+           
+           if (null != tdUser.getLastLoginTime()) {
+           	cell = row.createCell((short) 8);
+           	cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tdUser.getLastLoginTime()));
+			}
+           
+           if (null != tdUser.getLastFlashBuyTime()) {
+           	cell = row.createCell((short) 9);
+           	cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tdUser.getLastFlashBuyTime()));
+			}
+           
+           if (null != tdUser.getIdentity()) {
+           	row.createCell((short) 10).setCellValue(tdUser.getIdentity());
+			}
+           
+           if (null != tdUser.getMobile()) {
+           	row.createCell((short) 11).setCellValue(tdUser.getMobile());
+			}
+           
+           if (null != tdUser.getEmail()) {
+           	row.createCell((short) 12).setCellValue(tdUser.getEmail());
+			}
+           
+           if (null != tdUser.getDetailAddress()) {
+           	row.createCell((short) 13).setCellValue(tdUser.getDetailAddress());
+			}
+           
+           if (null != tdUser.getUserLevelTitle()) {
+           	row.createCell((short) 14).setCellValue(tdUser.getUserLevelTitle());
+			}
+           
+           if (null != tdUser.getTotalCollectedGoods()) {
+           	row.createCell((short) 15).setCellValue(tdUser.getTotalCollectedGoods());
+			}
+           
+           if (null != tdUser.getTotalPoints()) {
+           	row.createCell((short) 16).setCellValue(tdUser.getTotalPoints());
+			}
+           
+           if (null != tdUser.getTotalComments()) {
+           	row.createCell((short) 17).setCellValue(tdUser.getTotalComments());
+			}
+           
+           if (null != tdUser.getRoleId()) {
+           	 if (tdUser.getRoleId().equals(0L)) {
+           		row.createCell((short) 18).setCellValue("普通用户");
+			 }else if (tdUser.getRoleId().equals(1L)) {
+					row.createCell((short) 18).setCellValue("分销商用户");
+			 }else if (tdUser.getRoleId().equals(2L)) {
+					row.createCell((short) 18).setCellValue("商城用户");
+		     }         	
+		   }
+           
+           if (null != tdUser.getUpperUsername()) {
+        	   row.createCell((short) 19).setCellValue(tdUser.getUpperUsername());
+		   }
+           
+           if (null != tdUser.getTotalLowerUsers()) {
+        	   row.createCell((short) 20).setCellValue(tdUser.getTotalLowerUsers());
+		   }
+           
+           if (null != tdUser.getTotalCashRewards()) {
+        	   row.createCell((short) 21).setCellValue(tdUser.getTotalCashRewards());
+		   }
+           
+           if (null != tdUser.getCashRewardsFrozen()) {
+        	   row.createCell((short) 22).setCellValue(tdUser.getCashRewardsFrozen());
+		   }
+           
+           if (null != tdUser.getTotalCashRewardsToUpuser()) {
+        	   row.createCell((short) 23).setCellValue(tdUser.getTotalCashRewardsToUpuser());
+		   }
+           
+           if (null != tdUser.getBankCardCode()) {
+        	   row.createCell((short) 24).setCellValue(tdUser.getBankCardCode());
+		   }
+           
+           if (null != tdUser.getBankTitle()) {
+        	   row.createCell((short) 25).setCellValue(tdUser.getBankTitle());
+		   }
+           
+           if (null != tdUser.getReturnRation()) {
+        	   row.createCell((short) 26).setCellValue(tdUser.getReturnRation());
+		   }
+           
+           if (null != tdUser.getVirtualCurrency()) {
+        	   row.createCell((short) 27).setCellValue(tdUser.getVirtualCurrency());
+		   }
+           
+           if (null != tdUser.getFrozenCapital()) {
+        	   row.createCell((short) 28).setCellValue(tdUser.getFrozenCapital());
+		   }
+       } 
+   	return true;
+   }
+   
+   /**
+	 * @author lc
+	 * @注释：文件写入和下载
+	 */
+   public Boolean downloaduser(HSSFWorkbook wb, String exportUrl, HttpServletResponse resp){
+   	 try  
+        {  
+	          FileOutputStream fout = new FileOutputStream(exportUrl+"users.xls");  
+//	          OutputStreamWriter writer = new OutputStreamWriter(fout, "utf8");	                       	     
+	          wb.write(fout);  
+	          fout.close();
+        }catch (Exception e)  
+        {  
+            e.printStackTrace();  
+        } 
+   	 OutputStream os;
+		 try {
+				os = resp.getOutputStream();
+				File file = new File(exportUrl + "users.xls");
+                
+            if (file.exists())
+                {
+                  try {
+                        resp.reset();
+                        resp.setHeader("Content-Disposition", "attachment; filename="
+                                + "users.xls");
+                        resp.setContentType("application/octet-stream; charset=utf-8");
+                        os.write(FileUtils.readFileToByteArray(file));
+                        os.flush();
+                    } finally {
+                        if (os != null) {
+                            os.close();
+                        }
+                    }
+            }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		 }
+		 return true;	
+   }
     
     /**
 	 * @author lc
