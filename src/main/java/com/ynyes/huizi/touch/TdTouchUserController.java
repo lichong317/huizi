@@ -64,6 +64,7 @@ import com.ynyes.huizi.service.TdUserPointService;
 import com.ynyes.huizi.service.TdUserRecentVisitService;
 import com.ynyes.huizi.service.TdUserReturnService;
 import com.ynyes.huizi.service.TdUserService;
+import com.ynyes.huizi.service.TdUserWithdrawService;
 import com.ynyes.huizi.util.ClientConstant;
 import com.ynyes.huizi.util.QRCodeUtils;
 import com.ynyes.huizi.util.SiteMagConstant;
@@ -133,6 +134,9 @@ public class TdTouchUserController {
     
     @Autowired
     private TdCouponTypeService tdCouponTypeService;
+    
+    @Autowired
+    private TdUserWithdrawService tdUserWithdrawService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, String username, ModelMap map) {
@@ -266,7 +270,7 @@ public class TdTouchUserController {
    	}
     
     @RequestMapping(value = "/user/redenvelope/list")
-    public String redenvelopeList( Integer statusId, 
+    public String redenvelopeList( Integer statusId, Long redenvelopeId,
                         Integer page, String username,
                         HttpServletRequest req, Integer app,
                         ModelMap map){
@@ -308,6 +312,13 @@ public class TdTouchUserController {
 		}
         
         map.addAttribute("redenvelope_page", redenvelopePage);       
+        
+        // 查询红包信息
+        if (null != redenvelopeId) {
+        	 TdRedEnvelope tdRedEnvelope = tdRedEnvelopeService.findOne(redenvelopeId);
+             
+             map.addAttribute("tdRedEnvelope", tdRedEnvelope);
+		}
         
         //判断是否为app链接
         if (null == app) {
@@ -1575,58 +1586,6 @@ public class TdTouchUserController {
         	cl.setDateLeft(dateLeft);       
         }
         
-      //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
         
 		map.addAttribute("listId", listId);  
         map.addAttribute("coupan_list", coupanList);
@@ -1642,6 +1601,38 @@ public class TdTouchUserController {
 		}
         
         return "/touch/user_coupon_list";
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：优惠券详细信息
+	 */
+    @RequestMapping(value = "/user/coupon/edit")
+    public String couponEdit(HttpServletRequest req, Integer page,String username, Integer app, Long couponId,
+                        ModelMap map){
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null != couponId) {
+        	TdCoupon tdCoupon = tdCouponService.findOne(couponId);
+        	map.addAttribute("tdCoupon", tdCoupon);
+        	
+        	if (null != tdCoupon) {
+        		TdCouponType tdCouponType = tdCouponTypeService.findOne(tdCoupon.getTypeId());
+        		map.addAttribute("tdCouponType", tdCouponType);
+			}
+        	
+        	
+		}
+        
+        return "/touch/user_coupon_edit";
     }
     
     /*
@@ -1743,59 +1734,7 @@ public class TdTouchUserController {
         Page<TdUserPoint> pointPage = null;
         
         pointPage = tdUserPointService.findByUsername(username, page, ClientConstant.pageSize);
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+              
         
         map.addAttribute("point_page", pointPage);
         
@@ -2540,9 +2479,33 @@ public class TdTouchUserController {
         return res;
     }
     
+    /**
+	 * @author lc
+	 * @注释：
+	 */
+    @RequestMapping(value = "/user/addressAdd")
+    public String address(Long addressId, Long manage, HttpServletRequest req,  ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null != addressId) {
+			map.addAttribute("address", tdShippingAddressService.findOne(addressId));
+		}
+        
+        map.addAttribute("manage", manage);
+        
+        return "/touch/user_address_add";
+    }
+    
     @RequestMapping(value = "/user/address/ajax/add")
     @ResponseBody
-    public Map<String, Object> addAddress(String receiverName,
+    public Map<String, Object> addAddress(String receiverName, Long manage, Long addressId,
                                     String prov,
                                     String city,
                                     String dist,
@@ -2570,29 +2533,97 @@ public class TdTouchUserController {
             return res;
         }
         
-        TdShippingAddress address = new TdShippingAddress();
-        
-        address.setReceiverName(receiverName);
-        address.setProvince(prov);
-        address.setCity(city);
-        address.setDisctrict(dist);
-        address.setDetailAddress(detail);
-        address.setPostcode(postcode);
-        address.setReceiverMobile(mobile);
-        
-        user.getShippingAddressList().add(address);
-        
-        tdShippingAddressService.save(address);
-        
-        tdUserService.save(user);
+        if (null != addressId) {
+        	TdShippingAddress address = tdShippingAddressService.findOne(addressId);
+	        
+	        address.setReceiverName(receiverName);
+	        address.setProvince(prov);
+	        address.setCity(city);
+	        address.setDisctrict(dist);
+	        address.setDetailAddress(detail);
+	        address.setPostcode(postcode);
+	        address.setReceiverMobile(mobile);
+	        tdShippingAddressService.save(address);
+	        
+	        res.put("code", 2);
+	        return res;
+		}else {
+			TdShippingAddress address = new TdShippingAddress();
+	        
+	        address.setReceiverName(receiverName);
+	        address.setProvince(prov);
+	        address.setCity(city);
+	        address.setDisctrict(dist);
+	        address.setDetailAddress(detail);
+	        address.setPostcode(postcode);
+	        address.setReceiverMobile(mobile);
+	        
+	        user.getShippingAddressList().add(address);
+	        
+	        tdShippingAddressService.save(address);
+	        
+	        tdUserService.save(user);
+		}       
         
         res.put("code", 0);
+        
+        if (null != manage ) {
+	        res.put("code", 2);
+		}
         
         return res;
     }
     
+    /**
+	 * @author lc
+	 * @注释：专用于订单提交
+	 */
+    @RequestMapping(value = "/user/address/ajax/changedefault")
+    @ResponseBody
+    public Map<String, Object> addAddress(Long id,
+                                    HttpServletRequest req) {
+    	 Map<String, Object> res = new HashMap<String, Object>();
+         
+         res.put("code", 1);
+         
+         String username = (String) req.getSession().getAttribute("username");
+         
+         if (null == username)
+         {
+             res.put("message", "请先登录");
+             return res;
+         }
+         
+         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+         
+         if (null == user) {
+        	 res.put("message", "用户不存在");
+             return res;
+		 }
+         
+         if (null != user.getShippingAddressList() && !user.getShippingAddressList().isEmpty() && null != id) {
+			for(TdShippingAddress tdShippingAddress : user.getShippingAddressList()){
+				if (tdShippingAddress.getId().equals(id)) {
+					tdShippingAddress.setIsDefaultAddress(true);
+				}else {
+					tdShippingAddress.setIsDefaultAddress(false);
+				}
+				tdShippingAddressService.save(tdShippingAddress);
+			}
+		 }
+         
+         res.put("code", 0);
+         
+         return res;
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：
+	 */
+    
     @RequestMapping(value = "/user/address/{method}")
-    public String address(HttpServletRequest req, 
+    public String address(HttpServletRequest req, Long manage,
                         @PathVariable String method,
                         Long id,
                         TdShippingAddress tdShippingAddress, Integer app,
@@ -2641,6 +2672,9 @@ public class TdTouchUserController {
                                 addressList.remove(id);
                                 user.setShippingAddressList(addressList);
                                 tdShippingAddressService.delete(add);
+                                if (null != manage) {
+                                	return "redirect:/touch/user/addressManage";
+								}
                                 return "redirect:/touch/user/address/list";
                             }
                         }
@@ -2680,6 +2714,62 @@ public class TdTouchUserController {
         
         return "/touch/user_address_list";
     }
+    
+    /**
+	 * @author lc
+	 * @注释：个人中心地址管理
+	 */
+    @RequestMapping(value = "/user/addressManage")
+    public String addressmanage(HttpServletRequest req, 
+                        Long id,
+                        Integer app,
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
+
+        map.addAttribute("user", user);
+        if (null != user)
+        {
+            List<TdShippingAddress> addressList = user.getShippingAddressList();
+            
+            map.addAttribute("address_list", addressList);
+        }
+        
+        return "/touch/user_address_manage";
+    }
+    
+//    /**
+//	 * @author lc
+//	 * @注释：
+//	 */
+//    @RequestMapping(value = "/user/addressmanageAdd")
+//    public String address(Long addressId, HttpServletRequest req,  ModelMap map){
+//        String username = (String) req.getSession().getAttribute("username");
+//        
+//        if (null == username)
+//        {
+//            return "redirect:/touch/login";
+//        }
+//        
+//        tdCommonService.setHeader(map, req);
+//        
+//        if (null != addressId) {
+//			map.addAttribute("address", tdShippingAddressService.findOne(addressId));
+//		}
+//        
+//        return "/touch/user_addressmanage_edit";
+//    }
+    
+    
+    
     
     @RequestMapping(value = "/user/distributor/return")
     public String distributorReturnList(HttpServletRequest req, 
@@ -2959,6 +3049,69 @@ public class TdTouchUserController {
         return res;
     }
     
+    
+    /**
+	 * @author lc
+	 * @注释：下级用户列表
+	 */
+    @RequestMapping(value = "/user/junioruser/list")
+    public String junioruserList(Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }              
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        Page<TdUser> userPage = null;
+               
+        userPage = tdUserService.findByUpperUsernameAndIsEnabled(username, page, ClientConstant.pageSize);
+        map.addAttribute("junioruser_page", userPage);
+                
+        return "/touch/user_junioruser_list";
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：账户信息
+	 */
+    @RequestMapping(value = "/user/account/info")
+    public String accountInfo(Integer page,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        if (null == page) {
+			page = 0;
+		}
+        
+        tdCommonService.setHeader(map, req);
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        map.addAttribute("withdraw_page", tdUserWithdrawService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
+        
+        return "/touch/user_account_info";
+    }
     
     @ModelAttribute
     public void getModel(@RequestParam(value = "addressId", required = false) Long addressId,

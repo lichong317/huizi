@@ -1016,7 +1016,28 @@ public class TdTouchOrderController {
         if (null != user) {
             map.addAttribute("user", user);
         }
-
+        
+        // 提出默认地址
+        boolean haveDefault = false;
+        if (null != user.getShippingAddressList() && !user.getShippingAddressList().isEmpty()) {
+			for(TdShippingAddress tdShippingAddress : user.getShippingAddressList()){
+				if (null != tdShippingAddress.getIsDefaultAddress() && tdShippingAddress.getIsDefaultAddress()) {
+					map.addAttribute("default_address", tdShippingAddress);
+					
+					// 判断是否支持货到付款
+					
+					haveDefault = true;
+				}
+			}
+			
+			// 如果没有默认地址则选择第一个
+			if (!haveDefault) {
+				map.addAttribute("default_address", user.getShippingAddressList().get(0));
+				
+				// 判断是否支持货到付款
+			}
+		}
+        
         // 触屏结算目前为所有购物车商品        
         List<TdCartGoods> cartGoodslist = tdCartGoodsService.findByUsername(username);
         if (null != cartGoodslist && !cartGoodslist.isEmpty()) {

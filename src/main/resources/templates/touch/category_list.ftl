@@ -48,7 +48,7 @@ $(document).ready(function(){
 <div class="classbox">
     <#if second_level_cat_list??>
         <#list second_level_cat_list as item>
-              <h3 class="red tit">${item.title!''}</h3>
+              <h3 class="red tit"><a href="/touch/list/${item.id?c}" class="red">${item.title!''}</a></h3>
               <#if ("third_level_" + item_index + "_cat_list")?eval??>
                    <#list ("third_level_" + item_index + "_cat_list")?eval as secitem>
                         <a class="a1" href="/touch/list/${secitem.id?c}"><img src="${secitem.imgUrl!'/touch/images/pictures/img05.png'}" /><p>${secitem.title!''}</p></a>

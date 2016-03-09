@@ -104,7 +104,7 @@ $(function () {
       }
     
     //指定用户抽奖
-     function RedEnvelopetoOne(username) {
+     function PrizetoOne(username) {
 
           var dialog = $.dialog({
                 title: '选择奖项类别',
@@ -254,7 +254,7 @@ $(function () {
                       <a class="point" href="/Verwalter/user/collect/list?userId=${user.id?c}" title="关注商品">关注商品</a>
                       <a class="msg" href="/Verwalter/user/recent/list?userId=${user.id?c}" title="浏览历史">浏览历史</a>
                       <a class="redenvelope" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
-                      <a class="lottery" href="javascript:RedEnvelopetoOne('${user.username}');" title="指定抽奖">发送红包</a>
+                      <a class="lottery" href="javascript:PrizetoOne('${user.username}');" title="指定抽奖">指定抽奖</a>
                       <#if user.roleId?? && user.roleId==1>
                           <a class="sms" href="/Verwalter/user/reward/list?userId=${user.id?c}" title="返现记录">返现记录</a>
                       </#if>
