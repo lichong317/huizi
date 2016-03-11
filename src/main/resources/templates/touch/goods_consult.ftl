@@ -17,9 +17,46 @@
 
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
+
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 $(document).ready(function(){
-    
+    $("#btn_submit").click(function(){
+        var goodsId = $("#goodsId").val();
+        var content = $("#content").val();
+        
+        if (content.length < 1)
+        {
+            ct.alert({
+                    text: "请输入咨询内容！",
+                    type: "alert"
+            });
+            return;
+        }
+        
+        $.ajax({
+                type: "post",
+                url: "/touch/user/consult/add",
+                data: { "goodsId": goodsId, "content": content },
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 0) {
+                       //alert("提交成功！请等待审核");
+                       ct.alert({
+                             text: "提交成功！请等待审核",
+                             type: "alert"
+                       });
+                    } else {
+                        //alert(data.message);
+                        ct.alert({
+                             text: data.message,
+                             type: "alert"
+                       });
+                    }
+                }
+            });
+   });
 });
 
   <!-- 用户名中间变为*号  2015-8-4 15:38:18 mdj  -->

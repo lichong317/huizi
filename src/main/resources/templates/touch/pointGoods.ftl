@@ -27,87 +27,9 @@ $(document).ready(function(){
     indexBanner("box","sum",300,5000,"pronum");//Banner
     indexBanner("morebox01","moresum01",300,10000,"morenum01");//Banner
     indexBanner("morebox02","moresum02",300,10000,"morenum02");//Banner
-    
-    //处理用户名
-    getElement();
+  
 });
 
-
-/**
- * 获取要隐藏用户名的元素
- * @author mdj
- */
-function getElement(){
-    var pElement = $(".userName").toArray();
-    for(var i = 0;i < pElement.length;i++)
-    {
-       var originName = pElement[i].innerHTML;
-       var name =  changeName(originName);
-       pElement[i].innerText=name;
-    }
-}
-/**
- * 隐藏用户名
- * @author mdj
- */
-function changeName(p)
-{
-    var temp = p;
-    if(temp.length == 11)
-    {
-        var changeStr = temp.substring(3, 7);
-        temp = temp.replace(changeStr,"****");
-    }
-    else
-    {
-        var startStr = "";
-        var strLength = temp.length;
-        for (var i = 0; i < strLength - 4; i++)
-        {
-            startStr += "*";
-        }
-        var changeStr = temp.substring(2, strLength - 2)
-
-        temp = temp.replace(changeStr, startStr);
-    }
-    return temp;
-}
-
-function addCollect(goodsId)
-{
-    if (undefined == goodsId)
-    {
-        return;
-    }
-    
-    $.ajax({
-        type:"post",
-        url:"/touch/user/collect/add",
-        data:{"goodsId": goodsId},
-        dataType: "json",
-        success:function(res){
-            if(res.code==0){
-                //$("#addCollect").removeClass("pro_share");
-                //$("#addCollect").addClass("pro_share1");
-                location.reload() 
-
-            }
-            //alert(res.message);
-            //ct.alert({
-                    //text: res.message,
-                    //type: "alert"
-           // });
-            
-            // 需登录
-            if (res.code==1)
-            {
-                setTimeout(function(){
-                    window.location.href = "/touch/login";
-                }, 1000); 
-            }
-        }
-    });
-}
 
 </script>
 </head>
@@ -115,7 +37,7 @@ function addCollect(goodsId)
 
 <body>
 <header class="comhead">
-  <h2>商品详情</h2>
+  <h2>积分商品详情</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
   <a href="/touch/cart" class="a1"><img src="/touch/images/info03.png" /></a>
 </header>
@@ -136,22 +58,16 @@ function addCollect(goodsId)
 <#if goods??>
     <h3 class="center fs35 pb10 lh4">${goods.title!''}</h3>
     <p class="center c9 lh3 pb20">${goods.subTitle!''}</p>
-    <p class="lh4 fs35 mainbox bot-border pb20"><span class="red mr10">￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span><span class="unl-th c9">￥<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span></p>
+    <p class="lh4 fs35 mainbox bot-border pb20">兑换积分<span class="red mr10">&nbsp;<#if goods.pointUse??>${goods.pointUse?c}积分</#if></span><span class="unl-th c9"></span></p>
     
     <div class="procheck mainbox top-border bot-border mt20">
       <span class="c9 mr20">促销</span>
-      <span class="inblock pl10 pr10 bor-rad redbg white mr10">优惠</span>${goods.promotion!''}
+      <span class="inblock pl10 pr10 bor-rad redbg white mr10">积分兑换</span>
     </div>
     <a class="procheck mainbox bot-border" onclick="$('.winbg').fadeToggle(200);">
       <span class="c9 mr20">已选</span>
-      <#if goods.selectOneValue??>
-         ${goods.selectOneValue}
-         <#if goods.selectTwoValue??>
-            ${goods.selectTwoValue}
-            <#if goods.selectThreeValue??>
-                ${goods.selectThreeValue}
-            </#if>
-         </#if>           
+      <#if goods??>
+         ${goods.title!''}                  
       </#if>
     </a>
 <#--    <a class="procheck mainbox bot-border">
@@ -169,6 +85,7 @@ function addCollect(goodsId)
 <a class="procheck mainbox bot-border top-border mt20 mb20" href="/touch/goods/detail/${goods.id?c}">
   <span class="c9 mr20">图文详情/规格参数/售后服务</span>
 </a>
+<#--
 <a class="procheck mainbox top-border" href="/touch/goods/comment/<#if goods??>${goods.id?c}</#if>">
   <span class="c9 mr20 fs3">商品评价</span>
   <p class="c9 pro_com">${comment_count!'0'}人评价<span class="red ml10"><#if three_star_comment_count?? && comment_count?? && comment_count != 0>${(three_star_comment_count/comment_count * 100) ?string("0")}</#if>%好评</span></p>
@@ -195,6 +112,7 @@ function addCollect(goodsId)
 <div class="w100 bot-border h03"></div>
 <a href="/touch/goods/consult/<#if goods??>${goods.id?c}</#if>" class="redborbtn w80 mga lh7 h07 mt20 mb20 fs3">商品咨询</a>
 
+-->
 <section class="tabfix pro_mmenu w100">
   <menu id="pro_mmenu">
     <li class="sel"><a href="#">热卖排行</a></li>
@@ -272,11 +190,10 @@ function addCollect(goodsId)
 </div>
 
 <div class="clear h11"></div>
-<footer class="profoot">
-  <a class="a1" href="javascript:addCollect(${goods.id?c});"><span id="addCollect" <#if tdUserCollect??>style="display: inline-block; padding-left:0.6rem; background:url(/touch/images/info01red.png) no-repeat left center; background-size:auto 0.4rem;"</#if>>关注</span></a>
-  <a class="a2" href="/touch/cart"><span>购物车</span></a>
+<footer class="profoot">  
+  <a class="a2 ml10" href="/touch/cart"><span>购物车</span></a>
   <#if goods.leftNumber gt 0>
-     <a class="a3" href="/cart/init?id=${goods.id?c}&m=1<#if qiang??>&qiang=${qiang}</#if><#if shareId??>&shareId=${shareId}</#if>" ><span>加入购物车</span></a>
+     <a class="a3" href="/touch/pointGoods/order/info?pointGoodsId=${goods.id?c}" ><span>立即兑换</span></a>
   <#else>
      <a class="a3" href="javascript:;" ><span>库存不足</span></a>      
   </#if>

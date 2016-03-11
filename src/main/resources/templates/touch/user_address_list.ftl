@@ -69,17 +69,17 @@ function changeDefault(id){
                 <h3>收货人：${item.receiverName!''}<span>&nbsp;&nbsp;&nbsp;${item.receiverMobile!''}</span></h3>
                 <p><span>收货地址：</span>${item.detailAddress!''}</p>
              </a>             
-             <a class="a2" href="/touch/user/address//delete?id=${item.id?c}"><img src="/touch/images/member/del.png" /></a>
+             <a class="a2" href="/touch/user/address/delete?id=${item.id?c}&pointGoodsId=${pointGoodsId!''}"><img src="/touch/images/member/del.png" /></a>
         </div>
     </#list>
 </#if>
 
 <div class="clear h05"></div>
-<a class="redborbtn h06 lh6 w40 mga bor-rad" href="/touch/user/addressAdd">添加新地址</a>
+<a class="redborbtn h06 lh6 w40 mga bor-rad" href="/touch/user/addressAdd<#if pointGoodsId??>?pointGoodsId=${pointGoodsId?c}</#if>">添加新地址</a>
 
 <div class="clear h130"></div>
 <footer class="addressfoot">
-  <input type="submit" value="确认" class="sub" onclick="window.location.href='/touch/order/info'"/>
+  <input type="submit" value="确认" class="sub" <#if pointGoodsId??>onclick="window.location.href='/touch/pointGoods/order/info?pointGoodsId=${pointGoodsId?c}'"<#else>onclick="window.location.href='/touch/order/info'"</#if>/>
 </footer>
   
 </body>

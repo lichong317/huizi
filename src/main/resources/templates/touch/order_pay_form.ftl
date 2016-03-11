@@ -30,14 +30,7 @@ $(document).ready(function(){
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
 </header>
 <div class="comheadbg"></div>
-<#if info??>
-    <h3 class="ta-c center fs3 pt30 pb10">${info.title!''}</h3>
-    <p class="c8 ta-c pb20"><#if info.createTime??>${info.createTime?string("yyyy-MM-dd")}</#if></p>
-    <article class="mainbox eeebg pt20 pb20 lh4">
-      ${info.content!''}
-      <div class="clear h02"></div>
-    </article>
-</#if>
+${payForm!''}
 
   
 </body>

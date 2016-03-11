@@ -85,7 +85,7 @@ $(document).ready(function(){
         <input name="mobile" datatype="m" ajaxurl="/reg/check/mobile" type="text" class="w80 mga mt20 h08 lh8 border ti1 block" placeholder="请输入手机号码" value="${mobile!''}"/>
     </div>
     <div style="height:50px">
-        <input ame="email" value="${email!''}" type="text" class="w80 mga mt20 h08 lh8 border ti1 block ml10" placeholder="请输入邮箱地址" />
+        <input ame="email" value="${email!''}" datatype="e" type="text" class="w80 mga mt20 h08 lh8 border ti1 block ml10" placeholder="请输入邮箱地址" />
     </div>
     <section class="w80 mga mt20 login_yzm">
       <input name="code" datatype="s4-4" errormsg="请填写4位字符" type="text" class="h08 lh8 border ti1 block fl" placeholder="请输入验证码" />

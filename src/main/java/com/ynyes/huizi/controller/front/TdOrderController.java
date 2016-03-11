@@ -1931,7 +1931,7 @@ public class TdOrderController extends AbstractPaytypeController{
      * @return
      */
     @RequestMapping(value = "/dopay/{orderId}")
-    public String payOrder(@PathVariable Long orderId, ModelMap map,
+    public String payOrder(@PathVariable Long orderId, ModelMap map, Device device,
             HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -2063,7 +2063,12 @@ public class TdOrderController extends AbstractPaytypeController{
         tdOrderService.save(order);
 
         map.addAttribute("payForm", payForm);
-
+        
+        //触屏和pc分流
+        if (device.isMobile() || device.isTablet()) {
+            return "/touch/order_pay_form";
+        }
+        
         return "/client/order_pay_form";
     }
     

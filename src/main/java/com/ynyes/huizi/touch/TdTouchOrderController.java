@@ -1022,9 +1022,7 @@ public class TdTouchOrderController {
         if (null != user.getShippingAddressList() && !user.getShippingAddressList().isEmpty()) {
 			for(TdShippingAddress tdShippingAddress : user.getShippingAddressList()){
 				if (null != tdShippingAddress.getIsDefaultAddress() && tdShippingAddress.getIsDefaultAddress()) {
-					map.addAttribute("default_address", tdShippingAddress);
-					
-					// 判断是否支持货到付款
+					map.addAttribute("default_address", tdShippingAddress);				
 					
 					haveDefault = true;
 				}
@@ -1033,8 +1031,6 @@ public class TdTouchOrderController {
 			// 如果没有默认地址则选择第一个
 			if (!haveDefault) {
 				map.addAttribute("default_address", user.getShippingAddressList().get(0));
-				
-				// 判断是否支持货到付款
 			}
 		}
         

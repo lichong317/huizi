@@ -36,6 +36,7 @@ import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
+import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.entity.TdUserCollect;
@@ -45,6 +46,7 @@ import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserRecentVisit;
 import com.ynyes.huizi.entity.TdUserReturn;
+import com.ynyes.huizi.entity.TdUserWithdraw;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
@@ -54,6 +56,7 @@ import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
+import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdShippingAddressService;
 import com.ynyes.huizi.service.TdUserCashRewardService;
 import com.ynyes.huizi.service.TdUserCollectService;
@@ -137,6 +140,9 @@ public class TdTouchUserController {
     
     @Autowired
     private TdUserWithdrawService tdUserWithdrawService;
+    
+    @Autowired
+    private TdSettingService tdSettingService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, String username, ModelMap map) {
@@ -2484,7 +2490,7 @@ public class TdTouchUserController {
 	 * @注释：
 	 */
     @RequestMapping(value = "/user/addressAdd")
-    public String address(Long addressId, Long manage, HttpServletRequest req,  ModelMap map){
+    public String address(Long addressId, Long manage, Long pointGoodsId, HttpServletRequest req,  ModelMap map){
         String username = (String) req.getSession().getAttribute("username");
         
         if (null == username)
@@ -2496,6 +2502,11 @@ public class TdTouchUserController {
         
         if (null != addressId) {
 			map.addAttribute("address", tdShippingAddressService.findOne(addressId));
+		}
+        
+        // 判断是否为积分商品订单
+        if (null != pointGoodsId) {
+			map.addAttribute("pointGoodsId", pointGoodsId);
 		}
         
         map.addAttribute("manage", manage);
@@ -2623,7 +2634,7 @@ public class TdTouchUserController {
 	 */
     
     @RequestMapping(value = "/user/address/{method}")
-    public String address(HttpServletRequest req, Long manage,
+    public String address(HttpServletRequest req, Long manage, Long pointGoodsId,
                         @PathVariable String method,
                         Long id,
                         TdShippingAddress tdShippingAddress, Integer app,
@@ -2675,6 +2686,9 @@ public class TdTouchUserController {
                                 if (null != manage) {
                                 	return "redirect:/touch/user/addressManage";
 								}
+                                if (null != pointGoodsId) {
+                                	return "redirect:/touch/user/address/list?pointGoodsId=" + pointGoodsId;
+								}
                                 return "redirect:/touch/user/address/list";
                             }
                         }
@@ -2710,6 +2724,11 @@ public class TdTouchUserController {
    			}
 		}else {
 			map.addAttribute("app", app);
+		}
+        
+        // 判断是否为 积分商品订单
+        if ( null != pointGoodsId) {
+        	map.addAttribute("pointGoodsId", pointGoodsId);
 		}
         
         return "/touch/user_address_list";
@@ -2959,7 +2978,8 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/info", method=RequestMethod.POST)
-    public String userInfo(HttpServletRequest req,
+    @ResponseBody
+    public  Map<String, Object> userInfo(HttpServletRequest req,
                         String realName,
                         String sex,
                         String email,
@@ -2968,11 +2988,14 @@ public class TdTouchUserController {
                         String city,
                         String disctrict,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
+    	Map<String, Object> res = new HashMap<String, Object>();
+        res.put("code", 1);
         
-        if (null == username)
-        {
-            return "redirect:/touch/login";
+        String username = (String) req.getSession().getAttribute("username");
+
+        if (null == username) {
+        	res.put("msg", "请先登录！");
+            return res;
         }
         
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
@@ -2983,14 +3006,15 @@ public class TdTouchUserController {
             user.setSex(sex);
             user.setEmail(email);
             user.setMobile(mobile);
-            user.setProvince(province);
-            user.setCity(city);
-            user.setDistrict(disctrict);
+           // user.setProvince(province);
+           // user.setCity(city);
+           // user.setDistrict(disctrict);
             user = tdUserService.save(user);
             
         }
         
-        return "redirect:/touch/user/info";
+        res.put("code", 0);
+        return res;
     }
     
     @RequestMapping(value = "/user/password", method=RequestMethod.GET)
@@ -3084,6 +3108,34 @@ public class TdTouchUserController {
         return "/touch/user_junioruser_list";
     }
     
+    @RequestMapping(value = "/user/lowerusers/order/list")
+    public String lowerUsersOrderList(Integer page,String lowerusername,
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        if (null == lowerusername) {
+			return "/touch/error_404";
+		}
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        map.addAttribute("order_page", tdOrderService.findByUsername(lowerusername, page, ClientConstant.pageSize));
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        map.addAttribute("setting", tdSetting);
+        return "/touch/loweruser_order_list";
+    }
+    
     /**
 	 * @author lc
 	 * @注释：账户信息
@@ -3111,6 +3163,144 @@ public class TdTouchUserController {
         map.addAttribute("withdraw_page", tdUserWithdrawService.findByUsernameOrderByIdDesc(username, page, ClientConstant.pageSize));
         
         return "/touch/user_account_info";
+    }
+    
+    /**
+	 * @author lc
+	 * @注释：申请提现 
+	 */
+    @RequestMapping(value = "/user/withdraw/edit")
+    public String cashreward(
+                        HttpServletRequest req, 
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/touch/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        return "/touch/user_withdraw_request";       
+    }
+    
+    @RequestMapping(value = "/user/withdraw/request",method = RequestMethod.POST)
+    @ResponseBody
+    public  Map<String, Object> cashreward(Double withdraw,String realName,
+    						 String bankTitle,String bankCardCode,
+    						 String mobile,
+                        HttpServletRequest req, 
+                        ModelMap map){
+    	Map<String, Object> res = new HashMap<String, Object>();
+         
+        res.put("code", 1);
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+        	res.put("msg", "请重新登录！");
+            return res;
+        }
+        
+        if (null == withdraw) {
+        	res.put("msg", "提交失败！");
+            return res;
+		}
+        
+        TdSetting tdSetting = tdSettingService.findTopBy();
+        if (null != tdSetting.getMinWithdraw()) {
+        	if (withdraw < tdSetting.getMinWithdraw()) {
+        		res.put("msg", "提现金额必须大于"+ tdSetting.getMinWithdraw());
+                return res;
+    		}
+        	if (withdraw%100 != 0) {
+        		res.put("msg", "提现金额必须为100的整数倍");
+                return res;
+			}
+		}
+                
+//        tdCommonService.setHeader(map, req);
+        TdUser tdUser = tdUserService.findByUsername(username);
+        
+        map.addAttribute("user", tdUser);
+       
+        if (null != withdraw && null != realName && null != bankTitle && null != bankCardCode && null != mobile) {
+        	
+        	// 根据用户角色不同来判断提现内容    用户提现角色分为  分销用户提现和 商城会员提现
+        	if (null != tdUser.getRoleId()) {
+				if (tdUser.getRoleId().equals(1L)) { // 分销用户提现
+					if ( null != tdUser.getTotalCashRewards() ) {
+						if (withdraw > tdUser.getTotalCashRewards()) {
+							withdraw = tdUser.getTotalCashRewards().doubleValue();
+						}else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(1L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						
+						res.put("code", 0);
+						return res;
+//						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
+//						tdUserService.save(tdUser);
+					}
+				}
+				else if (tdUser.getRoleId().equals(2L)) { // 商城用户提现
+					if (null != tdUser.getFrozenCapital() && null != tdUser.getVirtualCurrency()) {
+						// 提现金额
+						Double canWithdraw = 0.0;
+						canWithdraw = tdUser.getVirtualCurrency() - tdUser.getFrozenCapital();
+						if (canWithdraw < 0) {
+							canWithdraw = 0.0;
+						}
+						
+						if (withdraw > canWithdraw) {
+							withdraw = canWithdraw;
+						}
+						else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(2L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						
+						res.put("code", 0);
+						return res;
+					}
+				}
+			}
+			
+		}
+        return res;
     }
     
     @ModelAttribute

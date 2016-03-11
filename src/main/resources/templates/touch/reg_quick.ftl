@@ -136,8 +136,8 @@ function tip()
 <body>
 <header class="comhead">
   <h2>手机快速注册</h2>
-  <a href="#" class="a2"><img src="/touch/images/back.png" /></a>
-  <a href="#" class="a3">登录</a>
+  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch/login" class="a3">登录</a>
 </header>
 <div class="comheadbg"></div>
 
