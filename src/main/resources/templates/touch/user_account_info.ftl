@@ -32,47 +32,67 @@ $(document).ready(function(){
 <div class="comheadbg"></div>
 
 <div class="w100 pt20 pb20 whitebg bot-border">
-  <p class="mymoney">可消费金额：<span class="red lh5 fs35 block mt10">￥4555.00</span></p>
-  <p class="mymoney">可提现金额：<span class="red lh5 fs35 block mt10">￥4555.00</span></p>
+  <p class="mymoney">可消费金额：
+  	  <#if user.roleId?? && user.roleId == 1>
+  	 	 <span class="red lh5 fs35 block mt10">￥<#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></span>
+  	  <#elseif user.roleId?? && user.roleId == 2>
+  	  	 <span class="red lh5 fs35 block mt10">￥<#if user.virtualCurrency??>${user.virtualCurrency?string("0.00")}</#if></span>
+  	  </#if>
+  </p>
+  <p class="mymoney">可提现金额：
+  	  <#if user.roleId?? && user.roleId == 1>
+  		 <span class="red lh5 fs35 block mt10">￥<#if user.totalCashRewards?? &&  user.cashRewardsFrozen??>${(user.totalCashRewards - user.cashRewardsFrozen)?string("0.00")}</#if></span>
+  	  <#elseif user.roleId?? && user.roleId == 2>
+  	  	 <span class="red lh5 fs35 block mt10">￥<#if user.virtualCurrency?? &&  user.frozenCapital??>${(user.virtualCurrency - user.frozenCapital)?string("0.00")}</#if></span>
+  	  </#if>
+  </p>
   <div class="clear"></div>
 </div>
 <div class="w100 pt30 pb30 whitebg">
   <section class="w90 mga">
-    <p>默认银行卡号：154******876</p>
-    <p>默认开户银行：中国农业银行</p>
-    <a href="#" class="greenbtn fs3 mt30 w40 h06 lh6 bor-rad">申请提现</a>
+    <p>默认银行卡号：<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if></p>
+    <p>默认开户银行：${user.bankTitle!''}</p>
+    <a href="/touch/user/withdraw/edit" class="greenbtn fs3 mt30 w40 h06 lh6 bor-rad">申请提现</a>
   </section>
 </div>
 
 <h3 class="center mt30 scoretit mb20"><p>提现记录</p></h3>
-<section class="history_tx center mb10">
-  <h3><span class="absolute-l">2015-02-12</span>提现金额<span class="fs3 ml10">2000.00</span></h3>
-  <p><span class="c9 mr10 ta-r">真实姓名</span>张笑笑</p>
-  <p><span class="c9 mr10 ta-r">银行卡</span>信用社 15444**765<b>未审核</b></p>
-  <p><span class="c9 mr10 ta-r">手机号码</span>155555555555</p>
-</section>
-<section class="history_tx center mb10">
-  <h3><span class="absolute-l">2015-02-12</span>提现金额<span class="fs3 ml10">2000.00</span></h3>
-  <p><span class="c9 mr10 ta-r">真实姓名</span>张笑笑</p>
-  <p><span class="c9 mr10 ta-r">银行卡</span>信用社 15444**765<b class="sel">未审核</b></p>
-  <p><span class="c9 mr10 ta-r">手机号码</span>155555555555</p>
-</section>
-<section class="history_tx center mb10">
-  <h3><span class="absolute-l">2015-02-12</span>提现金额<span class="fs3 ml10">2000.00</span></h3>
-  <p><span class="c9 mr10 ta-r">真实姓名</span>张笑笑</p>
-  <p><span class="c9 mr10 ta-r">银行卡</span>信用社 15444**765<b>未审核</b></p>
-  <p><span class="c9 mr10 ta-r">手机号码</span>155555555555</p>
-</section>
-<section class="history_tx center mb10">
-  <h3><span class="absolute-l">2015-02-12</span>提现金额<span class="fs3 ml10">2000.00</span></h3>
-  <p><span class="c9 mr10 ta-r">真实姓名</span>张笑笑</p>
-  <p><span class="c9 mr10 ta-r">银行卡</span>信用社 15444**765<b class="sel">未审核</b></p>
-  <p><span class="c9 mr10 ta-r">手机号码</span>155555555555</p>
-</section>
+   <#if withdraw_page??>
+   		<#list withdraw_page.content as withdraw>
+   			<section class="history_tx center mb10">
+			  <h3><span class="absolute-l">${withdraw.withdrawTime!""}</span>提现金额<span class="fs3 ml10">${withdraw.totalWithdraw?string("0.00")}</span></h3>
+			  <p><span class="c9 mr10 ta-r">真实姓名</span>${withdraw.realName!""}</p>
+			  <p><span class="c9 mr10 ta-r">银行卡</span>${withdraw.bankName!""} <#if withdraw.bankCardNumber?? && withdraw.bankCardNumber?length gt 19>
+												                                     ${withdraw.bankCardNumber[0..4]?default("")}****${withdraw.bankCardNumber[17..19]?default("")}
+												                                <#elseif withdraw.bankCardNumber?? && withdraw.bankCardNumber?length gt 4>${withdraw.bankCardNumber[0..4]?default("")}****
+												                                </#if>
+				  <b> <#if withdraw.statusId?? && withdraw.statusId==1>
+                        已审核
+                    <#else>
+                        未审核
+                    </#if>
+                  </b>
+              </p>
+			  <p><span class="c9 mr10 ta-r">手机号码</span>${withdraw.mobile!''}</p>
+			</section>
+   		</#list>
+   </#if>
+
 <div class="clear h02"></div>
 <p class="center ta-r">
-  <a href="#" class="c9 mr30">上一页</a>
-  <a href="#">下一页</a>
+  <#if withdraw_page??>
+        <#if withdraw_page.number+1 == 1>
+            <a class="c9 mr30" href="javascript:;"><span>上一页</span></a>
+        <#else>
+            <a href="/touch/user/account/info?page=${withdraw_page.number-1}" class="mr30">上一页</a>
+        </#if>  
+        
+        <#if withdraw_page.number+1 == withdraw_page.totalPages || withdraw_page.totalPages==0>
+              <a  href="javascript:;"><span>下一页</span></a>
+        <#else>
+              <a href="/touch/user/account/info?page=${withdraw_page.number+1}"><span>下一页</span></a>
+        </#if>  
+    </#if>
 </p>
 <div class="clear h03"></div>
   

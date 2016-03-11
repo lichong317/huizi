@@ -72,20 +72,20 @@ $(document).ready(function(){
                         </#if>
                     </#if></span>
     <input name="shareId" type="hidden" value="${share_id!''}">
-    <div>
+    <div >
         <input name="username" datatype="s6-20" ajaxurl="/reg/check/username" type="text" class="w80 mga mt20 h08 lh8 border ti1 block" placeholder="请输入用户名" value="${username!''}"/> 
     </div>
-    <div style="height:50px">
+    <div style="height:55px">
         <input name="password" datatype="s6-20" type="password" class="w80 mga mt20 h08 lh8 border ti1 block" placeholder="请输入密码"  style="margin-top:-0.06rem" />
     </div>
-    <div style="height:50px">
+    <div style="height:55px">
         <input type="password" datatype="*" recheck="password" class="w80 mga mt20 h08 lh8 border ti1 block" placeholder="请确认密码" />
     </div>
-    <div style="height:50px">
+    <div style="height:55px">
         <input name="mobile" datatype="m" ajaxurl="/reg/check/mobile" type="text" class="w80 mga mt20 h08 lh8 border ti1 block" placeholder="请输入手机号码" value="${mobile!''}"/>
     </div>
-    <div style="height:50px">
-        <input ame="email" value="${email!''}" type="text" class="w80 mga mt20 h08 lh8 border ti1 block ml10" placeholder="请输入邮箱地址" />
+    <div style="height:55px">
+        <input ame="email" value="${email!''}" datatype="e" type="text" class="w80 mga mt20 h08 lh8 border ti1 block ml10" placeholder="请输入邮箱地址" />
     </div>
     <section class="w80 mga mt20 login_yzm">
       <input name="code" datatype="s4-4" errormsg="请填写4位字符" type="text" class="h08 lh8 border ti1 block fl" placeholder="请输入验证码" />

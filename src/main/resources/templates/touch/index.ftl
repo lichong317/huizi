@@ -82,13 +82,13 @@ $(document).ready(function(){
                          <th rowspan="2">
                             <img class="tit" src="/touch/images/index/indextit01.png" />
                             <a href="${item.linkUri!''}">
-                               <img src="${item.fileUri!''}" width="120" height="125"/>
+                               <img src="${item.fileUri!''}"/>
                             </a>
                          </th>
                   <#else>
                          <td>
                             <a href="${item.linkUri!''}">
-                               <img src="${item.fileUri!''}" width="177" height="82"/>
+                               <img src="${item.fileUri!''}" />
                             </a>
                          </td>                      
                   </#if>
@@ -100,7 +100,7 @@ $(document).ready(function(){
                 <#if item_index ==2>
                      <td>
                            <a href="${item.linkUri!''}">
-                               <img src="${item.fileUri!''}" width="177" height="82"/>
+                               <img src="${item.fileUri!''}" />
                            </a>
                      </td> 
                 </#if>
@@ -113,7 +113,7 @@ $(document).ready(function(){
 <#if goodsCategory_ad_list??>
     <#list goodsCategory_ad_list as item>   
         <#if item_index < 1>
-            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" width="320" height="76"/></a>
+            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" /></a>
         </#if>
     </#list>    
 </#if>
@@ -126,7 +126,7 @@ $(document).ready(function(){
     <#if goodsRecommend_ad_list??>
         <#list goodsRecommend_ad_list as item>
             <#if item_index < 2>
-                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="160" height="108"/></a>                
+                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a>                
             </#if>
         </#list>
     </#if>
@@ -137,7 +137,7 @@ $(document).ready(function(){
     <#if goodsRecommend_ad_list??>
         <#list goodsRecommend_ad_list as item>
             <#if item_index gt 1 && item_index < 5>
-                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="106" height="119"/></a>                
+                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a>                
             </#if>
         </#list>
     </#if>
@@ -149,7 +149,7 @@ $(document).ready(function(){
 <#if goodsCategory_ad_list??>
     <#list goodsCategory_ad_list as item>   
         <#if item_index== 1>
-            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" width="320" height="76"/></a>
+            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" /></a>
         </#if>
     </#list>    
 </#if>
@@ -161,7 +161,7 @@ $(document).ready(function(){
       <menu>
         <#list goodsHot_ad_list as item>
             <#if item_index < 2>
-                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="159" height="108"/></a>
+                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a>
             </#if>
         </#list>
       </menu>
@@ -170,7 +170,7 @@ $(document).ready(function(){
       <menu>
         <#list goodsHot_ad_list as item>
             <#if item_index gt 1 && item_index < 4>
-                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="159" height="108"/></a>
+                <a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a>
             </#if>
         </#list>
       </menu>
@@ -180,7 +180,7 @@ $(document).ready(function(){
 <#if goodsCategory_ad_list??>
     <#list goodsCategory_ad_list as item>   
         <#if item_index == 2>
-            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" width="320" height="76"/></a>
+            <a href="${item.linkUri!''}" class="w100 block"><img class="w100 block" src="${item.fileUri!''}" /></a>
         </#if>
     </#list>    
 </#if>
@@ -192,16 +192,16 @@ $(document).ready(function(){
   <tr>
     <#list selection_ad_list as item>
         <#if item_index ==0>
-            <td rowspan="2"><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="135" height="168"/></a></td>           
+            <td rowspan="2"><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a></td>           
         <#elseif item_index ==1>
-            <td colspan="2"><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="182" height="84"/></a></td>
+            <td colspan="2"><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a></td>
         </#if>
     </#list>
   </tr>
   <tr>
     <#list selection_ad_list as item>  
         <#if item_index gt 1 && item_index < 4>  
-            <td><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" width="91" height="84"/></a></td>
+            <td><a href="${item.linkUri!''}"><img src="${item.fileUri!''}" /></a></td>
         </#if>
     </#list>
   </tr>

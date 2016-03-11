@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Language" content="zh-CN">
 <title><#if site??>${site.seoTitle!''}-</#if>惠之店</title>
-<meta name="keywords" content="${site.seoKeywords!''}">
-<meta name="description" content="${site.seoDescription!''}">
-<meta name="copyright" content="${site.copyright!''}" />
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="copyright" content="" />
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1">
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
@@ -26,18 +26,12 @@ $(document).ready(function(){
 
 <body>
 <header class="comhead">
-  <h2><#if info??>${info.title!''}</#if></h2>
+  <h2>出错了</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
 </header>
 <div class="comheadbg"></div>
-<#if info??>
-    <h3 class="ta-c center fs3 pt30 pb10">${info.title!''}</h3>
-    <p class="c8 ta-c pb20"><#if info.createTime??>${info.createTime?string("yyyy-MM-dd")}</#if></p>
-    <article class="mainbox eeebg pt20 pb20 lh4">
-      ${info.content!''}
-      <div class="clear h02"></div>
-    </article>
-</#if>
+
+    <h3 class="ta-c center fs3 pt30 pb10">页面不存在！</h3>
 
   
 </body>

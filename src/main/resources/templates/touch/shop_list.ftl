@@ -19,26 +19,34 @@
 <script src="/touch/js/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    
+	
 });
 </script>
 </head>
 
-<body>
+<body class="eeebg">
 <header class="comhead">
-  <h2><#if info??>${info.title!''}</#if></h2>
+  <h2>门店查询</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
 </header>
 <div class="comheadbg"></div>
-<#if info??>
-    <h3 class="ta-c center fs3 pt30 pb10">${info.title!''}</h3>
-    <p class="c8 ta-c pb20"><#if info.createTime??>${info.createTime?string("yyyy-MM-dd")}</#if></p>
-    <article class="mainbox eeebg pt20 pb20 lh4">
-      ${info.content!''}
-      <div class="clear h02"></div>
-    </article>
-</#if>
 
+<#if shop_list??>
+     <#list shop_list.content as item>
+     	  <div class="shoplist center mt20">
+			  <a href="/touch/shop/${item.id?c}" class="block w100"><img src="${item.imageUri!''}" class="w100" height="230"/></a>
+			  <h3 class="w90 mga pt10 pb10 bot-border fs3">${item.title!''}<#if item.isFlagShip?? && item.isFlagShip><span class="red">(旗舰店)</span></#if></h3>
+			  <p class="p1"><span>地址：</span>${item.address!''}</p>
+			  <p class="p2"><span>客服QQ：</span>${item.qq!''}</p>
+			  <p class="p3"><span>联系电话：</span>${item.serviceTele!''}</p>
+			  <section class="w90 ta-r mga pt20">
+			    <a href="tel://${item.serviceTele}" class="a1">一键呼叫</a>
+			    <a href="/touch/shop/${item.id?c}" class="a2">地图导航</a>
+			  </section>
+		  </div>
+     </#list>
+</#if>
+<div class="clear h03"></div>
   
 </body>
 </html>

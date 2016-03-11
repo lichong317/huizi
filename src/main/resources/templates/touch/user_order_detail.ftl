@@ -64,7 +64,7 @@ function cancelConfirm() {
 		  </section>
 		  <div class="clear"></div>
 		  <#if order.statusId==6>
-		  	<a class="sh redborbtn bor-rad" href="#">申请售后</a>
+		  	<a class="sh redborbtn bor-rad" href="/touch/user/return/list?keywords=${order.orderNumber!''}">申请售后</a>
 		  </#if>
 	</div>	
     </#list>

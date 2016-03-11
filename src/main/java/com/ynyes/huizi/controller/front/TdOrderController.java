@@ -1284,7 +1284,7 @@ public class TdOrderController extends AbstractPaytypeController{
         
          if (tdOrder.getIsOnlinePay()) {
         	 if (tdOrder.getTotalPrice() == 0) {
-        		if (tdOrder.getTypeId().equals(5L)) {
+        		if (null != tdOrder.getTypeId() && tdOrder.getTypeId().equals(5L)) {
 					pointOrderafterPaySuccess(tdOrder);
 				}else{
 					afterPaySuccess(tdOrder);
@@ -1861,7 +1861,7 @@ public class TdOrderController extends AbstractPaytypeController{
         if (tdOrder.getIsOnlinePay()) {
         	
         	if (tdOrder.getTotalPrice() == 0) {
-        		if (tdOrder.getTypeId().equals(5L)) {
+        		if (null != tdOrder.getTypeId() && tdOrder.getTypeId().equals(5L)) {
 					pointOrderafterPaySuccess(tdOrder);
 				}else{
 					afterPaySuccess(tdOrder);
@@ -1931,7 +1931,7 @@ public class TdOrderController extends AbstractPaytypeController{
      * @return
      */
     @RequestMapping(value = "/dopay/{orderId}")
-    public String payOrder(@PathVariable Long orderId, ModelMap map,
+    public String payOrder(@PathVariable Long orderId, ModelMap map, Device device,
             HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");
 
@@ -2063,7 +2063,12 @@ public class TdOrderController extends AbstractPaytypeController{
         tdOrderService.save(order);
 
         map.addAttribute("payForm", payForm);
-
+        
+        //触屏和pc分流
+        if (device.isMobile() || device.isTablet()) {
+            return "/touch/order_pay_form";
+        }
+        
         return "/client/order_pay_form";
     }
     
@@ -2138,7 +2143,7 @@ public class TdOrderController extends AbstractPaytypeController{
             if ("TRADE_SUCCESS".equals(trade_status)) {
 
                 // 订单支付成功
-            	if (order.getTypeId().equals(5L)) {
+            	if (null != order.getTypeId() && order.getTypeId().equals(5L)) {
 					pointOrderafterPaySuccess(order);
 				}else{
 					afterPaySuccess(order);
@@ -2409,7 +2414,7 @@ public class TdOrderController extends AbstractPaytypeController{
 
                 if (null != order)
                 {
-                	if (order.getTypeId().equals(5L)) {
+                	if (null != order.getTypeId() && order.getTypeId().equals(5L)) {
     					pointOrderafterPaySuccess(order);
     				}else{
     					afterPaySuccess(order);

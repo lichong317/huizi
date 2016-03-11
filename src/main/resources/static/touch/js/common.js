@@ -89,6 +89,8 @@ function indexBanner(boxid,sumid,_go,_speed,numid){
 	var touchStart = function(event){
 		clearInterval(cartoon);
 		var touch = event.touches[0];
+		endX = 0;
+		endY = 0;
         startX = touch.pageX;
 		startY = touch.pageY;
 		};
@@ -103,10 +105,10 @@ function indexBanner(boxid,sumid,_go,_speed,numid){
 			}
 		};
 	var touchEnd = function(event){
-		if(endX > 30){
+		if(endX > 50){
 			nextImg();
 			}
-		if(endX < -30){
+		if(endX < -50){
 			lastImg();
 			}
 		cartoon = setInterval(nextImg,_speed);
@@ -248,6 +250,8 @@ function listInfeedMove(boxid,_sum,_name,_num){
 	
 	var touchStart = function(event){
 		var touch = event.touches[0];
+		endX = 0;
+		endY = 0;
         startX = touch.pageX;
 		startY = touch.pageY;
 		};
@@ -262,10 +266,10 @@ function listInfeedMove(boxid,_sum,_name,_num){
 			}
 		};
 	var touchEnd = function(event){
-		if(endX > 30){
+		if(endX > 50){
 			_nextnav();
 			}
-		if(endX < -30){
+		if(endX < -50){
 			_lastnav();
 			}
 		};
@@ -290,5 +294,43 @@ function menuClassHeight(boxid,_name01,_name02){
 	$(window).resize(function(){
 		_heightadd();
 		});
+}
+
+//抽奖效果
+var _awardbool = true;
+function awardCartoon(_endnum){
+	var _box = $("#awardbox");
+	var _arr = new Array();
+	var _nowbg = "awardnow";
+	
+	if(_awardbool){
+	_awardbool = false;
+	for(var i=1;i<=10;i++){
+		var _one = _box.find(".awardpart"+i);
+		_one.removeClass(_nowbg);
+		_arr.push(_one);	
+	}
+	
+	var _index = 0;
+	_arr[_index].addClass(_nowbg);
+	
+	var _max = _arr.length * 5 + _endnum;
+	var _circle = 0;
+	var _nextgo = function(){
+		_arr[_index].removeClass(_nowbg);
+		_index ++;
+		if(_index >= _arr.length ){ _index = 0; }
+		_arr[_index].addClass(_nowbg);
+		
+		//判断停留
+		_circle++;
+		if(_circle >= _max){
+			clearInterval(_cartoon);
+			_awardbool = true;
+			}
+	};
+	
+	var _cartoon = setInterval(_nextgo,40);
+	}//END if	
 }
 

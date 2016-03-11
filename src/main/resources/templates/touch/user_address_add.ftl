@@ -88,14 +88,25 @@ $(document).ready(function(){
         }
         
         if (undefined == mobile || "" == mobile)
-        {
-            //alert("联系电话不能为空");
+        {        
             ct.alert({
                    text: "联系电话不能为空",
                    type: "alert"
-            });
+            });           
+                        
             $("#mobile").focus();
             return;
+        }
+        
+        var re = /^1\d{10}$/;
+        
+        if (!re.test(mobile)) {
+             ct.alert({
+                      text: "请输入正确的手机号",
+                      type: "alert"
+             });
+             $("#mobile").focus();
+             return;
         }
         
         $.ajax({
@@ -116,10 +127,10 @@ $(document).ready(function(){
             success:function(res) {
                 if (0 == res.code)
                 {                  
-                    window.location.href="/touch/user/address/list";
+                    window.location.href="/touch/user/address/list<#if pointGoodsId??>?pointGoodsId=${pointGoodsId?c}</#if>";
                 }
                 else if(2 == res.code){
-                    window.location.href="/touch/user/addressManage"
+                    window.location.href="/touch/user/addressManage";
                 }
                 else
                 {
@@ -138,7 +149,7 @@ $(document).ready(function(){
 
 <body>
 <header class="comhead">
-  <h2>添加收货地址</h2>
+  <h2>编辑收货地址</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
 </header>
 <div class="comheadbg"></div>

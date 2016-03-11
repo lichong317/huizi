@@ -33,7 +33,7 @@ $(document).ready(function(){
 <div class="comheadbg"></div>
 
 <div class="myhead">
-  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="${user.headImageUri!''}" /></a>
+  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="${user.headImageUri!''}" width="65" height="65"/></a>
    <script>
                         function changeHeads(){
                             var filebutton = document.getElementById("filebutton");
@@ -94,21 +94,25 @@ $(document).ready(function(){
           <a href="/touch/user/info">
             <img src="/touch/images/member/member07.png" /><p>个人信息</p>
           </a>
+          <a href="/touch/user/password">
+            <img src="/touch/images/member/member10.png" /><p>密码修改</p>
+          </a>
+          <#if user?? && user.roleId?? && user.roleId !=0>
           <a href="/touch/user/account/info">
             <img src="/touch/images/member/member08.png" /><p>账户信息</p>
           </a>
-          <a href="/touch/user/junioruser/list">
-            <img src="/touch/images/member/member09.png" /><p>下级用户</p>
-          </a>
+          </#if>
         </menu>
       </div>
     </li>
     <li>
       <div class="tabfix w100">
         <menu>
-          <a href="/touch/user/password">
-            <img src="/touch/images/member/member10.png" /><p>密码修改</p>
+        <#if user?? && user.roleId?? && user.roleId ==1>
+          <a href="/touch/user/junioruser/list">
+            <img src="/touch/images/member/member09.png" /><p>下级用户</p>
           </a>
+        </#if>
           <a href="#"></a>
           <a href="#"></a>
         </menu>

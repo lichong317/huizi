@@ -17,6 +17,9 @@
 
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
+
+<script src="/touch/js/message.js"></script>
+<link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 $(document).ready(function(){
     
@@ -104,7 +107,7 @@ function orderReceive(id)
   </menu>
 </section>
 
-<#if order_page??>
+<#if order_page?? && order_page.content?size gt 0>
      <#list order_page.content as order>
            <section class="mainbox bot-border lh5 whitebg">
               <p class="w100 c8">
@@ -143,7 +146,7 @@ function orderReceive(id)
                       <a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()"  class="inblock pr10 pl10 redbg white ml10 bor-rad">确认收货</a>
                  <#elseif order.statusId==5>
                       <span class="red absolute-l">待评价</span>
-                      <a href="/touch/user/comment/list?keywords=${order.orderNumber!''}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">去评价</a>
+                      <a href="/touch/user/comment/edit?orderId=${order.id?c}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">去评价</a>
                  <#elseif order.statusId==6>
                       <span class="red absolute-l">已完成</span>
                       <a href="/touch/user/return/list?keywords=${order.orderNumber!''}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">售后</a>
@@ -155,6 +158,10 @@ function orderReceive(id)
             </section>
             <div class="clear h02"></div>
      </#list>
+<#else>
+    <div class="clear" style="height:2rem;"></div>
+    <p class="ta-c"><img src="/touch/images/member/kong.png" style="width:1.2rem;" /></p>
+    <p class="ta-c pt10">您还没有相关订单</p>
 </#if>
 
 <div class="clear h03"></div>
