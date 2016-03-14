@@ -81,7 +81,7 @@
 </div>
 <input name="menuId" type="text" value='${mid!""}' style="display:none;">
 <input name="channelId" type="text" value='${cid!""}' style="display:none">
-<input name="id" type="text" value='<#if article??>${article.id!""}</#if>' style="display:none">
+<input name="id" type="text" value='<#if article??>${article.id?c}</#if>' style="display:none">
     <!--导航栏-->
     <div class="location">
         <a href="/Verwalter/content/list?cid=${cid!""}&mid=${mid!""}" class="back"><i></i><span>

@@ -87,6 +87,13 @@ public class TdMessageService {
         return (List<TdMessage>) repository.findAll();
     }
     
+    public Page<TdMessage> findAll(int page, int size){
+    	PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.ASC, "sortId"));
+    	
+    	return repository.findAll(pageRequest);
+    }
+    
     public Page<TdMessage> findByTypeId(Long typeId, int page, int size){
     	PageRequest pageRequest = new PageRequest(page, size, new Sort(
                 Direction.ASC, "sortId"));
