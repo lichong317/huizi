@@ -25,10 +25,14 @@ $(document).ready(function(){
 </head>
 
 <body>
+
+<!-- top_menu -->
+<#include "/touch/top_menu.ftl" />
+
 <header class="comhead">
   <h2>支付成功</h2>
   <a href="/touch/user/order/list/0" class="a2"><img src="/touch/images/back.png" /></a>
-  <a href="#" class="a1"><img src="/touch/images/search02.png" /></a>
+  <a href="javascript:void(0);" onClick="$('#mainfoot').fadeToggle(200);" class="a1"><img src="/touch/images/menu.png" /></a>
 </header>
 <div class="comheadbg"></div>
 

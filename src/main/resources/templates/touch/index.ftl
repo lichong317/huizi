@@ -33,7 +33,7 @@ $(document).ready(function(){
       </section>
   </form>
   <a href="#" class="logo"><img src="/touch/images/logo.png" /></a>
-  <a href="#" class="a1"><img src="/touch/images/search02.png" /></a>
+  <a href="/touch/message/list" class="a1"><img src="/touch/images/search02.png" /></a>
 </header>
 <div class="comheadbg"></div>
 

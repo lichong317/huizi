@@ -60,6 +60,10 @@ function loadMore()
 </style>
 
 <body>
+
+<!-- top_menu -->
+<#include "/touch/top_menu.ftl" />
+
 <header class="comhead">
    <form action="/touch/search" method="get">
       <section class="topsearch">   
@@ -68,7 +72,7 @@ function loadMore()
       </section>
   </form>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
-  <a href="#" class="a1"><img src="/touch/images/search02.png" /></a>
+  <a href="javascript:void(0);" onClick="$('#mainfoot').fadeToggle(200);" class="a1"><img src="/touch/images/menu.png" /></a>
 </header>
 <div class="comheadbg"></div>
 

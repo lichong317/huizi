@@ -50,6 +50,10 @@ $(document).ready(function(){
 </style>
 
 <body>
+
+<!-- top_menu -->
+<#include "/touch/top_menu.ftl" />
+
 <header class="comhead">
   <h2>账号注册</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>

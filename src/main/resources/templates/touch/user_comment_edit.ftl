@@ -79,9 +79,14 @@ function reviewsBoxnew(boxid,_name,_hover){
 
 </style>
 <body class="eeebg">
+
+<!-- top_menu -->
+<#include "/touch/top_menu.ftl" />
+
 <header class="comhead">
   <h2>评价订单</h2>
   <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="javascript:void(0);" onClick="$('#mainfoot').fadeToggle(200);" class="a1"><img src="/touch/images/menu.png" /></a>
 </header>
 <div class="comheadbg"></div>
 
