@@ -337,6 +337,13 @@ $(function () {
             <span class="Validform_checktip"></span>
         </dd>
     </dl>
+        <dl>
+        <dt>每日抽奖积分消耗</dt>
+        <dd>
+            <input name="lotteryPoints" type="text" value="<#if setting??>${setting.lotteryPoints!"1"}<#else>1</#if>" class="input normal" datatype="n" sucmsg=" ">
+            <span class="Validform_checktip"></span>
+        </dd>
+    </dl>
     <dl>
         <dt>商品分享每日积分限额</dt>
         <dd>

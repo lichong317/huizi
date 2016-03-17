@@ -39,6 +39,7 @@ public class TdTouchRegController {
         if (null != shareId)
         {
             map.addAttribute("share_id", shareId);
+            request.getSession().setAttribute("shareId", shareId);
         }
         
         // 基本信息
@@ -240,6 +241,7 @@ public class TdTouchRegController {
         if (null != shareId)
         {
             map.addAttribute("share_id", shareId);
+            request.getSession().setAttribute("shareId", shareId);
         }
         
         // 基本信息

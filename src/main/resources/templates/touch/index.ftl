@@ -213,7 +213,7 @@ $(document).ready(function(){
   <#if username??>
         <a href="/touch/user">${username!''}</a> | <a href="/touch/logout">退出</a>
   <#else>
-       <a href="/touch/login">登录</a> | <a href="/touch/reg">注册</a>
+       <a href="/touch/login">登录</a> | <a href="/touch/regid">注册</a>
   </#if>
   <a class="a1" href="javascript:$('html,body').animate({scrollTop:0},500);">TOP</a>
 </section>

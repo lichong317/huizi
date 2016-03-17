@@ -46,7 +46,7 @@
   
                           <section>
                           <p class="h07 oh">${ordergoods.goodsTitle!''}</p>
-                          <p class="mt20 c9" style="width:170px;">单价：￥<#if ordergoods.price??>${ordergoods.price?string("0.00")}</#if>&nbsp;&nbsp;&nbsp;&nbsp;数量：${ordergoods.quantity!'0'}</p>
+                          <p class="mt20 c9" style="width:170px;">单价：￥<#if ordergoods.price??>${ordergoods.price?string("0.00")}</#if>&nbsp;&nbsp;&nbsp;<br>数量：${ordergoods.quantity!'0'}</p>
                           </section>
                           
                           <div class="clear"></div>

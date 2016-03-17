@@ -216,10 +216,35 @@ a,button,input{
 
 .winbg { position:fixed; width:100%; height:100%; background:url(../images/darkbg.png) repeat; z-index:120; left:0; top:0;}
 
+/* 抽奖 */
+.awardout { background:#4a3155;}
+.awardtit { padding:0.4rem 0 0.4rem 3%; color:#fff; line-height:0.5rem; color:#fff; font-size:0.35rem;}
+.awardtit a { display:block; width:2.4rem; text-align:center; height:0.5rem; border-radius:0.25rem 0 0 0.25rem; background:#fbf187; font-size:0.28rem; position:absolute; right:0; top:0.4rem; color:#4a3155;}
+.awardbox { width:85%; background:url(../images/award/bg.png) no-repeat; background-size:100% 100%; padding:0.3rem; margin:0 auto;}
+.awardbox img { display:block; width:100%;}
+.awardbox table { table-layout:fixed; width:100%;}
+.awardbox td { vertical-align:middle; text-align:center;}
+.awardbtn { display:block;}
+.awardpart1 {background:#ff8585;}
+.awardpart2 {background:#fd9f9d;}
+.awardpart3 {background:#ff8585;}
+.awardpart4 {background:#fd9f9d;}
+.awardpart5 {background:#ff8585;}
+.awardpart6 {background:#fd9f9d;}
+.awardpart7 {background:#ff8585;}
+.awardpart8 {background:#fd9f9d;}
+.awardpart9 {background:#ff8585;}
+.awardpart10 {background:#fd9f9d;}
+.awardnow {background:#d44a4a;}
 
-
-
-
-
-
-
+.finallybox { width:94%; background:#fbe79a;}
+.finallybox p { color:#8b5833; border-top:1px solid #8b5833; line-height:0.6rem; width:90%; margin:0 auto;}
+.finallybox p span { position:absolute; right:0; top:0;}
+.finallybox p:nth-child(2) { border:none;}
+.actcolor { color:#b1a0b9;}
+.promptbox { width:5rem; margin:20% auto 0; background:#fbe79a; border-radius:5px; padding:1.2rem 0 0.5rem;color:#8b5833;}
+.promptbox .tit { display:block; width:5.5rem; position:absolute; left:-0.25rem; top:-0.5rem; max-width:5.5rem;}
+.promptbox p { width:90%; margin:0 auto; line-height:0.45rem;}
+.promptbox a.a1 { display:block; width:3rem; height:0.64rem; margin:0.4rem auto 0; background:url(../images/award/btn.png) no-repeat; background-size:100% 100%; color:#fff; text-align:center; font-size:0.3rem; line-height:0.64rem;}
+.promptbox a.a2 { display:block; text-align:center; color:#ff5c5c; margin-top:0.3rem;}
+.promptbox h4 { background:#ff5c5c;}

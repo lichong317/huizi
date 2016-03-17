@@ -96,7 +96,7 @@ public class TdLotteryController {
 		}
 		
 		//幸运用户
-		map.addAttribute("luckydog_list", tdPrizeService.findAll());
+		map.addAttribute("luckydog_page", tdPrizeService.findAll(0,20));
 		
 		//本期大奖
 		
@@ -178,15 +178,29 @@ public class TdLotteryController {
 		// Max   抽奖减积分
 	    if(null != tdUser)
 	    {
-	    	if(null == tdUser.getTotalPoints() || tdUser.getTotalPoints()<20)
+	    	TdSetting tdSetting = tdSettingService.findTopBy();
+	    	
+	    	if(null == tdUser.getTotalPoints() || tdUser.getTotalPoints()< tdSetting.getLotteryPoints())
 	    	{
 	    		res.put("msg", "积分不足");
+	    		res.put("code", 2);
 	    		return res;
 	    	}
-	    	tdUser.setTotalPoints(tdUser.getTotalPoints()-20);
+	    	tdUser.setTotalPoints(tdUser.getTotalPoints()-tdSetting.getLotteryPoints());
+	    	
+	    	TdUserPoint userPoint = new TdUserPoint();
+
+			userPoint.setIsBackgroundShow(false);
+			userPoint.setTotalPoint(tdUser.getTotalPoints());
+			userPoint.setUsername(tdUser.getUsername());
+			userPoint.setPoint(0 - tdSetting.getLotteryPoints());
+			userPoint.setDetail("抽奖消耗");
+			
+			userPoint = tdUserPointService.save(userPoint);
+	    	
 	    	if(null != tdUser.getLotteryNumber())
 	    	{
-	    		if(tdUser.getLotteryNumber() >5)
+	    		if(tdUser.getLotteryNumber() >= 5)
 	    		{
 	    			res.put("msg", "您今日已经抽奖五次，请明天再来");
 	    			return res;

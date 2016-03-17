@@ -44,7 +44,7 @@ $(document).ready(function(){
 <section class="tabfix center scoretab mt30">
   <menu>
     <a href="/touch/pointGoods/list"><img src="/touch/images/member/score01.png" /><p>查看可兑换的礼品>></p></a>
-    <a href="#"><img src="/touch/images/member/score02.png" /><p>积分抽奖>></p></a>
+    <a href="/touch/lottery"><img src="/touch/images/member/score02.png" /><p>积分抽奖>></p></a>
   </menu>
 </section>
 

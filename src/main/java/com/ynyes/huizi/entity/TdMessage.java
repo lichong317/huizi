@@ -38,7 +38,7 @@ public class TdMessage {
     private Long sortId;
     
     // 内容
-    @Column
+    @Column(length = 2147483647)
     private String content;
     
     // 内容摘要

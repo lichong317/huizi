@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html >
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Content-Language" content="zh-CN">
@@ -75,7 +75,7 @@ $(document).ready(function(){
 </header>
 <div class="comheadbg"></div>
 
-<form id="form1" action="/touch/user/info" method="post">
+<form id="form1" action="/touch/user/info" method="post" >
     <input name="realName" type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt40" placeholder="真实姓名" value="${user.realName!''}"/>
     <div class="sexchoose w80 mga mt20 h07 lh7">
       <span class="fl">性别</span>

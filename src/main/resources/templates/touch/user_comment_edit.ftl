@@ -97,7 +97,7 @@ function reviewsBoxnew(boxid,_name,_hover){
               <a class="img" href="/touch/goods/${item.goodsId?c}"><img src="${item.goodsCoverImageUri!''}" /></a>
               <section>
               <p class="h07 oh">${item.goodsTitle!''}</p>
-              <p class="pt10 pb10 w100 mt10">
+              <p class="pt10 pb10 w100 mt10 " style="margin-left: 10px">
                   <input type="radio" name="stars" value="3" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==3>checked="checked"</#if>/>好评
                   <input type="radio" name="stars" value="2" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==2>checked="checked"</#if>/>中评
                   <input type="radio" name="stars" value="1" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==1>checked="checked"</#if>/>差评
@@ -127,7 +127,7 @@ function reviewsBoxnew(boxid,_name,_hover){
               <a class="img" href="/touch/goods/${item.goodsId?c}"><img src="${item.goodsCoverImageUri!''}" /></a>
               <section>
               <p class="h07 oh">${item.goodsTitle!''}</p>
-              <p class="pt10 pb10 w100 mt10">
+              <p class="pt10 pb10 w100 mt10" style="margin-left: 10px">
                   <input type="radio" name="stars" value="3" datatype="n" nullmsg="点击进行评价"/>好评
                   <input type="radio" name="stars" value="2" datatype="n" nullmsg="点击进行评价"/>中评
                   <input type="radio" name="stars" value="1" datatype="n" nullmsg="点击进行评价"/>差评

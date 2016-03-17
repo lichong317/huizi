@@ -87,6 +87,26 @@ $(document).ready(function(){
             return;
         }
         
+        if (undefined == postcode || "" == postcode)
+        {
+            ct.alert({
+                   text: "邮编不能为空",
+                   type: "alert"
+            });
+            $("#postcode").focus();
+            return;
+        }
+        
+        if (postcode.length != 6)
+        {
+            ct.alert({
+                   text: "请输入正确邮编",
+                   type: "alert"
+            });
+            $("#postcode").focus();
+            return;
+        }
+        
         if (undefined == mobile || "" == mobile)
         {        
             ct.alert({
@@ -167,9 +187,9 @@ $(document).ready(function(){
 <input id="postcode" type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="邮政编码" value="<#if address??>${address.postcode!''}</#if>"/>
 <section class="tabfix w80 mga address_sel mt20" >
   <menu id="address" class="address" >
-    <li><select id="prov" class="prov"></select></li>
-    <li><select id="city" class="city"></select></li>
-    <li><select id="dist" class="dist"></select></li>
+    <li style="height:0.75rem;display:block;"><select id="prov" class="prov" style="height:100%;"></select></li>
+    <li style="height:0.75rem;display:block;"><select id="city" class="city" style="height:100%;"></select></li>
+    <li style="height:0.75rem;display:block;"><select id="dist" class="dist" style="height:100%;"></select></li>
   </menu>
 </section>
 <textarea id="detailAdd" class="pt20 pb20 w80 mga h09 border block mt20 ti1 fabg" placeholder="详细地址" ><#if address??>${address.detailAddress!''}</#if></textarea>

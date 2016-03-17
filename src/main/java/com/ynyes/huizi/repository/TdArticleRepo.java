@@ -24,6 +24,8 @@ public interface TdArticleRepo extends
     List<TdArticle> findByMenuIdOrderBySortIdAsc(Long menuId);
     Page<TdArticle> findByMenuIdOrderBySortIdAsc(Long menuId, Pageable page);
     
+    Page<TdArticle> findByMenuId(Long menuId, Pageable page);
+    
     Page<TdArticle> findByMenuIdAndStatusIdOrderByIdDesc(Long menuId, Long statusId, Pageable page);
     
     Page<TdArticle> findByMenuIdAndCategoryIdOrderBySortIdAsc(Long menuId, Long catId, Pageable page);

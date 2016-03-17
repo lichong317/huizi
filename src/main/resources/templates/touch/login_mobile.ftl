@@ -175,7 +175,7 @@ function tip()
 </p>
 
 <input id="btn_login"  type="submit" class="h08 lh8 w80 white redbg block mga sub bor-rad mt20 fs3" value="登录" />
-<input onclick="window.location.href='/touch/reg'" type="submit" class="h08 lh8 w80 redborbtn mga sub bor-rad mt20 fs3" value="注册" />
+<input onclick="window.location.href='/touch/regid'" type="submit" class="h08 lh8 w80 redborbtn mga sub bor-rad mt20 fs3" value="注册" />
 <div class="clear h06"></div>
 <p class="w80 mga">其他方式登录</p>
 <a class="login_qq" href="/qq/login"><img src="/touch/images/member/qq.png" /><p>QQ登录</p></a>

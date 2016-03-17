@@ -208,6 +208,7 @@ var forPaymentFllow = true;
         
         <div id="main-form">
         <form id="form1" name="form1" action="/order/buysubmit" method="post">
+        	<input name="shareId" type="hidden" value="${shareId!''}">
             <div class="main mt15">
                 <div class="s_gwc2_1">
                     <div class="s_gwc2_1_a">

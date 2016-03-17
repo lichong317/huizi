@@ -56,7 +56,7 @@
 .prochoose_bg { width:100%; height:2rem;}
 
 .numbox { width:0.6rem; padding:0 0.35rem;}
-.numbox .text { width:100%; height:0.35rem; text-align:center;}
+.numbox .text { width:100%; height:0.35rem; text-align:center; background:#ddd;}
 .numbox a { display:block; position:absolute; left:0; top:0; width:0.35rem;height:0.35rem; background:url(../images/num02.png) no-repeat; background-size:0.35rem;}
 .numbox a.num01 { left:auto; right:0; background-image:url(../images/num01.png);}
 
@@ -137,7 +137,8 @@ input.addcarbtn { width:100%; position:absolute; left:0; bottom:0;background:#fc
 .pro_mmenu01 li a { display:block;padding: 0.15rem 0;}
 
 .myhead { width:100%; background:url(../images/member/headbg.png) no-repeat; background-size:100% 100%; height:2rem;}
-.myhead a.a1 { display:block; width:1.3rem; height:1.3rem; border-radius:50%; padding:0.15rem; z-index:5; position:absolute; left:0.3rem; top:50%; margin-top:-0.8rem; background: url(../images/member/darkbg.png) repeat;}
+.myhead a.a1 { display:block; width:1.3rem; height:1.3rem;  padding:0.15rem; z-index:5; position:absolute; left:0.3rem; top:50%; margin-top:-0.8rem; background: url(../images/member/darkbg.png) repeat;border-radius:50%;}
+.myhead a.a1 img {border-radius:50%;width:1.3rem; height:1.3rem; display:block;}
 .myhead section { position:absolute; left:2.1rem; top:0.7rem; color:#fff;}
 .myhead h3 { position:absolute; right:0; top:0.8rem; width:2rem; text-align:center; background:url(../images/member/head_btn.png) repeat-x; background-size:auto 100%; white-space:nowrap; overflow:hidden; font-size:0.2rem; font-weight:bold; color:#b50706; border-radius:0.2rem 0 0 0.2rem; height:0.4rem; line-height:0.4rem;}
 .mytit_more { display:inline-block; position:absolute; right:3%; top:0; padding-right:0.3rem; background:url(../images/arrow01.png) no-repeat right center; background-size:0.15rem; font-size:0.25rem; color:#999;}

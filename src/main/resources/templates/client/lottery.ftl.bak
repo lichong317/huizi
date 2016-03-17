@@ -14,7 +14,8 @@
 <script src="/client/js/ljs-v1.01.js"></script>
 
 
-<script type="text/javascript" src="/client/js/jQueryRotate.2.2cj.js"></script>
+<#--<script type="text/javascript" src="/client/js/jQueryRotate.2.2cj.js"></script> -->
+<script type="text/javascript" src="/client/js/awardRotate.js"></script>
 <script type="text/javascript" src="/client/js/script_cj.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="/client/js/jquery.easing.js"></script>
@@ -44,25 +45,26 @@ function signin(){
     
     var username = $("#username").text();
      $.ajax({
-                type: "post",
-                url: "/lottery/signin",
-                data: { "username": username },
-                dataType: "json",
-                success: function (data) {
-                    if (data.code == 0) {
-                       window.location.reload();
-                    } else {
-                        alert(data.msg);
-                    }
+            type: "post",
+            url: "/lottery/signin",
+            data: { "username": username },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                   window.location.reload();
+                } else {
+                    alert(data.msg);
                 }
+            }
     });
 }
 
 </script>
 
 <style type="text/css">
-.rotate-con-pan{background:url(/client/images/disk.jpg) no-repeat 0 0;background-size:100% 100%;position:relative;width:480px;height:480px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; float:left; margin-left:180px;}
-.rotate-con-zhen{width:112px;height:224px;background:url(/client/images/start.png) no-repeat 0 0;background-size:100% 100%;cursor:pointer;position:absolute;left:180px;top:140px;}
+.turntable-bg{width:480px;float:left;margin-left:226px;}
+.pointer{width:100%;height:480px;position: absolute;left:0px;top:0px;z-index:9999;}
+.pointer img{margin-left:184px;margin-top:128px;}
 </style>
 
 
@@ -124,9 +126,14 @@ function signin(){
   
   
 
-<div class="rotate-con-pan">
-        <div class="rotate-con-zhen"></div>
-    </div>  
+<!--<div class="rotate-con-pan" >
+        <div class="rotate-con-zhen" ></div>
+</div>  -->
+
+<div class="turntable-bg"> 
+  <div class="pointer"><img src="/client/images/start.png" alt="pointer"/></div>
+  <div class="rotate" ><img id="rotate" src="/client/images/disk.png" alt="turntable"/></div>
+</div>
   
 <div class="u_lottery_right">
         <header>
@@ -165,6 +172,7 @@ function signin(){
 <script type="text/javascript">
 $(function(){
     var animatetemp = 0;
+    var bRotate = false; 
     var data1;
     $.ajax({
              type: "post",
@@ -179,35 +187,72 @@ $(function(){
                  }
              }
      });
-     
-    $(".rotate-con-zhen").rotate({
-        bind:{
-            click:function(){                 
-                var a = runzp(data1);                
-                $(this).rotate({
-                       duration:3000,               //转动时间
-                       angle: animatetemp,          //起始角度
-                       animateTo:720+a.angle,      //结束的角度
-                       //easing: $.easing.easeOutSine,//动画效果，需加jquery.easing.min.js
-                       // easing: $.easing.easeInOutExpo,
-                       callback: function(){
-                            // alert(a.isOver);
-                             if(a.isOver == true){
-                                alert("奖品已抽完！");
-                             }else{
-                                alert(a.prize+a.message);//简单的弹出获奖信息
-                                animatetemp = a.angle;
-                                if(a.isWin){
-                                    window.location.reload();
-                                }
-                             }                             
-                             
-                       }
-                });                                     
+         
+    
+    $('.pointer').click(function (){
+        
+        $.ajax({
+            type : 'post',
+            url : '/lottery/minPoint',
+            data :{ },
+            dateType : "json",
+            success :function(data)
+            {
+               if(data.code==1)
+                {
+                    alert(data.msg);
+                    return;
+               } 
+               if(bRotate)return;
+                var a = runzp(data1);
+        
+                bRotate = !bRotate;
+                $('#rotate').stopRotate();
+                $('#rotate').rotate({
+                    angle:0,
+                    animateTo:a.angle+1800,
+                    duration:8000,
+                    callback:function (){
+                        if(a.isOver == true){
+                             alert("奖品已抽完！");
+                        }else{
+                             alert(a.prize+a.message);//简单的弹出获奖信息
+                             animatetemp = a.angle;
+                            // if(a.isWin){
+                                   window.location.reload();
+                           //  }
+                        }   
+                        bRotate = !bRotate;
+                    }
+                })
             }
-        }
+        })
+
+          
+        console.log(a);
     });
+     
+        
+     var rotateTimeOut = function (){
+        $('#rotate').rotate({
+            angle:0,
+            animateTo:2160,
+            duration:8000,
+            callback:function (){
+                alert('网络超时，请检查您的网络设置！');
+            }
+        });
+    };
+   
+    
 });
+function rnd(n, m){
+    return Math.floor(Math.random()*(m-n+1)+n)
+}
+    
+
+   
+
 </script>
 </#if>
 <div class="clear"></div>
@@ -228,7 +273,7 @@ $(function(){
     <div class="inner">
       <h2 class="t_h2 s_pink"><em>抽奖规则</em></h2>
       <ol>
-        <li>1、商城注册用户，每天登录抽奖页面，即可免费获得5次幸运抽奖机会，每次抽奖将消耗20积分，中奖名单在本页实时公布；</li>
+        <li>1、商城注册用户，每天登录抽奖页面，即可免费获得5次幸运抽奖机会，每次抽奖将消耗<#if site??>${site.lotteryPoints!''}</#if>积分，中奖名单在本页实时公布；</li>
         <li>2、抽中积分的用户，系统会即时发放到你的个人账户，详情请查看<a href="#" target="_blank">积分明细</a>；</li>
         <li>3、抽中优惠券以及实物奖的用户，系统将以优惠券形式发放到你的个人账户，详情请点击查看<a href="#" target="_blank">我的奖品</a>；</li>
         <li>4、所有奖品不能折现、不能替换，图片仅供参考，请以实物为准；</li>

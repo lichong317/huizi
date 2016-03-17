@@ -60,9 +60,9 @@ $(document).ready(function(){
     <#list info_page.content as item>
         <#if item_index < 5>
             <a class="newslist center mt20" href="/touch/info/content/${item.id?c}?mid=${mid!''}">
-              <img class="img" src="<#if item.imgUrl?? && item.imgUrl == ''>/touch/images/logo.png<#else>${item.imgUrl!'/touch/images/logo.png'}</#if>" width="96" height="64"/>
-              <p class="tit">${item.title!''}</p>
-              <div class="info"><p><#if item.createTime??>${item.createTime?string("yyyy-MM-dd")}</#if><span>${menu_name!''}</span><p></div>
+              <img class="img" style="width:27%" src="<#if item.imgUrl?? && item.imgUrl == ''>/touch/images/logo.png<#else>${item.imgUrl!'/touch/images/logo.png'}</#if>"  height="64"/>
+              <p class="tit" style="width:67%">${item.title!''}</p>
+              <div class="info" style="width:69%"><p style="width:96%"><#if item.createTime??>${item.createTime?string("yyyy-MM-dd")}</#if><span>${menu_name!''}</span><p></div>
             </a>
         </#if>
     </#list>
@@ -80,10 +80,10 @@ $(document).ready(function(){
 <#if info_page??>
     <#list info_page.content as item>
         <#if item_index gt 4 >
-            <a class="newslist center mt20" href="/touch/info/content/${item.id?c}?mid=${mid!''}">
-              <img class="img" src="<#if item.imgUrl?? && item.imgUrl == ''>/touch/images/logo.png<#else>${item.imgUrl!'/touch/images/logo.png'}</#if>" width="96" height="64"/>
-              <p class="tit">${item.title!''}</p>
-              <div class="info"><p><#if item.createTime??>${item.createTime?string("yyyy-MM-dd")}</#if><span>${menu_name!''}</span><p></div>
+           <a class="newslist center mt20" href="/touch/info/content/${item.id?c}?mid=${mid!''}">
+              <img class="img" style="width:27%" src="<#if item.imgUrl?? && item.imgUrl == ''>/touch/images/logo.png<#else>${item.imgUrl!'/touch/images/logo.png'}</#if>"  height="64"/>
+              <p class="tit" style="width:67%">${item.title!''}</p>
+              <div class="info" style="width:69%"><p style="width:96%"><#if item.createTime??>${item.createTime?string("yyyy-MM-dd")}</#if><span>${menu_name!''}</span><p></div>
             </a>
         </#if>
     </#list>

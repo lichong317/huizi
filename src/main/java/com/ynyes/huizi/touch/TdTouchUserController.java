@@ -236,7 +236,7 @@ public class TdTouchUserController {
    		tdCommonService.setHeader(map, req);
    		TdUser user = tdUserService.findByUsername(username);
    		map.addAttribute("user", user);
-   		if (null == user.getQrCodeUri()) {
+   		if (null == user.getQrCodeUri() || user.getQrCodeUri().length() < 5) {
    			try {
 
    	   			Date dt = new Date(System.currentTimeMillis());
@@ -248,7 +248,7 @@ public class TdTouchUserController {
    	   			File file = new File(uri);
 
    	   			QRCodeUtils qr = new QRCodeUtils();
-   	   			qr.getQRCodeForsharer("http://116.55.230.207:8008/reg?shareId="+user.getId(), 300, file);
+   	   			qr.getQRCodeForsharer("http://www.huizhidian.com/touch/regid?shareId="+user.getId(), 300, file);
    	   			
 //   	   			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
 //   	   			stream.write(bytes);
@@ -796,60 +796,7 @@ public class TdTouchUserController {
         Page<TdOrder> cancelPage = null;
         
         cancelPage = tdOrderService.findByUsernameAndIsCancelTrue(username, page, ClientConstant.pageSize);
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-            	
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+              
         
         map.addAttribute("cancel_page", cancelPage);
         
@@ -927,60 +874,7 @@ public class TdTouchUserController {
         TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
         
         map.addAttribute("user", tdUser);
-                
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-            	
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+                       
         
 	        TdOrder order = tdOrderService.findOne(id);
 	        Long statusId = order.getStatusId();
@@ -1018,59 +912,7 @@ public class TdTouchUserController {
         }
         
         tdCommonService.setHeader(map, req);
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+              
 
         if (null != id )
         {
@@ -1106,59 +948,7 @@ public class TdTouchUserController {
 		}
         
         tdCommonService.setHeader(map, req);
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+              
 
         if (null != id )
         {
@@ -1277,60 +1067,7 @@ public class TdTouchUserController {
         {
             collectPage = tdUserCollectService.findByUsernameAndSearch(username, keywords, page, ClientConstant.pageSize);
         }
-        
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-            	
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+               
         
         map.addAttribute("collect_page", collectPage);
         map.addAttribute("keywords", keywords);
@@ -2322,59 +2059,7 @@ public class TdTouchUserController {
         {
         	complainPage = tdOrderService.findByUsername(username, page, ClientConstant.pageSize);
         }
-       
-        //猜你喜欢 zhangji
-        List<TdUserRecentVisit> lastVisitList = tdUserRecentVisitService.findByUsernameOrderByVisitCountDesc(username);
-        if (0 == lastVisitList.size())
-        {
-            List<TdProductCategory> topCategoryList = tdProductCategoryService
-                    .findByParentIdIsNullOrderBySortIdAsc();
-        	//没有浏览记录时，第一页
-            if (topCategoryList.size() > 0)
-            {
-		        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(0).getId(), 0, 4));
-		        map.addAttribute("categoryId0",topCategoryList.get(0).getId());
-		        map.addAttribute("categoryTitle0",topCategoryList.get(0).getTitle());
-            }
-	        //第二页
-            if (topCategoryList.size() > 1)
-            {
-		        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(1).getId(), 0, 4));
-		        map.addAttribute("categoryId1",topCategoryList.get(1).getId());
-		        map.addAttribute("categoryTitle1",topCategoryList.get(1).getTitle());
-            }
-	        //第三页
-            if (topCategoryList.size() > 2)
-            {
-		        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(topCategoryList.get(2).getId(), 0, 4));
-		        map.addAttribute("categoryId2",topCategoryList.get(2).getId());
-		        map.addAttribute("categoryTitle2",topCategoryList.get(2).getTitle());
-            }
-        }
-        if (lastVisitList.size() > 0)
-	        	{
-		        	//猜你喜欢，第一页
-			        TdGoods good_0 =tdGoodsService.findOne(lastVisitList.get(0).getGoodsId());
-			        map.addAttribute("reco_page0",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_0.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId0",good_0.getCategoryId());
-			        map.addAttribute("categoryTitle0",good_0.getCategoryTitle());
-	        	}
-         if (lastVisitList.size() > 1)
-	        	{
-			        //猜你喜欢，第二页
-			        TdGoods good_1 =tdGoodsService.findOne(lastVisitList.get(1).getGoodsId());
-			        map.addAttribute("reco_page1",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_1.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId1",good_1.getCategoryId());
-			        map.addAttribute("categoryTitle1",good_1.getCategoryTitle());
-	        	}
-		  if (lastVisitList.size() > 2)
-	        	{
-				    //猜你喜欢，第三页
-			        TdGoods good_2 =tdGoodsService.findOne(lastVisitList.get(2).getGoodsId());
-			        map.addAttribute("reco_page2",tdGoodsService.findByCategoryIdAndIsRecommendTypeTrueAndIsOnSaleTrueOrderBySortIdAsc(good_2.getCategoryId(), 0, 4));
-			        map.addAttribute("categoryId2",good_2.getCategoryId());
-			        map.addAttribute("categoryTitle2",good_2.getCategoryTitle());
-	        	}
+             
         
         map.addAttribute("complain_page", complainPage);
         map.addAttribute("keywords", keywords);

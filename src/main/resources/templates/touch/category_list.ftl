@@ -51,7 +51,7 @@ $(document).ready(function(){
               <h3 class="red tit"><a href="/touch/list/${item.id?c}" class="red">${item.title!''}</a></h3>
               <#if ("third_level_" + item_index + "_cat_list")?eval??>
                    <#list ("third_level_" + item_index + "_cat_list")?eval as secitem>
-                        <a class="a1" href="/touch/list/${secitem.id?c}"><img src="${secitem.imgUrl!'/touch/images/pictures/img05.png'}" /><p>${secitem.title!''}</p></a>
+                        <a class="a1" href="/touch/list/${secitem.id?c}"><img src="<#if secitem.imgUrl?? && secitem.imgUrl == ''>/touch/images/pictures/img05.png<#else>${secitem.imgUrl!'/touch/images/pictures/img05.png'}</#if>" width="55" height="50"/><p>${secitem.title!''}</p></a>
                    </#list>
               </#if> 
               <div class="clear"></div>            

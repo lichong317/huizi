@@ -113,6 +113,10 @@ public class TdSetting {
     @Column
     private Long signinPoints;
     
+    // 每次抽奖消耗积分
+    @Column
+    private Long lotteryPoints;
+    
     // 商品分享每日积分奖励限额
     @Column
     private Long goodsShareLimits;
@@ -178,6 +182,14 @@ public class TdSetting {
 
 	public void setRechargeRation(Double rechargeRation) {
 		this.rechargeRation = rechargeRation;
+	}
+
+	public Long getLotteryPoints() {
+		return lotteryPoints;
+	}
+
+	public void setLotteryPoints(Long lotteryPoints) {
+		this.lotteryPoints = lotteryPoints;
 	}
 
 	public Long getUpdateNumber() {

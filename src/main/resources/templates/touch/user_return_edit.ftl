@@ -69,7 +69,7 @@ $(document).ready(function(){
         <section>
             <p class="h07 oh">${order_goods.goodsTitle!''}</p>
             <p class="fl mt10">购买数量：<span class="red">${order_goods.quantity!''}</span></p>
-            <p class="p2 ta-r mt10 red">￥${order_goods.price?string("0.00")}</p>
+            <p class="p2 ta-r mt10 red">￥${(order_goods.price*order_goods.quantity)?string("0.00")}</p>
             <div class="clear"></div>
         </section>
     </#if>

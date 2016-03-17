@@ -33,7 +33,7 @@ $(document).ready(function(){
 <div class="comheadbg"></div>
 
 <div class="myhead">
-  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="${user.headImageUri!''}" width="65" height="65"/></a>
+  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="${user.headImageUri!''}" /></a>
    <script>
                         function changeHeads(){
                             var filebutton = document.getElementById("filebutton");
@@ -105,6 +105,7 @@ $(document).ready(function(){
         </menu>
       </div>
     </li>
+    <#if user?? && user.roleId?? && user.roleId ==1>
     <li>
       <div class="tabfix w100">
         <menu>
@@ -127,7 +128,8 @@ $(document).ready(function(){
           <a href="#"></a>
         </menu>
       </div>
-    </li>   
+    </li> 
+    </#if>  
   </ul>
   <div class="clear"></div>
 </section><!--我是banner-->
