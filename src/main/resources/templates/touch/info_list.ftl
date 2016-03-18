@@ -89,7 +89,9 @@ $(document).ready(function(){
     </#list>
 </#if>
 
-<div class="clear h02"></div>    
+<div class="clear h02"></div>  
+
+<#if !app??>  
 <div class="mainfoot_bg"></div>
 <footer class="tabfix mainfoot">
   <menu>
@@ -100,6 +102,7 @@ $(document).ready(function(){
     <a href="/touch/user/"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
   </menu>
 </footer>
+</#if>
   
 </body>
 </html>

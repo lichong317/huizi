@@ -1,3 +1,4 @@
+<#if !app??>
 <footer class="tabfix mainfoot" id="mainfoot" style="bottom:auto; top:1.1rem; display:none;">
   <menu>
     <a href="/touch"><img src="/touch/images/foot01.png" /><p>首页</p></a>
@@ -7,3 +8,4 @@
     <a href="/touch/user"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
   </menu>
 </footer>
+</#if>

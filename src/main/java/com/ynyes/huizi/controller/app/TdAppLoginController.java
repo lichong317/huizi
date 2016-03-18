@@ -95,6 +95,12 @@ public class TdAppLoginController {
         
         tdUserService.save(user);
         res.put("data", data);
+        
+        if (null != user.getRoleId()) {
+            res.put("roleId", user.getRoleId());
+		}else {
+			res.put("roleId", 0);
+		}
       
         res.put("status", 0);
         

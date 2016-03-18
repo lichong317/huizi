@@ -55,7 +55,7 @@ $(document).ready(function(){
     <#if touch_navi_item_list??>
         <#list touch_navi_item_list as item>
             <#if item_index < 4>
-                <li><a href="${item.linkUri!''}"><img src="${item.iconUri!''}" width="50" height="50"/><p>${item.title!''}</p></a></li>
+                <li><a href="${item.linkUri!''}"><img src="${item.iconUri!''}" style="width:50px" height="50"/><p>${item.title!''}</p></a></li>
             </#if>
         </#list>
     </#if>
@@ -64,7 +64,7 @@ $(document).ready(function(){
     <#if touch_navi_item_list??>
         <#list touch_navi_item_list as item>
             <#if item_index gt 3 && item_index < 8>
-                <li><a href="${item.linkUri!''}"><img src="${item.iconUri!''}" width="50" height="50"/><p>${item.title!''}</p></a></li>
+                <li><a href="${item.linkUri!''}"><img src="${item.iconUri!''}" style="width:50px" height="50"/><p>${item.title!''}</p></a></li>
             </#if>
         </#list>
     </#if>
@@ -217,8 +217,12 @@ $(document).ready(function(){
   </#if>
   <a class="a1" href="javascript:$('html,body').animate({scrollTop:0},500);">TOP</a>
 </section>
+
+<#if !app??>
+
 <p class="ta-c pt20 fs3"><a href="#">触屏版</a><a class="ml40" href="/">电脑版</a></p>
 <p class="ta-c pb20 c6 center lh3 pt10">${site.copyright!''}</p>
+
 
 <div class="mainfoot_bg"></div>
 <footer class="tabfix mainfoot">
@@ -230,6 +234,6 @@ $(document).ready(function(){
     <a href="/touch/user"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
   </menu>
 </footer>
-  
+</#if> 
 </body>
 </html>

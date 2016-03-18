@@ -194,24 +194,24 @@ a,button,input{
 #checkmenu a:last-child { border-right:none;}
 #checkmenu a.sel { background:#f60; color:#fff;}
 /* 详细样式 */
-.comheadbg { width:100%; height:1.1rem;}
-.comhead { z-index:99; position:fixed; left:0; top:0; width:100%; height:1.1rem; line-height:1.1rem; color:#000;background: url(../images/topbg.png) repeat-x; background-size:auto 1.1rem; overflow:hidden;}
+.comheadbg { width:100%; height:1rem;}
+.comhead { z-index:99; position:fixed; left:0; top:0; width:100%; height:1rem; line-height:1rem; color:#000;background: url(../images/topbg.png) repeat-x; background-size:auto 1.1rem; overflow:hidden;}
 .comhead h2 { width:100%; text-align:center; font-size:0.36rem;}
-.comhead .logo { position:absolute; left:3%; top:0.1rem; display:block; width:1.08rem;}
-.comhead a.a1 { position:absolute;right:3%; top:0.15rem; display:block; width:0.49rem;}
+.comhead .logo { position:absolute; left:3%; top:0.15rem; display:block; width:0.9rem;}
+.comhead a.a1 { position:absolute;right:3%; top:0.15rem; display:block; width:0.45rem;}
 .comhead a.a2 { position:absolute;left:3%; top:0.15rem; display:block; width:0.29rem;}
 .comhead a.a3 { position:absolute;right:3%; top:0; color:#999; font-size:0.3rem;}
 .comhead a.a4 { position:absolute;right:3%; top:0; font-size:0.25rem;}
 
-.topsearch { padding-left:0.7rem; width:2.7rem; height:0.6rem; line-height:0.6rem; margin:0 auto; background:url(../images/searchbg.png) no-repeat center bottom; background-size:100%; top:0.25rem; left:0.3rem;}
+.topsearch { padding-left:0.7rem; width:2.7rem; height:0.6rem; line-height:0.6rem; margin:0 auto; background:url(../images/searchbg.png) no-repeat center bottom; background-size:100%; top:0.2rem; left:0.3rem;}
 .topsearch .sub { position:absolute; left:0; top:0; width:0.6rem; height:0.6rem; background:url(../images/search01.png) no-repeat center center; background-size:0.4rem;}
 .topsearch .text { width:100%; height:0.6rem; line-height:0.6rem;}
 
 .mainfoot { width:100%; position:fixed; z-index:99; left:0; bottom:0;}
-.mainfoot a { background:#333; color:#fff; text-align:center; line-height:0.3rem; display:table-cell; padding:0.07rem 0; white-space:nowrap; border-left:1px solid #666; font-size:0.23rem;}
-.mainfoot a img { height:0.5rem;}
+.mainfoot a { background:#333; color:#fff; text-align:center; line-height:0.3rem; display:table-cell; padding:0.15rem 0 0.15rem; white-space:nowrap; border-left:1px solid #666; font-size:0.2rem;}
+.mainfoot a img { height:0.35rem;}
 .mainfoot a:first-child { border:none;}
-.mainfoot a.sel { background:#000;}
+.mainfoot a.sel { background:#bb2821;}
 .mainfoot_bg { clear:both; width:100%; height:0.95rem;}
 
 .winbg { position:fixed; width:100%; height:100%; background:url(../images/darkbg.png) repeat; z-index:120; left:0; top:0;}

@@ -1,5 +1,7 @@
 .indexnav li { display:table-cell; text-align:center; padding-top:0.2rem;}
-.indexnav a { display:inline-block; white-space:nowrap; width:1rem;}
+.indexnav a { display:inline-block; white-space:nowrap; width:1rem; font-size:0.22rem;}
+.indexnav a p { top:-0.05rem;}
+.indexnav a img { width:65%;}
 .index_sg { width:100%; border-collapse:collapse;}
 .index_sg th,.index_sg td { text-align:left; border:1px solid #ddd; padding:0; background:#fff; vertical-align:top;}
 .index_sg th { width:2.4rem;}
@@ -124,6 +126,7 @@ a.procheck { background:url(../images/arrow01.png) no-repeat 97% center; backgro
 .morebox { padding-bottom:0.4rem;}
 .morebox .a1 { display:block; float:left; width:25%; margin:0 0 0.2rem 6%;}
 .morebox .a1 p { overflow:hidden; height:0.6rem; line-height:0.3rem;}
+.morebox .a1 span { font-size:0.25rem; white-space:nowrap;}
 .profoot { position:fixed; z-index:99; bottom:0; left:0; width:100%; background:#333; line-height:0.9rem;}
 .profoot .a1,.profoot .a2 { float:left; display:block; color:#fff; width:25%; text-align:center;}
 .profoot .a1 span,.profoot .a2 span { display: inline-block; padding-left:0.6rem; background:url(../images/info01.png) no-repeat left center; background-size:auto 0.4rem;}

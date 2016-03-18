@@ -57,7 +57,7 @@ $(document).ready(function(){
 <h3 class="lh6 h06 mainbox fs3 whitebg mt20 bot-border">我的订单<a class="mytit_more" href="/touch/user/order/list/0">查看全部订单</a></h3>
 <section class="myself_nav tabfix w100 mb20">
   <nav>
-    <a href="/touch/user/order/list/2"><img src="/touch/images/member/myself01.png" /><p>待付款</p><b><#if total_unpayed??>${total_unpayed!''}</#if></b></a>
+    <a href="/touch/user/order/list/2"><img src="/touch/images/member/myself01.png" /><p>待付款</p><b><#if total_unpayed??>${total_unpayed!''}</#if></b></a> 
     <a href="/touch/user/order/list/4"><img src="/touch/images/member/myself02.png" /><p>待收货</p><b><#if total_unreceived??>${total_unreceived!''}</#if></b></a>
     <a href="/touch/user/order/list/5"><img src="/touch/images/member/myself03.png" /><p>待评价</p><b><#if total_uncommented??>${total_uncommented!''}</#if></b></a>
     <a href="/touch/user/order/list/6"><img src="/touch/images/member/myself04.png" /><p>维修售后</p><b><#if total_finished??>${total_finished!''}</#if></b></a>
@@ -135,7 +135,7 @@ $(document).ready(function(){
 </section><!--我是banner-->
 <div class="clear h03"></div>
 
-   
+<#if !app??>   
 <div class="mainfoot_bg"></div>
 <footer class="tabfix mainfoot">
   <menu>
@@ -146,6 +146,7 @@ $(document).ready(function(){
     <a class="sel" href="#"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
   </menu>
 </footer>
+</#if>
 
 <!--弹出层-->
 <aside class="winbg" style="display:none">

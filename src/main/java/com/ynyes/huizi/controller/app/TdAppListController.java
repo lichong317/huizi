@@ -1,5 +1,6 @@
 package com.ynyes.huizi.controller.app;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ynyes.huizi.entity.TdBrand;
 import com.ynyes.huizi.entity.TdGoods;
+import com.ynyes.huizi.entity.TdParameter;
 import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.service.TdBrandService;
 import com.ynyes.huizi.service.TdGoodsService;
+import com.ynyes.huizi.service.TdParameterService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.util.ClientConstant;
 
@@ -30,9 +35,13 @@ public class TdAppListController {
     private TdGoodsService tdGoodsService;
     
     @Autowired
+    private TdBrandService tdBrandService;
+    
+    @Autowired
     private TdProductCategoryService tdProductCategoryService;
     
-
+    @Autowired
+    private TdParameterService tdParameterService;
     
     // app 获取顶级类别接口
     @RequestMapping(value="/app/getTopcategory",method = RequestMethod.GET)
@@ -89,24 +98,110 @@ public class TdAppListController {
 		 }
          
          // 排序字段个数
-         int totalSorts = 4;
+         int totalSorts = 3;
          
          // 4个排序字段 综合-人气-价格-评价
-         String[] sortName = {"sortId", "soldNumber", "salePrice", "totalComments"}; 
+         String[] sortName = {"id",  "salePrice", "soldNumber"}; 
          
          String[] numberGroup = listStr.split("-");
          
          // 分类id
          Long categoryId = null ;
+         
+         if (numberGroup.length <= 0)
+         {
+        	res.put("message", "无商品类别");
+ 			return res;
+         }
+         
          categoryId = Long.parseLong(numberGroup[0]);
          
+         TdProductCategory tdProductCategory = tdProductCategoryService.findOne(categoryId);
+         
          res.put("categoryId", categoryId);
+         
+         // 品牌
+         Integer brandIndex = 0;
+         
+         if (numberGroup.length > 1) // 解析品牌
+         {
+             brandIndex = Integer.parseInt(numberGroup[1]);
+         }
+         
+         res.put("brandIndex", brandIndex);
+         
+         // 品牌列表
+         List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+         
+         res.put("brand_list", brandList);
+         
+         // 品牌ID
+         Long brandId = null;
+         
+         if (brandIndex.intValue() > 0 && brandList.size() >= brandIndex.intValue())
+         {
+             TdBrand brand = brandList.get(brandIndex - 1);
+             brandId = brand.getId();
+         }
+         
+      // 筛选参数个数
+         Integer paramCount = 0;
+         List<Integer> paramIndexList = new ArrayList<Integer>();
+         List<String> paramValueList = new ArrayList<String>();
+         
+         // 参数列表
+         if (null != tdProductCategory.getParamCategoryId())
+         {
+             Long paramCategoryId = tdProductCategory.getParamCategoryId();
+             
+             List<TdParameter> paramList = tdParameterService.findByCategoryTreeContainingAndIsSearchableTrue(paramCategoryId);
+         
+             paramCount = paramList.size();
+             
+             if (numberGroup.length >= paramCount + 2) // 解析参数
+             {
+                 for (int i=0; i<paramCount; i++)
+                 {
+                     String indexStr = numberGroup[2 + i];
+                     TdParameter param = paramList.get(i);
+                     
+                     if (null != indexStr)
+                     {
+                         Integer paramIndex = Integer.parseInt(indexStr);
+                         paramIndexList.add(paramIndex);
+                         
+                         if (paramIndex > 0 && null != param.getValueList() && !"".equals(param.getValueList()))
+                         {
+                             String[] values = param.getValueList().split(",");
+                             
+                             if (values.length >= paramIndex)
+                             {
+                                 String value = values[paramIndex-1].trim();
+                                 paramValueList.add(value);
+                             }
+                         }
+                     }
+                 }
+             }
+             else
+             {
+                 for (int i=0; i<paramCount; i++)
+                 {
+                     paramIndexList.add(0);
+                 }
+             }
+             
+             res.put("param_list", paramList);
+         }
+         
+         res.put("param_count", paramCount);
+         res.put("param_index_list", paramIndexList);
          
          // 排序字段，可能的取值范围为[0...totalSorts-1]
          Integer orderId = 0;
          
-         if (numberGroup.length >= 2) {
-			String orderIdStr = numberGroup[1];
+         if (numberGroup.length >= paramCount + 3) {
+			String orderIdStr = numberGroup[2 + paramCount];
 			if (null != orderIdStr) {
 				orderId = Integer.parseInt(orderIdStr);
 			}
@@ -122,9 +217,9 @@ public class TdAppListController {
          int[] sortIds = new int[totalSorts];
          
          //  排序字段0标志位，0：降序，1：升序
-         if (numberGroup.length >= 3)
+         if (numberGroup.length >= paramCount + 4)
          {
-             String sortIdStr = numberGroup[2];
+             String sortIdStr = numberGroup[3 + paramCount];
              
              if (null != sortIdStr)
              {
@@ -133,9 +228,9 @@ public class TdAppListController {
          }
          
          // 排序字段1标志位，0：降序，1：升序
-         if (numberGroup.length >= 4)
+         if (numberGroup.length >= paramCount + 5)
          {
-             String sortIdStr = numberGroup[3];
+             String sortIdStr = numberGroup[4 + paramCount];
              
              if (null != sortIdStr)
              {
@@ -144,9 +239,9 @@ public class TdAppListController {
          }
          
          // 排序字段2标志位，0：降序，1：升序
-         if (numberGroup.length >= 5)
+         if (numberGroup.length >= paramCount + 6)
          {
-             String sortIdStr = numberGroup[4];
+             String sortIdStr = numberGroup[5 + paramCount];
              
              if (null != sortIdStr)
              {
@@ -154,25 +249,25 @@ public class TdAppListController {
              }
          }
          
-         // 排序字段3标志位，0：降序，1：升序
-         if (numberGroup.length >= 6)
-         {
-             String sortIdStr = numberGroup[5];
-             
-             if (null != sortIdStr)
-             {
-                 sortIds[3] = Integer.parseInt(sortIdStr);
-             }
-         }
+//         // 排序字段3标志位，0：降序，1：升序
+//         if (numberGroup.length >= 6)
+//         {
+//             String sortIdStr = numberGroup[5];
+//             
+//             if (null != sortIdStr)
+//             {
+//                 sortIds[3] = Integer.parseInt(sortIdStr);
+//             }
+//         }
          
          res.put("sort_id_list", sortIds);
          
          // 页号
          Integer pageId = 0;
          
-         if (numberGroup.length >= 7)
+         if (numberGroup.length >= paramCount + 7)
          {
-             String pageIdStr = numberGroup[6];
+             String pageIdStr = numberGroup[6 + paramCount];
              
              if (null != pageIdStr)
              {
@@ -199,7 +294,20 @@ public class TdAppListController {
          // 查找商品
          Page<TdGoods> goodsPage = null;
          
-         goodsPage = tdGoodsService.findByCategoryIdAndIsOnSaleTrue(categoryId, pageRequest);
+         //goodsPage = tdGoodsService.findByCategoryIdAndIsOnSaleTrue(categoryId, pageRequest);
+         
+         // 全部品牌
+         if (0 == brandIndex.intValue())
+         {
+             goodsPage = tdGoodsService.findByCategoryIdAndParamsLikeAndIsOnSaleTrue(
+                                 categoryId, paramValueList, pageRequest);
+         }
+         else
+         {
+             // 品牌
+             goodsPage = tdGoodsService.findByCategoryIdAndBrandIdAndParamsLikeAndIsOnSaleTrue(
+                                 categoryId, brandId, paramValueList, pageRequest);
+         }
          
          res.put("data", goodsPage);
          
@@ -207,4 +315,5 @@ public class TdAppListController {
          return res;
     }
  
+    
 }
