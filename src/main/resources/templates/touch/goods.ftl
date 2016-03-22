@@ -140,7 +140,7 @@ function addCollect(goodsId)
 <#if goods??>
     <h3 class="center fs35 pb10 lh4">${goods.title!''}</h3>
     <p class="center c9 lh3 pb20">${goods.subTitle!''}</p>
-    <p class="lh4 fs35 mainbox bot-border pb20"><span class="red mr10">￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span><span class="unl-th c9">￥<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span></p>
+    <p class="lh4 fs35 mainbox bot-border pb20"><span class="red mr10">￥<#if goods.salePrice??>${goods.salePrice?string("0.00")}</#if></span><span class="unl-th c9" style="font-size:13px">￥<#if goods.marketPrice??>${goods.marketPrice?string("0.00")}</#if></span></p>
     
     <div class="procheck mainbox top-border bot-border mt20">
       <span class="c9 mr20">促销</span>
@@ -223,20 +223,22 @@ function addCollect(goodsId)
             </#if>
           <div class="clear"></div>
         </li>
-        <li>
-            <#if hot_list??>
-                <#list hot_list as item>
-                    <#if item_index gt 5 && item_index < 12>
-                        <a class="a1" href="/touch/goods/${item.id?c}">
-                            <img src="${item.coverImageUri!''}" width="80" height="80"/>
-                            <p>${item.title!''}</p>
-                            <span>￥<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span>
-                        </a>
-                    </#if>
-                </#list>
-            </#if>
-          <div class="clear"></div>
-        </li>
+        <#if hot_list?? && hot_list?size gt 6>
+            <li>
+                <#if hot_list??>
+                    <#list hot_list as item>
+                        <#if item_index gt 5 && item_index < 12>
+                            <a class="a1" href="/touch/goods/${item.id?c}">
+                                <img src="${item.coverImageUri!''}" width="80" height="80"/>
+                                <p>${item.title!''}</p>
+                                <span>￥<#if item.salePrice??>${item.salePrice?string("0.00")}</#if></span>
+                            </a>
+                        </#if>
+                    </#list>
+                </#if>
+              <div class="clear"></div>
+            </li>
+        </#if>
       </ul>
       <div class="clear"></div>
     </section><!--我是banner-->
@@ -256,20 +258,22 @@ function addCollect(goodsId)
             </#if>
           <div class="clear"></div>
         </li>
-        <li>
-           <#if recent_page??>
-                <#list recent_page.content as item>
-                    <#if item_index gt 5 && item_index < 12>
-                        <a class="a1" href="/touch/goods/${item.id?c}">
-                            <img src="${item.goodsCoverImageUri!''}" width="80" height="80"/>
-                            <p>${item.title!''}</p>
-                            <span>￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></span>
-                        </a>
-                    </#if>
-                </#list>
-            </#if>
-          <div class="clear"></div>
-        </li>
+        <#if recent_page?? && recent_page.content?size gt 6>
+            <li>
+               <#if recent_page??>
+                    <#list recent_page.content as item>
+                        <#if item_index gt 5 && item_index < 12>
+                            <a class="a1" href="/touch/goods/${item.id?c}">
+                                <img src="${item.goodsCoverImageUri!''}" width="80" height="80"/>
+                                <p>${item.title!''}</p>
+                                <span>￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></span>
+                            </a>
+                        </#if>
+                    </#list>
+                </#if>
+              <div class="clear"></div>
+            </li>
+        </#if>
       </ul>
       <div class="clear"></div>
     </section><!--我是banner-->

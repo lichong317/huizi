@@ -47,12 +47,91 @@ $(document).ready(function(){
             }
         }
     });
+    
+     $("#btnSubmit").click(function(){
+        var realName = $("#realName").val();
+        var sex = $("input[name='sex']:checked").val();
+        var email = $("#email").val();
+        var mobile = $("#mobile").val();
+        
+        if (undefined == email || "" == email)
+        {
+            //alert("省市不能为空");
+            ct.alert({
+                   text: "邮箱不能为空",
+                   type: "alert"
+            });
+            $("#email").focus();
+            return;
+        }
+        
+        var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        
+        if (!filter.test(email)) {
+            ct.alert({
+                      text: "请输入正确的邮箱",
+                      type: "alert"
+             });
+             $("#email").focus();
+             return;
+        }
+        
+        if (undefined == mobile || "" == mobile)
+        {        
+            ct.alert({
+                   text: "联系电话不能为空",
+                   type: "alert"
+            });           
+                        
+            $("#mobile").focus();
+            return;
+        }
+        
+        var re = /^1\d{10}$/;
+        
+        if (!re.test(mobile)) {
+             ct.alert({
+                      text: "请输入正确的手机号",
+                      type: "alert"
+             });
+             $("#mobile").focus();
+             return;
+        }
+        
+        $.ajax({
+            type:"post",
+            url:"/touch/user/info",
+            data:{
+                "realName":realName,
+                "sex": sex,
+                "email": email, 
+                "mobile": mobile,
+            },
+            
+            success:function(res) {
+                if (0 == res.code)
+                {                  
+                    ct.alert({
+                           text: "修改成功",
+                           type: "alert"
+                    });
+                }
+                else
+                {
+                    ct.alert({
+                           text: res.msg,
+                           type: "alert"
+                    });
+                }
+            }
+        });
+    });
 });
 </script>
 </head>
 
 <style>
-.Validform_checktip{line-height:20px; height:20px; overflow:hidden; color:red; font-size:12px; margin-left:10%;}
+.Validform_checktip{line-height:20px; height:20px; overflow:hidden; color:red; font-size:12px; margin-left:30%}
 
 
 #Validform_msg{color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #aaa; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999'); box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);}
@@ -75,8 +154,8 @@ $(document).ready(function(){
 </header>
 <div class="comheadbg"></div>
 
-<form id="form1" action="/touch/user/info" method="post" >
-    <input name="realName" type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt40" placeholder="真实姓名" value="${user.realName!''}"/>
+<#--<form id="form1" action="/touch/user/info" method="post" > -->
+    <input id="realName" name="realName" type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt40" placeholder="真实姓名" value="${user.realName!''}"/>
     <div class="sexchoose w80 mga mt20 h07 lh7">
       <span class="fl">性别</span>
           <#--<a class="sel" href="javascript:void(0);" onClick="$(this).toggleClass('sel');">男</a>
@@ -85,17 +164,18 @@ $(document).ready(function(){
           <input type="radio" name="sex" class="ml20" value="女" <#if user.sex?? && user.sex=="女">checked="checked" </#if> /><span>女</span>
       <div class="clear"></div>
     </div>
-    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="电子邮箱" datatype="e" nullmsg="请填写邮箱信息" name="email" value="${user.email!''}"/>
-    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="手机号码" datatype="m" nullmsg="请填写手机号码"  name="mobile" value="${user.mobile!''}"/>
+    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="电子邮箱" id="email" name="email" value="${user.email!''}"/>
+    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="手机号码" id="mobile" name="mobile" value="${user.mobile!''}"/>
     
     <div class="clear h08"></div>
     <p class="w80 mga c9 mb10"><span class="absolute-r">${user.registerTime!''}</span>注册时间</p>
     <p class="w80 mga c9 mb10"><span class="absolute-r">${user.lastLoginTime!''}</span>最后登录时间</p>
     
-    <div class="clear h130"></div>
+    <#--<div class="clear h130"></div> -->
+    <div style="height:0.3rem"></div>
     <footer class="addressfoot">
-      <input type="submit" value="确认" class="sub" />
+      <input id="btnSubmit" type="submit" value="确认" class="sub" />
     </footer>
-</form>  
+<#--</form>  -->
 </body>
 </html>

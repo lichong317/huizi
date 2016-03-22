@@ -43,10 +43,10 @@ public class TdAppUserController {
 	        Map<String, Object> res = new HashMap<String, Object>();
 	        res.put("status", 1);
 	       
-//	        if (null == username) {
-//	            res.put("msg", "请重新登录！");
-//	            return res;
-//	        }
+	        if (null == username) {
+	            res.put("msg", "用户名不存在");
+	            return res;
+	        }
 
 	        if (null == Filedata || Filedata.isEmpty()) {
 	            res.put("msg", "图片不存在");
@@ -74,6 +74,14 @@ public class TdAppUserController {
 	            stream.write(bytes);
 	            stream.close();
 
+	            TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+		        
+	            if (null != tdUser) {
+	            	tdUser.setHeadImageUri("/images/" + fileName);
+			        
+			        tdUserService.save(tdUser);
+				}
+		        	            
 	            res.put("status", 0);
 	            res.put("msg", "上传文件成功！");
 	            res.put("path", "/images/" + fileName);

@@ -96,12 +96,19 @@ public class TdAppLoginController {
         tdUserService.save(user);
         res.put("data", data);
         
+        //用户类型
         if (null != user.getRoleId()) {
             res.put("roleId", user.getRoleId());
 		}else {
 			res.put("roleId", 0);
 		}
       
+        //用户级别
+        if (null != user.getUserLevelTitle()) {
+        	res.put("userLevelTitle", user.getUserLevelTitle());
+		}
+        
+        
         res.put("status", 0);
         
         res.put("msg", "登录成功!");

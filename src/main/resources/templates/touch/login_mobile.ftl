@@ -178,7 +178,7 @@ function tip()
 <input onclick="window.location.href='/touch/regid'" type="submit" class="h08 lh8 w80 redborbtn mga sub bor-rad mt20 fs3" value="注册" />
 <div class="clear h06"></div>
 <p class="w80 mga">其他方式登录</p>
-<a class="login_qq" href="/qq/login"><img src="/touch/images/member/qq.png" /><p>QQ登录</p></a>
+<a class="login_qq" href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101277681&redirect_uri=http://www.huizhidian.com/login/qq_login_return"><img src="/touch/images/member/qq.png" /><p>QQ登录</p></a>
 <div class="clear h03"></div>
   
 </body>

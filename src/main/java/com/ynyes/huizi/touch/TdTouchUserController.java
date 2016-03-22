@@ -2640,9 +2640,9 @@ public class TdTouchUserController {
         String username = (String) req.getSession().getAttribute("username");
 
         if (null == username) {
-        	res.put("msg", "请先登录！");
+        	res.put("msg", "登录超时！");
             return res;
-        }
+        }        
         
         TdUser user = tdUserService.findByUsernameAndIsEnabled(username);
         

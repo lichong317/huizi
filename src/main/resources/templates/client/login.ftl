@@ -462,7 +462,7 @@ div {
                   <tbody>
                   <tr style="height:30px;">合作账号登录:</tr>
                 <tr><td><a style="text-decoration:none" href="/weixin/login"><i class="weixin"></i>&nbsp;&nbsp;微信</a></td>
-                    <td><a style="text-decoration:none" href="/qq/login"><i class="qq"></i>&nbsp;&nbsp;QQ</a></td>
+                    <td><a style="text-decoration:none" href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101277681&redirect_uri=http://www.huizhidian.com/login/qq_login_return"><i class="qq"></i>&nbsp;&nbsp;QQ</a></td>
                     <!-- <td><a style="text-decoration:none" href="user.php?act=oath&type=weibo"><i class="sina"></i>&nbsp;&nbsp;新浪</a></td> -->
                     <#--><td><a style="text-decoration:none" href="/login/alipay_login"><i class="alipay"></i>&nbsp;&nbsp;支付宝</a></td> -->
                   </tr>

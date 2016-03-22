@@ -33,7 +33,7 @@ $(document).ready(function(){
 <div class="comheadbg"></div>
 
 <div class="myhead">
-  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="${user.headImageUri!''}" /></a>
+  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="<#if user.headImageUri?? && user.headImageUri == ''>/touch/images/member/head.png<#else>${user.headImageUri!'/touch/images/member/head.png'}</#if>" /></a>
    <script>
                         function changeHeads(){
                             var filebutton = document.getElementById("filebutton");
@@ -57,7 +57,7 @@ $(document).ready(function(){
 <h3 class="lh6 h06 mainbox fs3 whitebg mt20 bot-border">我的订单<a class="mytit_more" href="/touch/user/order/list/0">查看全部订单</a></h3>
 <section class="myself_nav tabfix w100 mb20">
   <nav>
-    <a href="/touch/user/order/list/2"><img src="/touch/images/member/myself01.png" /><p>待付款</p><b><#if total_unpayed??>${total_unpayed!''}</#if></b></a> 
+    <a href="/touch/user/order/list/2"><img src="/touch/images/member/myself01.png" /><p>待付款</p><b <#if total_unpayed?? && total_unpayed gt 99>style="width:0.5rem"</#if>><#if total_unpayed??>${total_unpayed!''}</#if></b></a> 
     <a href="/touch/user/order/list/4"><img src="/touch/images/member/myself02.png" /><p>待收货</p><b><#if total_unreceived??>${total_unreceived!''}</#if></b></a>
     <a href="/touch/user/order/list/5"><img src="/touch/images/member/myself03.png" /><p>待评价</p><b><#if total_uncommented??>${total_uncommented!''}</#if></b></a>
     <a href="/touch/user/order/list/6"><img src="/touch/images/member/myself04.png" /><p>维修售后</p><b><#if total_finished??>${total_finished!''}</#if></b></a>

@@ -265,7 +265,7 @@ function runzp(data) {
 
 <div class="awardtit">
     <input type="hidden" id="username" value="<#if user??>${user.username!''}</#if>">
-  可抽奖次数<b class="fs5 ml10 mr10" id ="lotteryNumber"><#if user??>${(5-user.lotteryNumber!'0')}</#if></b>次
+  可抽奖次数<b class="fs5 ml10 mr10" id ="lotteryNumber"><#if user?? && user.lotteryNumber??>${(5-user.lotteryNumber)}<#else>5</#if></b>次
   <a href="#">查看我的奖品</a>
 </div>
 

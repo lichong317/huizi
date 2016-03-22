@@ -24,7 +24,7 @@
 .indexpro td a img { display:block;}
 .botlogin { line-height:0.25rem; padding:0.25rem 3%; width:94%; background:#333; color:#fff;}
 .botlogin a { color:#fff;}
-.botlogin a.a1 { display:inline-block; padding-right:0.2rem; background:url(../images/arrow02.png) no-repeat right center; background-size:0.12rem; position:absolute; right:3%; top:0.25rem;}
+.botlogin a.a1 { display:inline-block; padding-right:0.2rem; background:url(../images/arrow05.png) no-repeat right center; background-size:0.12rem; position:absolute; right:3%; top:0.25rem;}
 
 .listclass { position:fixed; z-index:70; left:0; top:1.1rem; overflow:auto; width:1.5rem; background:#ddd;}
 .listclass a { display:block; padding:0.25rem 0; text-align:center; border-bottom:1px solid #fff;}

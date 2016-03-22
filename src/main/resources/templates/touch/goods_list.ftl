@@ -114,7 +114,7 @@ function loadMore()
 <aside class="winbg" style="display:none">
   <div class="choosebox">
     <a class="close" href="javascript:void(0);" onClick="$(this).parent().parent().fadeOut(200);"><img src="/touch/images/close.png" /></a>
-    <section class="tit" id="choose_tit">商品筛选<input type="submit" value="确 定" class="sub" /></section>
+    <section class="tit" id="choose_tit">商品筛选<input type="submit" value="确 定" class="sub" onClick="$(this).parent().parent().parent().fadeOut(200);"/></section>
     <section class="con" id="choose_con">
       <h3>品牌：</h3>
       <#if brand_list??>

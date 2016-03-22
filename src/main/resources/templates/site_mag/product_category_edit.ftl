@@ -39,12 +39,35 @@
 				'insertunorderedlist', '|', 'image', 'link', 'fullscreen']
         });
         
+        //（缩略图）
+        var txtPic = $("#txtImgUrl").val();
+        if (txtPic == "" || txtPic == null) {
+            $("#thumb_ImgUrl_show1").hide();
+        }
+        else {
+            $("#thumb_ImgUrl_show1").html("<ul><li><div class='img-box1'><img src='" + txtPic + "' bigsrc='" + txtPic + "' /></div></li></ul>");
+            $("#thumb_ImgUrl_show1").show();
+        }
+    
+        $("#txtImgUrl").blur(function () {
+            var txtPic = $("#txtImgUrl").val();
+            if (txtPic == "" || txtPic == null) {
+                $("#thumb_ImgUrl_show1").hide();
+            }
+            else {
+                $("#thumb_ImgUrl_show1").html("<ul><li><div class='img-box1'><img src='" + txtPic + "' bigsrc='" + txtPic + "' /></div></li></ul>");
+                $("#thumb_ImgUrl_show1").show();
+            }
+        });
+        
     });
 
     function change2cn(en, cninput) {
         var channel_name = "news_";
         cninput.value = channel_name + getSpell(en, "");
     }
+   
+   
    
 </script>
 
@@ -184,8 +207,10 @@
   <dl>
     <dt>显示图片</dt>
     <dd>
-      <input name="imgUrl" type="text" value="<#if cat??>${cat.imgUrl!""}</#if>" id="txtImgUrl" class="input normal upload-path">
+      <input name="imgUrl" type="text" value="<#if cat??>${cat.imgUrl!""}</#if>" id="txtImgUrl" class="input normal upload-path">      
       <div class="upload-box upload-img"></div>
+      <span class="Validform_checktip">建议上传正方形图片，以免变形</span>
+      <div id="thumb_ImgUrl_show1" class="photo-list thumb_ImgUrl_show">
     </dd>
   </dl>
   <dl>

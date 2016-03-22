@@ -209,6 +209,9 @@ $(document).ready(function(){
 </table>
 <div class="w100 h06 eeebg"></div>
 
+
+<#if !app??>
+
 <section class="botlogin">
   <#if username??>
         <a href="/touch/user">${username!''}</a> | <a href="/touch/logout">退出</a>
@@ -218,7 +221,7 @@ $(document).ready(function(){
   <a class="a1" href="javascript:$('html,body').animate({scrollTop:0},500);">TOP</a>
 </section>
 
-<#if !app??>
+
 
 <p class="ta-c pt20 fs3"><a href="#">触屏版</a><a class="ml40" href="/">电脑版</a></p>
 <p class="ta-c pb20 c6 center lh3 pt10">${site.copyright!''}</p>

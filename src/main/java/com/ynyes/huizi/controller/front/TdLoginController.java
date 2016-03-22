@@ -48,6 +48,7 @@ import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdSettingService;
 import com.ynyes.huizi.service.TdUserService;
 import com.ynyes.huizi.util.CommonService;
+import com.ynyes.huizi.util.TdQqController;
 import com.ynyes.huizi.util.VerifServlet;
 
 import net.sf.json.JSONObject;
@@ -611,76 +612,146 @@ public class TdLoginController {
 	 * @throws IOException 
 	 * @throws UnsupportedEncodingException 
 	 */
+//	@RequestMapping(value = "/login/qq_login_return", method = RequestMethod.GET)
+//	public String qqLoginReturn(String code, String state, Device device, HttpServletRequest request, ModelMap map,  HttpServletResponse response) throws IOException {
+//
+//		tdCommonService.setHeader(map, request);
+//		
+//		try {
+//			System.err.println("code-------"+code);
+//			System.err.println("state-------"+state);
+//			
+//			AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
+//			System.err.println("accessTokenObj--------"+accessTokenObj);
+//			String accessToken = null, openID = null;
+//			long tokenExpireIn = 0L;
+//
+//			if (accessTokenObj.getAccessToken().equals("")) {
+//				// 我们的网站被CSRF攻击了或者用户取消了授权
+//				// 做一些数据统计工作
+//				System.err.print("没有获取到响应参数");
+//			} else {
+//				accessToken = accessTokenObj.getAccessToken();
+//				System.err.println("accessToken-------"+accessToken);
+//				
+//				tokenExpireIn = accessTokenObj.getExpireIn();
+//
+//				request.getSession().setAttribute("demo_access_token", accessToken);
+//				request.getSession().setAttribute("demo_token_expirein", String.valueOf(tokenExpireIn));
+//
+//				// 利用获取到的accessToken 去获取当前用的openid -------- start
+//				OpenID openIDObj = new OpenID(accessToken);
+//				openID = openIDObj.getUserOpenID();
+//				System.err.println("openID-----------"+openID);
+//
+//				//利用获取到的accessToken,openid 去获取用户在Qzone的昵称
+//				UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
+//                UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
+//                if (userInfoBean.getRet() == 0) {
+//                   map.put("nickName",userInfoBean.getNickname());
+//                }
+//				
+//                //手机端跳转
+//                if (device.isMobile() || device.isTablet()) {
+//                    return "redirect:/touch/login/qq_login_return?openID="+ openID;
+//                }
+//                
+//				//根据openID查找用户
+//				map.put("alipay_user_id", openID);
+//				map.put("qq", "qq");
+//				TdUser user = tdUserService.findByQqUserId(openID);
+//				if(null == user){
+//					//用户不存在，跳转绑定页面
+//					return "/client/accredit_login";
+//				}else{
+//					//用户存在，修改最后登录时间，跳转首页
+//					user.setLastLoginTime(new Date());
+//					//user.setLastLoginIp(CommonService.getIp(request));
+//					tdUserService.save(user);
+//					request.getSession().setAttribute("username", user.getUsername());
+//					//request.getSession().setAttribute("usermobile", user.getMobile());
+//					return "redirect:/";
+//				}
+//			}
+//		} catch (QQConnectException e) {
+//			
+//		}
+//		
+//		if (device.isMobile() || device.isTablet()) {
+//            return "/touch/error_login";
+//        }
+//		return "/client/error_login";
+//	}
+	
 	@RequestMapping(value = "/login/qq_login_return", method = RequestMethod.GET)
-	public String qqLoginReturn(String code, String state, Device device, HttpServletRequest request, ModelMap map,  HttpServletResponse response) throws IOException {
+	public String qqLoginReturn(String code, Device device, HttpServletRequest request, ModelMap map,  HttpServletResponse response) throws IOException, QQConnectException {
 
 		tdCommonService.setHeader(map, request);
 		
-		try {
-			System.err.println("code-------"+code);
-			System.err.println("state-------"+state);
+		System.err.println("code-------"+code);
+		
+		if (null != code) {
+			TdQqController tdQqController = new TdQqController();
+			// 通过code 获取accessToken
+			String access_token = tdQqController.getQqAccessToken(code, "STATE").get("access_token");
 			
-			AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
-			System.err.println("accessTokenObj--------"+accessTokenObj);
-			String accessToken = null, openID = null;
-			long tokenExpireIn = 0L;
-
-			if (accessTokenObj.getAccessToken().equals("")) {
-				// 我们的网站被CSRF攻击了或者用户取消了授权
-				// 做一些数据统计工作
-				System.err.print("没有获取到响应参数");
-			} else {
-				accessToken = accessTokenObj.getAccessToken();
-				System.err.println("accessToken-------"+accessToken);
-				
-				tokenExpireIn = accessTokenObj.getExpireIn();
-
-				request.getSession().setAttribute("demo_access_token", accessToken);
-				request.getSession().setAttribute("demo_token_expirein", String.valueOf(tokenExpireIn));
-
-				// 利用获取到的accessToken 去获取当前用的openid -------- start
-				OpenID openIDObj = new OpenID(accessToken);
-				openID = openIDObj.getUserOpenID();
-				System.err.println("openID-----------"+openID);
-
-				//利用获取到的accessToken,openid 去获取用户在Qzone的昵称
-				UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
-                UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
-                if (userInfoBean.getRet() == 0) {
-                   map.put("nickName",userInfoBean.getNickname());
-                }
-				
-                //手机端跳转
-                if (device.isMobile() || device.isTablet()) {
-                    return "redirect:/touch/login/qq_login_return?openID="+ openID;
-                }
-                
-				//根据openID查找用户
-				map.put("alipay_user_id", openID);
-				map.put("qq", "qq");
-				TdUser user = tdUserService.findByQqUserId(openID);
-				if(null == user){
-					//用户不存在，跳转绑定页面
-					return "/client/accredit_login";
-				}else{
-					//用户存在，修改最后登录时间，跳转首页
-					user.setLastLoginTime(new Date());
-					//user.setLastLoginIp(CommonService.getIp(request));
-					tdUserService.save(user);
-					request.getSession().setAttribute("username", user.getUsername());
-					//request.getSession().setAttribute("usermobile", user.getMobile());
-					return "redirect:/";
-				}
+			System.out.println("access_token-------" + access_token);
+			
+			if (null == access_token) {
+				if (device.isMobile() || device.isTablet()) {
+			        return "/touch/error_login";
+			    }
+				return "/client/error_login";
 			}
-		} catch (QQConnectException e) {
 			
+			// 利用获取到的accessToken 去获取当前用的openid -------- start
+			String OpenID =  tdQqController.getQqOpenid(access_token); 
+
+			System.out.println("OpenID-------" + OpenID);
+			
+			//利用获取到的accessToken,openid 去获取用户在Qzone的昵称
+					
+		    if (null != OpenID) {
+		    	Map<String, String> res = tdQqController.getQqUserInfo(access_token, "101277681", OpenID);	            	
+		    	
+		        map.put("nickName",res.get("nickname"));
+		    }else {
+				if (device.isMobile() || device.isTablet()) {
+		            return "/touch/error_login";
+		        }
+				return "/client/error_login";
+			}
+			
+		    //手机端跳转
+		    if (device.isMobile() || device.isTablet()) {
+		        return "redirect:/touch/login/qq_login_return?openID="+ OpenID;
+		    }
+		    
+			//根据openID查找用户
+			map.put("alipay_user_id", OpenID);
+			map.put("qq", "qq");
+			TdUser user = tdUserService.findByQqUserId(OpenID);
+			if(null == user){
+				//用户不存在，跳转绑定页面
+				return "/client/accredit_login";
+			}else{
+				//用户存在，修改最后登录时间，跳转首页
+				user.setLastLoginTime(new Date());
+				//user.setLastLoginIp(CommonService.getIp(request));
+				tdUserService.save(user);
+				request.getSession().setAttribute("username", user.getUsername());
+				//request.getSession().setAttribute("usermobile", user.getMobile());
+				return "redirect:/";
+			}
+		}else {
+			if (device.isMobile() || device.isTablet()) {
+		        return "/touch/error_login";
+		    }
+			return "/client/error_login";
 		}
 		
-		if (device.isMobile() || device.isTablet()) {
-            return "/touch/error_login";
-        }
-		return "/client/error_login";
 	}
+	
 	
 	/**
 	 * @author lc
