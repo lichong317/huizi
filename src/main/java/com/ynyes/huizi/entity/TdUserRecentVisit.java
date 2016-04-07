@@ -66,6 +66,10 @@ public class TdUserRecentVisit {
     @Column
     private Long categoryId;
     
+    // 商品类别树
+    @Column
+    private String categoryIdTree;
+    
     //日期 zhangji
     @Column
     private String visitDate;
@@ -136,6 +140,14 @@ public class TdUserRecentVisit {
 
 	public Long getVisitCount() {
 		return visitCount;
+	}
+
+	public String getCategoryIdTree() {
+		return categoryIdTree;
+	}
+
+	public void setCategoryIdTree(String categoryIdTree) {
+		this.categoryIdTree = categoryIdTree;
 	}
 
 	public void setVisitCount(Long visitCount) {

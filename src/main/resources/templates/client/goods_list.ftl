@@ -9,6 +9,8 @@
 <!--[if IE]>
    <script type="text/javascript" src="/client/js/html5.js"></script>
 <![endif]-->
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
+
 <script type="text/javascript" src="/client/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/client/js/common.js"></script>
 <script type="text/javascript" src="/client/js/ljs-v1.01.js"></script>
@@ -18,7 +20,7 @@
 <link href="/client/style/common.css" rel="stylesheet" type="text/css" />
 <link href="/client/style/style.css" rel="stylesheet" type="text/css" />
 <link href="/client/css/layout.css" rel="stylesheet" type="text/css" />
-<link rel="shortcut icon" href="/client/images/little_logo.ico" />
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -137,7 +139,7 @@ function deleteContrastgoods(id){
 
 <div class="weizhi">
 <style>
-    .weizhi{ position:relative; z-index:2;}
+    .weizhi{ position:relative; z-index:2; margin-bottom: 20px;}
     .weizhi span{ position:relative; z-index:3;}
     .weizhi span a{ position:relative; z-index:4; padding:4px 10px; line-height:28px; border:1px solid #eee;}
     .weizhi span:hover a{ border:1px solid #fd3e3e ; border-bottom:1px solid #fff;}

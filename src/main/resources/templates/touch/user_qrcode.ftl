@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -36,7 +37,7 @@ $(document).ready(function(){
 </header>
 <div class="comheadbg"></div>
 
-<article class="center whitebg mt20 pt30 pb30">
+<article class=" whitebg mt20 pt30 pb30" style="text-align:center">
     <img src="${user.qrCodeUri!''}" >
 </article>
 

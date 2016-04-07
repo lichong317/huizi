@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -40,7 +41,7 @@ function changeDefault(id){
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
-
+                        window.location.reload();
                     } else {
                         //alert(data.message);
                         ct.alert({
@@ -61,7 +62,7 @@ function changeDefault(id){
 
 <header class="comhead">
   <h2>收货地址</h2>
-  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="javascript:;" class="a2" <#if pointGoodsId??>onclick="window.location.href='/touch/pointGoods/order/info?pointGoodsId=${pointGoodsId?c}'"<#else>onclick="window.location.href='/touch/order/info'"</#if>><img src="/touch/images/back.png" /></a>
   <a href="javascript:void(0);" onClick="$('#mainfoot').fadeToggle(200);" class="a1"><img src="/touch/images/menu.png" /></a>
 </header>
 <div class="comheadbg"></div>
@@ -70,7 +71,7 @@ function changeDefault(id){
     <#list address_list as item>
         <div class="addresslist">
              <a class="a1" href="javascript:changeDefault(${item.id?c});">
-                <i></i>
+                <i <#if item.isDefaultAddress?? && item.isDefaultAddress>style="background-image:url(/touch/images/member/check02.png);"</#if>></i>
                 <h3>收货人：${item.receiverName!''}<span>&nbsp;&nbsp;&nbsp;${item.receiverMobile!''}</span></h3>
                 <p><span>收货地址：</span>${item.detailAddress!''}</p>
              </a>             

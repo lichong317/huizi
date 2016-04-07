@@ -109,9 +109,16 @@ $(function () {
                     	<#if !brand?? || !brand.productCategoryId??>
                     	<option value="">请选择类别...</option>
                     	</#if>
-                        <#if category_list??>
+                       <#-- <#if category_list??>
                             <#list category_list as c>
                                 <option value="${c.id!""}" <#if brand?? && brand.productCategoryId?? && brand.productCategoryId==c.id>selected="selected"</#if>><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                            </#list>
+                        </#if> -->
+                        <#if category_list??>
+                            <#list category_list as c>
+                                <#if !c.parentId??>
+                                    <option value="${c.id!""}" <#if brand?? && brand.productCategoryId?? && brand.productCategoryId==c.id>selected="selected"</#if>><#if c.layerCount?? && c.layerCount gt 1><#list 1..(c.layerCount-1) as a>　</#list>├ </#if>${c.title!""}</option>
+                                </#if>
                             </#list>
                         </#if>
                     </select>

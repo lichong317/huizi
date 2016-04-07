@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -258,7 +259,7 @@ function runzp(data) {
 <body class="awardout">
 <header class="comhead">
   <h2>幸运抽奖</h2>
-  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch/user/point/list" class="a2"><img src="/touch/images/back.png" /></a>
   <a href="/touch/" class="a1"><img src="/touch/images/home.png" /></a>
 </header>
 <div class="comheadbg"></div>
@@ -266,7 +267,7 @@ function runzp(data) {
 <div class="awardtit">
     <input type="hidden" id="username" value="<#if user??>${user.username!''}</#if>">
   可抽奖次数<b class="fs5 ml10 mr10" id ="lotteryNumber"><#if user?? && user.lotteryNumber??>${(5-user.lotteryNumber)}<#else>5</#if></b>次
-  <a href="#">查看我的奖品</a>
+  <a href="/touch/user/myprize/list">查看我的奖品</a>
 </div>
 
 <article class="awardbox" id="awardbox">
@@ -318,7 +319,7 @@ function runzp(data) {
     <#if luckydog_page??>
         <#list luckydog_page.content as item>
             <#if item_index < 10>
-                <p><em class="userName">${item.username!''}</em><span style="width:90px; height:30px; overflow:hidden">
+                <p><em class="userName">${item.username!''}</em><span style="width:100px; height:30px; overflow:hidden">
                                 <#if item.prizeType == 0>
                                     <em>积分${item.prizePoints!''}个</em>
                                 <#elseif item.prizeType == 1>
@@ -376,6 +377,14 @@ function runzp(data) {
     <h4 class="fs3 pa20 white w70 ta-c mga mb30" >获得<span id="prizeTitle">5元优惠券</span></h4>
     <h6 class="w90 mga fs25 mb20" id ="prizeInfo">奖品已发放到您的账户中，请注意查收</h6>
     <a class="a1" href="#" onClick="window.location.reload();">确定</a>
+  </div>
+</aside>
+
+<aside class="winbg5" style="display:none;position:absolute;left:0px;top:14%;width:100%;">
+  <div class="promptbox">
+    <img class="tit" src="/touch/images/award/tit03.png" />
+    <p class="ta-c">奖品已经抽完啦！</p>
+    <a class="a1" href="#" onClick="$(this).parent().parent().fadeOut(200);">返回</a>
   </div>
 </aside>
 </body>

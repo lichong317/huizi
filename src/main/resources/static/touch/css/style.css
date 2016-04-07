@@ -24,7 +24,7 @@
 .indexpro td a img { display:block;}
 .botlogin { line-height:0.25rem; padding:0.25rem 3%; width:94%; background:#333; color:#fff;}
 .botlogin a { color:#fff;}
-.botlogin a.a1 { display:inline-block; padding-right:0.2rem; background:url(../images/arrow05.png) no-repeat right center; background-size:0.12rem; position:absolute; right:3%; top:0.25rem;}
+.botlogin a.a1 { display:inline-block; padding-right:0.2rem; background:url(../images/arrow02.png) no-repeat right center; background-size:0.12rem; position:absolute; right:3%; top:0.25rem;}
 
 .listclass { position:fixed; z-index:70; left:0; top:1.1rem; overflow:auto; width:1.5rem; background:#ddd;}
 .listclass a { display:block; padding:0.25rem 0; text-align:center; border-bottom:1px solid #fff;}
@@ -63,10 +63,10 @@
 .numbox a.num01 { left:auto; right:0; background-image:url(../images/num01.png);}
 
 .carfoot_bg { height:1.2rem;}
-.carfoot,.finishbtn { z-index:99; position:fixed; left:0; bottom:0; background:#333; color:#fff;}
+.carfoot,.finishbtn { z-index:99; position:fixed; left:0; bottom:0; background:#fff; border-top:1px solid #ddd;}
 .carfoot .sub { position:absolute; z-index:10; right:0; top:0; height:100%; text-align:center; color:#fff; background:#fc3e3d; width:1.6rem; font-size:0.3rem;}
-.carfoot .sub01 { position:relative; display:inline-block; width:1.5rem; line-height:0.5rem; height:0.5rem; text-align:center; border-radius:3px; font-size:0.25rem; border:1px solid #fff; background:none; margin-left:0.2rem;}
-.carfoot .sub02 { border-color:#fc3e3d; background:#fc3e3d;}
+.carfoot .sub01 { position:relative; display:inline-block; width:1.5rem; line-height:0.5rem; height:0.5rem; text-align:center; border-radius:3px; font-size:0.25rem; border:1px solid #fc3e3d; background:none; margin-left:0.2rem;color:#fc3e3d;}
+.carfoot .sub02 { color:#fff;border-color:#fc3e3d; background:#fc3e3d;}
 .car_address { padding:0.25rem 0 0.25rem 12%; background:#fff url(../images/pace.png) no-repeat 3% center; background-size:0.4rem; }
 .car_address a { display:block; padding-right:0.7rem; background:url(../images/arrow04.png) no-repeat 95% center; background-size:0.12rem;}
 .checkdown { border-bottom:1px solid #ddd;}

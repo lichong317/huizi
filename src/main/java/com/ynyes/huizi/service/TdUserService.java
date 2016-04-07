@@ -461,6 +461,24 @@ public class TdUserService {
             e.setUserLevelTitle(level.getTitle());
         }
         
+        // 如果冻结金额大于虚拟金额
+        if (null != e.getRoleId()) {
+			if (e.getRoleId().equals(1L)) {
+				if (null != e.getTotalCashRewards() && null != e.getCashRewardsFrozen()) {
+					if (e.getCashRewardsFrozen() > e.getTotalCashRewards()) {
+						e.setCashRewardsFrozen(e.getTotalCashRewards());
+					}
+				}
+			}
+			if (e.getRoleId().equals(2L)) {
+				if (null != e.getVirtualCurrency() && null != e.getFrozenCapital()) {
+					if (e.getFrozenCapital() > e.getVirtualCurrency()) {
+						e.setFrozenCapital(e.getVirtualCurrency());
+					}
+				}
+			}
+		}
+        
         return repository.save(e);
     }
     

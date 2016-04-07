@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -113,6 +114,11 @@ $(document).ready(function(){
 <input type="hidden" name="goodsId" value="${goods.id?c}">
 
 <section class="center mt20 lh4">
+  <span class="absolute-l fs3">积分余额</span>
+  <p class="ta-r"><span class="red ml20"><b ><#if user??>${user.totalPoints!''}</#if></b></span>&nbsp;积分</p>
+</section>
+
+<section class="center mt20 lh4">
   <span class="absolute-l fs3">商品1件</span>
   <p class="ta-r">兑换积分<span class="red ml20"><b >${goods.pointUse!''}</b></span></p>
   <p class="ta-r">运费<span class="red ml20">+ ￥<b id="deliveryFee">${totalPostage!'0'}</b></span></p>
@@ -120,10 +126,12 @@ $(document).ready(function(){
 </section>
 
 
+
+
 <div class="carfoot_bg clear"></div>
 <footer class="carfoot mainbox">
   <p class="pb20 pt20 fs3 lh4">总价<span class="red ml10 mr10">￥<b id="totalPriceBottom">${totalPostage!'0'}</b></span></p>
-  <input type="submit" value="确认" class="sub" />
+  <input type="submit" value="确认" class="sub" <#if user?? && user.totalPoints?? && goods?? && goods.pointUse?? && user.totalPoints < goods.pointUse> disabled="disabled" </#if>/>
 </footer>
  </form>  
 </body>

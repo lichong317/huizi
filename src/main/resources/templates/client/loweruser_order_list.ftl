@@ -72,7 +72,7 @@
             <tr class="mymember_infotab_tit01">
                 <th>订单信息</th>
                 <th width="80">订单金额</th>
-                <th width="80">返利比例</th>
+                <#--<th width="80">返利比例</th> -->
                 <th width="80">返利金额</th>
                 <th width="80">状态</th>               
             </tr>    
@@ -90,11 +90,11 @@
                       <td>
                         <p>￥${order.totalPrice?string("0.00")}</p>                       
                       </td>
-                      <td class="td003">
+                     <#-- <td class="td003">
                         <#if setting?? && setting.returnRation??>
                         	${setting.returnRation}
                         </#if>
-                      </td>
+                      </td> -->
                       <td>
                         <#if setting?? && setting.returnRation??>
                         	${setting.returnRation * order.totalPrice}

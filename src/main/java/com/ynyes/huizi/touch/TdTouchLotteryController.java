@@ -55,14 +55,15 @@ public class TdTouchLotteryController {
 	private TdSettingService tdSettingService;
 	
 	@RequestMapping("/touch/lottery")
-	public String lottery(ModelMap map, HttpServletRequest req){
+	public String lottery(ModelMap map, HttpServletRequest req, String username ){
 		
-		String username = (String) req.getSession().getAttribute("username");
-		
-		if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+		if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
 		
 		tdCommonService.setHeader(map, req);
 		

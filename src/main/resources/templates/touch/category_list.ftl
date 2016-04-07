@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html style="font-size:40px">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Content-Language" content="zh-CN">
@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -51,7 +52,7 @@ $(document).ready(function(){
               <h3 class="red tit"><a href="/touch/list/${item.id?c}" class="red">${item.title!''}</a></h3>
               <#if ("third_level_" + item_index + "_cat_list")?eval??>
                    <#list ("third_level_" + item_index + "_cat_list")?eval as secitem>
-                        <a class="a1" href="/touch/list/${secitem.id?c}"><img src="<#if secitem.imgUrl?? && secitem.imgUrl == ''>/touch/images/pictures/img05.png<#else>${secitem.imgUrl!'/touch/images/pictures/img05.png'}</#if>" width="50" height="50"/><p>${secitem.title!''}</p></a>
+                        <a class="a1" href="/touch/list/${secitem.id?c}"><img src="<#if secitem.imgUrl?? && secitem.imgUrl == ''>/touch/images/pictures/img05.png<#else>${secitem.imgUrl!'/touch/images/pictures/img05.png'}</#if>" width="50" height="50"/><p >${secitem.title!''}</p></a>
                    </#list>
               </#if> 
               <div class="clear"></div>            
@@ -67,7 +68,7 @@ $(document).ready(function(){
   <menu>
     <a href="/touch/"><img src="/touch/images/foot01.png" /><p>首页</p></a>
     <a href="/touch/info/list/10"><img src="/touch/images/foot02.png" /><p>资讯</p></a>
-    <a class="sel" href="#"><img src="/touch/images/foot03.png" /><p>分类搜索</p></a>
+    <a class="sel" href="#"><img src="/touch/images/foot03-1.png" /><p>分类搜索</p></a>
     <a href="/touch/cart/"><img src="/touch/images/foot04.png" /><p>购物车</p></a>
     <a href="/touch/user"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
   </menu>

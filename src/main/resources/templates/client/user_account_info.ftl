@@ -57,6 +57,10 @@ function hideDialog()
 {
     $("#checkDialog").css("display", "none");
 }
+
+function changeBank(){
+	$("#bankCardCode").val($("#bankCardCodetext").val());
+}
 </script>
 </head>
 <style>
@@ -93,8 +97,8 @@ function hideDialog()
                 <p><b style="color: #FF0000;">*</b> 开户行</p>
                 <input class="text" name="bankTitle" value="<#if user??>${user.bankTitle!''}</#if>" type="text" datatype="*" nullmsg="请输入开户行" />
                 <p><b style="color: #FF0000;">*</b> 银行卡号</p>
-                <input class="text" name="bankCardCode" value="<#if user??>${user.bankCardCode!''}</#if>" type="hidden" datatype="n" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
-                <input class="text" name="" value="<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if>" type="text" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
+                <input class="text" id="bankCardCode" name="bankCardCode" value="<#if user??>${user.bankCardCode!''}</#if>" type="hidden" datatype="n" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
+                <input class="text" name="" id="bankCardCodetext" onchange="changeBank();" value="<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if>" type="text" nullmsg="请输入卡号" errormsg="请输入正确的卡号"/>
                 <p><b style="color: #FF0000;">*</b> 手机号</p>
                 <input class="text" name="mobile" value="<#if user??>${user.mobile!''}</#if>" type="text" datatype="m" nullmsg="请输入手机号" errormsg="请输入正确的手机号"/>
                          
@@ -125,7 +129,7 @@ function hideDialog()
                		<p style="padding-top:10px">可消费金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></b></p>
                		<#--<p style="padding-top:10px">冻结金额:&nbsp;&nbsp;￥<b class="red"><#if user.cashRewardsFrozen??>${user.cashRewardsFrozen?string("0.00")}</#if></b></p> -->
 
-                    <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards?? &&  user.cashRewardsFrozen??>${(user.totalCashRewards - user.cashRewardsFrozen)?string("0.00")}</#if></b></p>
+                    <p style="padding-top:10px">可提现金额:&nbsp;&nbsp;￥<b class="red"><#if user.totalCashRewards?? >${user.totalCashRewards?string("0.00")}</#if></b></p>
                		<HR style="BORDER-RIGHT: 1px dashed; BORDER-TOP: 1px dashed; BORDER-LEFT: 1px dashed; WIDTH: 590px; BORDER-BOTTOM: 1px dashed" color=#ffffff SIZE=3 align=center>
                		<p style="padding-top:10px">默认银行卡号:&nbsp;&nbsp;<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if></p>           
 	                <p style="padding-top:10px">默认开户行名称:&nbsp;&nbsp;${user.bankTitle!''}</p>

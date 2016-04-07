@@ -204,7 +204,7 @@ function recruitment(orderId){
                     <tr>
                       <td class="td001">
                         <#list order.orderGoodsList as og>
-                            <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri}"></a>
+                            <a href="<#if order.typeId?? && order.typeId == 5>/pointGoods/${og.goodsId?c}<#else>/goods/${og.goodsId?c}</#if>"><img src="${og.goodsCoverImageUri}"></a>
                         </#list>
                       </td>
                       <td>${order.shippingName!''}</td>
@@ -267,9 +267,15 @@ function recruitment(orderId){
                         <#elseif order.statusId==4>
                             <p><a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()" style="color: #FFF;background: #f57208;padding: 2px 3px;margin-top: 3px;float: left;">确认收货</a></p>	 
                         <#elseif order.statusId==5>
-                            <p><a href="/user/comment/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #4d99e5;padding: 2px 15px;margin-top: 3px; float: left;">评价</a></p>
-                        <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6>   
-                            <p><a href="/user/return/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #978de6;padding: 2px 15px; margin-top: 3px;float: left;">售后</a></p>
+                        	<#if order.typeId?? && order.typeId == 5>
+                      		<#else>
+                            	<p><a href="/user/comment/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #4d99e5;padding: 2px 15px;margin-top: 3px; float: left;">评价</a></p>
+                        	</#if>
+                        <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6> 
+                        	<#if order.typeId?? && order.typeId == 5>
+                      		<#else>
+                            	<p><a href="/user/return/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #978de6;padding: 2px 15px; margin-top: 3px;float: left;">售后</a></p>
+                        	</#if>
                         <#elseif order.statusId==2>
                             <p><a href="/order/dopay/${order.id?c}" style="color: #FFF;background: #FF4454;padding: 2px 15px;margin-top: 3px; float: left;">付款</a></p>
                         </#if>

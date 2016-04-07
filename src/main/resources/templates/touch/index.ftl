@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -230,7 +231,7 @@ $(document).ready(function(){
 <div class="mainfoot_bg"></div>
 <footer class="tabfix mainfoot">
   <menu>
-    <a class="sel" href="#"><img src="/touch/images/foot01.png" /><p>首页</p></a>
+    <a class="sel" href="#"><img src="/touch/images/foot01-1.png" /><p>首页</p></a>
     <a href="/touch/info/list/10"><img src="/touch/images/foot02.png" /><p>资讯</p></a>
     <a href="/touch/category/list"><img src="/touch/images/foot03.png" /><p>分类搜索</p></a>
     <a href="/touch/cart/"><img src="/touch/images/foot04.png" /><p>购物车</p></a>

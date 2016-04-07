@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -53,7 +54,9 @@ $(document).ready(function(){
         var sex = $("input[name='sex']:checked").val();
         var email = $("#email").val();
         var mobile = $("#mobile").val();
-        
+        var bankTitle = $("#bankTitle").val();
+        var bankCardCode = $("#bankCardCode").val(); 
+          
         if (undefined == email || "" == email)
         {
             //alert("省市不能为空");
@@ -97,6 +100,7 @@ $(document).ready(function(){
              $("#mobile").focus();
              return;
         }
+               
         
         $.ajax({
             type:"post",
@@ -106,6 +110,8 @@ $(document).ready(function(){
                 "sex": sex,
                 "email": email, 
                 "mobile": mobile,
+                "bankTitle": bankTitle,
+                "bankCardCode": bankCardCode,
             },
             
             success:function(res) {
@@ -127,6 +133,11 @@ $(document).ready(function(){
         });
     });
 });
+
+function changeBank(){
+	$("#bankCardCode").val($("#bankCardCodetext").val());
+}
+
 </script>
 </head>
 
@@ -167,6 +178,9 @@ $(document).ready(function(){
     <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="电子邮箱" id="email" name="email" value="${user.email!''}"/>
     <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="手机号码" id="mobile" name="mobile" value="${user.mobile!''}"/>
     
+    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="默认开户行" id="bankTitle" name="bankTitle" value="${user.bankTitle!''}"/>
+    <input type="text" class="text h07 lh7 fabg border w80 mga block ti1 mt20" placeholder="默认银行卡号" id="bankCardCodetext" onchange="changeBank();" value="<#if user?? ><#if  user.bankCardCode?? && user.bankCardCode?length gt 18>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[16..18]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if></#if>"/>    
+    <input type="hidden" id="bankCardCode" name="bankCardCode" value="<#if user??>${user.bankCardCode!''}</#if>">
     <div class="clear h08"></div>
     <p class="w80 mga c9 mb10"><span class="absolute-r">${user.registerTime!''}</span>注册时间</p>
     <p class="w80 mga c9 mb10"><span class="absolute-r">${user.lastLoginTime!''}</span>最后登录时间</p>

@@ -73,4 +73,10 @@ public class TdPrizeService {
                 Direction.DESC, "id"));
 		return repository.findAll(pageRequest);
 	}
+	
+	public Page<TdPrize> findByUsername(int page, int size, String username){
+		PageRequest pageRequest = new PageRequest(page, size, new Sort(
+                Direction.DESC, "id"));
+		return repository.findByUsername(username, pageRequest);
+	}
 }

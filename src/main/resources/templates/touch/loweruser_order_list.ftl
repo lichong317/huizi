@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -46,11 +47,11 @@ $(document).ready(function(){
                   </#list>
 			  </section>
 			  <section class="mainbox bot-border pt20 pb20">
-			    <p><span class="c9 mr10">订单金额</span>￥${order.totalPrice?string("0.00")}</p>
-			    <p><span class="absolute-r fs3">已返现</span><span class="c9 mr10">返利比例</span> 
+			    <p><span class="absolute-r fs3">已返现</span><span class="c9 mr10">订单金额</span>￥${order.totalPrice?string("0.00")}</p>
+			 <#--   <p><span class="absolute-r fs3">已返现</span><span class="c9 mr10">返利比例</span> 
 			    		<#if setting?? && setting.returnRation??>
                         	${setting.returnRation}
-                        </#if></p>
+                        </#if></p>  -->
 			    <p><span class="c9 mr10">返利金额</span>￥
 			    	  <#if setting?? && setting.returnRation??>
 				              ${setting.returnRation * order.totalPrice}

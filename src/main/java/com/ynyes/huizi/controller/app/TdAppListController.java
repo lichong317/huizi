@@ -142,6 +142,26 @@ public class TdAppListController {
          {
              TdBrand brand = brandList.get(brandIndex - 1);
              brandId = brand.getId();
+             
+          // 如果品牌类别树不包含当前类别 则更换类别
+             if (null != brand.getProductCategoryTree()) {
+             	String[] tempList = brand.getProductCategoryTree().split(",");
+             	String catStr = "[" + categoryId + "]";
+             	List<String> tList = new ArrayList<>();
+             	for(String cat : tempList){
+             		tList.add(cat);
+             	}
+             	
+             	if (!tList.contains(catStr)) {
+             	// 添加规则  类别上升一级
+            		if (null != tdProductCategory.getParentId()) {
+            			categoryId = tdProductCategory.getParentId();
+            			res.put("categoryId", categoryId);
+                		tdProductCategory = tdProductCategoryService.findOne(categoryId);
+					}    
+ 				}
+             	
+     		}
          }
          
       // 筛选参数个数

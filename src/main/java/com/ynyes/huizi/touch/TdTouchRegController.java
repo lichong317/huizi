@@ -32,7 +32,7 @@ public class TdTouchRegController {
     
     @RequestMapping("/touch/reg")
     public String regquick(Integer errCode, 
-    				  Integer shareId, String mobile,
+    				  Long shareId, String mobile,
     				  HttpServletRequest request,
     				  ModelMap map) {
         String username = (String) request.getSession().getAttribute("username");
@@ -195,15 +195,14 @@ public class TdTouchRegController {
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
                 
                 // 角色变换限制
-                if (!sharedUser.getRoleId().equals(2L)) {
+                if (null != sharedUser.getRoleId() && !sharedUser.getRoleId().equals(2L) && !sharedUser.getRoleId().equals(3L)) {
                 	sharedUser.setRoleId(1L);
-				}
-                                
-                if (null == sharedUser.getTotalLowerUsers()) {
-					sharedUser.setTotalLowerUsers(1L);
-				}else {
-					sharedUser.setTotalLowerUsers(sharedUser.getTotalLowerUsers() + 1);
-				}
+                	if (null == sharedUser.getTotalLowerUsers()) {
+    					sharedUser.setTotalLowerUsers(1L);
+    				}else {
+    					sharedUser.setTotalLowerUsers(sharedUser.getTotalLowerUsers() + 1);
+    				}
+				}   
                 
                 tdUserService.save(sharedUser);
                 
@@ -234,7 +233,7 @@ public class TdTouchRegController {
     
     @RequestMapping("/touch/regid")
     public String reg(Integer errCode, 
-    				  Integer shareId, String username1,  String mobile, String email,
+    				  Long shareId, String username1,  String mobile, String email,
     				  HttpServletRequest request,
     				  ModelMap map) {
         String username = (String) request.getSession().getAttribute("username");
@@ -392,15 +391,14 @@ public class TdTouchRegController {
                 sharedUser.setTotalPoints(userPoint.getTotalPoint()); // 积分
                 
                 // 角色变换限制
-                if (!sharedUser.getRoleId().equals(2L)) {
+                if (null != sharedUser.getRoleId() && !sharedUser.getRoleId().equals(2L) && !sharedUser.getRoleId().equals(3L)) {
                 	sharedUser.setRoleId(1L);
-				}
-                                
-                if (null == sharedUser.getTotalLowerUsers()) {
-					sharedUser.setTotalLowerUsers(1L);
-				}else {
-					sharedUser.setTotalLowerUsers(sharedUser.getTotalLowerUsers() + 1);
-				}
+                	if (null == sharedUser.getTotalLowerUsers()) {
+    					sharedUser.setTotalLowerUsers(1L);
+    				}else {
+    					sharedUser.setTotalLowerUsers(sharedUser.getTotalLowerUsers() + 1);
+    				}
+				}   
                 
                 tdUserService.save(sharedUser);
                 

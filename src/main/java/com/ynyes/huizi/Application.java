@@ -22,6 +22,10 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import com.ynyes.huizi.service.TdCommonService;
 import com.ynyes.huizi.service.TdUserService;
 
+
+
+
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -70,8 +74,10 @@ public class Application extends SpringBootServletInitializer implements Command
             @Override
             public void run() {
             	//清楚计数器
+//            	TdUserService tdUserService = new TdUserService();
                 tdUserService.resetCount();
                 //删除无效购物车商品和对比商品
+//                TdCommonService tdCommonService = new TdCommonService();
                 tdCommonService.deletecartgoods();
                 tdCommonService.deletecontrastgoods();
             }

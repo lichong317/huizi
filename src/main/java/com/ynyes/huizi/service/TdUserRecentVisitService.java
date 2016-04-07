@@ -142,7 +142,9 @@ public class TdUserRecentVisitService {
     {
         PageRequest pageRequest = new PageRequest(page, size);
         
-        return repository.findByUsernameAndCategoryIdOrderByVisitTimeDesc(username, categoryId, pageRequest);
+        String catIdStr = "[" + categoryId + "]";
+        
+        return repository.findByUsernameAndCategoryIdTreeContainingOrderByVisitTimeDesc(username, catIdStr, pageRequest);
     }
     /**
      * 保存
@@ -184,6 +186,7 @@ public class TdUserRecentVisitService {
             recent.setVisitCount(1L);
             recent.setSoldNumber(goods.getSoldNumber());
             recent.setCategoryId(goods.getCategoryId());
+            recent.setCategoryIdTree(goods.getCategoryIdTree());
             //Date转换为String格式 zhangji
             SimpleDateFormat sdf =  new 	SimpleDateFormat("yyyy-MM-dd");
             String visitDate = sdf.format(date);

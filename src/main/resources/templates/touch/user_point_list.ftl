@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -31,7 +32,7 @@ $(document).ready(function(){
 
 <header class="comhead">
   <h2>我的积分</h2>
-  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch/user" class="a2"><img src="/touch/images/back.png" /></a>
   <a href="javascript:void(0);" onClick="$('#mainfoot').fadeToggle(200);" class="a1"><img src="/touch/images/menu.png" /></a>
 </header>
 <div class="comheadbg"></div>

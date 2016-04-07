@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -175,7 +176,7 @@ function addCollect(goodsId)
 </a>
 <a class="procheck mainbox top-border" href="/touch/goods/comment/<#if goods??>${goods.id?c}</#if>">
   <span class="c9 mr20 fs3">商品评价</span>
-  <p class="c9 pro_com">${comment_count!'0'}人评价<span class="red ml10"><#if three_star_comment_count?? && comment_count?? && comment_count != 0>${(three_star_comment_count/comment_count * 100) ?string("0")}</#if>%好评</span></p>
+  <p class="c9 pro_com">${comment_count!'0'}人评价<span class="red ml10"><#if three_star_comment_count?? && comment_count?? && comment_count != 0>${(three_star_comment_count/comment_count * 100) ?string("0")}<#else>100</#if>%好评</span></p>
 </a>
 <div class="center top-border"></div>
     <#if comment_page??>
@@ -248,9 +249,9 @@ function addCollect(goodsId)
             <#if recent_page??>
                 <#list recent_page.content as item>
                     <#if item_index < 6>
-                        <a class="a1" href="/touch/goods/${item.id?c}">
+                        <a class="a1" href="/touch/goods/${item.goodsId?c}">
                            <img src="${item.goodsCoverImageUri!''}" width="80" height="80"/>
-                            <p>${item.title!''}</p>
+                            <p>${item.goodsTitle!''}</p>
                             <span>￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></span>
                         </a>
                     </#if>
@@ -263,11 +264,11 @@ function addCollect(goodsId)
                <#if recent_page??>
                     <#list recent_page.content as item>
                         <#if item_index gt 5 && item_index < 12>
-                            <a class="a1" href="/touch/goods/${item.id?c}">
-                                <img src="${item.goodsCoverImageUri!''}" width="80" height="80"/>
-                                <p>${item.title!''}</p>
-                                <span>￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></span>
-                            </a>
+                           <a class="a1" href="/touch/goods/${item.goodsId?c}">
+                               <img src="${item.goodsCoverImageUri!''}" width="80" height="80"/>
+                               <p>${item.goodsTitle!''}</p>
+                               <span>￥<#if item.goodsSalePrice??>${item.goodsSalePrice?string("0.00")}</#if></span>
+                           </a>
                         </#if>
                     </#list>
                 </#if>

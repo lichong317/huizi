@@ -172,7 +172,7 @@ public class TdTouchCouponController {
             return res;
 	    }
 	    
-	    TdCoupon coupon = tdCouponService.findByTypeIdAndUsernameAndIsDistributtedTrue(leftCoupon.getTypeId(), username);
+	    TdCoupon coupon = tdCouponService.findByTypeIdAndUsernameAndIsDistributtedTrueAndIsOwnTrue(leftCoupon.getTypeId(), username);
 	    
 	    if (null != coupon)
 	    {
@@ -203,6 +203,7 @@ public class TdTouchCouponController {
 	    
 	    getCoupon.setIsDistributted(true);
 	    getCoupon.setIsUsed(false);
+	    getCoupon.setIsOwn(true);
 	    if (null != tdUser.getMobile()) {
 	    	getCoupon.setMobile(tdUser.getMobile());
 		}

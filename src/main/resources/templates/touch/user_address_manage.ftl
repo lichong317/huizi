@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -32,6 +33,25 @@ $(document).ready(function(){
     
 });
 
+function changeDefault(id){
+     $.ajax({
+                type: "post",
+                url: "/touch/user/address/ajax/changedefault",
+                data: { "id": id},
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 0) {
+                        //window.location.reload();
+                    } else {
+                        //alert(data.message);
+                        ct.alert({
+                                text: data.message,
+                                type: "alert"
+                        });
+                    }
+                }
+     });
+}
 </script>
 </head>
 
@@ -50,8 +70,8 @@ $(document).ready(function(){
 <#if address_list??>
     <#list address_list as item>
         <div class="addresslist">
-             <a class="a1" href="/touch/user/addressAdd?manage=1&addressId=${item.id?c}">
-                <i></i>
+             <a class="a1" href="/touch/user/addressAdd?manage=1&addressId=${item.id?c}" >
+                <i <#if item.isDefaultAddress?? && item.isDefaultAddress>style="background-image:url(/touch/images/member/check02.png);"</#if>></i>
                 <h3>收货人：${item.receiverName!''}<span>&nbsp;&nbsp;&nbsp;${item.receiverMobile!''}</span></h3>
                 <p><span>收货地址：</span>${item.detailAddress!''}</p>
              </a>             

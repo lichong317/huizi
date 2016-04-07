@@ -170,6 +170,13 @@
       </div>
     </dd>
   </dl>
+  <dl>
+    <dt>直营会员返利比例</dt>
+    <dd>
+      <input name="returnRation" type="text"  value="<#if cat??>${cat.returnRation!""}</#if>" class="input normal" >
+      <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例，注：0.01计算时为1%)</span>
+    </dd>
+  </dl>
 </div>
 
 <div class="tab-content" style="display:none">

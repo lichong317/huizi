@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.neo4j.cypher.internal.compiler.v1_9.commands.True;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -156,7 +157,7 @@ public class TdCouponController {
             return res;
 	    }
 	    
-	    TdCoupon coupon = tdCouponService.findByTypeIdAndUsernameAndIsDistributtedTrue(leftCoupon.getTypeId(), username);
+	    TdCoupon coupon = tdCouponService.findByTypeIdAndUsernameAndIsDistributtedTrueAndIsOwnTrue(leftCoupon.getTypeId(), username);
 	    
 	    if (null != coupon)
 	    {
@@ -187,6 +188,7 @@ public class TdCouponController {
 	    
 	    getCoupon.setIsDistributted(true);
 	    getCoupon.setIsUsed(false);
+	    getCoupon.setIsOwn(true);
 	    if (null != tdUser.getMobile()) {
 	    	getCoupon.setMobile(tdUser.getMobile());
 		}

@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -59,7 +60,7 @@ function cancelConfirm() {
 <#if order.orderGoodsList??>
     <#list order.orderGoodsList as item>
     <div class="prolist mainbox bot-border whitebg">
-    	<a href="/touch/goods/${item.goodsId?c}" class="img">
+    	<a href="<#if order.typeId?? && order.typeId == 5>/touch/pointGoods/${item.goodsId?c}<#else>/touch/goods/${item.goodsId?c}</#if>" class="img">
 		  <b ><img src="${item.goodsCoverImageUri!''}" /></b> </a>
 		  <section>
 		  <p class="h07 oh lh3" style="height:30px">${item.goodsTitle!''}</p>

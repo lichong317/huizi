@@ -32,6 +32,7 @@ import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
+import com.ynyes.huizi.entity.TdPrize;
 import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
@@ -53,6 +54,7 @@ import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdPrizeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
@@ -144,6 +146,9 @@ public class TdUserController {
     
     @Autowired
     private TdUserWithdrawService tdUserWithdrawService;
+    
+    @Autowired
+    private TdPrizeService tdPrizeService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, ModelMap map) {
@@ -568,7 +573,11 @@ public class TdUserController {
 				if (tdUser.getRoleId().equals(1L)) { // 分销用户提现
 					if ( null != tdUser.getTotalCashRewards() ) {
 						if (withdraw > tdUser.getTotalCashRewards()) {
-							withdraw = tdUser.getTotalCashRewards().doubleValue();
+							
+							// 金额为小于返现的最大100整数倍
+							Double temp =  (double) (tdUser.getTotalCashRewards()%100);
+							
+							withdraw = tdUser.getTotalCashRewards() - temp;
 						}else if (withdraw < 0) {
 							withdraw = 0.0;
 						}
@@ -604,7 +613,8 @@ public class TdUserController {
 						}
 						
 						if (withdraw > canWithdraw) {
-							withdraw = canWithdraw;
+							Double temp = canWithdraw %100;
+							withdraw = canWithdraw - temp ;
 						}
 						else if (withdraw < 0) {
 							withdraw = 0.0;
@@ -627,6 +637,39 @@ public class TdUserController {
 						
 						res.put("code", 0);
 						return res;
+					}
+				}
+				else if (tdUser.getRoleId().equals(3L)){
+					if ( null != tdUser.getDirectSaleCashRewards() ) {
+						if (withdraw > tdUser.getDirectSaleCashRewards()) {
+							
+							// 金额为小于返现的最大100整数倍
+							Double temp =  (double) (tdUser.getDirectSaleCashRewards()%100);
+							
+							withdraw = tdUser.getDirectSaleCashRewards() - temp ;
+						}else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(3L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						
+						res.put("code", 0);
+						return res;
+//						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
+//						tdUserService.save(tdUser);
 					}
 				}
 			}
@@ -2822,6 +2865,39 @@ public class TdUserController {
         map.addAttribute("user", user);
         
         return "/client/user_change_mobile2";
+    }
+    
+    @RequestMapping(value = "/user/myprize/list")
+    public String prizeList(HttpServletRequest req, Integer page,
+                        ModelMap map){
+        String username = (String) req.getSession().getAttribute("username");
+        
+        if (null == username)
+        {
+            return "redirect:/login";
+        }
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        Page<TdPrize> prizePage = null;
+        
+        prizePage = tdPrizeService.findByUsername(page, ClientConstant.pageSize,  username);
+        
+        //猜你喜欢 zhangji
+        getgoodsLike(map, username);
+        
+        map.addAttribute("prize_page", prizePage);
+        
+        return "/client/user_prize_list";
     }
     
     @ModelAttribute

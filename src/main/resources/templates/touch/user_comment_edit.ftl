@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -98,19 +99,19 @@ function reviewsBoxnew(boxid,_name,_hover){
               <section>
               <p class="h07 oh">${item.goodsTitle!''}</p>
               <p class="pt10 pb10 w100 mt10 " style="margin-left: 10px">
-                  <input type="radio" name="stars" value="3" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==3>checked="checked"</#if>/>好评
-                  <input type="radio" name="stars" value="2" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==2>checked="checked"</#if>/>中评
-                  <input type="radio" name="stars" value="1" disabled="disabled" <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==1>checked="checked"</#if>/>差评
+                  <input type="radio" name="stars" value="3"  <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==3>checked="checked"</#if>/>好评
+                  <input type="radio" name="stars" value="2"  <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==2>checked="checked"</#if>/>中评
+                  <input type="radio" name="stars" value="1"  <#if ("comment_"+item_index)?eval.stars?? && ("comment_"+item_index)?eval.stars==1>checked="checked"</#if>/>差评
               </p>
               <div class="reviewsout mt20">
               
                 <span class="c9">评分：</span>
                   <menu id="" class="reviewsbox">
-                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.stars gt 0>class="sel"</#if>>&nbsp;</a>
-                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.stars gt 1>class="sel"</#if>>&nbsp;</a>
-                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.stars gt 2>class="sel"</#if>>&nbsp;</a>
-                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.stars gt 3>class="sel"</#if>>&nbsp;</a>
-                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.stars gt 4>class="sel"</#if>>&nbsp;</a>                   
+                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.goodsStar gt 0>class="sel"</#if>>&nbsp;</a>
+                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.goodsStar gt 1>class="sel"</#if>>&nbsp;</a>
+                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.goodsStar gt 2>class="sel"</#if>>&nbsp;</a>
+                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.goodsStar gt 3>class="sel"</#if>>&nbsp;</a>
+                    <a href="javascript:void(0);" <#if ("comment_"+item_index)?eval.goodsStar gt 4>class="sel"</#if>>&nbsp;</a>                   
                   </menu><!--我是评价星星-->                
               </div>
               </section>
@@ -127,10 +128,10 @@ function reviewsBoxnew(boxid,_name,_hover){
               <a class="img" href="/touch/goods/${item.goodsId?c}"><img src="${item.goodsCoverImageUri!''}" /></a>
               <section>
               <p class="h07 oh">${item.goodsTitle!''}</p>
-              <p class="pt10 pb10 w100 mt10" style="margin-left: 10px">
-                  <input type="radio" name="stars" value="3" datatype="n" nullmsg="点击进行评价"/>好评
-                  <input type="radio" name="stars" value="2" datatype="n" nullmsg="点击进行评价"/>中评
-                  <input type="radio" name="stars" value="1" datatype="n" nullmsg="点击进行评价"/>差评
+              <p class="pt10 pb10 w100 mt10">
+                  <input type="radio" name="stars" value="3" datatype="n" nullmsg="点击进行评价" style="margin-left: 10px"/>好评
+                  <input type="radio" name="stars" value="2" datatype="n" nullmsg="点击进行评价" style="margin-left: 10px"/>中评
+                  <input type="radio" name="stars" value="1" datatype="n" nullmsg="点击进行评价" style="margin-left: 10px"/>差评
               </p>
               <div class="reviewsout mt20">
               

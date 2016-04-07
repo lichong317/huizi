@@ -96,8 +96,17 @@ public class TdManagerGoodsController {
                 // 查找产品列表
                 map.addAttribute("product_list", tdProductService.findByProductCategoryTreeContaining(categoryId));
             
-                // 查找品牌
-                map.addAttribute("brand_list", tdBrandService.findByProductCategoryTreeContaining(categoryId));
+                // 查找品牌   修改为第一级别类别的品牌
+                TdProductCategory tdProductCategory = null;
+                
+                tdProductCategory = tdProductCategoryService.findOne(categoryId);
+                if (null != tdProductCategory.getParentId()) {
+                	tdProductCategory = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+					if (null != tdProductCategory.getParentId()) {
+						tdProductCategory = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+					}
+				}
+                map.addAttribute("brand_list", tdBrandService.findByProductCategoryTreeContaining(tdProductCategory.getId()));
             }
            
         }
@@ -885,8 +894,18 @@ public class TdManagerGoodsController {
                 // 查找产品列表
                 map.addAttribute("product_list", tdProductService.findByProductCategoryTreeContaining(tdGoods.getCategoryId()));
             
-                // 查找品牌
-                map.addAttribute("brand_list", tdBrandService.findByProductCategoryTreeContaining(tdGoods.getCategoryId()));
+                // 查找品牌   修改为第一级别类别的品牌
+                TdProductCategory tdProductCategory = null;
+                
+                tdProductCategory = tdProductCategoryService.findOne(tdGoods.getCategoryId());
+                if (null != tdProductCategory.getParentId()) {
+                	tdProductCategory = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+					if (null != tdProductCategory.getParentId()) {
+						tdProductCategory = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+					}
+				}
+                
+                map.addAttribute("brand_list", tdBrandService.findByProductCategoryTreeContaining(tdProductCategory.getId()));
                 
                 map.addAttribute("warehouse_list", tdWarehouseService.findAll());
                 

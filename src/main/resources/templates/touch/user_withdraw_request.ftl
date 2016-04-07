@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -102,7 +103,7 @@ $(document).ready(function(){
                 else
                 {
                     ct.alert({
-                           text: res.message,
+                           text: res.msg,
                            type: "alert"
                     });
                 }
@@ -110,6 +111,11 @@ $(document).ready(function(){
         });
     });
 });
+
+function changeBank(){
+	$("#bankCardCode").val($("#bankCardCodetext").val());
+}
+
 </script>
 </head>
 
@@ -136,7 +142,8 @@ $(document).ready(function(){
 	</div>
 	<div class="tx_text mt20">
 	  <span>银行卡</span>
-	  <input id="bankCardCode" type="text" class="text" value="<#if user??>${user.bankCardCode!''}</#if>" placeholder="请输入银行卡" />
+	  <input type="text" class="text" placeholder="默认银行卡号" id="bankCardCodetext" onchange="changeBank();" value="<#if user?? ><#if  user.bankCardCode?? && user.bankCardCode?length gt 18>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[16..18]?default("")}<#elseif user.bankCardCode?? && user.bankCardCode?length gt 4>${user.bankCardCode[0..4]?default("")}****</#if></#if>"/> 
+	  <input id="bankCardCode" type="hidden" class="text" value="<#if user??>${user.bankCardCode!''}</#if>" placeholder="请输入银行卡" />
 	</div>
 	<div class="tx_text mt20">
 	  <span>真实姓名</span>

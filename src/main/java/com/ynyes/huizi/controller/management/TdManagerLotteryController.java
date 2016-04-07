@@ -154,6 +154,13 @@ public class TdManagerLotteryController {
 	                btnTypeDelete(listId, listChkId);
 	                tdManagerLogService.addLog("delete", "删除中奖记录", req);
 	            }
+	            else if (__EVENTTARGET.equalsIgnoreCase("btnPage"))
+	            {
+	                if (null != __EVENTARGUMENT)
+	                {
+	                    page = Integer.parseInt(__EVENTARGUMENT);
+	                } 
+	            }
 //	            else if (__EVENTTARGET.equalsIgnoreCase("btnSave"))
 //	            {
 //	                btnTypeSave(listId, listSortId);

@@ -87,7 +87,12 @@ $(document).ready(function(){
                 <#elseif order.statusId==4>
                     亲爱的客户，商品已发出，请检查商品包装完整。
                 <#elseif order.statusId==5>
-                    亲爱的客户，您已消费成功，您可以<a href="/user/comment/list">发表评论</a>。
+                    亲爱的客户，您已消费成功，
+                    		<#if order.typeId?? && order.typeId == 5>
+                      		<#else>
+                      		您可以                    		
+                      			<a href="/user/comment/list">发表评论</a>。
+                      		</#if>
                 <#elseif order.statusId==6>
                     亲爱的客户，此订单已交易成功。
                 </#if>
@@ -207,7 +212,7 @@ $(document).ready(function(){
             <#list order.orderGoodsList as og>
                 <tr>
                   <td width="60" class="td001">
-                    <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri}"></a>
+                    <a href="<#if order.typeId?? && order.typeId == 5>/pointGoods/${og.goodsId?c}<#else>/goods/${og.goodsId?c}</#if>"><img src="${og.goodsCoverImageUri}"></a>
                   </td>
                   <td><a href="/goods/${og.goodsId?c}">${og.goodsTitle}</a></td>
                   <td>${og.price?string("#.##")}</td>

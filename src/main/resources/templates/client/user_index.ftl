@@ -143,7 +143,7 @@ function recruitment(orderId){
         <tr>
           <th width="150" rowspan="2">
       <#--    <img src="/client/images/asa.png" style="position: absolute; "> -->
-          <a class="mymember_header" onclick="changeHeads();"><img src="<#if user.headImageUri?? && user.headImageUri ==''>/client/images/mymember/default.jpg<#else>${user.headImageUri!'/client/images/mymember/default.jpg'}</#if>" width="100px" height="100px"/></a>
+          <a class="mymember_header" onclick="changeHeads();"><img src="<#if user.headImageUri?? && user.headImageUri ==''>/client/images/mymember/default_header.jpg<#else>${user.headImageUri!'/client/images/mymember/default_header.jpg'}</#if>" width="100px" height="100px"/></a>
           <#--
           <b style="color: #ff9100;line-height: 30px;">
             <a href="#" style="">${user.userLevelTitle!''}</a></b>
@@ -154,7 +154,7 @@ function recruitment(orderId){
                 position: absolute;
                 top: -19px;
                 left: 148px;">
-            <a href="#" style="color: #ff9100;"><#if user.roleId?? && user.roleId==1>分销商<#elseif user.roleId==2>商城会员<#else>普通会员</#if>&nbsp;${user.userLevelTitle!''}</a></b>
+            <a href="#" style="color: #ff9100;"><#if user.roleId?? && user.roleId==1>分销商<#elseif user.roleId?? && user.roleId==2>商城会员<#elseif user.roleId?? && user.roleId==3>直营会员<#else>普通会员</#if>&nbsp;${user.userLevelTitle!''}</a></b>
           </th>
                <script>
                         function changeHeads(){
@@ -195,7 +195,7 @@ function recruitment(orderId){
                         <#if order.orderGoodsList??>
                             <#list order.orderGoodsList as og>
                                 <#if og_index <4>
-                                    <a href="/goods/${og.goodsId?c}"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
+                                    <a href="<#if order.typeId?? && order.typeId == 5>/pointGoods/${og.goodsId?c}<#else>/goods/${og.goodsId?c}</#if>"><img src="${og.goodsCoverImageUri!''}" alt="${og.goodsTitle!''}" width="50" align="left" /></a>
                                 </#if>
                             </#list>
                         </#if>
@@ -243,9 +243,15 @@ function recruitment(orderId){
                         <#elseif order.statusId==4>
                             <p><a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()" style="color: #FFF;background: #f57208;padding: 2px 3px;margin-top: 3px;float: left;">确认收货</a></p>	 
                         <#elseif order.statusId==5>
-                            <p><a href="/user/comment/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #4d99e5;padding: 2px 15px;margin-top: 3px; float: left;">评价</a></p>
-                        <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6>   
-                            <p><a href="/user/return/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #978de6;padding: 2px 15px; margin-top: 3px;float: left;">售后</a></p>
+                        	<#if order.typeId?? && order.typeId == 5>
+                      		<#else>
+                            	<p><a href="/user/comment/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #4d99e5;padding: 2px 15px;margin-top: 3px; float: left;">评价</a></p>
+                        	</#if>
+                        <#elseif order.statusId == 4 ||order.statusId==5 || order.statusId == 6> 
+                        	<#if order.typeId?? && order.typeId == 5>
+                      		<#else>  
+                            	<p><a href="/user/return/list?keywords=${order.orderNumber!''}" style="color: #FFF;background: #978de6;padding: 2px 15px; margin-top: 3px;float: left;">售后</a></p>
+                        	</#if>
                         <#elseif order.statusId==2>
                             <p><a href="/order/dopay/${order.id?c}"style="color: #FFF;background: #FF4454;padding: 2px 15px;margin-top: 3px; float: left;">付款</a></p>
                         </#if>        

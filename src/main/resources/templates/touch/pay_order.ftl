@@ -7,6 +7,7 @@
 <meta name="copyright" content="" />
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <!--css-->
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link rel="stylesheet" type="text/css" href="/touch/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="/touch/css/style.css"/>
 

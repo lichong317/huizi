@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -33,7 +34,7 @@ $(document).ready(function(){
 <div class="comheadbg"></div>
 
 <div class="myhead">
-  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="<#if user.headImageUri?? && user.headImageUri == ''>/touch/images/member/head.png<#else>${user.headImageUri!'/touch/images/member/head.png'}</#if>" /></a>
+  <a class="a1" href="javascript:;" onclick="changeHeads();"><img src="<#if user.headImageUri?? && user.headImageUri == ''>/client/images/mymember/default_header.jpg<#else>${user.headImageUri!'/client/images/mymember/default_header.jpg'}</#if>" /></a>
    <script>
                         function changeHeads(){
                             var filebutton = document.getElementById("filebutton");
@@ -51,7 +52,7 @@ $(document).ready(function(){
     <p>${user.username!''}</p>
     <a class="white mt20" href="javascript:;" onclick="$('.winbg').fadeToggle(200);">退出</a>
   </section>
-  <h3><#if user.roleId?? && user.roleId==1>分销商<#elseif user.roleId?? && user.roleId==2>商城会员<#else>普通会员</#if>&nbsp;${user.userLevelTitle!''}</h3>
+  <h3><#if user.roleId?? && user.roleId==1>分销商<#elseif user.roleId?? && user.roleId==2>商城会员<#elseif user.roleId?? && user.roleId==3>直营会员<#else>普通会员</#if>&nbsp;${user.userLevelTitle!''}</h3>
 </div>
 
 <h3 class="lh6 h06 mainbox fs3 whitebg mt20 bot-border">我的订单<a class="mytit_more" href="/touch/user/order/list/0">查看全部订单</a></h3>
@@ -72,7 +73,7 @@ $(document).ready(function(){
           <a href="/touch/user/point/list">
             <img src="/touch/images/member/member01.png" /><p>我的积分</p>
           </a>
-          <a href="/touch/user/redenvelope/list?statusId=2">
+          <a href="/touch/user/redenvelope/list?statusId=1">
             <img src="/touch/images/member/member02.png" /><p>我的红包</p>
           </a>
           <a href="/touch/user/coupon/list/1">
@@ -143,7 +144,7 @@ $(document).ready(function(){
     <a href="/touch/info/list/10"><img src="/touch/images/foot02.png" /><p>资讯</p></a>
     <a href="/touch/category/list"><img src="/touch/images/foot03.png" /><p>分类搜索</p></a>
     <a href="/touch/cart/"><img src="/touch/images/foot04.png" /><p>购物车</p></a>
-    <a class="sel" href="#"><img src="/touch/images/foot05.png" /><p>会员中心</p></a>
+    <a class="sel" href="#"><img src="/touch/images/foot05-1.png" /><p>会员中心</p></a>
   </menu>
 </footer>
 </#if>

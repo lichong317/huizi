@@ -121,7 +121,27 @@ public class TdTouchListController {
 	         map.addAttribute("brandIndex", brandIndex);
 	         
 	         // 品牌列表
-	         List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+	      // 品牌列表
+	         
+//	        List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+	        
+	        // 新修改 查找出第一级别类别下的所有品牌
+	        List<TdBrand> brandList = new ArrayList<>();
+	        
+	        if (null == tdProductCategory.getParentId()) {
+	        	brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+			}else {
+				TdProductCategory tdProductCategory1 = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+		        
+		        if (null == tdProductCategory1.getParentId()) {
+		        	brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, tdProductCategory1.getId());
+				}else {
+					TdProductCategory tdProductCategory2 = tdProductCategoryService.findOne(tdProductCategory1.getParentId());
+					if (null == tdProductCategory2.getParentId()) {
+						brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, tdProductCategory2.getId());
+					}
+				}
+			}          
 	         
 	         map.addAttribute("brand_list", brandList);
 	         
@@ -132,6 +152,26 @@ public class TdTouchListController {
 	         {
 	             TdBrand brand = brandList.get(brandIndex - 1);
 	             brandId = brand.getId();
+	             
+	          // 如果品牌类别树不包含当前类别 则更换类别
+	             if (null != brand.getProductCategoryTree()) {
+	             	String[] tempList = brand.getProductCategoryTree().split(",");
+	             	String catStr = "[" + categoryId + "]";
+	             	List<String> tList = new ArrayList<>();
+	             	for(String cat : tempList){
+	             		tList.add(cat);
+	             	}
+	             	
+	             	if (!tList.contains(catStr)) {
+	             	// 添加规则  类别上升一级
+	            		if (null != tdProductCategory.getParentId()) {
+	            			categoryId = tdProductCategory.getParentId();
+	            			map.addAttribute("categoryId", categoryId);
+	                		tdProductCategory = tdProductCategoryService.findOne(categoryId);
+						}   
+	 				}
+	             	
+	     		}
 	         }
 	         
 	         // 筛选参数个数
@@ -505,7 +545,27 @@ public class TdTouchListController {
 	         map.addAttribute("brandIndex", brandIndex);
 	         
 	         // 品牌列表
-	         List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+	      // 品牌列表
+	         
+//	        List<TdBrand> brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+	        
+	        // 新修改 查找出第一级别类别下的所有品牌
+	        List<TdBrand> brandList = new ArrayList<>();
+	        
+	        if (null == tdProductCategory.getParentId()) {
+	        	brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, categoryId);
+			}else {
+				TdProductCategory tdProductCategory1 = tdProductCategoryService.findOne(tdProductCategory.getParentId());
+		        
+		        if (null == tdProductCategory1.getParentId()) {
+		        	brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, tdProductCategory1.getId());
+				}else {
+					TdProductCategory tdProductCategory2 = tdProductCategoryService.findOne(tdProductCategory1.getParentId());
+					if (null == tdProductCategory2.getParentId()) {
+						brandList = tdBrandService.findByStatusIdAndProductCategoryTreeContaining(1L, tdProductCategory2.getId());
+					}
+				}
+			}          
 	         
 	         map.addAttribute("brand_list", brandList);
 	         
@@ -516,6 +576,26 @@ public class TdTouchListController {
 	         {
 	             TdBrand brand = brandList.get(brandIndex - 1);
 	             brandId = brand.getId();
+	             
+	          // 如果品牌类别树不包含当前类别 则更换类别
+	             if (null != brand.getProductCategoryTree()) {
+	             	String[] tempList = brand.getProductCategoryTree().split(",");
+	             	String catStr = "[" + categoryId + "]";
+	             	List<String> tList = new ArrayList<>();
+	             	for(String cat : tempList){
+	             		tList.add(cat);
+	             	}
+	             	
+	             	if (!tList.contains(catStr)) {
+	             		// 添加规则  类别上升一级
+	            		if (null != tdProductCategory.getParentId()) {
+	            			categoryId = tdProductCategory.getParentId();
+	            			map.addAttribute("categoryId", categoryId);
+	                		tdProductCategory = tdProductCategoryService.findOne(categoryId);
+						}   
+	 				}
+	             	
+	     		}
 	         }
 	         
 	      // 筛选参数个数

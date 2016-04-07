@@ -85,7 +85,7 @@
                         <input type="text" name="mobile" datatype="m" class="xxinp" id="textfield" value="${user.mobile!''}"/>
                         <span class="Validform_checktip">*手机号码</span>
                       </li>
-                      <#if user?? && user.roleId?? && user.roleId == 1>
+                      <#if user?? && user.roleId?? && user.roleId == 1 || user?? && user.roleId?? && user.roleId == 2>
                       <li class="title">银行卡号：</li>
 	                      <li class="xxlr">
 	                        <input type="text" name="bankCardCode" datatype="n" class="xxinp" id="textfield" value="<#if user.bankCardCode?? && user.bankCardCode?length gt 19>${user.bankCardCode[0..4]?default("")}****${user.bankCardCode[17..19]?default("")}

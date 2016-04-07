@@ -43,7 +43,6 @@ import com.ynyes.huizi.util.SiteMagConstant;
 @RequestMapping("/")
 public class TdAppIndexController {
 
-
     @Autowired
     private TdGoodsService tdGoodsService;
 

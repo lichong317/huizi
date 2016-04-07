@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +30,7 @@ import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
-import com.ynyes.huizi.entity.TdProductCategory;
+import com.ynyes.huizi.entity.TdPrize;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdSetting;
@@ -53,6 +50,7 @@ import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdOrderGoodsService;
 import com.ynyes.huizi.service.TdOrderService;
+import com.ynyes.huizi.service.TdPrizeService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.service.TdRedEnvelopeService;
 import com.ynyes.huizi.service.TdRedEnvelopeTypeService;
@@ -143,6 +141,9 @@ public class TdTouchUserController {
     
     @Autowired
     private TdSettingService tdSettingService;
+    
+    @Autowired
+    private TdPrizeService tdPrizeService;
     
     @RequestMapping(value = "/user")
     public String user(HttpServletRequest req, String username, ModelMap map) {
@@ -1498,14 +1499,15 @@ public class TdTouchUserController {
     public String userReturn(HttpServletRequest req, 
                         @PathVariable Long orderId,
                         Long id, // 商品ID
-                        String method, Integer app,
+                        String method, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
                
@@ -1541,7 +1543,7 @@ public class TdTouchUserController {
                         {
                             map.addAttribute("has_returned", true);
                             String orderNumber = tdOrder.getOrderNumber();
-                            TdUserReturn userReturn = tdUserReturnService.findByUsernameAndOrderNumberAndGoodsId(username, orderNumber, tog.getGoodsId());
+                            TdUserReturn userReturn = tdUserReturnService.findByUsernameAndOrderNumberAndGoodsId(username, orderNumber, tog.getId());
                             map.addAttribute("return", userReturn);
                         }
 
@@ -1739,14 +1741,15 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/comment/edit")
-    public String commentedit(Long goodsId, Long orderId, Integer app,
+    public String commentedit(Long goodsId, Long orderId, Integer app, String username,
     		                  HttpServletRequest req, ModelMap map){
-    	String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         if ( null == orderId) {
         	return "/touch/error_404";
@@ -1794,15 +1797,17 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/comment/list")
-    public String commentList(HttpServletRequest req, Integer page, Integer app,
+    public String commentList(HttpServletRequest req, Integer page, Integer app, String username,
             Integer statusId, // 0表示未评价, 1表示已评价
             String keywords,
             ModelMap map) {
-        String username = (String) req.getSession().getAttribute("username");
-
-        if (null == username) {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
 
         tdCommonService.setHeader(map, req);
 
@@ -1975,14 +1980,15 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/consult/list")
     public String consultList(HttpServletRequest req, 
                         Integer page,
-                        String keywords, Integer app,
+                        String keywords, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2029,14 +2035,15 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/complain/list")
     public String complainList(HttpServletRequest req, 
                         Integer page,
-                        String keywords, Integer app,
+                        String keywords, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2136,13 +2143,14 @@ public class TdTouchUserController {
 	 * @注释：
 	 */
     @RequestMapping(value = "/user/addressAdd")
-    public String address(Long addressId, Long manage, Long pointGoodsId, HttpServletRequest req,  ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    public String address(Long addressId, Long manage, Long pointGoodsId, HttpServletRequest req, String username,  ModelMap map){
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2168,7 +2176,7 @@ public class TdTouchUserController {
                                     String dist,
                                     String detail,
                                     String postcode,
-                                    String mobile,
+                                    String mobile, Boolean isDefaultAddress,
                                     HttpServletRequest req) {
         Map<String, Object> res = new HashMap<String, Object>();
         
@@ -2200,6 +2208,19 @@ public class TdTouchUserController {
 	        address.setDetailAddress(detail);
 	        address.setPostcode(postcode);
 	        address.setReceiverMobile(mobile);
+	        
+	        //判断是否为默认地址
+	        if (null != user.getShippingAddressList() && !user.getShippingAddressList().isEmpty() && null != isDefaultAddress && isDefaultAddress) {
+				for(TdShippingAddress tdShippingAddress : user.getShippingAddressList()){
+					if (tdShippingAddress.getId().equals(addressId)) {
+						tdShippingAddress.setIsDefaultAddress(true);
+					}else {
+						tdShippingAddress.setIsDefaultAddress(false);
+					}
+					tdShippingAddressService.save(tdShippingAddress);
+				}
+			 }
+	        
 	        tdShippingAddressService.save(address);
 	        
 	        res.put("code", 2);
@@ -2214,6 +2235,19 @@ public class TdTouchUserController {
 	        address.setDetailAddress(detail);
 	        address.setPostcode(postcode);
 	        address.setReceiverMobile(mobile);
+	        
+	        //判断是否为默认地址
+	        if (null != user.getShippingAddressList() && !user.getShippingAddressList().isEmpty() && null != isDefaultAddress && isDefaultAddress) {
+				for(TdShippingAddress tdShippingAddress : user.getShippingAddressList()){
+
+					tdShippingAddress.setIsDefaultAddress(false);
+
+					tdShippingAddressService.save(tdShippingAddress);
+				}
+				
+			 }
+	        
+	        address.setIsDefaultAddress(isDefaultAddress);
 	        
 	        user.getShippingAddressList().add(address);
 	        
@@ -2283,14 +2317,15 @@ public class TdTouchUserController {
     public String address(HttpServletRequest req, Long manage, Long pointGoodsId,
                         @PathVariable String method,
                         Long id,
-                        TdShippingAddress tdShippingAddress, Integer app,
+                        TdShippingAddress tdShippingAddress, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2385,16 +2420,17 @@ public class TdTouchUserController {
 	 * @注释：个人中心地址管理
 	 */
     @RequestMapping(value = "/user/addressManage")
-    public String addressmanage(HttpServletRequest req, 
+    public String addressmanage(HttpServletRequest req, String username,
                         Long id,
                         Integer app,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2437,15 +2473,16 @@ public class TdTouchUserController {
     
     
     @RequestMapping(value = "/user/distributor/return")
-    public String distributorReturnList(HttpServletRequest req, 
+    public String distributorReturnList(HttpServletRequest req, String username,
                         Integer page, Integer app,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2473,16 +2510,17 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/distributor/lower")
-    public String distributorLowerList(HttpServletRequest req, Integer app,
+    public String distributorLowerList(HttpServletRequest req, Integer app, String username,
                         Integer page,
                         ModelMap map){
         
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2510,14 +2548,15 @@ public class TdTouchUserController {
     }
     
     @RequestMapping(value = "/user/distributor/bankcard")
-    public String distributorLowerList(HttpServletRequest req, Integer app,
+    public String distributorLowerList(HttpServletRequest req, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2549,14 +2588,15 @@ public class TdTouchUserController {
     @RequestMapping(value = "/user/distributor/goods")
     public String distributorGoodsList(HttpServletRequest req, 
                         String keywords,
-                        Integer page, Integer app,
+                        Integer page, Integer app, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2633,6 +2673,8 @@ public class TdTouchUserController {
                         String province,
                         String city,
                         String disctrict,
+                        String bankCardCode,
+                        String bankTitle,
                         ModelMap map){
     	Map<String, Object> res = new HashMap<String, Object>();
         res.put("code", 1);
@@ -2655,6 +2697,8 @@ public class TdTouchUserController {
            // user.setProvince(province);
            // user.setCity(city);
            // user.setDistrict(disctrict);
+            user.setBankCardCode(bankCardCode);
+            user.setBankTitle(bankTitle);
             user = tdUserService.save(user);
             
         }
@@ -2726,14 +2770,15 @@ public class TdTouchUserController {
 	 */
     @RequestMapping(value = "/user/junioruser/list")
     public String junioruserList(Integer page,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2756,14 +2801,15 @@ public class TdTouchUserController {
     
     @RequestMapping(value = "/user/lowerusers/order/list")
     public String lowerUsersOrderList(Integer page,String lowerusername,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         if (null == lowerusername) {
 			return "/touch/error_404";
@@ -2788,14 +2834,15 @@ public class TdTouchUserController {
 	 */
     @RequestMapping(value = "/user/account/info")
     public String accountInfo(Integer page,
-                        HttpServletRequest req, 
+                        HttpServletRequest req, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         if (null == page) {
 			page = 0;
@@ -2817,14 +2864,15 @@ public class TdTouchUserController {
 	 */
     @RequestMapping(value = "/user/withdraw/edit")
     public String cashreward(
-                        HttpServletRequest req, 
+                        HttpServletRequest req, String username,
                         ModelMap map){
-        String username = (String) req.getSession().getAttribute("username");
-        
-        if (null == username)
-        {
-            return "redirect:/touch/login";
-        }
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
         
         tdCommonService.setHeader(map, req);
         
@@ -2882,7 +2930,10 @@ public class TdTouchUserController {
 				if (tdUser.getRoleId().equals(1L)) { // 分销用户提现
 					if ( null != tdUser.getTotalCashRewards() ) {
 						if (withdraw > tdUser.getTotalCashRewards()) {
-							withdraw = tdUser.getTotalCashRewards().doubleValue();
+							// 金额为小于返现的最大100整数倍
+							Double temp =  (double) (tdUser.getTotalCashRewards()%100);
+							
+							withdraw = tdUser.getTotalCashRewards() - temp;
 						}else if (withdraw < 0) {
 							withdraw = 0.0;
 						}
@@ -2918,7 +2969,8 @@ public class TdTouchUserController {
 						}
 						
 						if (withdraw > canWithdraw) {
-							withdraw = canWithdraw;
+							Double temp = canWithdraw %100;
+							withdraw = canWithdraw - temp;
 						}
 						else if (withdraw < 0) {
 							withdraw = 0.0;
@@ -2943,11 +2995,76 @@ public class TdTouchUserController {
 						return res;
 					}
 				}
+				else if (tdUser.getRoleId().equals(3L)){
+					if ( null != tdUser.getDirectSaleCashRewards() ) {
+						if (withdraw > tdUser.getDirectSaleCashRewards()) {
+							
+							// 金额为小于返现的最大100整数倍
+							Double temp =  (double) (tdUser.getDirectSaleCashRewards()%100);
+							
+							withdraw = tdUser.getDirectSaleCashRewards() - temp ;
+						}else if (withdraw < 0) {
+							withdraw = 0.0;
+						}
+						
+						TdUserWithdraw tdUserWithdraw = new TdUserWithdraw();
+						
+						tdUserWithdraw.setUsername(username);
+						tdUserWithdraw.setRealName(realName);
+						tdUserWithdraw.setWithdrawTime(new Date());
+						tdUserWithdraw.setTotalWithdraw(withdraw);
+						tdUserWithdraw.setBankName(bankTitle);
+						tdUserWithdraw.setBankCardNumber(bankCardCode);
+						tdUserWithdraw.setMobile(mobile);
+						tdUserWithdraw.setSortId(99L);
+						tdUserWithdraw.setIsReplied(false);
+						tdUserWithdraw.setStatusId(0L);
+						tdUserWithdraw.setRoleId(3L);
+						tdUserWithdrawService.save(tdUserWithdraw);
+						
+						res.put("code", 0);
+						return res;
+//						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - withdraw));
+//						tdUserService.save(tdUser);
+					}
+				}
 			}
 			
 		}
         return res;
     }
+    
+    @RequestMapping(value = "/user/myprize/list")
+    public String prizeList(HttpServletRequest req, Integer page,String username,
+                        ModelMap map){
+    	if (null == username) {
+    		username = (String) req.getSession().getAttribute("username");
+            if (null == username)
+            {
+                return "redirect:/touch/login";
+            }
+		}
+        
+        tdCommonService.setHeader(map, req);
+        
+        if (null == page)
+        {
+            page = 0;
+        }
+        
+        TdUser tdUser = tdUserService.findByUsernameAndIsEnabled(username);
+        
+        map.addAttribute("user", tdUser);
+        
+        Page<TdPrize> prizePage = null;
+        
+        prizePage = tdPrizeService.findByUsername(page, ClientConstant.pageSize,  username);        
+        
+        map.addAttribute("prize_page", prizePage);
+        
+        return "/touch/user_prize_list";
+    }
+    
     
     @ModelAttribute
     public void getModel(@RequestParam(value = "addressId", required = false) Long addressId,

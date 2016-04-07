@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -39,6 +40,7 @@ $(document).ready(function(){
         var detail = $("#detailAdd").val();
         var postcode = $("#postcode").val();
         var mobile = $("#mobile").val();
+        var isDefaultAddress = $("#isDefaultAddress").val();
         
         var addressId = $("#addressId").val();
         var manage = $("#manage").val();
@@ -141,6 +143,7 @@ $(document).ready(function(){
                 "dist": dist,
                 "detail": detail,
                 "postcode": postcode,
+                "isDefaultAddress": isDefaultAddress,
                 "mobile": mobile 
             },
             
@@ -193,6 +196,15 @@ $(document).ready(function(){
   </menu>
 </section>
 <textarea id="detailAdd" class="pt20 pb20 w80 mga h09 border block mt20 ti1 fabg" placeholder="详细地址" ><#if address??>${address.detailAddress!''}</#if></textarea>
+<div class="text h07 lh7 fabg border w80 mga block ti1 mt20">
+<label>是否默认地址</label>
+<select id="isDefaultAddress"  name = "isDefaultAddress" style="float:right;border:none;height:0.7rem;width:0.7rem;">
+    <option value="1" <#if address?? && address.isDefaultAddress?? && address.isDefaultAddress>selected="selected"</#if>>是</option>
+    <option value="0" <#if address?? && address.isDefaultAddress?? && !address.isDefaultAddress || !address??>selected="selected"</#if>>否</option>
+</select>
+<div>
+
+
 
 <div class="clear h130"></div>
 <footer class="addressfoot">

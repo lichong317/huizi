@@ -61,6 +61,10 @@ public class TdCoupon {
     @Column
     private Boolean isDistributted;
     
+    // 是否为用户自己领取的优惠券
+    @Column
+    private Boolean isOwn;
+    
     // 是否已使用
     @Column
     private Boolean isUsed;
@@ -125,6 +129,14 @@ public class TdCoupon {
 
 	public void setDateLeft(Long dateLeft) {
 		this.dateLeft = dateLeft;
+	}
+
+	public Boolean getIsOwn() {
+		return isOwn;
+	}
+
+	public void setIsOwn(Boolean isOwn) {
+		this.isOwn = isOwn;
 	}
 
 	public Long getId() {

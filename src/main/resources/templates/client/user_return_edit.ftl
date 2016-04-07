@@ -119,7 +119,7 @@ $(function () {
                 <thead>
                 <tr>
                         <th width="260" style="text-align:center;">商品名称</th>
-                        <th width="170" style="text-align:center;">销售方式</th>
+                        <#--><th width="170" style="text-align:center;">销售方式</th> -->
                         <th width="105" style="text-align:center;">购买数量</th>
                 </tr>
                 </thead>
@@ -135,9 +135,9 @@ $(function () {
                             </li>
                        </ul>
                     </td>                  
-                    <td>
+                   <#-- <td>
 							${order_goods.goodsSaleType!'-'}
-			        </td>
+			        </td> -->
                     <td>${order_goods.quantity!'1'}</td>
                 </tr>
                 </tbody>

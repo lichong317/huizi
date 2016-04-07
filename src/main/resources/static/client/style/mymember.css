@@ -424,7 +424,18 @@ textarea { resize:none;}
 	line-height:30px;
 	position:relative;
 	margin-bottom:10px;}
-.mymember_order_search a.a001 { color:#ff8800; font-size:18px; float:left; margin-left:3%;}
+/**.mymember_order_search a.a001 { color:#ff8800; font-size:18px; float:left; margin-left:3%;}**/
+.mymember_order_search a.a001 {
+  color: #fff;
+  font-size: 13px;
+  float: left;
+  background: #ff4454;
+  padding: 0px 14px;
+  margin: 0 5px;
+  line-height: 24px;
+  border-radius: 10px;
+}
+.mymember_order_search a.a001:hover{background:#4d99e5;}
 .mymember_order_search a.a002 {
 	float:right;
 	margin-right:3%;

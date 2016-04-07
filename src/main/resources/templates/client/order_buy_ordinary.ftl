@@ -116,6 +116,12 @@ $(document).ready(function(){
                 <#else>
                     <#assign virtual_limit = 0 />
                 </#if>
+            <#elseif user.roleId == 3>
+                <#if user.directSaleCashRewards??>
+                    <#assign virtual_limit = user.directSaleCashRewards />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
             <#else>
                  <#assign virtual_limit = 0 />
             </#if>
@@ -125,24 +131,24 @@ $(document).ready(function(){
         var couponFee =  parseFloat($("#couponFeee").html()); 
         var currentPrice = parseFloat($("#currentPrice").html()); 
         
-        var pointFee = parseFloat($("#idPointUse").val());
+        //var pointFee = parseFloat($("#idPointUse").val());
         
         if(virtualCurrency > ${virtual_limit?c}){
             alert("账户余额不足！");
             $(this).val(0);
             $("#virtualCurrencyfee").html(0);
-            if(couponFee + pointFee> currentPrice + deliPrice){
+            if(couponFee > currentPrice + deliPrice){
                 $("#totalPrice").html(0);
             }else{
-                $("#totalPrice").html(currentPrice + deliPrice - couponFee - pointFee);
+                $("#totalPrice").html((currentPrice + deliPrice - couponFee).toFixed(2));
             }
         }
         else{
                        
             $("#virtualCurrencyfee").html(virtualCurrency);
 
-            if(currentPrice + deliPrice > pointFee + couponFee + virtualCurrency){
-                $("#totalPrice").html(currentPrice + deliPrice - pointFee - couponFee - virtualCurrency);
+            if(currentPrice + deliPrice >  couponFee + virtualCurrency){
+                $("#totalPrice").html((currentPrice + deliPrice  - couponFee - virtualCurrency).toFixed(2));
             }
             else{
                 
@@ -164,17 +170,17 @@ function couponChange()
     
     var currentPrice = parseFloat($("#currentPrice").html());
     //var payTypeFee = parseFloat($("#payTypeFee").html());
-    var pointFee = parseFloat($("#idPointUse").val());
+    //var pointFee = parseFloat($("#idPointUse").val());
     var deliPrice =  parseFloat($("#deliveryFee").html());
     var virtualCurrency = parseFloat($("#virtualCurrencyfee").html());
 
     $("#couponFeee").html(couponFee);
     $("#couponFee").html(couponFee);
-    if(pointFee + couponFee + virtualCurrency> currentPrice + deliPrice){
+    if( couponFee + virtualCurrency> currentPrice + deliPrice){
         $("#totalPrice").html(0);
     }
     else{
-        $("#totalPrice").html(currentPrice + deliPrice - pointFee - couponFee - virtualCurrency);
+        $("#totalPrice").html((currentPrice + deliPrice  - couponFee - virtualCurrency).toFixed(2));
     }
     
 }
@@ -507,6 +513,22 @@ var forPaymentFllow = true;
                     </div>
                 </div>
             </#if>
+            <#if user?? &&user.roleId?? && user.roleId == 3>
+                <div class="main mt15">
+                    <div class="s_gwc3_1">
+                        <div class="s_gwc3_1_a">
+                            <p><span>使用返现金额</span></p>
+                        </div>
+                        <div class="invoice">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="text" id="virtualCurrency" name="virtualCurrency" value="" >
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="orange">可用余额：￥<b id="">${user.directSaleCashRewards!''}</b>元</span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </#if>
             <span style="display:none" id="virtualCurrencyfee">0.00</span>
     <#-->   
             <div class="main mt15">
@@ -527,7 +549,8 @@ var forPaymentFllow = true;
                     <input id="idTotalPriceSteady" type="hidden" value="${(totalPrice)?string("#.##")}" />
                     <p>商品<span id="idTotalQuantity">${totalQuantity!'0'}</span>件  总价：商品价格（<span>¥<b id="currentPrice">${totalPrice?string("0.00")}</b></span>)
                      + 运费（<span>¥<b id="deliveryFee">${totalPostage!'0'}</b></span><#if totalPostagefeenot??>&nbsp;免邮￥（${totalPostagefeenot}）</#if>）
-                     - 积分抵扣（<span>￥<input disabled="disabled" id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）
+                     - 优惠券抵扣（<span>￥<b id="couponFee">0</b></span>）
+                     <#-- - 积分抵扣（<span>￥<input disabled="disabled" id="idPointUse" name="pointUse" style="width:30px; text-align:center;" value="0"/></span>）-->
                      = 商品总计(含运费)： <span>¥<b id="totalPrice">${(totalPrice+totalPostage!0)?string("0.00")}</b></span> </p>
                 </div>
             </div>

@@ -308,14 +308,14 @@ public class TdCouponService {
         return repository.findTopByTypeIdAndMobileAndIsDistributtedTrue(typeId, mobile);
     }
     
-    public TdCoupon findByTypeIdAndUsernameAndIsDistributtedTrue(Long typeId, String username)
+    public TdCoupon findByTypeIdAndUsernameAndIsDistributtedTrueAndIsOwnTrue(Long typeId, String username)
     {
         if (null == typeId || null == username)
         {
             return null;
         }
         
-        return repository.findTopByTypeIdAndUsernameAndIsDistributtedTrue(typeId, username);
+        return repository.findTopByTypeIdAndUsernameAndIsDistributtedTrueAndIsOwnTrue(typeId, username);
     }
     /**
 	 * @author lc

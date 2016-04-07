@@ -182,6 +182,7 @@ $(function () {
             <input type="radio" name="roleId" value="0" datatype="n" <#if user?? && user.roleId?? && user.roleId==0>checked="checked"</#if>><label>普通用户</label>
             <input type="radio" name="roleId" value="1" datatype="n" <#if user?? && user.roleId?? && user.roleId==1>checked="checked"</#if>><label>分销商</label>
             <input type="radio" name="roleId" value="2" datatype="n" <#if user?? && user.roleId?? && user.roleId==2>checked="checked"</#if>><label>商城会员</label>
+            <input type="radio" name="roleId" value="3" datatype="n" <#if user?? && user.roleId?? && user.roleId==3>checked="checked"</#if>><label>直营会员</label>
         </span>
       </div>
       <span class="Validform_checktip"></span>
@@ -355,8 +356,8 @@ $(function () {
     </dd>
   </dl>
   <dl>
-    <dt>提现冻结金额</dt>
-    <dd><input name="cashRewardsFrozen" type="text" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.cashRewardsFrozen??>${user.cashRewardsFrozen?c}</#if>"> <span class="Validform_checktip"></span></dd>
+   <#-- <dt>提现冻结金额</dt>  -->
+    <dd><input name="cashRewardsFrozen" type="hidden" id="txtPay_Password" class="input normal"sucmsg=" " value="<#if user?? && user.cashRewardsFrozen??>0<#else>0</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
   </#if>
   <dl>
@@ -393,9 +394,18 @@ $(function () {
   </dl>
   <dl>
     <dt>冻结金额</dt>
-    <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.frozenCapital??>${user.frozenCapital?c}</#if>"> <span class="Validform_checktip"></span></dd>
+    <dd><input name="frozenCapital" type="text" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.frozenCapital??>${user.frozenCapital?c}<#else>0</#if>"> <span class="Validform_checktip"></span></dd>
   </dl>
+
+  </#if>
+  <#if !user?? || user?? && user.roleId?? && user.roleId == 3>
   <dl>
+    <dt>返现金额</dt>
+    <dd><input name="virtualCurrency" type="text" disabled="disabled" id="" class="input normal"  sucmsg=" " value="<#if user?? && user.directSaleCashRewards??>${user.directSaleCashRewards?c}</#if>"> 
+    <span class="Validform_checktip"></span>
+    
+    </dd>
+  </dl>
   </#if>
 </div>
 

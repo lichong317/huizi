@@ -124,7 +124,7 @@ function checkTime(i)
                            <li>
                                <div class="clear"></div>
                                <div class="left_pic">
-                                    <a href="/goods/${goods.id?c}?qiang=1"><img src="${goods.groupSaleImage!''}" width="396" height="307" ></a>
+                                    <a href="/goods/${goods.id?c}?qiang=1"><img src="${goods.flashSaleImage!''}" width="396" height="307" ></a>
                                </div>
                                <div class="right_infor"> 
                                     <div class="infor_top">

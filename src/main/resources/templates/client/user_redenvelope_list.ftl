@@ -84,7 +84,7 @@ function __doPostBack(eventTarget, eventArgument) {
                 <#if redenvelope_page??>
                     <#list redenvelope_page.content as item>
                         <tr id="tr_1424195166">
-                            <td width=10>${item_index}</td>
+                            <td width=10>${item_index + 1}</td>
                             <td class="tb01">
                                 <a href="#" target="_blank"  clstag="homepage|keycount|guanzhu|shangpin01">${item.typeTitle!''}</a>
                             </td>

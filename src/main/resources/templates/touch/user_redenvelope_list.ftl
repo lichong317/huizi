@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -79,7 +80,7 @@ function redEnvelopeGet(redenvelopeId){
    <#if redenvelope_page??>
         <#list redenvelope_page.content as item>
               <a href="/touch/user/redenvelope/list?statusId=2&redenvelopeId=${item.id?c}" <#if !item.isGet?? || !item.isGet>onclick="redEnvelopeGet(${item.id?c})"</#if>class="redbag mt20">
-                  <h3><span class="red absolute-r">￥50</span>${item.typeTitle!''}</h3>
+                  <h3><span class="red absolute-r"></span>${item.typeTitle!''}</h3>
                   <p class="mt20 c9"><span class="red absolute-r"><#if item.isGet>查看<#else>拆开</#if>>> </span>发放日期：<#if item.sendTime??>${item.sendTime?string("yyyy-MM-dd")}</#if></p>
               </a>
         </#list>

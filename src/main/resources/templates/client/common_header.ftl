@@ -35,7 +35,7 @@ function move()
         <a class="a" href="/login" style="float:left; color:#ff4040;" target="_blank">登录<i></i></a>
         <a class="a" href="/reg<#if shareId??>?shareId=${shareId}"</#if>" style="float:left;" target="_blank">注册<i></i></a>
     </#if>
-    <a class="a2" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes">在线咨询</a>
+    <a class="a2" href="http://wpa.qq.com/msgrd?v=3&uin=<#if site??>${site.qq!''}</#if>&site=qq&menu=yes">在线咨询</a>
     <a class="a3" href="/user">会员俱乐部</a>
     <a class="z-in10" href="/info/list/12">帮助中心</a>
     <a class="a4" href="/user/order/list/0">我的订单<i></i></a>
@@ -189,6 +189,6 @@ function delItem(id)
   <a class="a1" href="/cart" title="购物车"><span>购物车</span></a>
   <a class="a2" href="/user/collect/list" title="我的关注"><span>我的关注</span></a>
   <a class="a3" href="/user/recent/list" title="我的足迹"><span>我的足迹</span></a>
-  <a class="a4" href="http://wpa.qq.com/msgrd?v=3&uin=${site.qq!''}&site=qq&menu=yes" title="在线客服"><span>在线客服</span></a>
+  <a class="a4" href="http://wpa.qq.com/msgrd?v=3&uin=<#if site??>${site.qq!''}</#if>&site=qq&menu=yes" title="在线客服"><span>在线客服</span></a>
    <a class="a5" href="javascript:move();" title="回到顶部"><span>回到顶部</span></a>
 </aside>

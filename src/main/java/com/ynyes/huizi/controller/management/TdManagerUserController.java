@@ -242,6 +242,13 @@ public class TdManagerUserController {
         {
             map.addAttribute("userWithdrawId", id);
             map.addAttribute("user_withdraw", tdUserWithdrawService.findOne(id));
+            
+            TdUserWithdraw tdUserWithdraw = tdUserWithdrawService.findOne(id);
+            if (null != tdUserWithdraw) {
+				if (null != tdUserWithdraw.getUsername()) {
+					map.addAttribute("user", tdUserService.findByUsernameAndIsEnabled(tdUserWithdraw.getUsername()));
+				}
+			}
         }
         
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
@@ -278,13 +285,31 @@ public class TdManagerUserController {
 			if (null != tdUser.getRoleId()) {
 				if (tdUser.getRoleId().equals(1L)) {
 					if (null != tdUser.getTotalCashRewards()) {
-						tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()));
+						if ((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()) < 0) {
+							tdUser.setTotalCashRewards(0L);
+						}else {
+							tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() - tdUserWithdraw.getTotalWithdraw()));
+						}						
 						tdUserService.save(tdUser);
 					}
 				}
 				else if (tdUser.getRoleId().equals(2L)) {
 					if (null != tdUser.getVirtualCurrency()) {
-						tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdUserWithdraw.getTotalWithdraw());
+						if (tdUser.getVirtualCurrency() - tdUserWithdraw.getTotalWithdraw() < 0) {
+							tdUser.setVirtualCurrency(0.0);
+						}else {
+							tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdUserWithdraw.getTotalWithdraw());
+						}						
+						tdUserService.save(tdUser);
+					}
+				}
+				else if (tdUser.getRoleId().equals(3L)) {
+					if (null != tdUser.getDirectSaleCashRewards()) {
+						if (tdUser.getDirectSaleCashRewards() - tdUserWithdraw.getTotalWithdraw() < 0) {
+							tdUser.setDirectSaleCashRewards(0.0);
+						}else {
+							tdUser.setDirectSaleCashRewards(tdUser.getDirectSaleCashRewards() - tdUserWithdraw.getTotalWithdraw());
+						}						
 						tdUserService.save(tdUser);
 					}
 				}

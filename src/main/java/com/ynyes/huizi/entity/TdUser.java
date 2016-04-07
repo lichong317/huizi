@@ -252,6 +252,9 @@ public class TdUser {
     @Column
     private Double frozenCapital;
     
+    // 直营会员返现
+    private Double directSaleCashRewards; 
+    
     // 微信openid
     @Column
     private String openid;
@@ -296,7 +299,15 @@ public class TdUser {
         this.headImageUri = headImageUri;
     }
 
-    public String getOpenid() {
+    public Double getDirectSaleCashRewards() {
+		return directSaleCashRewards;
+	}
+
+	public void setDirectSaleCashRewards(Double directSaleCashRewards) {
+		this.directSaleCashRewards = directSaleCashRewards;
+	}
+
+	public String getOpenid() {
 		return openid;
 	}
 

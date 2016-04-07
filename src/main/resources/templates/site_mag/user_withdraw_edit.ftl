@@ -27,7 +27,7 @@
   <a href="/Verwalter/user/withdraw/list?statusId=${statusId!""}" class="back"><i></i><span>返回列表页</span></a>
   <a href="/Verwalter/center" class="home"><i></i><span>首页</span></a>
   <i class="arrow"></i>
-  <span>分销用户</span>
+  <span>分销(商城)用户</span>
   <i class="arrow"></i>
   <span>提现列表</span>
   <i class="arrow"></i>
@@ -52,6 +52,18 @@
     <dt>用户名</dt>
     <dd><#if user_withdraw??>${user_withdraw.username!""}</#if></dd>
   </dl>
+  
+  <dl>
+    <dt>用户当前余额</dt>
+    <dd>
+    	<#if user?? && user.roleId?? && user.roleId == 1>
+    		<span style="color:red">￥<#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></span>
+    	<#elseif user?? && user.roleId?? && user.roleId == 2>
+  	  	 <span style="color:red">￥<#if user.virtualCurrency??>${user.virtualCurrency?string("0.00")}</#if></span>
+    	</#if>
+    </dd>
+  </dl>
+  
   <dl>
     <dt>真实姓名</dt>
     <dd><#if user_withdraw??>${user_withdraw.realName!""}</#if></dd>

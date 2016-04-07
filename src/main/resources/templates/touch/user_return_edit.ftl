@@ -15,6 +15,7 @@
 <script src="/touch/js/message.js"></script>
 <link href="/touch/css/message.css" rel="stylesheet" type="text/css" />
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -78,12 +79,12 @@ $(document).ready(function(){
 <#if has_returned?? && has_returned>
         <div class="clear h01"></div>
         <b><font>* </font>问题描述：</b>
-        <textarea class="reviews_area" placeholder="评价内容" >${return.reason!''}</textarea>
+        <textarea class="reviews_area" placeholder="评价内容" ><#if return??>${return.reason!''}</#if></textarea>
         <p class="pt10 pb10 w100 mt10">
-            <input type="radio" disabled="disabled" <#if has_returned??&&has_returned&&return.isReturn?? && return.isReturn> checked="checked"</#if>/>退货
-            <input type="radio" disabled="disabled" <#if has_returned??&&has_returned&&return.isReturn?? && !return.isReturn>checked="checked"</#if>/>换货            
+            <input type="radio" disabled="disabled" <#if has_returned??&&has_returned && return??&&return.isReturn??  && return.isReturn> checked="checked"</#if>/>退货
+            <input type="radio" disabled="disabled" <#if has_returned??&&has_returned && return??&&return.isReturn??  && !return.isReturn>checked="checked"</#if>/>换货            
         </p> 
-        <h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>       
+        <h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if return?? && return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>       
 
 <#else>
 <form class="commentForm" action="/touch/user/return/save" method="post">

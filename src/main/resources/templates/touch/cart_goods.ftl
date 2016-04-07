@@ -20,8 +20,8 @@
     </#list>
     <div class="carfoot_bg clear"></div>
     <footer class="carfoot mainbox">
-      <p class="pt20 pb10"><#if cart_goods_list??>${cart_goods_list?size}</#if>件商品</p>
-      <p class="pb20">合计<span class="red ml10 mr10">￥<#if cart_goods_list??>${totalPrice?string("0.00")}</#if></span>不含运费</p>
+      <p class="pt20 "><#if cart_goods_list??>${cart_goods_list?size}</#if>件商品</p>
+      <p class="">合计<span class="red ml10 mr10">￥<#if cart_goods_list??>${totalPrice?string("0.00")}</#if></span>不含运费</p>
       <input type="submit" value="去结算" class="sub" onclick="window.location.href='/touch/order/info<#if shareId??>?shareId=${shareId}</#if>'"/>
     </footer>
 <#else>

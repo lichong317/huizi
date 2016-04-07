@@ -352,7 +352,7 @@ function runzp(data) {
     <div class="inner">
       <div class="firstScreen_left">
       <#if user??>
-        <div class="c_info"> <img class="e_head" src="${user.headImageUri!''}" width="66" height="66" alt="头像">
+        <div class="c_info"> <img class="e_head" src="<#if user.headImageUri?? && user.headImageUri ==''>/client/images/mymember/default_header.jpg<#else>${user.headImageUri!'/client/images/mymember/default_header.jpg'}</#if>" width="66" height="66" alt="头像">
           <h4><b id="username">${user.username!''}</b></h4>
           <span> <a href="#" target="_blank"> <b>${user.userLevelTitle!''}</b> </a> </span> </div>
         <div class="c_grow"> <span>
@@ -400,7 +400,7 @@ function runzp(data) {
     <div class="inner">
       <h2 class="t_h2"><em>抽奖专区</em></h2>
       <div class="u_lottery_left" id="awardbox">
-        <div class="g_about"> <a class="e_begin J_beginLottery" href="javascript:;"  id ="pointer">抽&nbsp;奖</a> <span>可抽奖次数<em class="J_lotteryNum" id ="lotteryNumber"><#if user??>${(5-user.lotteryNumber!'0')}</#if></em>次</span> <a class="e_check J_checkPrize" href="javascript:;">查看我的奖品&gt;&gt;</a> </div>
+        <div class="g_about"> <a class="e_begin J_beginLottery" href="javascript:;"  id ="pointer">抽&nbsp;奖</a> <span>可抽奖次数<em class="J_lotteryNum" id ="lotteryNumber"><#if user?? && user.lotteryNumber??>${(5-user.lotteryNumber)}<#else>5</#if></em>次</span> <a class="e_check J_checkPrize" href="/user/myprize/list">查看我的奖品&gt;&gt;</a> </div>
         <ol class="c_prizes J_prizes">
             <#if prizeCategory??>
                 <#list prizeCategory as item>
@@ -409,38 +409,52 @@ function runzp(data) {
             </#if> 
             <li class="s_10 " data-name="感谢参与"><img src="/client/images/7c.jpg" alt="感谢参与"></li>    
         </ol>
+        
         <div class="b_lotteryTips J_lotteryTips S_winning winbg1" style="display: none;"> <a class="t_close s_tips J_closeTips" href="javascript:;"></a>
           <div class="g_tips">
             <h3 class="J_winPrize">今天的抽奖机会已经用完，明天再来吧！好礼天天等你拿</h3>
             <h2>很遗憾</h2>
             <p class="J_failTips">还差一点点就抽到了，继续加油哦~</p>
           </div>
-          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">返回&gt;&gt;</a> <a class="J_checkPrize" href="javascript:;">我的奖品&gt;&gt;</a> </div>
+          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">返回&gt;&gt;</a> <a class="J_checkPrize" href="/user/myprize/list">我的奖品&gt;&gt;</a> </div>
         </div>
+        
         <div class="b_lotteryTips J_lotteryTips S_winning winbg2" style="display: none;"> <a class="t_close s_tips J_closeTips" href="javascript:;"></a>
           <div class="g_tips">
             <h3 class="J_winPrize">您的积分余额不足！</h3>
             <h2>很遗憾</h2>
             <p class="J_failTips">还差一点点就抽到了，继续加油哦~</p>
           </div>
-          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">返回&gt;&gt;</a> <a class="J_checkPrize" href="javascript:;">我的奖品&gt;&gt;</a> </div>
+          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">返回&gt;&gt;</a> <a class="J_checkPrize" href="/user/myprize/list">我的奖品&gt;&gt;</a> </div>
         </div>
+        
         <div class="b_lotteryTips J_lotteryTips S_winning winbg3" style="display: none;"> <a class="t_close s_tips J_closeTips" href="javascript:;"></a>
           <div class="g_tips">
             <h3 class="J_winPrize">与大奖擦肩而过，感谢您的参与！</h3>
             <h2>很遗憾</h2>
             <p class="J_failTips">还差一点点就抽到了，继续加油哦~</p>
           </div>
-          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">继续抽奖&gt;&gt;</a> <a class="J_checkPrize" href="javascript:;">我的奖品&gt;&gt;</a> </div>
+          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">继续抽奖&gt;&gt;</a> <a class="J_checkPrize" href="/user/myprize/list">我的奖品&gt;&gt;</a> </div>
         </div>
+        
         <div class="b_lotteryTips J_lotteryTips S_winning winbg4" style="display: none;"> <a class="t_close s_tips J_closeTips" href="javascript:;"></a>
           <div class="g_tips">
             <h3 class="J_winPrize" id="prizeTitle">积分50个</h3>
             <h2>很遗憾</h2>
             <p class="J_failTips">还差一点点就抽到了，继续加油哦~</p>
           </div>
-          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">继续抽奖&gt;&gt;</a> <a class="J_checkPrize" href="javascript:;">我的奖品&gt;&gt;</a> </div>
+          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">继续抽奖&gt;&gt;</a> <a class="J_checkPrize" href="/user/myprize/list">我的奖品&gt;&gt;</a> </div>
         </div>
+        
+        <div class="b_lotteryTips J_lotteryTips S_winning winbg5" style="display: none;"> <a class="t_close s_tips J_closeTips" href="javascript:;"></a>
+          <div class="g_tips">
+            <h3 class="J_winPrize" id="prizeTitle">奖品已经抽完啦！</h3>
+            <h2>很遗憾</h2>
+            <p class="J_failTips">还差一点点就抽到了，继续加油哦~</p>
+          </div>
+          <div class="g_btns"> <a class="J_continueLottery" href="javascript:;" onClick="window.location.reload();">继续抽奖&gt;&gt;</a> <a class="J_checkPrize" href="/user/myprize/list">我的奖品&gt;&gt;</a> </div>
+        </div>
+        
        <#-- <div class="b_myPrizes J_myPrizes"> <a class="t_close s_prizes J_closeMyPrizes" href="javascript:;"></a>
           <h4>我的奖品</h4>
           <ol class="J_prizeList">

@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -40,6 +41,12 @@ $(document).ready(function(){
                 <#else>
                     <#assign virtual_limit = 0 />
                 </#if>
+            <#elseif user.roleId == 3>
+                <#if user.directSaleCashRewards??>
+                    <#assign virtual_limit = user.directSaleCashRewards />
+                <#else>
+                    <#assign virtual_limit = 0 />
+                </#if>
             <#else>
                  <#assign virtual_limit = 0 />
             </#if>
@@ -57,8 +64,8 @@ $(document).ready(function(){
                 $("#totalPrice").html(0);
                 $("#totalPriceBottom").html(0);
             }else{
-                $("#totalPrice").html(currentPrice + deliPrice - couponFee);
-                $("#totalPriceBottom").html(currentPrice + deliPrice - couponFee);
+                $("#totalPrice").html((currentPrice + deliPrice - couponFee).toFixed(2));
+                $("#totalPriceBottom").html((currentPrice + deliPrice - couponFee).toFixed(2));
             }
         }
         else{
@@ -66,8 +73,8 @@ $(document).ready(function(){
             $("#virtualCurrencyfee").html(virtualCurrency);
             
             if(currentPrice + deliPrice >  couponFee + virtualCurrency){
-                $("#totalPrice").html(currentPrice + deliPrice - couponFee - virtualCurrency);
-                $("#totalPriceBottom").html(currentPrice + deliPrice - couponFee - virtualCurrency);
+                $("#totalPrice").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
+                $("#totalPriceBottom").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
             }
             else{
                 $("#totalPrice").html(0);
@@ -100,8 +107,8 @@ function couponChange(price)
         $("#totalPriceBottom").html(0);
     }
     else{
-        $("#totalPrice").html(currentPrice + deliPrice - couponFee - virtualCurrency);
-        $("#totalPriceBottom").html(currentPrice + deliPrice - couponFee - virtualCurrency);
+        $("#totalPrice").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
+        $("#totalPriceBottom").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
     }
     
 }
@@ -157,7 +164,7 @@ function checkCod(){
 		<a href="/touch/goods/${item.goodsId?c}" class="prolist mainbox bot-border whitebg">
 		  <b class="img"><img src="${item.goodsCoverImageUri!''}" /></b>
 		  <section>
-		  <p class="h07 oh lh3" style="height:30px">${item.goodsTitle!''}</p>
+		  <p class="h07 oh lh3" style="height:32px">${item.goodsTitle!''}</p>
 		  <p class="c8 mt10">单价：￥<#if item.price??>${item.price?string("0.00")}</#if></p>
 		  <p class="c8">数量：${item.quantity!''}</p>
 		  </section>
@@ -221,6 +228,11 @@ function checkCod(){
 	<div class="checkdown whitebg">
 	  <div class="a1" >使用返现金额<div class="box01">可用余额<br/>￥${user.totalCashRewards!''}元</div><input type="text" class="text text01" value="" id="virtualCurrency" name="virtualCurrency"/></div> 
 	</div>
+</#if>
+<#if user?? &&user.roleId?? && user.roleId == 3>
+    <div class="checkdown whitebg">
+      <div class="a1" >使用返现金额<div class="box01">可用余额<br/>￥${user.directSaleCashRewards!''}元</div><input type="text" class="text text01" value="" id="virtualCurrency" name="virtualCurrency"/></div> 
+    </div>
 </#if>
 <span style="display:none" id="virtualCurrencyfee">0.00</span>
 <div class="checkdown whitebg">

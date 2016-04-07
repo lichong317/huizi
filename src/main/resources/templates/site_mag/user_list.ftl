@@ -255,7 +255,7 @@ $(function () {
                       <a class="msg" href="/Verwalter/user/recent/list?userId=${user.id?c}" title="浏览历史">浏览历史</a>
                       <a class="redenvelope" href="javascript:RedEnvelopetoOne('${user.username}');" title="发送红包">发送红包</a>
                       <a class="lottery" href="javascript:PrizetoOne('${user.username}');" title="指定抽奖">指定抽奖</a>
-                      <#if user.roleId?? && user.roleId==1>
+                      <#if user.roleId?? && user.roleId==1 || user.roleId?? && user.roleId==3>
                           <a class="sms" href="/Verwalter/user/reward/list?userId=${user.id?c}" title="返现记录">返现记录</a>
                       </#if>
                     </span>

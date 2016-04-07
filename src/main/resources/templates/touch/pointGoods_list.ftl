@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -40,7 +41,7 @@ $(document).ready(function(){
 <#if goods_page??>
       <#list goods_page.content as tdPointGoods>
       		<a href="/touch/pointGoods/${tdPointGoods.id?c}" class="prolist mainbox bot-border whitebg">
-			  <b class="img"><img src="${tdPointGoods.coverImageUri!''}" /></b>
+			  <b class="img"><img src="${tdPointGoods.coverImageUri!''}" style="width:70px; height:70px"/></b>
 			  <section>
 			  <p class="h07 oh">${tdPointGoods.title!''}</p>
 			  <p class="red mt20">${tdPointGoods.pointUse!'0'}分</p>

@@ -83,6 +83,10 @@ public class TdProductCategory {
     @Column
     private Boolean isEnable;
     
+    // 直营会员返利比例
+    @Column(scale=2)
+    private Double returnRation;
+    
 	public Long getId() {
         return id;
     }
@@ -107,7 +111,15 @@ public class TdProductCategory {
         this.parentId = parentId;
     }
 
-    public Boolean getIsEnable() {
+    public Double getReturnRation() {
+		return returnRation;
+	}
+
+	public void setReturnRation(Double returnRation) {
+		this.returnRation = returnRation;
+	}
+
+	public Boolean getIsEnable() {
 		return isEnable;
 	}
 

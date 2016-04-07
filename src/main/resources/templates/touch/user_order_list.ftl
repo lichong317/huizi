@@ -12,6 +12,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
 <meta content="telephone=no" name="format-detection">
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 
@@ -122,7 +123,7 @@ function orderReceive(id)
             </section>
             <#if order.orderGoodsList??>
                  <#list order.orderGoodsList as ordergoods>
-                      <a href="/touch/goods/${ordergoods.goodsId?c}" class="prolist mainbox bot-border whitebg">
+                      <a href="<#if order.typeId?? && order.typeId == 5>/touch/pointGoods/${ordergoods.goodsId?c}<#else>/touch/goods/${ordergoods.goodsId?c}</#if>" class="prolist mainbox bot-border whitebg">
                           <b class="img"><img src="${ordergoods.goodsCoverImageUri!''}" /></b>
                           <section>
                           <p class="h07 oh">${ordergoods.goodsTitle!''}</p>
@@ -151,10 +152,16 @@ function orderReceive(id)
                       <a href="javascript:orderReceive(${order.id?c});" onClick="receiveConfirm()"  class="inblock pr10 pl10 redbg white ml10 bor-rad">确认收货</a>
                  <#elseif order.statusId==5>
                       <span class="red absolute-l">待评价</span>
-                      <a href="/touch/user/comment/edit?orderId=${order.id?c}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">去评价</a>
+                      <#if order.typeId?? && order.typeId == 5>
+                      <#else>
+                      	<a href="/touch/user/comment/edit?orderId=${order.id?c}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">去评价</a>
+                      </#if>
                  <#elseif order.statusId==6>
                       <span class="red absolute-l">已完成</span>
-                      <a href="/touch/user/return/list?keywords=${order.orderNumber!''}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">售后</a>
+                      <#if order.typeId?? && order.typeId == 5>
+                      <#else>
+                      	<a href="/touch/user/return/list?keywords=${order.orderNumber!''}"  class="inblock pr10 pl10 redbg white ml10 bor-rad">售后</a>
+                      </#if>
                       <a href="/touch/user/order/delete?id=${order.id?c}" onClick="deleteConfirm()"  class="inblock pr10 pl10 redbg white ml10 bor-rad">删除订单</a>
                  <#elseif order.statusId==7>
                       <a href="/touch/user/order/delete?id=${order.id?c}" onClick="deleteConfirm()"  class="inblock pr10 pl10 redbg white ml10 bor-rad">删除订单</a>

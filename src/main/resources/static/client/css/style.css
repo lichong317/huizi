@@ -500,7 +500,16 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 .down2{background:#35302d; height:182px; padding-top:30px;}
 .down3{background:#1f1a17; height:92px; color:#fff;}
 
-.down1 li{width:145px; float:left; color:#FFF; line-height:30px; margin-left:55px; font-size:16px;}
+/*.down1 li{width:145px; float:left; color:#FFF; line-height:30px; margin-left:55px; font-size:16px;}*/
+.down1 li {
+  width: 116px;
+  float: left;
+  color: #FFF;
+  line-height: 30px;
+  margin-left: 55px;
+  font-size: 16px;
+  display: block;
+}
 .downli li{width:145px; float:left; color:#FFF; line-height:30px; font-size:14px; margin-left:0;}
 .down1 ul{margin-top:20px;}
 

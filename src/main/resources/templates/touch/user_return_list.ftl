@@ -11,6 +11,7 @@
 <script src="/touch/js/jquery-1.9.1.min.js"></script>
 <script src="/touch/js/common.js"></script>
 
+<link rel="shortcut icon" href="/client/images/little_logo.ico" />
 <link href="/touch/css/common.css" rel="stylesheet" type="text/css" />
 <link href="/touch/css/style.css" rel="stylesheet" type="text/css" />
 

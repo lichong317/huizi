@@ -28,11 +28,15 @@
             <a href="/user/coupon/list/0">优惠券</a>
             <a href="/user/point/list">积分</a>
             <a href="/user/redenvelope/list">红包</a>
+            <a href="/user/myprize/list">我的奖品</a>
             <#if user?? && user.roleId?? && user.roleId == 1>
                 <a href="/user/junioruser/list">下级用户</a>
                 <a href="/user/account/info">账户信息</a>
             </#if>
             <#if user?? && user.roleId?? && user.roleId == 2>
+                <a href="/user/mall/account/info">账户信息</a>
+            </#if>
+            <#if user?? && user.roleId?? && user.roleId == 3>
                 <a href="/user/mall/account/info">账户信息</a>
             </#if>
         </div>
@@ -52,7 +56,7 @@
         <div>
             <a href="/user/info">个人信息</a>
             <a href="/user/password">修改密码</a>
-            <a href="#">修改绑定手机</a>
+            <#--<a href="#">修改绑定手机</a> -->
             <a href="/user/address/list">收货地址</a>
         </div>
     </div>
