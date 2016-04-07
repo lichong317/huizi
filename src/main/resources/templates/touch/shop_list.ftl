@@ -40,7 +40,7 @@ $(document).ready(function(){
 <#if shop_list??>
      <#list shop_list.content as item>
      	  <div class="shoplist center mt20">
-			  <a href="/touch/shop/${item.id?c}" class="block w100"><img src="${item.imageUri!''}" class="w100" height="230"/></a>
+			  <a href="/touch/shop/${item.id?c}" class="block w100"><img src="${item.imageUri!''}" class="w100" /></a>
 			  <h3 class="w90 mga pt10 pb10 bot-border fs3">${item.title!''}<#if item.isFlagShip?? && item.isFlagShip><span class="red">(旗舰店)</span></#if></h3>
 			  <p class="p1"><span>地址：</span>${item.address!''}</p>
 			  <p class="p2"><span>客服QQ：</span>${item.qq!''}</p>

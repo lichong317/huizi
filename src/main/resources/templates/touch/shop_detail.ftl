@@ -149,7 +149,7 @@ body, html,#myMap {width: 100%;height: 100%;margin:0;}
         <#if shop?? && shop.showPictures??>
             <#list shop.showPictures?split(",") as uri>
                 <#if ""!=uri>
-                    <li><img src="${uri!''}" height="280"/></li>
+                    <li><img src="${uri!''}"/></li>
                 </#if>
             </#list>
         </#if>
