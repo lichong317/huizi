@@ -39,6 +39,7 @@ function btnPageSubmit()
 }
 </script>
 <body>
+
 <!-- header开始 -->
 <#include "/client/common_header.ftl" />
 <!-- header结束 -->
@@ -95,24 +96,34 @@ function btnPageSubmit()
 
         <div class="wenzhangliebiao">
     <style>
-    .wenzhangliebiao{width: 948px;}
+.wenzhangliebiao{width: 948px;}
 .wenzhangliebiao img{width: 160px; height: 90px; float: left;}
 .wenzhangliebiao a{width:948px !important; float: left;}
 .wenzhangliebiao li{background: #f9f9f9; border-bottom: none !important; float: left; margin:10px 10px; line-height: 30px;}
 .wenzhangliebiao li:hover{background: #FF4454; color: #fff;}
 .wenzhangliebiao a:hover{color: #FFF;}
 .wenzhangliebiao p{ text-indent: 15px;}
+.wenzhangliebiao a:hover{ margin-left:15px; background:#FFF;}
+.wenzhangliebiao li:hover{ color: #fff;}
     </style>
             <ul>
                 <#if info_page??>
                     <#list info_page.content as item>
-                        <li>
+                       <#-- <li>
                             <a href="/info/content/${item.id?c}?mid=${item.menuId?c}">
                                 <img src="${item.imgUrl!''}">
                                 <p style="height: 60px; overflow: hidden; font-weight: bold;">${item.title!''}</p>
                                 <p style="text-align: right; padding-right: 10px;">${item.createTime!''}</p>
                             </a>
-                        </li>
+                        </li> -->
+                        <li>
+							<a href="/info/content/${item.id?c}?mid=${item.menuId?c}">
+								<img src="${item.imgUrl!''}">
+								<p style="height: 30px; overflow: hidden; font-weight: bold;">${item.title!''}</p>
+								<p style="height: 30px; overflow: hidden; font-size: 12px;opacity: 0.9;">${item.brief!''}</p>
+								<p style="text-align: right; padding-right: 10px;color: #ccc;">${item.createTime!''}</p>
+							</a>
+						</li>
                     </#list>
                 </#if>           
             </ul>
