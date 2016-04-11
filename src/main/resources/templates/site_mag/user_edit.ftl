@@ -276,7 +276,13 @@ $(function () {
   </dl>
   <dl>
     <dt>手机号码</dt>
-    <dd><input name="mobile" type="text" value="<#if user??>${user.mobile!""}</#if>" class="input normal" ignore="ignore" datatype="m" sucmsg=" " ></dd>
+    <dd>
+    	<#if user??>
+    		<span>${user.mobile!''}</span>
+    	<#else>
+    		<input name="mobile" type="text" value="<#if user??>${user.mobile!""}</#if>" class="input normal" ignore="ignore" datatype="m" ajaxurl="/reg/check/mobile" sucmsg=" " >
+    	</#if>
+	</dd>
   </dl>
   <dl>
     <dt>累计消费额</dt>

@@ -100,8 +100,8 @@ function btnPageSubmit()
 .wenzhangliebiao img{width: 160px; height: 90px; float: left;}
 .wenzhangliebiao a{width:948px !important; float: left;}
 .wenzhangliebiao li{background: #f9f9f9; border-bottom: none !important; float: left; margin:10px 10px; line-height: 30px;}
-.wenzhangliebiao li:hover{background: #FF4454; color: #fff;}
-.wenzhangliebiao a:hover{color: #FFF;}
+.wenzhangliebiao li:hover{color: #fff;}
+.wenzhangliebiao a:hover{color: #ff4454;}
 .wenzhangliebiao p{ text-indent: 15px;}
 .wenzhangliebiao a:hover{ margin-left:15px; background:#FFF;}
 .wenzhangliebiao li:hover{ color: #fff;}

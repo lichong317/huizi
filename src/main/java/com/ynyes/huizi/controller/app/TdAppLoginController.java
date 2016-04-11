@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ynyes.huizi.entity.TdAdType;
 import com.ynyes.huizi.entity.TdUser;
 import com.ynyes.huizi.service.TdOrderService;
 import com.ynyes.huizi.service.TdUserService;

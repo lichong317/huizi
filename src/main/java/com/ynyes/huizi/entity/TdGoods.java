@@ -15,8 +15,6 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import scala.annotation.meta.param;
-
 /**
  * 商品信息表
  * 

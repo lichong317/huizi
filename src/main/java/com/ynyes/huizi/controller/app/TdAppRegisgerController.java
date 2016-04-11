@@ -128,6 +128,13 @@ public class TdAppRegisgerController {
     		return res;
 		}
     	
+    	TdUser mobile_user = tdUserService.findByMobileAndIsEnabled(mobile);
+    	if (null != mobile_user) {
+    		res.put("status", 3); 
+    		res.put("msg", "该手机号已被注册");
+    		return res;
+		}
+    	
     	tdUser = tdUserService.addNewUser(null, mobile, password, mobile, null);
     	
     	tdUserService.save(tdUser);

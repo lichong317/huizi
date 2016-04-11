@@ -79,8 +79,10 @@ function showComplainTr(i, j)
                      <option value="0" <#if !states?? || states==0>selected="selected"</#if>>所有订单</option>
                      <option value="1" <#if states==1>selected="selected"</#if>>已投诉订单</option>                                              
                </select>
+          <#--
           </form>     
           <form  action ="/user/complain/list">
+          -->
                <input class="mysub" type="submit" value="查询" />
                <input class="mytext" name="keywords" type="text" onFocus="if(value=='商品名称、订单编号') {value=''}" onBlur="if (value=='') {value='商品名称、订单编号'}"  value="商品名称、订单编号" />
           </form>

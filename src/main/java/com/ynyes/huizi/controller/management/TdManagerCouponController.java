@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ynyes.huizi.service.TdProductCategoryService;
-import com.ynyes.huizi.entity.TdDiySite;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdManagerLogService;
+import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.util.SiteMagConstant;
 
 /**
@@ -300,6 +299,7 @@ public class TdManagerCouponController {
                      coupon.setTypeId(typeId);
                      coupon.setSortId(99L);
                      coupon.setPrice(cType.getPrice());
+                     coupon.setTypeDescription(cType.getDescription());
 				}
                 tdCouponService.save(coupon);
             }

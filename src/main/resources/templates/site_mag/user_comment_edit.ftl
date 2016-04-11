@@ -88,7 +88,7 @@
   </dl>
   <dl>
     <dt>评论得分</dt>
-    <dd><#if user_comment??>${user_comment.stars!""}</#if></dd>
+    <dd><#if user_comment??>${user_comment.goodsStar!""}</#if></dd>
   </dl>
   <dl>
     <dt>评论内容</dt>

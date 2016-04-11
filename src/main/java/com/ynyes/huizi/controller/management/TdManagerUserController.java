@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdCoupon;
 import com.ynyes.huizi.entity.TdCouponType;
 import com.ynyes.huizi.entity.TdGoods;
@@ -47,9 +46,9 @@ import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserComplain;
 import com.ynyes.huizi.entity.TdUserConsult;
 import com.ynyes.huizi.entity.TdUserLevel;
+import com.ynyes.huizi.entity.TdUserPoint;
 import com.ynyes.huizi.entity.TdUserReturn;
 import com.ynyes.huizi.entity.TdUserWithdraw;
-import com.ynyes.huizi.repository.TdUserPointRepo;
 import com.ynyes.huizi.service.TdCouponService;
 import com.ynyes.huizi.service.TdCouponTypeService;
 import com.ynyes.huizi.service.TdGoodsService;

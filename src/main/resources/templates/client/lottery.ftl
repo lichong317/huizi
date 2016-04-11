@@ -378,7 +378,7 @@ function runzp(data) {
         <div class="c_getAidou J_getAidou">
           <div class="g_btns"> <a href="#" target="_blank">签到赚积分</a> <a href="#" target="_blank">查看积分规则</a> </div>
           <#--<div class="l_mobile"> <a href="javascript:;"> <span class="g_text"> <b>手机每天也可以签到领取积分</b> <i></i> </span> <span class="g_code"> <img src="/client/images/erweima.jpg" alt="" width="150" height="150"> <em>扫一扫手机签到更方便</em> </span> </a> </div>-->
-          <div class="l_mobile"> <a href="javascript:;"> <span class="g_text"> <b>赶快参与抽奖吧>></i> </span></a> </div>
+          <div class="l_mobile"> <a href="javascript:;"> <span class="g_text"> <b>赶快参与抽奖吧></b></i> </span></a> </div>
         </div>
       </div>
       

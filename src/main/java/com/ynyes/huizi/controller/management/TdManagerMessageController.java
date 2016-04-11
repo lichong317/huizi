@@ -86,7 +86,7 @@ public class TdManagerMessageController {
     }
 	
 	@RequestMapping(value="/Verwalter/message/edit")
-    public String orderEdit(Long id,
+    public String orderEdit(Long messageId,
                         String __VIEWSTATE,
                         ModelMap map,
                         HttpServletRequest req){
@@ -98,9 +98,9 @@ public class TdManagerMessageController {
         
         map.addAttribute("__VIEWSTATE", __VIEWSTATE);
 
-        if (null != id)
+        if (null != messageId)
         {
-            map.addAttribute("ad_type", tdMessageService.findOne(id));
+            map.addAttribute("tdMessage", tdMessageService.findOne(messageId));
         }
         return "/site_mag/message_edit";
     }

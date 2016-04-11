@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.print.DocFlavor.STRING;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

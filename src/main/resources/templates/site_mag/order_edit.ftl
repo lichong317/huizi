@@ -738,9 +738,9 @@
                                         ${goods.goodsVersion!""}
                                         ${goods.goodsSaleType!""}
                                     </td>
-                                    <td>${goods.price?string("#.00")}<#if order.typeId?? && order.typeId == 5>(兑换积分：${goods.pointUse!'0'})</#if></td>
+                                    <td>${goods.price?string("0.00")}<#if order.typeId?? && order.typeId == 5>(兑换积分：${goods.pointUse!'0'})</#if></td>
                                     <td>${goods.quantity!""}</td>
-                                    <td>${(goods.price*goods.quantity)?string("#.00")}</td>
+                                    <td>${(goods.price*goods.quantity)?string("0.00")}</td>
                                 </tr>
                             </#list>
                         </#if>

@@ -85,32 +85,40 @@ $(document).ready(function(){
     });
 });
 
-function couponChange(price)
+function couponChange(price,id)
 {
-    var couponFee = parseFloat(price);
-    
-    if (undefined == couponFee)
-    {
-        couponFee = 0;
-    }
-    
-    var currentPrice = parseFloat($("#currentPrice").html());
-    //var payTypeFee = parseFloat($("#payTypeFee").html());
-    //var pointFee = parseFloat($("#idPointUse").val());
-    var deliPrice =  parseFloat($("#deliveryFee").html());
-    var virtualCurrency = parseFloat($("#virtualCurrencyfee").html());
 
-    $("#couponFeee").html(couponFee);
-    $("#couponFee").html(couponFee);
-    if( couponFee + virtualCurrency> currentPrice + deliPrice){
-        $("#totalPrice").html(0);
-        $("#totalPriceBottom").html(0);
-    }
-    else{
-        $("#totalPrice").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
-        $("#totalPriceBottom").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
-    }
-    
+	<#--
+		//获取单选按钮
+		var radio = document.getElementById(id);
+		if(radio && radio.ischecked === true){
+			radio.checked = false;
+		}
+	 -->
+	
+	    var couponFee = parseFloat(price);
+	    
+	    if (undefined == couponFee)
+	    {
+	        couponFee = 0;
+	    }
+	    
+	    var currentPrice = parseFloat($("#currentPrice").html());
+	    //var payTypeFee = parseFloat($("#payTypeFee").html());
+	    //var pointFee = parseFloat($("#idPointUse").val());
+	    var deliPrice =  parseFloat($("#deliveryFee").html());
+	    var virtualCurrency = parseFloat($("#virtualCurrencyfee").html());
+	
+	    $("#couponFeee").html(couponFee);
+	    $("#couponFee").html(couponFee);
+	    if( couponFee + virtualCurrency> currentPrice + deliPrice){
+	        $("#totalPrice").html(0);
+	        $("#totalPriceBottom").html(0);
+	    }
+	    else{
+	        $("#totalPrice").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
+	        $("#totalPriceBottom").html((currentPrice + deliPrice - couponFee - virtualCurrency).toFixed(2));
+	    }
 }
 
 function checkCod(){
@@ -208,7 +216,7 @@ function checkCod(){
   <section>
   	  <#if coupon_list??>
   	  	   <#list coupon_list as item>
-  	  	   		<p><input type="radio" name="couponId" value="${item.id?c}" onclick="chooseCoupon('${item.typeTitle!''}');couponChange(${item.price!''});"/>${item.typeTitle!''}</p>
+  	  	   		<p><input type="radio" name="couponId" id="coupon${item.id?c}" value="${item.id?c}" onclick="chooseCoupon('${item.typeTitle!''}');couponChange(${item.price!''},'coupon${item.id?c}');"/>${item.typeTitle!''}</p>
   	  	   </#list>
   	  </#if>
   </section>

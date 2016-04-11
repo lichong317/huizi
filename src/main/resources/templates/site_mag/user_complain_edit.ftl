@@ -53,15 +53,19 @@
     <dd><#if user_complain??>${user_complain.orderNumber!""}</#if></dd>
   </dl>
   <dl>
-    <dt>咨询用户</dt>
+    <dt>投诉用户</dt>
     <dd><#if user_complain??>${user_complain.username!""}</#if></dd>
   </dl>
   <dl>
-    <dt>咨询内容</dt>
+    <dt>投诉类型</dt>
+    <dd><#if user_complain??>${user_complain.type!""}</#if></dd>
+  </dl>
+  <dl>
+    <dt>投诉内容</dt>
     <dd><#if user_complain??>${user_complain.content!""}</#if></dd>
   </dl>
   <dl>
-    <dt>咨询时间</dt>
+    <dt>投诉时间</dt>
     <dd><#if user_complain??>${user_complain.consultTime!""}</#if></dd>
   </dl>
   <dl>

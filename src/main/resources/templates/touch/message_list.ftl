@@ -52,7 +52,6 @@ $(document).ready(function(){
     <#if message_page?? && message_page.content?size gt 0>
         <#list message_page.content as item>
             <a href="/touch/message/edit?messageId=${item.id?c}" class="news_gg">
-              <i></i>
               <h3>${item.title!''}</h3>
               <p class="fs2 c9">${item.createTime!''}</p>
               <p class="c8 pt10">${item.brief!''}</p>

@@ -185,6 +185,7 @@ $(function () {
         	<option <#if roleId?? && roleId==0>selected="selected"</#if> value="0">普通会员</option>
         	<option <#if roleId?? && roleId==1>selected="selected"</#if> value="1">分销用户</option>
         	<option <#if roleId?? && roleId==2>selected="selected"</#if> value="2">商城会员</option>
+        	<option <#if roleId?? && roleId==3>selected="selected"</#if> value="3">直营会员</option>
         </select>
         </div>
         <div class="rule-single-select single-select">
@@ -262,7 +263,7 @@ $(function () {
                   </div>
                 </td>
                 <td align="left">${user.userLevelTitle!""}</td>
-                <td><#if user.roleId?? && user.roleId==0>普通会员<#elseif user.roleId?? && user.roleId==1>分销商<#elseif user.roleId?? && user.roleId==2>商城会员</#if></td>
+                <td><#if user.roleId?? && user.roleId==0>普通会员<#elseif user.roleId?? && user.roleId==1>分销商<#elseif user.roleId?? && user.roleId==2>商城会员<#elseif user.roleId?? && user.roleId==3>直营会员</#if></td>
                 <td align="center">${user.email!""}</td>
                 <td align="center">${user.mobile!""}</td>
                 <td align="center">${user.lastLoginTime!""}</td>
