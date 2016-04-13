@@ -78,14 +78,13 @@ $(document).ready(function(){
 <div class="clear20"></div>
 <#if has_returned?? && has_returned>
         <div class="clear h01"></div>
-        <b><font>* </font>问题描述：</b>
-        <textarea class="reviews_area" placeholder="评价内容" ><#if return??>${return.reason!''}</#if></textarea>
+        <b style="padding:0;line-height:20px;margin-top:10px;">问题描述：<#if return??>${return.reason!''}</#if></b><br>
+		<b style="padding:0;line-height:20px;margin-top:10px;">处理信息：<#if return??>${return.handleDetail!''}</#if></b>
         <p class="pt10 pb10 w100 mt10">
             <input type="radio" disabled="disabled" <#if has_returned??&&has_returned && return??&&return.isReturn??  && return.isReturn> checked="checked"</#if>/>退货
             <input type="radio" disabled="disabled" <#if has_returned??&&has_returned && return??&&return.isReturn??  && !return.isReturn>checked="checked"</#if>/>换货            
-        </p> 
+        </p>
         <h3 style="text-align:right;color:#666;margin:20px 0;">状态：<#if return?? && return.statusId ==1><span style="color:#0060aa;text-align:right;">已处理</span><#else><span style="color:#fd3e3e;text-align:right;">待处理</span></#if></h3>       
-
 <#else>
 <form class="commentForm" action="/touch/user/return/save" method="post">
     <input type="hidden" name="id" value="${orderId?c}" />
@@ -99,7 +98,7 @@ $(document).ready(function(){
             <input type="radio" datatype="*" name="isReturn" value="false" />换货            
         </p> 
         <p class="ta-r"><input type="submit" value="提交" class="sub redbg w30 white h05 lh5 bor-rad mt10 " /></p>
-
+		
   <div class="clear20"></div>
 </form> 
 </#if>

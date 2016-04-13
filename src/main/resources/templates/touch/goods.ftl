@@ -344,7 +344,7 @@ function addCollect(goodsId)
                </#if>
           </#if>
       </#if>
-      <div class="clear h03"></div>
+      <div class="clear h11"></div>
     </section>
     <div class="w100" id="choose_bot"></div>
   </div>

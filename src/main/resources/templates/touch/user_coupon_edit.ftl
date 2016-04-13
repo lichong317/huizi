@@ -48,7 +48,7 @@ $(document).ready(function(){
           <section>
             <#--<h3>全场通用</h3> -->
             <h4>${tdCoupon.typeTitle!''}</h4>
-            <p>期限：<#if tdCoupon.getTime??>${tdCoupon.getTime?string("yyyy-MM-dd")}</#if>-<#if tdCoupon.expireTime??>${tdCoupon.expireTime?string("yyyy-MM-dd")}</#if></p>
+            <p>期限：<#if tdCoupon.getTime??>${tdCoupon.getTime?string("yyyy.MM.dd")}</#if>-<#if tdCoupon.expireTime??>${tdCoupon.expireTime?string("yyyy.MM.dd")}</#if></p>
           </section>
           <div class="num">
             <i></i>

@@ -1,5 +1,5 @@
 <#if !app??>
-<footer class="tabfix mainfoot" id="mainfoot" style="bottom:auto; top:1.1rem; display:none;">
+<footer class="tabfix mainfoot" id="mainfoot" style="bottom:auto; top:1.0rem; display:none;">
   <menu>
     <a href="/touch"><img src="/touch/images/foot01.png" /><p>首页</p></a>
     <a href="/touch/info/list/10"><img src="/touch/images/foot02.png" /><p>资讯</p></a>

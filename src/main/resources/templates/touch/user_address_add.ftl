@@ -198,18 +198,18 @@ $(document).ready(function(){
 <textarea id="detailAdd" class="pt20 pb20 w80 mga h09 border block mt20 ti1 fabg" placeholder="详细地址" ><#if address??>${address.detailAddress!''}</#if></textarea>
 <div class="text h07 lh7 fabg border w80 mga block ti1 mt20">
 <label>是否默认地址</label>
-<select id="isDefaultAddress"  name = "isDefaultAddress" style="float:right;border:none;height:0.7rem;width:0.7rem;">
+<select id="isDefaultAddress"  name = "isDefaultAddress" style="float:right;border:none;height:0.7rem;width:1.7rem;">
     <option value="1" <#if address?? && address.isDefaultAddress?? && address.isDefaultAddress>selected="selected"</#if>>是</option>
     <option value="0" <#if address?? && address.isDefaultAddress?? && !address.isDefaultAddress || !address??>selected="selected"</#if>>否</option>
 </select>
 <div>
 
 
-
-<div class="clear h130"></div>
-<footer class="addressfoot">
-  <input id="addAddressSubmit" type="submit" value="保存" class="sub" />
-</footer>
-  
+<div>
+	<div class="clear h130"></div>
+	<footer class="addressfoot" style="text-indent:0;">
+		<input id="addAddressSubmit" type="submit" value="保存" class="sub"  />
+	</footer>
+</div>
 </body>
 </html>

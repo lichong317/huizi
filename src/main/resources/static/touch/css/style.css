@@ -48,7 +48,7 @@
 .choosebox .close { display:block; width:0.6rem; position:absolute; left:-0.3rem; top:0.65rem; z-index:10;}
 .choosebox .tit { padding:0.3rem; background:#ddd; font-size:0.34rem; color:#000;}
 .choosebox .tit .sub { width:1.6rem; height:0.6rem; line-height:0.6rem; border-radius:3px; color:#fff; position:absolute; right:0.3rem; top:0.15rem; background:#fc3e3d; text-align:center;}
-.choosebox .con { padding:0 0.3rem; overflow:auto;}
+.choosebox .con { padding:0 0.3rem 1rem 0.3rem; overflow:auto;}
 .choosebox .con h3 { padding:0.35rem 0 0.2rem; font-size:0.3rem;}
 .choosebox .con a.a1,.choosebox .con a.a2 { display:inline-block; line-height:0.55rem; padding:0 0.2rem; margin:0 0.1rem 0.1rem 0; white-space:nowrap; }
 .choosebox .con a.a2 { border:1px solid #ddd; color:#999;}
@@ -133,7 +133,7 @@ a.procheck { background:url(../images/arrow01.png) no-repeat 97% center; backgro
 .profoot .a2 span { background-image:url(../images/info02.png);}
 .profoot .a3 { float:right; display:block; color:#fff; width:48%; text-align:center;background:#fc3e3d; font-size:0.35rem;}
 
-input.addcarbtn { width:100%; position:absolute; left:0; bottom:0;background:#fc3e3d; color:#fff; font-size:0.3rem; height:0.9rem; line-height:0.9rem;}
+input.addcarbtn { width:100%; position:absolute; left:0; bottom:1rem;background:#fc3e3d; color:#fff; font-size:0.3rem; height:0.9rem; line-height:0.9rem; z-index:10;}
 
 .evalmenu a { display:table-cell; text-align:center; padding:0.15rem 0; border-bottom:1px solid #ddd;}
 .evalmenu a.sel {color:#fc3e3d;}
@@ -236,13 +236,13 @@ input.addcarbtn { width:100%; position:absolute; left:0; bottom:0;background:#fc
 .news_xt { padding:0.2rem 0.4rem; background:#fff;display:block; border-bottom:1px solid #ddd; line-height:0.4rem;}
 
 .leave_area { padding:0.2rem 5%; width:80%; margin:0 auto; border:1px solid #ddd; background:#fff; display:block; height:1rem;}
-
-
-
-
-
-
-
+.ticketbot { background:#fff; border:1px solid #ddd; top:-1px; padding:0.2rem 0;}
+.ticketbot .sub { width:1.7rem; height:0.45rem; line-height:0.4rem; color:#fff; text-align:center; background:url(/touch/images/ticketbtn.png) no-repeat; background-size:100% 100%; display:block; margin-left:3.7rem;}
+.tui_text { background:#fff; text-align:center; border:2px solid #fc3e3d; padding:0.2rem 0; font-size:0.3rem;}
+.tuibox {}
+.tuibox p { padding:0.15rem 0 0.15rem 1.3rem; }
+.tuibox p span { position:absolute; left:0; top:0.15rem;}
+.tuibox p:last-child { border-top:1px solid #ddd;}
 
 
 

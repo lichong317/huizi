@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ynyes.huizi.entity.TdBrand;
 import com.ynyes.huizi.entity.TdGoods;
@@ -34,7 +31,6 @@ import com.ynyes.huizi.service.TdGoodsService;
 import com.ynyes.huizi.service.TdParameterService;
 import com.ynyes.huizi.service.TdProductCategoryService;
 import com.ynyes.huizi.util.ClientConstant;
-import com.ynyes.huizi.util.SMSUtil;
 
 
 @Controller

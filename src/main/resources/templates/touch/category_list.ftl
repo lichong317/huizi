@@ -33,7 +33,7 @@ $(document).ready(function(){
         <input type="submit" class="sub" value=" " /> 
       </section>
    </form>
-  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch" class="a2"><img src="/touch/images/back.png" /></a>
   <a href="/touch/message/list" class="a1"><img src="/touch/images/search02.png" /></a>
 </header>
 <div class="comheadbg"></div>

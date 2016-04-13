@@ -28,7 +28,7 @@ $(document).ready(function(){
 <body class="eeebg">
 <header class="comhead">
   <h2>个人中心</h2>
-  <a href="javascript:history.go(-1);" class="a2"><img src="/touch/images/back.png" /></a>
+  <a href="/touch" class="a2"><img src="/touch/images/back.png" /></a>
   <a href="/touch/message/list" class="a1"><img src="/touch/images/search02.png" /></a>
 </header>
 <div class="comheadbg"></div>
