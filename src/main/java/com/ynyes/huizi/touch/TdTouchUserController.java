@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,11 +33,13 @@ import com.ynyes.huizi.entity.TdGoods;
 import com.ynyes.huizi.entity.TdOrder;
 import com.ynyes.huizi.entity.TdOrderGoods;
 import com.ynyes.huizi.entity.TdPrize;
+import com.ynyes.huizi.entity.TdProductCategory;
 import com.ynyes.huizi.entity.TdRedEnvelope;
 import com.ynyes.huizi.entity.TdRedEnvelopeType;
 import com.ynyes.huizi.entity.TdSetting;
 import com.ynyes.huizi.entity.TdShippingAddress;
 import com.ynyes.huizi.entity.TdUser;
+import com.ynyes.huizi.entity.TdUserCashReward;
 import com.ynyes.huizi.entity.TdUserCollect;
 import com.ynyes.huizi.entity.TdUserComment;
 import com.ynyes.huizi.entity.TdUserComplain;
@@ -647,6 +651,15 @@ public class TdTouchUserController {
 				order.setReceiveTime(new Date());
 			}
 			tdOrderService.save(order);
+			// if (!order.getIsOnlinePay()) {
+			if (order.getTotalPrice() == 0) {
+				if (null != order.getTypeId() && order.getTypeId().equals(5L)) {
+					// pointOrderafterPaySuccess(order);
+				} else {
+					afterPaySuccess(order);
+				}
+				// }
+			}
 
 			res.put("code", 0);
 			res.put("message", "确认收货成功！！");
@@ -1205,18 +1218,18 @@ public class TdTouchUserController {
 		Date today = new Date();
 		Calendar calendar1 = Calendar.getInstance();
 		calendar1.setTime(today);
-
-		for (TdCoupon cl : coupanList) {
-			Date deadline = cl.getExpireTime();
-			Calendar calendar2 = Calendar.getInstance();
-			calendar2.setTime(deadline);
-			Long num = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
-			Double hourLeft = new Double(num / (1000 * 60 * 60)).doubleValue();
-			Long dateLeft = new Long(num / (1000 * 24 * 60 * 60)).longValue();
-			cl.setHourLeft(hourLeft);
-			cl.setDateLeft(dateLeft);
+		if (null != coupanList) {
+			for (TdCoupon cl : coupanList) {
+				Date deadline = cl.getExpireTime();
+				Calendar calendar2 = Calendar.getInstance();
+				calendar2.setTime(deadline);
+				Long num = calendar2.getTimeInMillis() - calendar1.getTimeInMillis();
+				Double hourLeft = new Double(num / (1000 * 60 * 60)).doubleValue();
+				Long dateLeft = new Long(num / (1000 * 24 * 60 * 60)).longValue();
+				cl.setHourLeft(hourLeft);
+				cl.setDateLeft(dateLeft);
+			}
 		}
-
 		map.addAttribute("listId", listId);
 		map.addAttribute("coupan_list", coupanList);
 
@@ -1312,10 +1325,10 @@ public class TdTouchUserController {
 	 */
 	@RequestMapping(value = "/user/get/coupon/add")
 	@ResponseBody
-	public Map<String, Object> userAddCoupon(HttpServletRequest req, ModelMap map,Long couponId,String username) {
+	public Map<String, Object> userAddCoupon(HttpServletRequest req, ModelMap map, Long couponId, String username) {
 		Map<String, Object> res = new HashMap<>();
 		res.put("status", -1);
-		
+
 		if (null == couponId) {
 			res.put("message", "未选择优惠券");
 			return res;
@@ -2965,5 +2978,524 @@ public class TdTouchUserController {
 		}
 
 		return res;
+	}
+
+	/**
+	 * 订单支付成功后步骤
+	 * 
+	 * @param tdOrder
+	 *            订单
+	 */
+	private void afterPaySuccess(TdOrder tdOrder) {
+		if (null == tdOrder) {
+			return;
+		}
+
+		// 用户
+		TdUser tdUser = tdUserService.findByUsername(tdOrder.getUsername());
+
+		if (null == tdUser) {
+			return;
+		}
+
+		// 设置消费总额
+		if (null != tdUser.getTotalSpendCash()) {
+			tdUser.setTotalSpendCash(tdUser.getTotalSpendCash() + tdOrder.getTotalPrice());
+		} else {
+			tdUser.setTotalSpendCash(tdOrder.getTotalPrice());
+		}
+
+		// 设置抢购最后时间
+		if (null != tdOrder.getTypeId() && tdOrder.getTypeId().equals(3L)) {
+			Date nextTime = new Date();
+
+			Calendar calendar = Calendar.getInstance();
+
+			calendar.setTime(nextTime);
+
+			calendar.add(Calendar.DATE, 30);
+
+			tdUser.setLastFlashBuyTime(calendar.getTime());
+			tdUser = tdUserService.save(tdUser);
+		}
+
+		if (tdOrder.getStatusId().equals(2L)) {
+			tdOrder.setPayTime(new Date()); // 设置付款时间
+		}
+
+		// 待发货
+		if (tdOrder.getStatusId().equals(2L)) {
+			tdOrder.setStatusId(3L);
+		}
+		tdOrder = tdOrderService.save(tdOrder);
+
+		// 虚拟货币扣除
+		// if (null != tdOrder.getVirtualCurrencyUse() && null !=
+		// tdUser.getVirtualCurrency()) {
+		// if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+		// tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() -
+		// tdOrder.getVirtualCurrencyUse());
+		// }else {
+		// tdUser.setVirtualCurrency(0.0);
+		// }
+		// tdUserService.save(tdUser);
+		// }
+		// 虚拟货币扣除
+
+		// 分享用户
+
+		// 分销用户返利（下级用户返利给上级用户）
+		if (null != tdUser.getUpperUsername()) {
+			TdUser tdUser2 = tdUserService.findByUsername(tdUser.getUpperUsername());
+			TdSetting tdSetting = tdSettingService.findTopBy();
+			if (null != tdSetting && null != tdSetting.getReturnRation() && null != tdUser2
+					&& null != tdUser2.getRoleId() && tdUser2.getRoleId().equals(1L)) {
+				// 返现记录
+				TdUserCashReward tdUserCashReward = new TdUserCashReward();
+
+				tdUserCashReward.setLowerUsername(tdOrder.getUsername());
+				tdUserCashReward.setUsername(tdUser.getUpperUsername());
+				tdUserCashReward.setRewardTime(new Date());
+
+				// 返现金额分情况计算
+				if (null != tdUser2.getReturnRation()) {
+					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdUser2.getReturnRation());
+				} else {
+					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+				}
+
+				if (null != tdUser.getTotalCashRewards()) {
+					if (null != tdUser2.getReturnRation()) {
+						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
+								+ tdOrder.getTotalPrice() * tdUser2.getReturnRation()));
+					} else {
+						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
+								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				} else {
+					if (null != tdUser2.getReturnRation()) {
+						tdUserCashReward
+								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdUser2.getReturnRation()));
+					} else {
+						tdUserCashReward
+								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				}
+				tdUserCashReward.setOrderNumber(tdOrder.getOrderNumber());
+
+				if (null != tdUser.getBankTitle()) {
+					tdUserCashReward.setBankName(tdUser.getBankTitle());
+				}
+				if (null != tdUser.getBankCardCode()) {
+					tdUserCashReward.setBankCardNumber(tdUser.getBankCardCode());
+				}
+
+				tdUserCashReward.setOrderPrice(tdOrder.getTotalPrice());
+				tdUserCashReward.setSortId(99L);
+
+				tdUserCashRewardService.save(tdUserCashReward);
+
+				Double totalReturn = 0.0;
+				if (null != tdUser2.getReturnRation()) {
+					totalReturn = tdOrder.getTotalPrice() * tdUser2.getReturnRation();
+				} else {
+					totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+				}
+
+				if (totalReturn < 0) {
+					totalReturn = 0.0;
+				}
+
+				TdUser upperuser = tdUserService.findByUsername(tdUser.getUpperUsername());
+				if (null != upperuser) {
+					// 返现总笔数
+					if (null != upperuser.getTotalCashRewardsNumber()) {
+						upperuser.setTotalCashRewardsNumber(upperuser.getTotalCashRewardsNumber() + 1);
+					} else {
+						upperuser.setTotalCashRewardsNumber(1L);
+					}
+
+					// 返现金额
+					if (null != upperuser.getTotalCashRewards()) {
+						upperuser.setTotalCashRewards((long) (upperuser.getTotalCashRewards() + totalReturn));
+					} else {
+						upperuser.setTotalCashRewards((long) (totalReturn + 0L));
+					}
+				}
+
+				tdUserService.save(upperuser);
+
+				// 返现给上级用户总数
+				if (null != tdUser.getTotalCashRewardsToUpuser()) {
+					tdUser.setTotalCashRewardsToUpuser((long) (tdUser.getTotalCashRewardsToUpuser() + totalReturn));
+				} else {
+					tdUser.setTotalCashRewardsToUpuser((long) (totalReturn + 0L));
+				}
+
+				tdUserService.save(tdUser);
+			}
+		}
+
+		// 分销用户自己返利
+		if (null != tdUser.getRoleId() && tdUser.getRoleId().equals(1L)) {
+			TdSetting tdSetting = tdSettingService.findTopBy();
+			if (null != tdSetting && null != tdSetting.getReturnRation()) {
+				// 返现记录
+				TdUserCashReward tdUserCashReward = new TdUserCashReward();
+
+				tdUserCashReward.setLowerUsername(tdOrder.getUsername());
+				tdUserCashReward.setUsername(tdUser.getUsername());
+				tdUserCashReward.setRewardTime(new Date());
+
+				// 返现金额分情况计算
+				if (null != tdUser.getReturnRation()) {
+					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdUser.getReturnRation());
+				} else {
+					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+				}
+
+				if (null != tdUser.getTotalCashRewards()) {
+					if (null != tdUser.getReturnRation()) {
+						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
+								+ tdOrder.getTotalPrice() * tdUser.getReturnRation()));
+					} else {
+						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
+								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				} else {
+					if (null != tdUser.getReturnRation()) {
+						tdUserCashReward
+								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdUser.getReturnRation()));
+					} else {
+						tdUserCashReward
+								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				}
+				tdUserCashReward.setOrderNumber(tdOrder.getOrderNumber());
+
+				if (null != tdUser.getBankTitle()) {
+					tdUserCashReward.setBankName(tdUser.getBankTitle());
+				}
+				if (null != tdUser.getBankCardCode()) {
+					tdUserCashReward.setBankCardNumber(tdUser.getBankCardCode());
+				}
+
+				tdUserCashReward.setOrderPrice(tdOrder.getTotalPrice());
+				tdUserCashReward.setSortId(99L);
+
+				tdUserCashRewardService.save(tdUserCashReward);
+
+				Double totalReturn = 0.0;
+				if (null != tdUser.getReturnRation()) {
+					totalReturn = tdOrder.getTotalPrice() * tdUser.getReturnRation();
+				} else {
+					totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+				}
+
+				if (totalReturn < 0) {
+					totalReturn = 0.0;
+				}
+
+				// TdUser upperuser =
+				// tdUserService.findByUsername(tdUser.getUpperUsername());
+
+				// 返现总笔数
+				if (null != tdUser.getTotalCashRewardsNumber()) {
+					tdUser.setTotalCashRewardsNumber(tdUser.getTotalCashRewardsNumber() + 1);
+				} else {
+					tdUser.setTotalCashRewardsNumber(1L);
+				}
+
+				// 返现金额
+				if (null != tdUser.getTotalCashRewards()) {
+					tdUser.setTotalCashRewards((long) (tdUser.getTotalCashRewards() + totalReturn));
+				} else {
+					tdUser.setTotalCashRewards((long) (totalReturn + 0L));
+				}
+
+				tdUserService.save(tdUser);
+
+				// 返现给上级用户总数
+				// if (null != tdUser.getTotalCashRewardsToUpuser()) {
+				// tdUser.setTotalCashRewardsToUpuser((long)
+				// (tdUser.getTotalCashRewardsToUpuser() + totalReturn));
+				// }else {
+				// tdUser.setTotalCashRewardsToUpuser((long) (totalReturn +
+				// 0L));
+				// }
+				//
+				// tdUserService.save(tdUser);
+			}
+		}
+
+		// 直营会员给自己返利
+		if (null != tdUser.getRoleId() && tdUser.getRoleId().equals(3L)) {
+			TdSetting tdSetting = tdSettingService.findTopBy();
+			if (null != tdSetting && null != tdSetting.getReturnRation()) {
+				// 返现记录
+				TdUserCashReward tdUserCashReward = new TdUserCashReward();
+
+				tdUserCashReward.setLowerUsername(tdOrder.getUsername());
+				tdUserCashReward.setUsername(tdUser.getUsername());
+				tdUserCashReward.setRewardTime(new Date());
+
+				// 返现金额分情况计算
+				Double totalReturn = 0.0;
+				Boolean isAllCategoryReturnRationNotNull = true;
+				if (null != tdOrder.getOrderGoodsList()) {
+					for (TdOrderGoods tdOrderGoods : tdOrder.getOrderGoodsList()) {
+						TdGoods tdGoods = tdGoodsService.findOne(tdOrderGoods.getGoodsId());
+						// 取第一级别类别的返利比例 后续可扩展至全类别
+						TdProductCategory tdProductCategory = null; // 第一级别类别
+						TdProductCategory tdProductCategorytemp = null;
+						tdProductCategorytemp = tdProductCategoryService.findOne(tdGoods.getCategoryId());
+						if (null == tdProductCategorytemp.getParentId()) {
+							tdProductCategory = tdProductCategorytemp;
+						} else {
+							tdProductCategorytemp = tdProductCategoryService
+									.findOne(tdProductCategorytemp.getParentId());
+							if (null == tdProductCategorytemp.getParentId()) {
+								tdProductCategory = tdProductCategorytemp;
+							} else {
+								tdProductCategorytemp = tdProductCategoryService
+										.findOne(tdProductCategorytemp.getParentId());
+								if (null == tdProductCategorytemp.getParentId()) {
+									tdProductCategory = tdProductCategorytemp;
+								}
+							}
+						}
+
+						if (null != tdProductCategory.getReturnRation()) {
+							if (null != tdGoods.getIsFeeNot()) {
+								if (tdGoods.getIsFeeNot()) {
+									totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
+								} else {
+									totalReturn += (tdGoods.getSalePrice() + tdGoods.getPostage())
+											* tdProductCategory.getReturnRation();
+								}
+							} else {
+								totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
+							}
+						} else {
+							isAllCategoryReturnRationNotNull = false;
+						}
+					}
+				}
+
+				if (totalReturn < 0) {
+					totalReturn = 0.0;
+				}
+
+				// 如果所有订单商品的类别返利比例都不为空 就用商品类别返利比例计算 返利总额 否则则用平台统一返利比例
+				if (isAllCategoryReturnRationNotNull) {
+					tdUserCashReward.setCashReward(totalReturn);
+				} else {
+					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+				}
+
+				if (null != tdUser.getDirectSaleCashRewards()) {
+					if (isAllCategoryReturnRationNotNull) {
+						tdUserCashReward.setTotalCashReward((long) (totalReturn + tdUser.getDirectSaleCashRewards()));
+					} else {
+						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
+								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				} else {
+					if (isAllCategoryReturnRationNotNull) {
+						tdUserCashReward.setTotalCashReward((long) (totalReturn + 0));
+					} else {
+						tdUserCashReward
+								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+					}
+
+				}
+
+				tdUserCashReward.setOrderNumber(tdOrder.getOrderNumber());
+
+				if (null != tdUser.getBankTitle()) {
+					tdUserCashReward.setBankName(tdUser.getBankTitle());
+				}
+				if (null != tdUser.getBankCardCode()) {
+					tdUserCashReward.setBankCardNumber(tdUser.getBankCardCode());
+				}
+
+				tdUserCashReward.setOrderPrice(tdOrder.getTotalPrice());
+				tdUserCashReward.setSortId(99L);
+
+				tdUserCashRewardService.save(tdUserCashReward);
+
+				// 返现总笔数
+				if (null != tdUser.getTotalCashRewardsNumber()) {
+					tdUser.setTotalCashRewardsNumber(tdUser.getTotalCashRewardsNumber() + 1);
+				} else {
+					tdUser.setTotalCashRewardsNumber(1L);
+				}
+
+				// 返现金额
+				if (null != tdUser.getDirectSaleCashRewards()) {
+					if (isAllCategoryReturnRationNotNull) {
+						tdUser.setDirectSaleCashRewards(tdUser.getDirectSaleCashRewards() + totalReturn);
+					} else {
+						tdUser.setDirectSaleCashRewards(tdUser.getDirectSaleCashRewards()
+								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+					}
+
+				} else {
+					if (isAllCategoryReturnRationNotNull) {
+						tdUser.setDirectSaleCashRewards(totalReturn);
+					} else {
+						tdUser.setDirectSaleCashRewards(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+					}
+				}
+
+				tdUserService.save(tdUser);
+			}
+		}
+
+		// 购买商品积分奖励
+		Long totalPoints = 0L; // 总用户返利
+		// 返利总额
+		List<TdOrderGoods> tdOrderGoodsList = tdOrder.getOrderGoodsList();
+		if (null != tdOrderGoodsList) {
+			for (TdOrderGoods tog : tdOrderGoodsList) {
+				TdGoods tdGoods = tdGoodsService.findOne(tog.getGoodsId());
+
+				if (null != tdGoods && null != tdGoods.getReturnPoints()) {
+					totalPoints += tdGoods.getReturnPoints() * tog.getQuantity();
+
+				}
+			}
+
+			final Long totalPointsDely = totalPoints;
+			final TdUser tdUserDely = tdUser;
+			final TdOrder tdOrderDely = tdOrder;
+			// 用户返利
+			if (null != tdUser) {
+				Timer timer = new Timer();
+				timer.schedule(new TimerTask() {
+					public void run() {
+						// System.out.println("-------设定要指定任务--------");
+						TdUserPoint userPoint = new TdUserPoint();
+						TdOrder tdOrder1 = tdOrderService.findByOrderNumber(tdOrderDely.getOrderNumber());
+
+						userPoint.setDetail("购买商品赠送积分");
+						userPoint.setOrderNumber(tdOrderDely.getOrderNumber());
+						userPoint.setPoint(totalPointsDely);
+						userPoint.setPointTime(new Date());
+						userPoint.setTotalPoint(tdUserDely.getTotalPoints() + totalPointsDely);
+						userPoint.setUsername(tdUserDely.getUsername());
+
+						userPoint = tdUserPointService.save(userPoint);
+
+						tdUserDely.setTotalPoints(userPoint.getTotalPoint());
+
+						// tdOrder1.setIsReturnPoints(true);
+						tdOrderService.save(tdOrder1);
+						tdUserService.save(tdUserDely);
+					}
+				}, 0);// 设定指定的时间time,
+
+			}
+		}
+
+	}
+
+	/**
+	 * 积分商品订单支付成功后步骤
+	 * 
+	 * @param tdOrder
+	 *            订单
+	 */
+	private void pointOrderafterPaySuccess(TdOrder tdOrder) {
+		if (null == tdOrder) {
+			return;
+		}
+
+		// 用户
+		TdUser tdUser = tdUserService.findByUsername(tdOrder.getUsername());
+
+		if (null == tdUser) {
+			return;
+		}
+
+		// 设置消费总额
+		if (null != tdUser.getTotalSpendCash()) {
+			tdUser.setTotalSpendCash(tdUser.getTotalSpendCash() + tdOrder.getTotalPrice());
+		} else {
+			tdUser.setTotalSpendCash(tdOrder.getTotalPrice());
+		}
+
+		// 设置抢购最后时间
+
+		if (tdOrder.getStatusId().equals(2L)) {
+			tdOrder.setPayTime(new Date()); // 设置付款时间
+		}
+
+		// 待发货
+		tdOrder.setStatusId(3L);
+		tdOrder = tdOrderService.save(tdOrder);
+
+		Long pointUse = 0L;
+
+		if (null != tdOrder.getOrderGoodsList().get(0).getPointUse()) {
+			pointUse = tdOrder.getOrderGoodsList().get(0).getPointUse();
+		}
+
+		// 积分扣除
+		if (null != tdUser) {
+			if (pointUse.compareTo(0L) >= 0 && tdUser.getTotalPoints().compareTo(pointUse) >= 0) {
+				TdUserPoint userPoint = new TdUserPoint();
+				userPoint.setDetail("积分兑换商品");
+				userPoint.setOrderNumber(tdOrder.getOrderNumber());
+				userPoint.setPoint(0 - pointUse);
+				userPoint.setPointTime(new Date());
+				userPoint.setUsername(tdUser.getUsername());
+				userPoint.setTotalPoint(tdUser.getTotalPoints() - pointUse);
+				tdUserPointService.save(userPoint);
+
+				tdUser.setTotalPoints(tdUser.getTotalPoints() - pointUse);
+				tdUserService.save(tdUser);
+			}
+		}
+
+	}
+
+	/**
+	 * 扣除虚拟货币的方法
+	 * 
+	 * @author DengXiao
+	 */
+	public void costVirtual(TdOrder tdOrder, TdUser tdUser) {
+		if (null != tdOrder.getVirtualCurrencyUse()) {
+			if (null != tdUser.getRoleId()) {
+				if (tdUser.getRoleId().equals(1L) && null != tdUser.getTotalCashRewards()) {
+					if (tdUser.getTotalCashRewards() > tdOrder.getVirtualCurrencyUse()) {
+						tdUser.setTotalCashRewards(
+								(long) (tdUser.getTotalCashRewards() - tdOrder.getVirtualCurrencyUse()));
+					} else {
+						tdUser.setTotalCashRewards(0L);
+					}
+				} else if (tdUser.getRoleId().equals(2L) && null != tdUser.getVirtualCurrency()) {
+					if (tdUser.getVirtualCurrency() > tdOrder.getVirtualCurrencyUse()) {
+						tdUser.setVirtualCurrency(tdUser.getVirtualCurrency() - tdOrder.getVirtualCurrencyUse());
+					} else {
+						tdUser.setVirtualCurrency(0.0);
+					}
+				} else if (tdUser.getRoleId().equals(3L) && null != tdUser.getDirectSaleCashRewards()) {
+					if (tdUser.getDirectSaleCashRewards() > tdOrder.getVirtualCurrencyUse()) {
+						tdUser.setDirectSaleCashRewards(
+								tdUser.getDirectSaleCashRewards() - tdOrder.getVirtualCurrencyUse());
+					} else {
+						tdUser.setDirectSaleCashRewards(0.0);
+					}
+				}
+				tdUserService.save(tdUser);
+			}
+		}
 	}
 }

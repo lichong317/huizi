@@ -96,8 +96,12 @@
                         </#if>
                       </td> -->
                       <td>
-                        <#if setting?? && setting.returnRation??>
-                        	${setting.returnRation * order.totalPrice}
+                      	<#if user??&&user.returnRation??>
+                      		${(user.returnRation * order.totalPrice)?int}
+                      	<#else>
+	                        <#if setting?? && setting.returnRation??>
+	                        	${(setting.returnRation * order.totalPrice)?int}
+	                        </#if>
                         </#if>
                       </td>
                       <td class="td003"> 

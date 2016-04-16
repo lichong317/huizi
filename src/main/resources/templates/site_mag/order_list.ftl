@@ -71,14 +71,15 @@ function __doPostBack(eventTarget, eventArgument) {
                         <a class="all" href="javascript:;" onclick="checkAll(this);"><i></i><span>全选</span></a>
                     </li>
                     <#if statusId?? && 1==statusId>
-                    <li>
-                        <a onclick="return ExePostBack('btnConfirm','确认后将进入待发货状态，是否继续？');" class="save" href="javascript:__doPostBack('btnConfirm','')"><i></i><span>确认订单</span></a>
-                    </li>
-                    <#elseif statusId?? && 7==statusId || statusId?? && 8==statusId>
-                    <li>
-                        <a onclick="return ExePostBack('btnDelete','删除后订单将无法恢复，是否继续？');" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除订单</span></a>
-                    </li>
+	                    <li>
+	                        <a onclick="return ExePostBack('btnConfirm','确认后将进入待发货状态，是否继续？');" class="save" href="javascript:__doPostBack('btnConfirm','')"><i></i><span>确认订单</span></a>
+	                    </li>
                     </#if>
+                    <#--<#elseif statusId?? && 7==statusId || statusId?? && 8==statusId>-->
+	                    <li>
+	                        <a onclick="return ExePostBack('btnDelete','删除后订单将无法恢复，是否继续（只有已取消的订单才能删除）？');" class="del" href="javascript:__doPostBack('btnDelete','')"><i></i><span>删除订单</span></a>
+	                    </li>
+                    <#--</#if>-->
                 </ul>
                 <div class="menu-list">
                     <div class="rule-single-select">

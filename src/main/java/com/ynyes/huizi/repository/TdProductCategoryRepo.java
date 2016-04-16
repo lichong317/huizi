@@ -14,17 +14,30 @@ import com.ynyes.huizi.entity.TdProductCategory;
  *
  */
 
-public interface TdProductCategoryRepo extends
-		PagingAndSortingRepository<TdProductCategory, Long>,
-		JpaSpecificationExecutor<TdProductCategory> 
-{
-    List<TdProductCategory> findByParentIdIsNullAndIsEnableTrueOrderBySortIdAsc();
-    List<TdProductCategory> findByParentIdAndIsEnableTrueOrderBySortIdAsc(Long parentId);
-    List<TdProductCategory> findByParentIdIsNullOrderBySortIdAsc();
-    List<TdProductCategory> findByParentIdOrderBySortIdAsc(Long parentId);
-    TdProductCategory findByTitle(String title);
-    TdProductCategory findTopByTitleContaining(String title);
-    TdProductCategory findByTitleAndIdNot(String title, Long id);
-    TdProductCategory findByparentTree(String parentTree);
-    List<TdProductCategory> findByTitleContainingAndLayerCount(String keywords, Long layerCount);
+public interface TdProductCategoryRepo
+		extends PagingAndSortingRepository<TdProductCategory, Long>, JpaSpecificationExecutor<TdProductCategory> {
+	List<TdProductCategory> findByParentIdIsNullAndIsEnableTrueOrderBySortIdAsc();
+
+	List<TdProductCategory> findByParentIdAndIsEnableTrueOrderBySortIdAsc(Long parentId);
+
+	List<TdProductCategory> findByParentIdIsNullOrderBySortIdAsc();
+
+	List<TdProductCategory> findByParentIdOrderBySortIdAsc(Long parentId);
+
+	TdProductCategory findByTitle(String title);
+
+	TdProductCategory findTopByTitleContaining(String title);
+
+	TdProductCategory findByTitleAndIdNot(String title, Long id);
+
+	TdProductCategory findByparentTree(String parentTree);
+
+	List<TdProductCategory> findByTitleContainingAndLayerCount(String keywords, Long layerCount);
+
+	/**
+	 * 根据父类id和本类标题查找分类
+	 * 
+	 * @author DengXiao
+	 */
+	TdProductCategory findByParentIdAndTitle(Long parentId, String title);
 }

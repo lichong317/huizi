@@ -51,7 +51,6 @@ $(document).ready(function(){
 			<section>
 				<#--<h3>全场通用</h3>-->
 				<h4>${item.title!''}</h4>
-				<p>期限：<#if item.getTime??>${item.getTime?string("yyyy.MM.dd")}</#if>-<#if item.expireTime??>${item.expireTime?string("yyyy.MM.dd")}</#if></p>
 			</section>
 			<div class="num">
 				<i></i>

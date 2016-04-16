@@ -67,7 +67,13 @@
         cninput.value = channel_name + getSpell(en, "");
     }
    
-   
+   	<#--
+	function checkName(){
+		var value = $('#parent option:selected').val();//选中的值
+		console.log(value);
+		$("#title").validform_valid="false"
+	}
+	-->
    
 </script>
 
@@ -108,7 +114,7 @@
   <dl>
     <dt>所属父类别</dt>
     <dd>
-      <div class="rule-single-select single-select">
+      <div id="parent" class="rule-single-select single-select">
         <select name="parentId">
             <option value="" <#if cat?? && cat.parentId?? && cat.parentId==0>selected="selected"</#if>>无父级分类</option>
         	<#if category_list??>
@@ -144,7 +150,10 @@
   <dl>
     <dt>类别名称</dt>
     <dd>
-        <input name="title" type="text" value="<#if cat??>${cat.title!""}</#if>" class="input normal" datatype="*1-100" sucmsg=" " ajaxurl="/Verwalter/product/category/check<#if cat??>?id=${cat.id}</#if>" >
+    	<input name="title" type="text" value="<#if cat??>${cat.title!""}</#if>" class="input normal" datatype="*1-100" sucmsg=" " ajaxurl="/Verwalter/product/category/check<#if cat??>?id=${cat.id}</#if>" >
+    	<#--
+        <input id="title" name="title" type="text" value="<#if cat??>${cat.title!""}</#if>" class="input normal" datatype="*1-100" sucmsg=" " onkeypress="checkName();" >
+        -->
         <span class="Validform_checktip">*类别中文名称，100字符内</span>
     </dd>
   </dl>
