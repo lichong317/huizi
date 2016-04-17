@@ -2993,7 +2993,7 @@ public class TdUserController {
 //											* tdProductCategory.getReturnRation();
 //								}
 //							} else {
-								totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
+								totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation() * tdOrderGoods.getQuantity();
 //							}
 						} else {
 							isAllCategoryReturnRationNotNull = false;
