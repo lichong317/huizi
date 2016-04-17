@@ -3059,27 +3059,27 @@ public class TdTouchUserController {
 
 				// 返现金额分情况计算
 				if (null != tdUser2.getReturnRation()) {
-					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdUser2.getReturnRation());
+					tdUserCashReward.setCashReward(tdOrder.getTotalGoodsPrice() * tdUser2.getReturnRation());
 				} else {
-					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+					tdUserCashReward.setCashReward(tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation());
 				}
 
 				if (null != tdUser.getTotalCashRewards()) {
 					if (null != tdUser2.getReturnRation()) {
 						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
-								+ tdOrder.getTotalPrice() * tdUser2.getReturnRation()));
+								+ tdOrder.getTotalGoodsPrice() * tdUser2.getReturnRation()));
 					} else {
 						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
-								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								+ tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				} else {
 					if (null != tdUser2.getReturnRation()) {
 						tdUserCashReward
-								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdUser2.getReturnRation()));
+								.setTotalCashReward((long) (tdOrder.getTotalGoodsPrice() * tdUser2.getReturnRation()));
 					} else {
 						tdUserCashReward
-								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								.setTotalCashReward((long) (tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				}
@@ -3099,9 +3099,9 @@ public class TdTouchUserController {
 
 				Double totalReturn = 0.0;
 				if (null != tdUser2.getReturnRation()) {
-					totalReturn = tdOrder.getTotalPrice() * tdUser2.getReturnRation();
+					totalReturn = tdOrder.getTotalGoodsPrice() * tdUser2.getReturnRation();
 				} else {
-					totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+					totalReturn = tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation();
 				}
 
 				if (totalReturn < 0) {
@@ -3151,27 +3151,27 @@ public class TdTouchUserController {
 
 				// 返现金额分情况计算
 				if (null != tdUser.getReturnRation()) {
-					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdUser.getReturnRation());
+					tdUserCashReward.setCashReward(tdOrder.getTotalGoodsPrice() * tdUser.getReturnRation());
 				} else {
-					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+					tdUserCashReward.setCashReward(tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation());
 				}
 
 				if (null != tdUser.getTotalCashRewards()) {
 					if (null != tdUser.getReturnRation()) {
 						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
-								+ tdOrder.getTotalPrice() * tdUser.getReturnRation()));
+								+ tdOrder.getTotalGoodsPrice() * tdUser.getReturnRation()));
 					} else {
 						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
-								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								+ tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				} else {
 					if (null != tdUser.getReturnRation()) {
 						tdUserCashReward
-								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdUser.getReturnRation()));
+								.setTotalCashReward((long) (tdOrder.getTotalGoodsPrice() * tdUser.getReturnRation()));
 					} else {
 						tdUserCashReward
-								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								.setTotalCashReward((long) (tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				}
@@ -3191,9 +3191,9 @@ public class TdTouchUserController {
 
 				Double totalReturn = 0.0;
 				if (null != tdUser.getReturnRation()) {
-					totalReturn = tdOrder.getTotalPrice() * tdUser.getReturnRation();
+					totalReturn = tdOrder.getTotalGoodsPrice() * tdUser.getReturnRation();
 				} else {
-					totalReturn = tdOrder.getTotalPrice() * tdSetting.getReturnRation();
+					totalReturn = tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation();
 				}
 
 				if (totalReturn < 0) {
@@ -3270,16 +3270,17 @@ public class TdTouchUserController {
 						}
 
 						if (null != tdProductCategory.getReturnRation()) {
-							if (null != tdGoods.getIsFeeNot()) {
-								if (tdGoods.getIsFeeNot()) {
-									totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
-								} else {
-									totalReturn += (tdGoods.getSalePrice() + tdGoods.getPostage())
-											* tdProductCategory.getReturnRation();
-								}
-							} else {
+							//邮费不参与返利计算
+//							if (null != tdGoods.getIsFeeNot()) {
+//								if (tdGoods.getIsFeeNot()) {
+//									totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
+//								} else {
+//									totalReturn += (tdGoods.getSalePrice() + tdGoods.getPostage())
+//											* tdProductCategory.getReturnRation();
+//								}
+//							} else {
 								totalReturn += tdGoods.getSalePrice() * tdProductCategory.getReturnRation();
-							}
+//							}
 						} else {
 							isAllCategoryReturnRationNotNull = false;
 						}
@@ -3294,7 +3295,7 @@ public class TdTouchUserController {
 				if (isAllCategoryReturnRationNotNull) {
 					tdUserCashReward.setCashReward(totalReturn);
 				} else {
-					tdUserCashReward.setCashReward(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+					tdUserCashReward.setCashReward(tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation());
 				}
 
 				if (null != tdUser.getDirectSaleCashRewards()) {
@@ -3302,7 +3303,7 @@ public class TdTouchUserController {
 						tdUserCashReward.setTotalCashReward((long) (totalReturn + tdUser.getDirectSaleCashRewards()));
 					} else {
 						tdUserCashReward.setTotalCashReward((long) (tdUser.getTotalCashRewards()
-								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								+ tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				} else {
@@ -3310,7 +3311,7 @@ public class TdTouchUserController {
 						tdUserCashReward.setTotalCashReward((long) (totalReturn + 0));
 					} else {
 						tdUserCashReward
-								.setTotalCashReward((long) (tdOrder.getTotalPrice() * tdSetting.getReturnRation()));
+								.setTotalCashReward((long) (tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation()));
 					}
 
 				}
@@ -3342,14 +3343,14 @@ public class TdTouchUserController {
 						tdUser.setDirectSaleCashRewards(tdUser.getDirectSaleCashRewards() + totalReturn);
 					} else {
 						tdUser.setDirectSaleCashRewards(tdUser.getDirectSaleCashRewards()
-								+ tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+								+ tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation());
 					}
 
 				} else {
 					if (isAllCategoryReturnRationNotNull) {
 						tdUser.setDirectSaleCashRewards(totalReturn);
 					} else {
-						tdUser.setDirectSaleCashRewards(tdOrder.getTotalPrice() * tdSetting.getReturnRation());
+						tdUser.setDirectSaleCashRewards(tdOrder.getTotalGoodsPrice() * tdSetting.getReturnRation());
 					}
 				}
 
@@ -3402,7 +3403,6 @@ public class TdTouchUserController {
 
 			}
 		}
-
 	}
 
 	/**
