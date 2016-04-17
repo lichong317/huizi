@@ -102,6 +102,8 @@ var theForm = document.forms['form1'];
                     分销会员
                 <#elseif withdraw.roleId?? && withdraw.roleId == 2>
                                              商城会员
+                <#elseif withdraw.roleId?? && withdraw.roleId == 3>
+                                            直营会员
                 </#if>
                 </td>
                 <td align="center">${withdraw.realName!""}</td>

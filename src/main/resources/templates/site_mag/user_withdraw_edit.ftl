@@ -60,6 +60,8 @@
     		<span style="color:red">￥<#if user.totalCashRewards??>${user.totalCashRewards?string("0.00")}</#if></span>
     	<#elseif user?? && user.roleId?? && user.roleId == 2>
   	  	 <span style="color:red">￥<#if user.virtualCurrency??>${user.virtualCurrency?string("0.00")}</#if></span>
+  	  	<#elseif user?? && user.roleId?? && user.roleId == 3>
+  	  	 <span style="color:red">￥<#if user.directSaleCashRewards??>${user.directSaleCashRewards?string("0.00")}</#if></span>
     	</#if>
     </dd>
   </dl>
