@@ -129,7 +129,7 @@ public class TdUserService {
         user.setStatusId(0L); // 待审核
         user.setRoleId(0L); // 普通用户
         
-        user.setTotalCashRewards(0L);
+        user.setTotalCashRewards(0.00);
         user.setTotalCollectedGoods(0L);
         user.setTotalComments(0L);
         user.setTotalConsults(0L);

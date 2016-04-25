@@ -44,7 +44,7 @@ public class TdUserCashReward {
     
     // 该笔积分发生后余额
     @Column
-    private Long totalCashReward;
+    private Double totalCashReward;
     
     // 涉及订单号
     @Column
@@ -122,15 +122,15 @@ public class TdUserCashReward {
         this.cashReward = cashReward;
     }
 
-    public Long getTotalCashReward() {
-        return totalCashReward;
-    }
+    public Double getTotalCashReward() {
+		return totalCashReward;
+	}
 
-    public void setTotalCashReward(Long totalCashReward) {
-        this.totalCashReward = totalCashReward;
-    }
+	public void setTotalCashReward(Double totalCashReward) {
+		this.totalCashReward = totalCashReward;
+	}
 
-    public String getOrderNumber() {
+	public String getOrderNumber() {
         return orderNumber;
     }
 

@@ -344,7 +344,7 @@ $(function () {
   <dl>
        <dt>分销商返利比例</dt>
        <dd>
-             <input name="returnRation" type="text" value="<#if user??>${user.returnRation!""}<#else>0</#if>" class="input normal"  sucmsg=" ">
+             <input name="returnRation" type="text" value="<#if user??>${user.returnRation!""}<#else></#if>" class="input normal"  sucmsg=" ">
              <span class="Validform_checktip">填写小数(返利计算为订单总金额*返利比例) *优先计算个人返利比例</span>
        </dd>
   </dl>

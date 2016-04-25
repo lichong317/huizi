@@ -578,8 +578,8 @@ function del_goods_comb(obj) {
         <dl>
             <dt>最高返现额</dt>
             <dd>
-                <input id="returnPrice" name="returnPrice" type="text" value="<#if goods?? && goods.returnPrice??>${goods.returnPrice?string("0.##")}<#else>0</#if>" class="input normal" datatype="/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/" sucmsg=" ">
-                <span class="Validform_checktip">*返还分销商的最高可能金额，不填时为0</span>
+                <input id="returnPrice" name="returnPrice" type="text" value="<#if goods?? && goods.returnPrice??>${goods.returnPrice?string("0.##")}<#else></#if>" class="input normal" datatype="/^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/" sucmsg=" ">
+                <span class="Validform_checktip">*返还分销商的最高可能金额</span>
             </dd>
         </dl>
         <dl>

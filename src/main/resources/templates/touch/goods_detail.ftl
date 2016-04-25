@@ -24,7 +24,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     var aBtn = $('.tabfix li');
-    var aBox = $('.box li');
+    var aBox = $('.box .param');
     aBtn.each(function(i){
         aBtn.eq(i).click(function(){
             aBox.hide();
@@ -57,17 +57,17 @@ $(document).ready(function(){
   </menu>
 </section>
 <ul class="box">
-    <li style="display: block;">
+    <li class="param" style="display: block;">
         <#if goods??>
             ${goods.detail!''}
         </#if>
     </li>
-    <li>
+    <li class="param">
         <#if goods??>
             ${goods.paramDetail!''}
         </#if>
     </li>
-    <li>
+    <li class="param">
         <#if goods??>
             ${goods.afterMarketService!''}
         </#if>

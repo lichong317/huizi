@@ -498,7 +498,7 @@ a.loadmore:hover { color:#fff; background:#4fbba1;}
 
 .down1{background:#e9e8e8; height:281px;}
 .down2{background:#35302d; height:182px; padding-top:30px;}
-.down3{background:#1f1a17; height:92px; color:#fff;}
+.down3{background:#1f1a17; /*height:92px;*/ color:#fff;ine-height: 30px;}
 
 /*.down1 li{width:145px; float:left; color:#FFF; line-height:30px; margin-left:55px; font-size:16px;}*/
 .down1 li {
